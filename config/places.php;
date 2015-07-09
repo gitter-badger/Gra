@@ -1,0 +1,19 @@
+<?php
+
+return [
+	['name' => 'shop', 'image' => 'convenience-store.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'shop']]],
+	['name' => 'warehouse', 'image' => 'warehouse.jpg', 'components' => ['rent', 'store'], 'properties' => ['rent' => ['cost' => 1000, 'duration' => 604800], 'store' => ['deny' => 'vehicle']]],
+	['name' => 'garage', 'image' => 'garage.jpg', 'components' => ['rent', 'store'], 'properties' => ['rent' => ['cost' => 1000, 'duration' => 604800], 'store' => ['allow' => 'vehicle']]],
+	['name' => 'bus-stop', 'image' => 'bus-stop.jpg', 'components' => ['travel'], 'properties' => ['travel' => ['available' => 'city,village', 'speed' => 20, 'cost' => 4]]],
+	['name' => 'train-station', 'image' => 'train-station.jpg', 'components' => ['travel'], 'properties' => ['travel' => ['available' => 'city', 'speed' => 40, 'cost' => 8]]],
+	['name' => 'bulletin-board', 'image' => 'bulletin-board.jpg', 'components' => ['work'], 'properties' => ['work' => ['groups' => 'bulletin-board', 'reset' => 86400, 'atOnce' => 2, 'perGroup' => 4]]],
+	['name' => 'plantation', 'image' => 'plantation.jpg', 'components' => ['plantation'], 'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5]]],
+	['name' => 'street', 'image' => 'street.jpg', 'components' => ['dealing'], 'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 2]]],
+	['name' => 'grocery-store', 'image' => 'convenience-store.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'grocery-store']]],
+	['name' => 'gun-shop', 'image' => 'gun-shop.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'gun-shop']]],
+	['name' => 'grow-shop', 'image' => 'growshop.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'grow-shop']]],
+	['name' => 'sport-shop', 'image' => 'sport-shop.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'sport-shop']]],
+	['name' => 'black-market', 'image' => 'black-market.jpg', 'components' => ['market'], 'properties' => ['market' => ['minPrice' => 50, 'maxPrice' => 200, 'allow' => 'stuff']]],
+	['name' => 'toy-store', 'image' => 'toy-store.jpg', 'components' => ['shop'], 'properties' => ['shop' => ['name' => 'toy-store']]],
+];
+?>

@@ -1,0 +1,124 @@
+<?php
+
+return [
+	'bulletin-board'         => [
+		'distributing-leaflets' => [
+			'duration'             => 600,
+			'costs'                => ['energy:10'],
+			'rewards'              => ['money:10', 'experience:10'],
+			'rewards'              => ['money:10', 'experience:10']
+		],
+		'collecting-cans' => [
+			'duration'       => 600,
+			'costs'          => ['energy:10'],
+			'rewards'        => ['money:10', 'experience:10'],
+			'rewards'        => ['money:10', 'experience:10']
+		],
+		'collecting-scrap-metal' => [
+			'duration'              => 600,
+			'costs'                 => ['energy:10'],
+			'rewards'               => ['money:10', 'experience:10'],
+			'rewards'               => ['money:10', 'experience:10']
+		],
+		'collection-of-waste-paper' => [
+			'duration'                 => 600,
+			'costs'                    => ['energy:10'],
+			'rewards'                  => ['money:10', 'experience:10'],
+			'rewards'                  => ['money:10', 'experience:10']
+		],
+		'collecting-caps' => [
+			'duration'       => 600,
+			'costs'          => ['energy:10'],
+			'rewards'        => ['money:10', 'experience:10'],
+			'rewards'        => ['money:10', 'experience:10']
+		],
+		'collecting-bottles' => [
+			'duration'          => 600,
+			'costs'             => ['energy:10'],
+			'rewards'           => ['money:10', 'experience:10'],
+			'rewards'           => ['money:10', 'experience:10']
+		],
+		'washing-panes' => [
+			'duration'     => 600,
+			'costs'        => ['energy:10'],
+			'rewards'      => ['money:10', 'experience:10'],
+			'rewards'      => ['money:10', 'experience:10']
+		],
+		'outputting-a-dog' => [
+			'duration'        => 600,
+			'costs'           => ['energy:10'],
+			'rewards'         => ['money:10', 'experience:10'],
+			'rewards'         => ['money:10', 'experience:10']
+		],
+		'work-in-the-warehouse' => [
+			'duration'             => 1800,
+			'costs'                => ['energy:20'],
+			'rewards'              => ['money:20', 'experience:20'],
+			'rewards'              => ['money:20', 'experience:20']
+		],
+		'laying-panels' => [
+			'duration'     => 1800,
+			'costs'        => ['energy:20'],
+			'rewards'      => ['money:20', 'experience:20'],
+			'rewards'      => ['money:20', 'experience:20']
+		],
+		'private-lessons-from-history' => [
+			'duration'                    => 1800,
+			'costs'                       => ['energy:20'],
+			'rewards'                     => ['money:20', 'experience:20'],
+			'rewards'                     => ['money:20', 'experience:20']
+		],
+		'bringing-furniture' => [
+			'duration'          => 1800,
+			'costs'             => ['energy:20'],
+			'rewards'           => ['money:20', 'experience:20'],
+			'rewards'           => ['money:20', 'experience:20']
+		],
+		'computer-repair' => [
+			'duration'       => 1800,
+			'costs'          => ['energy:20'],
+			'rewards'        => ['money:20', 'experience:20'],
+			'rewards'        => ['money:20', 'experience:20']
+		],
+		'tv-repair' => [
+			'duration' => 1800,
+			'costs'    => ['energy:20'],
+			'rewards'  => ['money:20', 'experience:20'],
+			'rewards'  => ['money:20', 'experience:20']
+		],
+		'baby-nurse' => [
+			'duration'  => 1800,
+			'costs'     => ['energy:20'],
+			'rewards'   => ['money:20', 'experience:20'],
+			'rewards'   => ['money:20', 'experience:20']
+		],
+		'unloading-a-truck' => [
+			'duration'         => 1800,
+			'costs'            => ['energy:20'],
+			'rewards'          => ['money:20', 'experience:20'],
+			'rewards'          => ['money:20', 'experience:20']
+		],
+		'covering-the-goods' => [
+			'duration'          => 1800,
+			'costs'             => ['energy:20'],
+			'rewards'           => ['money:20', 'experience:20'],
+			'rewards'           => ['money:20', 'experience:20']
+		],
+	],
+	'test'               => [
+		'super-praca-kurwo' => [
+			'duration'         => 3600,
+			'costs'            => ['energy:100'],
+			'rewards'          => ['money:1000000', 'experience:1000000'],
+			'rewards'          => ['money:1000000', 'experience:1000000']
+		],
+		'nowa-praca' => [
+			'duration'  => 172800,
+			'costs'     => ['energy:50', 'money:100'],
+			'rewards'   => ['money:1000', 'experience:20000'],
+			'rewards'   => ['money:1000', 'experience:20000']
+		],
+	],
+];
+
+?>

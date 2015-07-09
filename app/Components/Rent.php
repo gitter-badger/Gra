@@ -1,0 +1,124 @@
+<?php
+
+namespace HempEmpire\Components;
+use HempEmpire\Timer;
+use DB;
+
+class Rent extends Component
+{
+	protected $index = -1;
+
+
+	private function getRentTimer()
+	{
+		return $this->getPlace()->timers()->whereName('rent')->first();
+	}
+
+	private function getRentCost()
+	{
+		return $this->getProperty('cost', 1000);
+	}
+
+	private function getRentDuration()
+	{
+		return $this->getProperty('duration', 7 * 24 * 3600);
+	}
+
+	public function view()
+	{
+		$timer = $this->getRentTimer();
+
+		if(is_null($timer) || !$timer->active)
+		{
+			$this->prevent();
+			return view('component.rent')
+				->with('cost', $this->getRentCost())
+				->with('duration', $this->getRentDuration());
+		}
+		else
+		{
+			$container = entity();
+
+			$row = entity()
+				->addClass('row');
+
+			$col = entity()
+				->addClass('col-md-6')
+				->addClass('col-md-offset-3');
+
+			$progress = entity('timer')
+				->min($timer->start)
+				->max($timer->end)
+				->now(time())
+				->reversed(true);
+
+			return $container
+				->append('<h4>' . trans('rent.duration') . '</h4>')
+				->append($row
+					->append($col
+						->append($progress)));
+		}
+	}
+
+	public function action($name, $request)
+	{
+		if($name !== 'rent')
+		{
+
+			$timer = $this->getRentTimer();
+
+			if(is_null($timer) || !$timer->active)
+			{
+				$this->danger('placeNotRented');
+				$this->prevent();
+			}
+		}
+		else
+		{
+			$timer = $this->getRentTimer();
+			$cost = $this->getRentCost();
+			$duration = $this->getRentDuration();
+			
+			if(!is_null($timer) && $timer->active)
+			{
+				$this->danger('placeAlreadyRented');
+			}
+			elseif($this->player->money < $cost)
+			{
+				$this->danger('notEnoughMoney')
+					->with('value', $cost);
+			}
+			else
+			{
+				$start = time();
+				$end = $start + $duration;
+
+				if(is_null($timer))
+				{
+					$timer = new Timer;
+					$timer->name = 'rent';
+				}
+
+				$this->player->money -= $cost;
+				$timer->start = $start;
+				$timer->end = $end;
+
+				$success = DB::transaction(function() use($timer)
+				{
+					return $this->player->save() &&
+						$timer->owner()->associate($this->place) &&
+						$timer->save();
+				});
+
+				if($success)
+				{
+					$this->success('placeRented');
+				}
+				else
+				{
+					$this->danger('unknown');
+				}
+			}
+		}
+	}
+}

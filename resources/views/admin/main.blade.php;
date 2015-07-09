@@ -1,0 +1,29 @@
+@extends('app')
+
+
+@section('content')
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+
+		<h2 class="text-center">Panel administratora</h2>
+	</div>
+
+	<div class="panel-body">
+
+		<ul class="list-group">
+			<li class="list-group-item"><a href="{{ route('admin.world.index') }}">Światy</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.location.index') }}">Lokacje</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.place.index') }}">Miejsca</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.item.index') }}">Przedmioty</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.shop.index') }}">Sklepy</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.workGroup.index') }}">Grupy prac</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.questGroup.index') }}">Grupy zadań</a></li>
+		</ul>
+
+
+	</div>
+</div>
+
+
+@endsection

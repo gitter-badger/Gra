@@ -1,0 +1,42 @@
+<div>
+	<div class="row">
+
+		@foreach($locations as $location)
+
+<?php $distance = $current->getDistanceTo($location);?>
+
+			<div class="col-xs-12 col-sm-6 col-md-4">
+
+				{!! BootForm::open()->post() !!}
+				{!! BootForm::token() !!}
+
+				{!! BootForm::hidden('action')->value('travel') !!}
+				{!! BootForm::hidden('location')->value($location->id) !!}
+
+
+				<button type="submit" class="btn btn-block" style="padding: 0; border: 0">
+
+
+					<img class="img-responsive center-block" src="{{ $location->getImage() }}" style="width: 100%"/>
+
+					<div class="well text-wrap">
+
+						<h4>@lang('location.' . $location->name . '.name')</h4>
+
+						<p><strong>@lang('travel.distance'):</strong> {{ $distance }}km</p>
+						<p><strong>@lang('travel.duration'):</strong> {{ Formatter::time($distance * $speed) }}</p>
+						<p><strong>@lang('travel.cost'):</strong> {{ Formatter::money($distance * $cost) }}</p>
+
+					</div>
+				</button>
+
+				{!! BootForm::close() !!}
+
+
+			</div>
+
+		@endforeach
+
+
+	</div>
+</div>

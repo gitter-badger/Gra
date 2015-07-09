@@ -1,0 +1,118 @@
+.no-padding {
+	padding: 0;
+}
+.list-group,
+.input-group,
+.well {
+	margin-bottom: 0px;
+}
+
+.btn-block {
+	padding: 0;
+}
+
+.col-fix(@prefix, @n, @i: 1) when(@n >= @i) {
+
+	.col-@{prefix}-@{i} {
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+
+	.col-fix(@prefix, @n, @i + 1);
+}
+
+.row {
+	margin-top: -15px;
+	margin-bottom: -15px;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.navbar-form {
+	border: 0;
+}
+
+.navbar-text {
+	float: left;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.navbar-header {
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+
+.navbar-wrapper {
+	display: inline-block;
+}
+
+.navbar .progress-group {
+	max-width: 100px;
+}
+
+.unreaded {
+	font-weight: bold;
+}
+
+.progress-group {
+	margin-bottom: 0;
+}
+
+.col-fix(xs, 12);
+.col-fix(sm, 12);
+.col-fix(md, 12);
+.col-fix(lg, 12);
+
+
+
+.badge.level,
+.badge.plantator-level,
+.badge.smuggler-level,
+.badge.dealer-level {
+	cursor: default;
+}
+
+.badge.level {
+	background-color: #5BC0DE;
+}
+
+
+.badge.plantator-level {
+	background-color: #5CB85C;
+}
+
+.badge.smuggler-level {
+	background-color: #337AB7;
+}
+
+.badge.dealer-level {
+	background-color: #D9534F;
+}
+
+.text-wrap {
+	white-space: normal;
+}
+
+.btn.inactive {
+	cursor: default;
+}
+
+.input-group .form-group {
+	margin-bottom: 0;
+}
+
+textarea {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 50%;
+	max-width: 100%;
+}
+
+.navbar-text {
+	cursor: default;
+}

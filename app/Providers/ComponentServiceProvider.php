@@ -1,0 +1,66 @@
+<?php
+
+namespace HempEmpire\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class ComponentServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind('component.shop', function($app)
+        {
+            return new \HempEmpire\Components\Shop;
+        });
+
+        $this->app->bind('component.store', function($app)
+        {
+            return new \HempEmpire\Components\Store;
+        });
+
+        $this->app->bind('component.rent', function($app)
+        {
+            return new \HempEmpire\Components\Rent;
+        });
+
+        $this->app->bind('component.travel', function($app)
+        {
+            return new \HempEmpire\Components\Travel;
+        });
+
+        $this->app->bind('component.work', function($app)
+        {
+            return new \HempEmpire\Components\Work;
+        });
+
+        $this->app->bind('component.plantation', function($app)
+        {
+            return new \HempEmpire\Components\Plantation;
+        });
+
+        $this->app->bind('component.dealing', function($app)
+        {
+            return new \HempEmpire\Components\Dealing;
+        });
+
+        $this->app->bind('component.market', function($app)
+        {
+            return new \HempEmpire\Components\Market;
+        });
+    }
+}

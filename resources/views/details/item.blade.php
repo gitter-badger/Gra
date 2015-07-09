@@ -1,0 +1,68 @@
+
+
+
+
+<div class='row text-center'>
+	
+
+	@if(!isset($image) || $image == true)
+	<div class='col-xs-4'>
+
+		<img class='img-responsive center-block' src='{{ $item->getImage() }}'/>
+	</div>
+
+
+	<div class='col-xs-4'>
+	
+		<h4><strong>{{ $item->getTitle() }}</strong></h4>
+		<p>{{ $item->getDescription() }}</p>
+	</div>
+
+	@else
+
+
+	<div class='col-xs-12'>
+	
+		<h4><strong>{{ $item->getTitle() }}</strong></h4>
+		<p>{{ $item->getDescription() }}</p>
+	</div>
+
+	@endif
+</div>
+
+<hr/>
+
+<div class='row text-center'>
+	<div class='col-xs-6'>
+
+		<p><strong>@lang('item.type'): </strong><br/> {{ trans('item.types.' . $item->getType()) }}</p>
+	</div>
+
+	<div class='col-xs-6'>
+
+		<p><strong>@lang('item.count'): </strong><br/> {{ $item->getCount() }}</p>
+	</div>
+
+	<div class='col-xs-6'>
+
+		@if($item->isPremium())
+
+			<p><strong>@lang('item.price'): </strong><br/> {{ $item->getPrice() }}pp</p>
+
+		@else
+
+			<p><strong>@lang('item.price'): </strong><br/> ${{ $item->getPrice() }}</p>
+		@endif
+	</div>
+
+	<div class='col-xs-6'>
+
+		<p><strong>@lang('item.weight'): </strong><br/> {{ $item->getWeight() }}</p>
+	</div>
+
+	@if(!isset($typeDetails) || $typeDetails == true)
+
+		@include('details.' . $item->getType())
+	@endif
+
+</div>
