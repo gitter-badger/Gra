@@ -239,7 +239,6 @@ trait ItemContainer
                 'speed' => $item->getSpeed(),
                 'cost' => $item->getCost(),
                 'capacity' => $item->getCapacity(),
-                'boostable' => $item->isBoostable(),
             ]);
 
             if(is_null($vehicle))
@@ -250,7 +249,6 @@ trait ItemContainer
                 $vehicle->speed = $item->getSpeed();
                 $vehicle->cost = $item->getCost();
                 $vehicle->capacity = $item->getCapacity();
-                $vehicle->boostable = $item->isBoostable();
                 $vehicle->owner()->associate($this);
             }
 
@@ -266,8 +264,7 @@ trait ItemContainer
                 'watering' => $item->getWatering(),
                 'harvestMin' => $item->getMinHarvest(),
                 'harvestMax' => $item->getMaxHarvest(),
-                'qualityMin' => $item->getMinQuality(),
-                'qualityMax' => $item->getMaxQuality(),
+                'quality' => $item->getQuality(),
             ]);
 
             if(is_null($seed))
@@ -279,8 +276,7 @@ trait ItemContainer
                 $seed->watering = $item->getWatering();
                 $seed->harvestMin = $item->getMinHarvest();
                 $seed->harvestMax = $item->getMaxHarvest();
-                $seed->qualityMin = $item->getMinQuality();
-                $seed->qualityMax = $item->getMaxQuality();
+                $seed->quality = $item->getQuality();
                 $seed->owner()->associate($this);
             }
 
@@ -358,7 +354,6 @@ trait ItemContainer
                 'speed' => $item->getSpeed(),
                 'cost' => $item->getCost(),
                 'capacity' => $item->getCapacity(),
-                'boostable' => $item->isBoostable(),
             ]);
 
 
@@ -377,8 +372,7 @@ trait ItemContainer
                 'watering' => $item->getWatering(),
                 'harvestMin' => $item->getMinHarvest(),
                 'harvestMax' => $item->getMaxHarvest(),
-                'qualityMin' => $item->getMinQuality(),
-                'qualityMax' => $item->getMaxQuality(),
+                'quality' => $item->getQuality(),
             ]);
 
      

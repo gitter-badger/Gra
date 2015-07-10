@@ -144,7 +144,14 @@ class PlayerController extends Controller
 		$player = Player::getActive();
 		$items = $player->getItems();
 
+		$armor = $player->equipment->armors()->where('count', '>', 0)->first();
+		$vehicle = $player->equipment->vehicles()->where('count', '>', 0)->first();
+		$weapon = $player->equipment->weapons()->where('count', '>', 0)->first();
+
 		return view('player.items')
+			->with('armor', $armor)
+			->with('vehicle', $vehicle)
+			->with('weapon', $weapon)
 			->with('items', $items);
 	}
 
@@ -160,6 +167,10 @@ class PlayerController extends Controller
 		{
 			$this->danger('itemIsNotUsable')
 				->with('name', $item->getTitle());
+		}
+		elseif($player->isBusy)
+		{
+			$this->danger('characterIsBusy');
 		}
 		else
 		{

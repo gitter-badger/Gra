@@ -19,12 +19,11 @@ class CreateTemplateSeedsTable extends Migration {
 				$table->float('weight');
 				$table->json('properties');
 
-				$table->timestamp('growth');
-				$table->timestamp('watering');
+				$table->integer('growth')->unsigned();
+				$table->integer('watering')->unsigned();
 				$table->integer('harvestMin')->unsigned();
 				$table->integer('harvestMax')->unsigned();
-				$table->float('qualityMin');
-				$table->float('qualityMax');
+				$table->integer('quality')->unsigned();
 			});
 	}
 

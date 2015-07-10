@@ -253,14 +253,14 @@ if ($hour >= 20 || $hour < 8) {
 				<div class="navbar-right">
 					<p class="navbar-text">
 						<strong title="@lang('player.name')">{{ $player->name }} </strong>
-						<span class="badge level" title="@lang('player.level')">{{ $player->level }}</span>
-						<span class="badge plantator-level" title="@lang('player.plantatorLevel')">{{ $player->plantatorLevel }}</span>
-						<span class="badge smuggler-level" title="@lang('player.smugglerLevel')">{{ $player->smugglerLevel }}</span>
-						<span class="badge dealer-level" title="@lang('player.dealerLevel')">{{ $player->dealerLevel }}</span>
+						<span class="badge level" title="@lang('statistic.level')">{{ $player->level }}</span>
+						<span class="badge plantator-level" title="@lang('statistic.plantatorLevel')">{{ $player->plantatorLevel }}</span>
+						<span class="badge smuggler-level" title="@lang('statistic.smugglerLevel')">{{ $player->smugglerLevel }}</span>
+						<span class="badge dealer-level" title="@lang('statistic.dealerLevel')">{{ $player->dealerLevel }}</span>
 					</p>
-					<p class="navbar-text money" title="@lang('player.money')">{{ Formatter::money($player->money) }}</p>
-					<p class="navbar-text" title="@lang('player.premiumPoints')">{{ $player->premiumPoints }}pp</p>
-					<p class="navbar-text luck" title="@lang('player.luck')">{{ $player->luck }}%</p>
+					<p class="navbar-text money" title="@lang('statistic.money')">{{ Formatter::money($player->money) }}</p>
+					<p class="navbar-text" title="@lang('statistic.premiumPoints')">{{ $player->premiumPoints }}pp</p>
+					<p class="navbar-text luck" title="@lang('statistic.luck')">{{ $player->luck }}%</p>
 				</div>
 			</div>
 

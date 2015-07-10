@@ -33,6 +33,6 @@ class Reward extends Job implements SelfHandling, ShouldQueue {
 	 * @return void
 	 */
 	public function handle() {
-		$this->rewards->give($this->player);
+		return $this->rewards->give($this->player);
 	}
 }

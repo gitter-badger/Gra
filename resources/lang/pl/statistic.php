@@ -8,6 +8,10 @@ return [
 	'wanted' => 'Poziom poszukiwań',
 
 	'level' => 'Poziom',
+	'dealerLevel' => 'Poziom dealera',
+	'smugglerLevel' => 'Poziom przemytnika',
+	'plantatorLevel' => 'Poziom plantatora',
+
 	'strength' => 'Siła',
 	'perception' => 'Percepcja',
 	'endurance' => 'Wytrzymałość',

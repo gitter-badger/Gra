@@ -28,7 +28,6 @@ class VehicleSeeder extends Seeder
         		'speed' => $vehicle['speed'],
         		'cost' => $vehicle['cost'],
         		'capacity' => $vehicle['capacity'],
-        		'boostable' => $vehicle['boostable'],
 
                 
                 'properties' => json_encode(isset($vehicle['properties']) ? $vehicle['properties'] : []),

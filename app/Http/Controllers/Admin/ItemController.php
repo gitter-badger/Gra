@@ -64,7 +64,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('admin.item.' . $this->type . '.edit')
+        return view('admin.item.edit')
             ->with('type', $this->type);
     }
 
@@ -278,9 +278,9 @@ class ItemController extends Controller
 
     protected function setSeed(TemplateSeed $seed)
     {
-        if(Request::has('harvest'))
+        if(Request::has('growth'))
         {
-            $seed->harvest = duration_to_time(Request::input('harvest'));
+            $seed->growth = duration_to_time(Request::input('growth'));
         }
 
         if(Request::has('watering'))
@@ -298,14 +298,9 @@ class ItemController extends Controller
             $seed->harvestMax = Request::input('harvestMax');
         }
 
-        if(Request::has('sequalityMin'))
+        if(Request::has('sequality'))
         {
-            $seed->qualityMin = Request::input('sequalityMin') / 100;
-        }
-
-        if(Request::has('sequalityMax'))
-        {
-            $seed->qualityMax = Request::input('sequalityMax') / 100;
+            $seed->quality = Request::input('sequality');
         }
     }
 
@@ -429,7 +424,7 @@ class ItemController extends Controller
                 $output .= '\'growth\' => ' . $seed->growth .  ', ';
                 $output .= '\'watering\' => ' . $seed->watering . ', ';
                 $output .= '\'harvest\' => [' . $seed->harvestMin . ', ' . $seed->harvestMax . '], ';
-                $output .= '\'quality\' => [' . $seed->qualityMin . ', ' . $seed->qualityMax . ']],' . PHP_EOL;
+                $output .= '\'quality\' => ' . $seed->quality . '],' . PHP_EOL;
             }
             $output .= "\t]," . PHP_EOL;
         }
@@ -469,8 +464,7 @@ class ItemController extends Controller
 
                 $output .= '\'speed\' => ' . $vehicle->speed .  ', ';
                 $output .= '\'cost\' => ' . $vehicle->cost .  ', ';
-                $output .= '\'capacity\' => ' . $vehicle->capacity .  ', ';
-                $output .= '\'boostable\' => ' . Formatter::stringify($vehicle->boostable) .  '],' . PHP_EOL;
+                $output .= '\'capacity\' => ' . $vehicle->capacity .  '],' . PHP_EOL;
             }
             $output .= "\t]," . PHP_EOL;
         }

@@ -4,11 +4,13 @@ namespace HempEmpire;
 
 use Illuminate\Database\Eloquent\Model;
 use HempEmpire\Contracts\Vehicle as VehicleContract;
+use DB;
+
 
 class Vehicle extends Model implements VehicleContract
 {
     
-    protected $fillable = ['owner_id', 'owner_type', 'template_id', 'count', 'speed', 'capacity', 'cost', 'boostable'];
+    protected $fillable = ['owner_id', 'owner_type', 'template_id', 'count', 'speed', 'capacity', 'cost'];
     public $timestamps = false;
     protected $raw = false;
 
@@ -95,12 +97,27 @@ class Vehicle extends Model implements VehicleContract
 
 	public function isUsable()
 	{
-		return false;
+		return true;
 	}
 
 	public function onUse(Player $player)
 	{
-		
+		return DB::transaction(function() use($player)
+		{
+			$item = $player->equipment->vehicles()->first();
+
+			if(isset($item))
+			{
+
+				if(!($player->equipment->takeItem($item, 1) &&
+					$player->giveItem($item, 1)))
+				{
+					return false;
+				}
+			}
+
+			return $player->equipment->giveItem($this, 1);
+		});
 	}
 
 	public function onBuy(Player $player)
@@ -144,18 +161,6 @@ class Vehicle extends Model implements VehicleContract
 		else
 		{
 			return $this->capacity;
-		}
-	}
-
-	public function isBoostable()
-	{
-		if(is_null($this->boostable) && !$this->raw)
-		{
-			return $this->template->isBoostable();
-		}
-		else
-		{
-			return $this->boostable;
 		}
 	}
 }

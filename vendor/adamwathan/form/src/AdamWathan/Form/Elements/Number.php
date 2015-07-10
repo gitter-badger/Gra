@@ -5,6 +5,8 @@ class Number extends Input
 
     protected $attributes = array(
         'type' => 'number',
+        'min' => 0,
+        'max' => 100,
     );
 
     public function defaultValue($value)
@@ -51,14 +53,21 @@ class Number extends Input
 
     public function render()
     {
-        $this->attributes['value'] = $this->getValue();
+        try
+        {
+            $this->attributes['value'] = $this->getValue();
 
-        $html = '<div class="input-group">';
-        $html .= $this->renderAddon('minus');
-        $html .= parent::render();
-        $html .= $this->renderAddon('plus');
-        $html .= '</div>';
+            $html = '<div class="input-group">';
+            $html .= $this->renderAddon('minus');
+            $html .= parent::render();
+            $html .= $this->renderAddon('plus');
+            $html .= '</div>';
 
-        return $html;
+            return $html;
+        }
+        catch(\Exception $e)
+        {
+            dd($e->getMessage(), $e);
+        }
     }
 }

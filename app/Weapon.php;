@@ -2,6 +2,7 @@
 
 namespace HempEmpire;
 
+use DB;
 use HempEmpire\Contracts\Weapon as WeaponContract;
 use Illuminate\Database\Eloquent\Model;
 
@@ -72,11 +73,23 @@ class Weapon extends Model implements WeaponContract {
 	}
 
 	public function isUsable() {
-		return false;
+		return true;
 	}
 
 	public function onUse(Player $player) {
+		return DB::transaction(function () use ($player) {
 
+				$item = $player->equipment->weapons()->first();
+
+				if (isset($item)) {
+					if (!$player->equipment->takeItem($item, 1) ||
+						!$player->giveItem($item, 1)) {
+						return false;
+					}
+				}
+
+				return $player->equipment->giveItem($this, 1);
+			});
 	}
 
 	public function onBuy(Player $player) {

@@ -5,6 +5,11 @@ return [
 
 	'components' => [
 
+		'arrest' => [
+
+			'duration',
+		],
+
 		'shop' => [
 
 			'name',
@@ -20,6 +25,11 @@ return [
 
 			'cost',
 			'speed',
+			'available',
+		],
+
+		'vehicleTravel' => [
+
 			'available',
 		],
 
@@ -53,6 +63,7 @@ return [
 			'maxInterval',
 			'minStuff',
 			'maxStuff',
+			'burnChance',
 		],
 
 		'market' => [
@@ -63,13 +74,4 @@ return [
 			'deny',
 		],
 	],
-
-	'requirements' => [
-
-		'level' => [
-
-			'level'
-		],
-	],
-
 ];

@@ -33,24 +33,30 @@ class Harvest extends Job implements SelfHandling, ShouldQueue {
 	}
 
 	public function handle() {
-		$count    = $this->player->roll($this->countMin, $this->countMax, 1);
+		$count    = $this->player->roll($this->countMin, $this->countMax);
 		$template = TemplateStuff::where('name', '=', $this->species.'-stuff')->first();
 		$stuff    = new Stuff;
 
 		$stuff->quality = $this->quality;
 		$stuff->template()->associate($template);
 
-		$this->player->completeQuest('first-plant');
-
 		$this->player->plantatorExperience += $count;
 
-		DB::transaction(function () use ($stuff, $count) {
-				return $this->player->save() &&
-				$this->player->giveItem($stuff, $count);
+		$success = DB::transaction(function () use ($stuff, $count) {
+				if ($this->player->jobName == 'harvesting') {
+					return $this->player->newReport('harvest')
+					->param('name', new TransText('item.'.$stuff->getName().'.name'))
+					->param('count', $count)->send() && $this->player->giveItem($stuff, $count) &&
+					$this->player->save();
+				} else {
+					return false;
+				}
 			});
 
-		return $this->player->newReport('harvest')
-		            ->param('name', new TransText('item.'.$stuff->getName().'.name'))
-		->param('count', $count)->send();
+		if ($success) {
+			$this->player->completeQuest('first-plant');
+		}
+
+		return $success;
 	}
 }

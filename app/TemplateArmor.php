@@ -102,7 +102,6 @@ class TemplateArmor extends Model implements ArmorContract
 
 	public function onUse(Player $player)
 	{
-		
 	}
 
 	public function onBuy(Player $player)

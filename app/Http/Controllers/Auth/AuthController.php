@@ -3,6 +3,7 @@
 namespace HempEmpire\Http\Controllers\Auth;
 
 use Auth;
+use Config;
 use Session;
 use Validator;
 use HempEmpire\User;
@@ -119,6 +120,7 @@ class AuthController extends Controller
             'premiumPoints' => 0,
             'remiumStart' => null,
             'premiumEnd' => null,
+            'admin' => Config::get('app.debug', false),
         ]);
     }
 }

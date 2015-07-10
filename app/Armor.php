@@ -4,7 +4,7 @@ namespace HempEmpire;
 
 use Illuminate\Database\Eloquent\Model;
 use HempEmpire\Contracts\Armor as ArmorContract;
-
+use DB;
 
 class Armor extends Model implements ArmorContract
 {
@@ -93,12 +93,27 @@ class Armor extends Model implements ArmorContract
 
 	public function isUsable()
 	{
-		return false;
+		return true;
 	}
 
 	public function onUse(Player $player)
 	{
-		
+		return DB::transaction(function() use($player)
+		{
+
+			$item = $player->equipment->armors()->first();
+
+			if(isset($item))
+			{
+				if(!$player->equipment->takeItem($item, 1) ||
+					!$player->giveItem($item, 1))
+				{
+					return false;
+				}
+			}
+
+			return $player->equipment->giveItem($this, 1);
+		});
 	}
 
 	public function onBuy(Player $player)

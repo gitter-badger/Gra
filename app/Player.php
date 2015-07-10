@@ -100,6 +100,8 @@ class Player extends Model
 
 		static::created(function(Player $player)
 		{
+			$player->equipment()->create([]);
+
 			if($player->user->players()->count() == 1)
 				$player->sendReport('welcome');
 			
@@ -143,7 +145,7 @@ class Player extends Model
 
 
 
-			while($player->plantatorExperience >= $player->plantatorMaxExperience && $player->plantatorLevel < $player->level)
+			while($player->plantatorExperience > $player->plantatorMaxExperience && $player->plantatorLevel < $player->level)
 			{
 				$report = $player->newReport('plantator-levelup');
 
@@ -165,7 +167,7 @@ class Player extends Model
 
 
 
-			while($player->smugglerExperience >= $player->smugglerMaxExperience && $player->smugglerLevel < $player->level)
+			while($player->smugglerExperience > $player->smugglerMaxExperience && $player->smugglerLevel < $player->level)
 			{
 				$report = $player->newReport('smuggler-levelup');
 
@@ -186,7 +188,7 @@ class Player extends Model
 
 
 
-			while($player->dealerExperience >= $player->dealerMaxExperience && $player->dealerLevel < $player->level)
+			while($player->dealerExperience > $player->dealerMaxExperience && $player->dealerLevel < $player->level)
 			{
 				$report = $player->newReport('dealer-levelup');
 
@@ -203,6 +205,72 @@ class Player extends Model
 			{
 				$player->dealerExperience = $player->dealerMaxExperience;
 				$player->warning('dealerMaxLevel');
+			}
+
+
+
+
+
+			if($player->attributes['wanted'] >= 6 && $player->jobName != 'arrest')
+			{
+				$now = time();
+
+				$locations = Location::with('places')->where('id', '<>', $player->location->id)->get();
+				$distance = null;
+				$place = null;
+				$location = null;
+
+				foreach($locations as $l)
+				{
+					$d = $player->location->getDistanceTo($l);
+
+					if((is_null($distance) || $d < $distance))
+					{
+						$p = $l->findPlaceWithComponent('arrest');
+
+						if(!is_null($p))
+						{
+							$place = $p;
+							$distance = $d;
+							$location = $l;
+						}
+					}
+				}
+
+				$time = $place->getProperty('arrest.duration') * 6;
+
+				if(Config::get('app.debug', false))
+					$time /= 60;
+
+
+				$player->jobName = 'arrest';
+				$player->jobStart = $now;
+				$player->jobEnd = $now + $time;
+				$player->wanted = 0;
+				$player->energyUpdate = $now;
+
+				$player->location_id = $location->id;
+				$player->location_place_id = $place->id;
+
+				$array = new \TextArray;
+				$array->separator('<br/>');
+
+				foreach($player->getStuffs() as $stuff)
+				{
+					$text = new \TransText('arrest.lose');
+					$text->with('name', new \TransText('item.' . $stuff->getName() . '.name'));
+					$text->with('count', $stuff->getCount());
+
+					$array->push($text);
+				}
+
+				$player->stuffs()->update(['count' => 0]);
+
+
+
+				$player->newReport('arrested')
+					->param('text', $array)
+					->send();
 			}
 		});
 	}
@@ -284,6 +352,11 @@ class Player extends Model
 	public function quests()
 	{
 		return $this->hasMany(PlayerQuest::class);
+	}
+
+	public function equipment()
+	{
+		return $this->hasOne(PlayerEquipment::class);
 	}
 
 
@@ -379,7 +452,7 @@ class Player extends Model
 	 */
 	public function getNextEnergyUpdateAttribute()
 	{
-		if($this->isBusy || $this->energy >= $this->maxEnergy)
+		if($this->energyUpdate > time() || $this->energy >= $this->maxEnergy)
 		{
 			return null;
 		}
@@ -395,10 +468,10 @@ class Player extends Model
 	 *
 	 * @return void
 	 */
-	public function getEnergyAttribute()
+	public function getEnergyAttribute($value)
 	{
 		$this->updateEnergy();
-		return $this->attributes['energy'];
+		return $value;
 	}
 
 
@@ -457,17 +530,55 @@ class Player extends Model
 
 	public function getWantedUpdateTimeAttribute()
 	{
-		return Config::get('player.wanted.update');
+		$time = Config::get('player.wanted.update');
+
+		if(Config::get('app.debug', false))
+			$time /= 60;
+
+
+		return $time;
 	}
 
 	public function getNextWantedUpdateAttribute()
 	{
-		return null;
-		return $this->wantedUpdate + $this->wantedUpdateTime;
+		if($this->wanted > 0)
+		{
+			return $this->wantedUpdate + $this->wantedUpdateTime;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
-	protected function updateWanted()
+
+	public function getWantedAttribute($value)
 	{
+		$this->updateWanted();
+		return $value;
+	}
+
+
+	private $_wantedUpdated = false;
+	protected function updateWanted($save = true, $force = false)
+	{
+		if(!$this->_wantedUpdated || $force)
+		{
+			$now = time();
+			$last = $this->wantedUpdate;
+			$time = $this->wantedUpdateTime;
+
+			$interval = max($now - $last, 0);
+			$updates = floor($interval / $time);
+
+
+			$this->_wantedUpdated = true;
+			$this->attributes['wanted'] = clamp($this->attributes['wanted'] - $updates, 0, 6);
+			$this->wantedUpdate += $updates * $time;
+
+			if($save)
+				$this->save();
+		}
 
 	}
 

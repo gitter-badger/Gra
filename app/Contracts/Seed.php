@@ -11,6 +11,5 @@ interface Seed extends Item
 	public function getMinHarvest();
 	public function getMaxHarvest();
 
-	public function getMinQuality();
-	public function getMaxQuality();
+	public function getQuality();
 }

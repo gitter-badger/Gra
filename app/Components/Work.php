@@ -172,7 +172,6 @@ class Work extends Component
 				$end = $start + $duration;
 
 
-				$this->player->busy = true;
 				$this->player->jobName = 'work';
 				$this->player->jobStart = $start;
 				$this->player->jobEnd = $end;

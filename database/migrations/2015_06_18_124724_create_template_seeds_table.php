@@ -26,8 +26,7 @@ class CreateTemplateSeedsTable extends Migration
             $table->integer('watering')->unsigned();
             $table->integer('harvestMin')->unsigned();
             $table->integer('harvestMax')->unsigned();
-            $table->float('qualityMin');
-            $table->float('qualityMax');
+            $table->integer('quality')->unsigned();
         });
     }
 

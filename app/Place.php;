@@ -62,4 +62,8 @@ class Place extends Model {
 	public function getRequirements() {
 		return new Requirements($this->requires);
 	}
+
+	public function isVisible() {
+		return $this->attributes['visible'];
+	}
 }

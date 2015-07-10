@@ -54,7 +54,6 @@ class CreatePlayersTable extends Migration
             $table->integer('wantedUpdate')->unsigned();
 
 
-            $table->boolean('busy');
             $table->string('jobName')->nullable();
             $table->integer('jobStart')->nullable()->unsigned();
             $table->integer('jobEnd')->nullable()->unsigned();

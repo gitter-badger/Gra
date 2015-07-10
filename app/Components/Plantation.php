@@ -105,8 +105,6 @@ class Plantation extends Component
 			}
 			else
 			{
-
-				$this->player->busy = true;
 				$this->player->energy -= $energy;
 				$this->player->jobName = 'planting';
 				$this->player->jobStart = $now;
@@ -118,8 +116,7 @@ class Plantation extends Component
 				$slot->watering = $watering;
 				$slot->harvestMin = $seed->getMinHarvest() * $harvestIncrease;
 				$slot->harvestMax = $seed->getMaxHarvest() * $harvestIncrease;
-				$slot->qualityMin = $seed->getMinQuality();
-				$slot->qualityMax = $seed->getMaxQuality();
+				$slot->quality = $seed->getQuality();
 				$slot->start = $now + $duration;
 				$slot->end = $now + $growth + $duration;
 				$slot->lastWatered = $now + $duration;
@@ -173,8 +170,7 @@ class Plantation extends Component
 					$overwatered = true;
 					$slot->harvestMax *= 0.85;
 					$slot->harvestMin *= 0.75;
-					$slot->qualityMax *= 0.80;
-					$slot->qualityMin *= 0.70;
+					$slot->quality = max($slot->quality - 1, 1);
 				}
 
 				$dryFor = max($now - $slot->nextWatering, 0);
@@ -222,7 +218,6 @@ class Plantation extends Component
 			$energy = Config::get('player.harvesting.energy');
 			$duration = Config::get('player.harvesting.duration');
 
-			$quality = mt_rand($slot->qualityMin * 100, $slot->qualityMax * 100) / 100;
 
 
 			if(Config::get('app.debug', false))
@@ -247,7 +242,6 @@ class Plantation extends Component
 			else
 			{
 
-				$this->player->busy = true;
 				$this->player->energy -= $energy;
 				$this->player->jobName = 'harvesting';
 				$this->player->jobStart = $now;
@@ -257,7 +251,7 @@ class Plantation extends Component
 				$slot->isEmpty = true;
 
 
-				$job = new HarvestJob($this->player, $slot->species, $quality, $slot->harvestMin, $slot->harvestMax);
+				$job = new HarvestJob($this->player, $slot->species, $slot->quality, $slot->harvestMin, $slot->harvestMax);
 				$job->delay($duration);
 
 

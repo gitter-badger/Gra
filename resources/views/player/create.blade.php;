@@ -14,15 +14,15 @@
 
 		{!! BootForm::text(trans('player.name'), 'name')->required()->min(4)->max(32) !!}
 
-		{!! BootForm::staticInput(trans('player.statPoints'), 'statisticsPoints')->value($points) !!}
+		{!! BootForm::staticInput(trans('statistic.statPoints'), 'statisticsPoints')->value($points) !!}
 
 
-		{!! BootForm::number(trans('player.strength'), 'strength')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-		{!! BootForm::number(trans('player.perception'), 'perception')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-		{!! BootForm::number(trans('player.endurance'), 'endurance')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-		{!! BootForm::number(trans('player.charisma'), 'charisma')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-		{!! BootForm::number(trans('player.intelligence'), 'intelligence')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-		{!! BootForm::number(trans('player.agility'), 'agility')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.strength'), 'strength')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.perception'), 'perception')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.endurance'), 'endurance')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.charisma'), 'charisma')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.intelligence'), 'intelligence')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+		{!! BootForm::number(trans('statistic.agility'), 'agility')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
 
 
 		<div class="center-block">

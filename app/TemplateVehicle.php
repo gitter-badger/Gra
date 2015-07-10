@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Vehicle as VehicleContract;
 
 class TemplateVehicle extends Model implements VehicleContract
 {
-	protected $fillable = ['name', 'image', 'price', 'premium', 'speed', 'cost', 'capacity', 'boostable', 'properties'];
+	protected $fillable = ['name', 'image', 'price', 'premium', 'speed', 'cost', 'capacity', 'properties'];
     private $props;
     protected $raw = false;
 
@@ -141,18 +141,6 @@ class TemplateVehicle extends Model implements VehicleContract
 		else
 		{
 			return $this->capacity;
-		}
-	}
-
-	public function isBoostable()
-	{
-		if($this->raw)
-		{
-			return null;
-		}
-		else
-		{
-			return $this->boostable;
 		}
 	}
 }

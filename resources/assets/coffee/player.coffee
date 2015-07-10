@@ -54,7 +54,7 @@ fill = (data) ->
 	setProgress 'energy', data.energy, 0, data.maxEnergy, data.energyUpdate, data.nextEnergyUpdate
 	setValues 'energy', data.energy, 0, data.maxEnergy
 
-	setProgress 'wanted', data.wanted, 0, 6, data.wantedUpdate, data.nextWantedupdate
+	setProgress 'wanted', data.wanted, 0, 6, data.wantedUpdate, data.nextWantedUpdate
 	setValues 'wanted', data.wanted, 0, 6
 
 	setProgress 'experience', data.experience, 0, data.maxExperience, null, null
@@ -97,7 +97,6 @@ loaded = (data) ->
 
 
 notify = (data) ->
-	console.log 'Notifications received', data
 	for n in data
 		window.notify {
 

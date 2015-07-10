@@ -27,6 +27,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
     protected $minInterval;
     protected $minStuff;
     protected $maxStuff;
+    protected $burnChance;
 
 
     /**
@@ -34,13 +35,14 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff)
+    public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff, $burnChance)
     {
         $this->player = $player;
         $this->minInterval = $minInterval;
         $this->maxInterval = $maxInterval;
         $this->minStuff = $minStuff;
         $this->maxStuff = $maxStuff;
+        $this->burnChance = $burnChance;
     }
 
     /**
@@ -56,17 +58,14 @@ class Deal extends Job implements SelfHandling, ShouldQueue
             $haveStuff = $this->player->getStuffsCount();
 
 
-            $dealIncrease = (100 + $this->player->dealerLevel * 5) / 100;
 
-            $maxStuff = min($haveStuff, $this->maxStuff * $dealIncrease);
-            $minStuff = min($this->minStuff * $dealIncrease, $maxStuff);
+            $maxStuff = min($haveStuff, $this->maxStuff * $this->player->dealerLevel);
+            $minStuff = min($this->minStuff * $this->player->dealerLevel, $maxStuff);
 
 
             $sell = $this->player->roll($minStuff, $maxStuff);
             $stuffs = $this->player->getStuffs();
 
-
-            echo "$minStuff / $sell / $maxStuff" . PHP_EOL;
 
             $array = new TextArray;
             $array->separator('<br/>');
@@ -105,11 +104,13 @@ class Deal extends Job implements SelfHandling, ShouldQueue
             }
 
 
+            $now = time();
 
-
-            if($this->player->roll(0, 100) < 25)
+            if($this->player->roll(0, 100) < $this->burnChance)
             {
-                $this->player->sendReport('burn');
+                $text = new TransText('dealing.burn');
+                $array->push($text);
+                $this->player->wantedUpdate = $now;
                 $this->player->wanted++;
             }
 
@@ -117,7 +118,6 @@ class Deal extends Job implements SelfHandling, ShouldQueue
 
 
 
-            $now = time();
 
             $minInterval = $now + $this->minInterval;
             $maxInterval = $now + $this->maxInterval;
@@ -130,7 +130,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
             {
                 $interval = mt_rand($this->minInterval, $this->maxInterval);
 
-                $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff);
+                $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff, $this->burnChance);
                 $job->delay($interval);
 
                 $this->player->nextUpdate = min($this->player->nextUpdate, $now + $interval);
@@ -138,9 +138,23 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 $this->dispatch($job);
             }
 
-            $this->player->completeQuest('first-deal');
+            $success = DB::transaction(function() use($array, $totalSell, $totalPrice)
+            {
+                if($this->player->jobName == 'dealing')
+                {
+                    return $this->player->newReport('deal')->param('text', $array)->param('sell', $totalSell)->param('price', $totalPrice)->send()
+                        && $this->player->save();
+                }
+                else
+                {
+                    return false;
+                }
+            });
 
-            return $this->player->newReport('deal')->param('text', $array)->param('sell', $totalSell)->param('price', $totalPrice)->send() && $this->player->save();
+            if($success)
+                $this->player->completeQuest('first-deal');
+
+            return $success;
         });
 
     }

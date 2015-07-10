@@ -72,5 +72,8 @@ return [
 		'bicycle' => 1,
 		'staff' => 1,
 	],
+	'tutorial-growshop' => [
+		'tutorial-seed' => 1,
+	],
 ];
 ?>

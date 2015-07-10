@@ -96,8 +96,8 @@ class Travel extends Component
 		{
 			$distance = $this->player->location->getDistanceTo($location);
 
-			$duration = $distance * $this->getSpeed();
-			$cost = $distance * $this->getCost();
+			$duration = round($distance * $this->getSpeed());
+			$cost = round($distance * $this->getCost());
 
 
 			if($this->player->money < $cost)
@@ -113,10 +113,11 @@ class Travel extends Component
 
 
 				$this->player->money -= $cost;
-				$this->player->busy = true;
+				$this->player->location_place_id = null;
 				$this->player->jobName = 'travel';
 				$this->player->jobStart = $start;
 				$this->player->jobEnd = $end;
+				$this->player->energyUpdate = $end;
 
 
 				if($this->player->save())

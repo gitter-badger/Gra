@@ -165,6 +165,6 @@ class LocationPlace extends Model
 
     public function isVisible()
     {
-        return $this->place->visible || $this->isAvailable();
+        return $this->place->isVisible() || $this->isAvailable();
     }
 }

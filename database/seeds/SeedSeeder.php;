@@ -26,8 +26,7 @@ class SeedSeeder extends Seeder {
 					'watering'   => $specie['watering'],
 					'harvestMin' => $specie['harvest'][0],
 					'harvestMax' => $specie['harvest'][1],
-					'qualityMin' => $specie['quality'][0],
-					'qualityMax' => $specie['quality'][1],
+					'quality'    => $specie['quality'],
 
 					'properties' => json_encode(isset($specie['properties'])?$specie['properties']:[]),
 				];
@@ -50,8 +49,7 @@ class SeedSeeder extends Seeder {
 					'watering'   => $seed['watering'],
 					'harvestMin' => $seed['harvest'][0],
 					'harvestMax' => $seed['harvest'][1],
-					'qualityMin' => $seed['quality'][0],
-					'qualityMax' => $seed['quality'][1],
+					'quality'    => $seed['quality'],
 
 					'properties' => json_encode(isset($seed['properties'])?$seed['properties']:[]),
 				];

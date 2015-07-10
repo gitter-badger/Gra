@@ -25,7 +25,6 @@ class CreateTemplateVehiclesTable extends Migration
             $table->float('speed');
             $table->float('cost');
             $table->integer('capacity')->unsigned();
-            $table->boolean('boostable');
         });
     }
 

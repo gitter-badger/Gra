@@ -8,7 +8,7 @@ use HempEmpire\Contracts\Seed as SeedContract;
 
 class Seed extends Model implements SeedContract
 {
-    protected $fillable = ['owner_id', 'owner_type', 'template_id', 'count', 'growth', 'watering', 'harvestMin', 'harvestMax', 'qualityMin', 'qualityMax'];
+    protected $fillable = ['owner_id', 'owner_type', 'template_id', 'count', 'growth', 'watering', 'harvestMin', 'harvestMax', 'quality'];
     public $timestamps = false;
     protected $raw = false;
 
@@ -163,27 +163,15 @@ class Seed extends Model implements SeedContract
 		}
 	}
 
-	public function getMinQuality()
+	public function getQuality()
 	{
-		if(is_null($this->qualityMin) && !$this->raw)
+		if(is_null($this->quality) && !$this->raw)
 		{
-			return $this->template->getMinQuality();
+			return $this->template->getQuality();
 		}
 		else
 		{
-			return $this->qualityMin;
-		}
-	}
-
-	public function getMaxQuality()
-	{
-		if(is_null($this->qualityMax) && !$this->raw)
-		{
-			return $this->template->getMaxQuality();
-		}
-		else
-		{
-			return $this->qualityMax;
+			return $this->quality;
 		}
 	}
 

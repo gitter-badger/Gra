@@ -287,7 +287,7 @@
     setValues('health', data.health, 0, data.maxHealth);
     setProgress('energy', data.energy, 0, data.maxEnergy, data.energyUpdate, data.nextEnergyUpdate);
     setValues('energy', data.energy, 0, data.maxEnergy);
-    setProgress('wanted', data.wanted, 0, 6, data.wantedUpdate, data.nextWantedupdate);
+    setProgress('wanted', data.wanted, 0, 6, data.wantedUpdate, data.nextWantedUpdate);
     setValues('wanted', data.wanted, 0, 6);
     setProgress('experience', data.experience, 0, data.maxExperience, null, null);
     setValues('experience', data.experience, 0, data.maxExperience);
@@ -320,7 +320,6 @@
 
   notify = function(data) {
     var i, len, n;
-    console.log('Notifications received', data);
     for (i = 0, len = data.length; i < len; i++) {
       n = data[i];
       window.notify({

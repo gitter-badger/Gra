@@ -22,7 +22,7 @@ class CreateTemplateStuffsTable extends Migration
             $table->float('weight');
             $table->json('properties');
 
-            $table->float('quality');
+            $table->integer('quality')->unsigned();
         });
     }
 

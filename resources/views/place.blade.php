@@ -7,7 +7,7 @@
 	
 	<div class="panel-heading">
 
-		<h3>@lang('place.' . $place->name . '.name')</h3>
+		<h3>{{ $place->getTitle() }}</h3>
 	</div>
 
 	<div class="panel-body">

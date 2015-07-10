@@ -20,7 +20,7 @@ class CreateStuffsTable extends Migration
             $table->integer('template_id')->unsigned();
             $table->integer('count')->unsigned();
 
-            $table->float('quality')->nullable();
+            $table->integer('quality')->unsigned()->nullable();
         });
     }
 

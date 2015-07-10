@@ -135,7 +135,7 @@ class Entity
 		{
 			foreach($this->attributes as $name => $value)
 			{
-				$buffer .= ' ' . $name . '="' . Formatter::stringify($value, false, false, ' ') . '"';
+				$buffer .= ' ' . $name . '=\'' . Formatter::stringify($value, false, false, ' ') . '\'';
 			}
 		}
 

@@ -12,8 +12,5 @@
 	->after(BootForm::builder()->number('harvestMax')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMaxHarvest() : null))
 	!!}
 
-{!! BootForm::multiInputGroup('<strong>Jakość</strong>')
-	->after(BootForm::builder()->number('sequalityMin')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMinQuality() * 100 : null)->min(0)->max(100))
-	->after('<span class="input-group-addon">-</span>')
-	->after(BootForm::builder()->number('sequalityMax')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMaxQuality() * 100 : null)->min(0)->max(100))
-	!!}
+{!! BootForm::number('<strong>Jakość</strong>', 'sequality')
+	->min(0)->max(5)->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getQuality() : null) !!}

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TemplateStuff extends Model implements StuffContract {
 	protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'quality', 'properties'];
-	public $timestmaps  = false;
+	public $timestamps  = false;
 	private $props;
 	protected $raw = false;
 

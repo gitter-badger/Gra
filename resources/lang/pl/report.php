@@ -49,4 +49,10 @@ return [
 		'title' => 'Zakończyłeś zadanie :name',
 		'content' => ':text',
 	],
+
+	'arrested' => [
+
+		'title' => 'Zostałeś aresztowany',
+		'content' => ':text',
+	],
 ];

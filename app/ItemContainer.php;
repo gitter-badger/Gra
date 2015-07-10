@@ -183,7 +183,6 @@ function joinItems() {
 					'speed'       => $item->getSpeed(),
 					'cost'        => $item->getCost(),
 					'capacity'    => $item->getCapacity(),
-					'boostable'   => $item->isBoostable(),
 				]);
 
 			if (is_null($vehicle)) {
@@ -193,7 +192,6 @@ function joinItems() {
 				$vehicle->speed       = $item->getSpeed();
 				$vehicle->cost        = $item->getCost();
 				$vehicle->capacity    = $item->getCapacity();
-				$vehicle->boostable   = $item->isBoostable();
 				$vehicle->owner()->associate($this);
 			}
 
@@ -207,8 +205,7 @@ function joinItems() {
 					'watering'    => $item->getWatering(),
 					'harvestMin'  => $item->getMinHarvest(),
 					'harvestMax'  => $item->getMaxHarvest(),
-					'qualityMin'  => $item->getMinQuality(),
-					'qualityMax'  => $item->getMaxQuality(),
+					'quality'     => $item->getQuality(),
 				]);
 
 			if (is_null($seed)) {
@@ -219,8 +216,7 @@ function joinItems() {
 				$seed->watering    = $item->getWatering();
 				$seed->harvestMin  = $item->getMinHarvest();
 				$seed->harvestMax  = $item->getMaxHarvest();
-				$seed->qualityMin  = $item->getMinQuality();
-				$seed->qualityMax  = $item->getMaxQuality();
+				$seed->quality     = $item->getQuality();
 				$seed->owner()->associate($this);
 			}
 
@@ -281,7 +277,6 @@ function joinItems() {
 					'speed'       => $item->getSpeed(),
 					'cost'        => $item->getCost(),
 					'capacity'    => $item->getCapacity(),
-					'boostable'   => $item->isBoostable(),
 				]);
 
 			if (!is_null($vehicle) && $vehicle->count >= $count) {
@@ -296,8 +291,7 @@ function joinItems() {
 					'watering'    => $item->getWatering(),
 					'harvestMin'  => $item->getMinHarvest(),
 					'harvestMax'  => $item->getMaxHarvest(),
-					'qualityMin'  => $item->getMinQuality(),
-					'qualityMax'  => $item->getMaxQuality(),
+					'quality'     => $item->getQuality(),
 				]);
 
 			if (!is_null($seed) && $seed->count >= $count) {

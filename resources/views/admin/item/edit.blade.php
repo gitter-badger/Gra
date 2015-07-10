@@ -68,7 +68,7 @@
 			->value(\HempEmpire\Requirements::getConfig()) !!}
 
 		{!! BootForm::textarea('<strong>Wymagania</strong>', 'requires')
-			->value(Formatter::stringify(array_get($item->properties, 'requires', []), false, false, PHP_EOL)) !!}
+			->value(isset($item) ? Formatter::stringify(array_get($item->properties, 'requires', []), false, false, PHP_EOL) : null) !!}
 
 
 

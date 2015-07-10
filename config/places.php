@@ -2,6 +2,46 @@
 
 return [
 	[
+		'name' => 'tutorial-buletin-board',
+		'image' => 'bulletin-board.jpg',
+		'visible' => false,
+		'components' => ['work'],
+		'properties' => ['work' => ['groups' => 'tutorial-works', 'reset' => 604800, 'atOnce' => 1, 'perGroup' => 1]],
+		'requires' => []
+	],
+	[
+		'name' => 'tutorial-growshop',
+		'image' => 'growshop.jpg',
+		'visible' => false,
+		'components' => ['shop'],
+		'properties' => ['shop' => ['name' => 'tutorial-growshop']],
+		'requires' => ['quest:first-work']
+	],
+	[
+		'name' => 'tutorial-plantation',
+		'image' => 'plantation.jpg',
+		'visible' => false,
+		'components' => ['plantation'],
+		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 1]],
+		'requires' => ['quest:first-seed']
+	],
+	[
+		'name' => 'tutorial-street',
+		'image' => 'street.jpg',
+		'visible' => false,
+		'components' => ['dealing'],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 900, 'minStuff' => 5, 'maxStuff' => 10, 'burnChance' => 0]],
+		'requires' => ['quest:first-plant']
+	],
+	[
+		'name' => 'tutorial-bus-stop',
+		'image' => 'bus-stop.jpg',
+		'visible' => false,
+		'components' => ['travel'],
+		'properties' => ['travel' => ['cost' => 0.1, 'speed' => 4, 'available' => 'city, village']],
+		'requires' => ['quest:first-deal']
+	],
+	[
 		'name' => 'warehouse',
 		'image' => 'warehouse.jpg',
 		'visible' => false,
@@ -23,7 +63,7 @@ return [
 		'visible' => false,
 		'components' => ['travel'],
 		'properties' => ['travel' => ['cost' => 4, 'speed' => 20, 'available' => 'city,village']],
-		'requires' => ['quest:first-deal']
+		'requires' => []
 	],
 	[
 		'name' => 'train-station',
@@ -47,15 +87,15 @@ return [
 		'visible' => false,
 		'components' => ['plantation'],
 		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5]],
-		'requires' => ['quest:first-seed']
+		'requires' => []
 	],
 	[
 		'name' => 'street',
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 2]],
-		'requires' => ['quest:first-plant']
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 2, 'burnChance' => 25]],
+		'requires' => []
 	],
 	[
 		'name' => 'grocery-store',
@@ -79,7 +119,7 @@ return [
 		'visible' => false,
 		'components' => ['shop'],
 		'properties' => ['shop' => ['name' => 'grow-shop']],
-		'requires' => ['quest:first-work']
+		'requires' => []
 	],
 	[
 		'name' => 'sport-shop',
@@ -135,6 +175,22 @@ return [
 		'visible' => false,
 		'components' => ['market'],
 		'properties' => ['market' => ['minPrice' => 33, 'maxPrice' => 200, 'allow' => 'vehicle']],
+		'requires' => []
+	],
+	[
+		'name' => 'outgoing-road',
+		'image' => 'outgoing-road.jpg',
+		'visible' => true,
+		'components' => ['vehicleTravel'],
+		'properties' => ['vehicleTravel' => ['available' => 'city, village']],
+		'requires' => ['equiped:vehicle']
+	],
+	[
+		'name' => 'police-station',
+		'image' => 'police-station.jpg',
+		'visible' => true,
+		'components' => ['arrest'],
+		'properties' => ['arrest' => ['duration' => 7200]],
 		'requires' => []
 	],
 ];

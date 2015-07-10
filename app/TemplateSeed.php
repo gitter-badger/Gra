@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Seed as SeedContract;
 
 class TemplateSeed extends Model implements SeedContract
 {
-    protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'growth', 'watering', 'harvestMin', 'harvestMax', 'qualityMin', 'qualityMax', 'properties'];
+    protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'growth', 'watering', 'harvestMin', 'harvestMax', 'quality', 'properties'];
     public $timestamps = false;
     private $props;
     protected $raw = false;
@@ -173,7 +173,7 @@ class TemplateSeed extends Model implements SeedContract
 		}
 	}
 
-	public function getMinQuality()
+	public function getQuality()
 	{
 		if($this->raw)
 		{
@@ -181,19 +181,7 @@ class TemplateSeed extends Model implements SeedContract
 		}
 		else
 		{
-			return $this->qualityMin;
-		}
-	}
-
-	public function getMaxQuality()
-	{
-		if($this->raw)
-		{
-			return null;
-		}
-		else
-		{
-			return $this->qualityMax;
+			return $this->quality;
 		}
 	}
 }

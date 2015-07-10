@@ -15,7 +15,11 @@ return [
 			'requires' => []
 		],
 		'first-deal' => [
-			'rewards' => [],
+			'rewards' => ['start:first-travel'],
+			'requires' => []
+		],
+		'first-travel' => [
+			'rewards' => ['money:500,0'],
 			'requires' => []
 		],
 	],

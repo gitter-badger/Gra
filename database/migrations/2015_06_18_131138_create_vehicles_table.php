@@ -23,7 +23,6 @@ class CreateVehiclesTable extends Migration
             $table->float('speed')->nullable();
             $table->float('cost')->nullable();
             $table->integer('capacity')->unsigned()->nullable();
-            $table->boolean('boostable')->nullable();
         });
     }
 

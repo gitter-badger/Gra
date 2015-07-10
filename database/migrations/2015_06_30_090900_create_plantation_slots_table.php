@@ -23,8 +23,7 @@ class CreatePlantationSlotsTable extends Migration
             $table->integer('watering')->unsigned()->nullable();
             $table->integer('harvestMin')->unsigned()->nullable();
             $table->integer('harvestMax')->unsigned()->nullable();
-            $table->float('qualityMin')->nullable();
-            $table->float('qualityMax')->nullable();
+            $table->integer('quality')->unsigned()->nullable();
 
             $table->integer('start')->unsigned()->nullable();
             $table->integer('end')->unsigned()->nullable();

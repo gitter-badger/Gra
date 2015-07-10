@@ -1,5 +1,5 @@
 <div>
-	<div class="row">
+	<div class="row equalize">
 
 		@foreach($locations as $location)
 
@@ -24,8 +24,8 @@
 						<h4>@lang('location.' . $location->name . '.name')</h4>
 
 						<p><strong>@lang('travel.distance'):</strong> {{ $distance }}km</p>
-						<p><strong>@lang('travel.duration'):</strong> {{ Formatter::time($distance * $speed) }}</p>
-						<p><strong>@lang('travel.cost'):</strong> {{ Formatter::money($distance * $cost) }}</p>
+						<p><strong>@lang('travel.duration'):</strong> {{ Formatter::time(round($distance * $speed)) }}</p>
+						<p><strong>@lang('travel.cost'):</strong> {{ Formatter::money(round($distance * $cost)) }}</p>
 
 					</div>
 				</button>

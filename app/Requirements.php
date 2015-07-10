@@ -27,6 +27,7 @@ class Requirements extends ClassContainer
 		'luck' => \HempEmpire\Requirements\Luck::class,
 
 		'quest' => \HempEmpire\Requirements\Quest::class,
+		'equiped' => \HempEmpire\Requirements\Equiped::class,
 	];
 
 

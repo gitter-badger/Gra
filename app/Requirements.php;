@@ -22,7 +22,8 @@ class Requirements extends ClassContainer {
 		'agility'      => \HempEmpire\Requirements\Agility::class ,
 		'luck'         => \HempEmpire\Requirements\Luck::class ,
 
-		'quest' => \HempEmpire\Requirements\Quest::class ,
+		'quest'   => \HempEmpire\Requirements\Quest::class ,
+		'equiped' => \HempEmpire\Requirements\Equiped::class ,
 	];
 
 	public function check(Player $player = null) {

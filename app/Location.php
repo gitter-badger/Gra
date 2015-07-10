@@ -60,4 +60,16 @@ class Location extends Model
 	{
 		return $this->places()->where('place_id', '=', $place->id)->count() > 0;
 	}
+
+	public function findPlaceWithComponent($component)
+	{
+		foreach($this->places as $place)
+		{
+			$components = $place->getComponents();
+
+			if(array_search($component, $components) !== false)
+				return $place;
+		}
+		return null;
+	}
 }

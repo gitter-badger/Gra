@@ -58,6 +58,7 @@ class Dealing extends Component
 				$maxInterval = $this->getProperty('maxInterval');
 				$minStuff = $this->getProperty('minStuff');
 				$maxStuff = $this->getProperty('maxStuff');
+				$burnChance = $this->getProperty('burnChance');
 
 				if(Config::get('app.debug', false))
 				{
@@ -65,7 +66,7 @@ class Dealing extends Component
 					$maxInterval /= 60;
 				}
 
-				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff);
+				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff, $burnChance);
 
 				$this->dispatch($deal);
 

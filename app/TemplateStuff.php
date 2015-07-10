@@ -8,7 +8,7 @@ use HempEmpire\Contracts\Stuff as StuffContract;
 class TemplateStuff extends Model implements StuffContract
 {
     protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'quality', 'properties'];
-    public $timestmaps = false;
+    public $timestamps = false;
     private $props;
     protected $raw = false;
 

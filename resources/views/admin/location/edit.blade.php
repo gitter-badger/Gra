@@ -44,8 +44,8 @@
 
 
 
-		{!! BootForm::number('<strong>Pozycja X</strong>', 'x')->defaultValue(isset($location) ? $location->x : null)->step(0.01)->required() !!}
-		{!! BootForm::number('<strong>Pozycja Y</strong>', 'y')->defaultValue(isset($location) ? $location->y : null)->step(0.01)->required() !!}
+		{!! BootForm::number('<strong>Pozycja X</strong>', 'x')->defaultValue(isset($location) ? $location->x : null)->step(0.01)->min(-1000)->max(1000)->required() !!}
+		{!! BootForm::number('<strong>Pozycja Y</strong>', 'y')->defaultValue(isset($location) ? $location->y : null)->step(0.01)->min(-1000)->max(1000)->required() !!}
 		{!! BootForm::text('<strong>Klasy</strong>', 'groups')->defaultValue(isset($location) ? implode(', ', $location->groups) : null)->placeholder('brak') !!}
 
 
