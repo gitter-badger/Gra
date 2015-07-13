@@ -32,5 +32,6 @@ class Kernel extends HttpKernel {
 		'world'      => \HempEmpire\Http\Middleware\SelectWorld::class ,
 		'player'     => \HempEmpire\Http\Middleware\PlayerRequired::class ,
 		'admin'      => \HempEmpire\Http\Middleware\AdminOnly::class ,
+		'verified'   => \HempEmpire\Http\Middleware\Verification::class ,
 	];
 }

@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Components;
 use Config;
+
 use HempEmpire\Jobs\TravelEnds;
 use HempEmpire\Location;
 
@@ -77,15 +78,14 @@ class Travel extends Component {
 				$this->danger('notEnoughMoney')
 				     ->with('value', $cost);
 			} else {
-				$start = time();
-				$end   = $start+$duration;
+				if (Config::get('app.debug', false)) {
+					$duration /= 60;
+				}
 
 				$this->player->money -= $cost;
-				$this->player->location_place_id = null;
-				$this->player->jobName           = 'travel';
-				$this->player->jobStart          = $start;
-				$this->player->jobEnd            = $end;
-				$this->player->energyUpdate      = $end;
+				$this->player->location()->associate($location);
+				$this->player->moveTo(null, false);
+				$this->player->startWorking($duration, false);
 
 				if ($this->player->save()) {
 					$job = new TravelEnds($this->player, $location);

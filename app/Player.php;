@@ -20,7 +20,7 @@ class Player extends Model {
 	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'name', 'level', 'experience',
 		'maxExperience', 'plantatorLevel', 'plantatorExperience', 'plantatorMaxExperience', 'smugglerLevel',
 		'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 'dealerExperience', 'dealerMaxExperience',
-		'health', 'maxHealth', 'healthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'wanted',
+		'health', 'maxHealth', 'healthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
 		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money'];
 
@@ -29,7 +29,7 @@ class Player extends Model {
 		'dealerExperience', 'dealerMaxExperience', 'health', 'maxHealth', 'healthUpdate',
 		'nextHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'nextEnergyUpdate', 'wanted', 'wantedUpdate',
 		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'charisma', 'intelligence', 'agility', 'luck',
-		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount'];
+		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'reload'];
 
 	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount'];
 
@@ -79,6 +79,7 @@ class Player extends Model {
 				$player->talentPoints = 0;
 
 				$player->money = Config::get('player.start.money');
+				$player->reload = false;
 			});
 
 		static ::created(function (Player $player) {
@@ -174,58 +175,8 @@ class Player extends Model {
 				}
 
 				if ($player->attributes['wanted'] >= 6 && $player->jobName != 'arrest') {
-					$now = time();
-
-					$locations = Location::with('places')->where('id', '<>', $player->location->id)->get();
-					$distance = null;
-					$place = null;
-					$location = null;
-
-					foreach ($locations as $l) {
-						$d = $player->location->getDistanceTo($l);
-
-						if ((is_null($distance) || $d < $distance)) {
-							$p = $l->findPlaceWithComponent('arrest');
-
-							if (!is_null($p)) {
-								$place = $p;
-								$distance = $d;
-								$location = $l;
-							}
-						}
-					}
-
-					$time = $place->getProperty('arrest.duration')*6;
-
-					if (Config::get('app.debug', false)) {
-						$time /= 60;
-					}
-
-					$player->jobName = 'arrest';
-					$player->jobStart = $now;
-					$player->jobEnd = $now+$time;
-					$player->wanted = 0;
-					$player->energyUpdate = $now;
-
-					$player->location_id = $location->id;
-					$player->location_place_id = $place->id;
-
-					$array = new \TextArray;
-					$array->separator('<br/>');
-
-					foreach ($player->getStuffs() as $stuff) {
-						$text = new \TransText('arrest.lose');
-						$text->with('name', new \TransText('item.'.$stuff->getName().'.name'));
-						$text->with('count', $stuff->getCount());
-
-						$array->push($text);
-					}
-
-					$player->stuffs()->update(['count' => 0]);
-
-					$player->newReport('arrested')
-					->param('text', $array)
-					->send();
+					$duration = $place->getProperty('arrest.duration')*6;
+					$player->startArrest($duration, false);
 				}
 			});
 	}
@@ -628,6 +579,151 @@ class Player extends Model {
 		}
 
 		return $quest->save();
+	}
+
+	public function moveTo(LocationPlace $place = null, $save = true) {
+		if (is_null($this->place) != is_null($place)) {
+			if (empty($place) || (isset($place) && $place->isAvailable())) {
+				if (is_null($place)) {
+					$this->location_place_id = null;
+					\Event::fire(new \HempEmpire\Events\PlaceLeave($this, $this->place));
+
+				} else {
+					$this->location_place_id = $place->id;
+					\Event::fire(new \HempEmpire\Events\PlaceEnter($this, $place));
+				}
+
+				if ($save) {
+					return $this->save();
+				} else {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function moveToArrest($save = true) {
+		$locations = Location::with('places')->where('id', '<>', $this->location->id)->get();
+		$distance  = null;
+		$place     = null;
+		$location  = null;
+
+		foreach ($locations as $l) {
+			$d = $this->location->getDistanceTo($l);
+
+			if ((is_null($distance) || $d < $distance)) {
+				$p = $l->findPlaceWithComponent('arrest');
+
+				if (!is_null($p)) {
+					$place    = $p;
+					$distance = $d;
+					$location = $l;
+				}
+			}
+		}
+
+		if (!is_null($location) && !is_null($place)) {
+			$this->location_id       = $location->id;
+			$this->location_place_id = $place->id;
+
+			if ($save) {
+				return $this->save();
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function startJob($name, $duration, $start = null, $energyUpdate = false, $breakable = false) {
+		if (is_null($start)) {
+			$start = time();
+		}
+
+		$end = $start+$duration;
+
+		$this->jobName  = $name;
+		$this->jobStart = $start;
+		$this->jobEnd   = $end;
+
+		if ($energyUpdate) {
+			$this->energyUpdate = $start;
+		} else {
+			$this->energyUpdate = $end;
+		}
+	}
+
+	public function startTraveling($duration) {
+		$this->startJob('traveling', $duration);
+	}
+
+	public function startDealing($duration, $save = true) {
+		$this->startJob('dealing', $duration);
+
+		if ($save) {
+			return $this->save();
+		} else {
+			return true;
+		}
+	}
+
+	public function startPlanting($duration, $save = true) {
+		$this->startJob('planting', $duration);
+
+		if ($save) {
+			return $this->save();
+		} else {
+			return true;
+		}
+	}
+
+	public function startHarvesting($duration, $save = true) {
+		$this->startJob('harvesting', $duration);
+
+		if ($save) {
+			return $this->save();
+		} else {
+			return true;
+		}
+	}
+
+	public function startWorking($duration) {
+		$this->startJob('working', $duration);
+	}
+
+	public function startArrest($duration, $save = true) {
+		if (Config::get('app.debug', false)) {
+			$duration /= 60;
+		}
+
+		$this->startJob('arrest', $duration, null, true);
+		$this->moveToArrest(false);
+		$this->wanted = 0;
+
+		$array = new \TextArray;
+		$array->separator('<br/>');
+
+		foreach ($this->getStuffs() as $stuff) {
+			$text = new \TransText('arrest.lose');
+			$text->with('name', new \TransText('item.'.$stuff->getName().'.name'));
+			$text->with('count', $stuff->getCount());
+
+			$array->push($text);
+		}
+
+		$this->stuffs()->update(['count' => 0]);
+
+		$this->newReport('arrested')
+		     ->param('text', $array)
+		     ->send();
+
+		if ($save) {
+			return $this->save();
+		} else {
+			return true;
+		}
 	}
 
 }

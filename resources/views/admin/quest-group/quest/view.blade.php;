@@ -21,8 +21,12 @@
 	{!! BootForm::staticInput('<strong>Nazwa wyświetlana</strong>')
 		->value($quest->getTitle()) !!}
 
-	{!! BootForm::staticInput('<strong>Opis</strong>')
+	{!! BootForm::staticInput('<strong>Tekst przy rozpoczęciu</strong>')
 		->value($quest->getDescription()) !!}
+
+	{!! BootForm::staticInput('<strong>Tekst po zakończeniu</strong>')
+		->value($quest->getCompleted()) !!}
+
 
 	{!! BootForm::staticInput('<strong>Nagrody</strong>')
 		->value($quest->getRewards()->rawRender()) !!}

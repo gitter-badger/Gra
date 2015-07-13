@@ -2,6 +2,37 @@
 
 return [
 
+	'tutorial-buletin-board' => [
+
+		'name' => 'Tablica ogłoszeń',
+		'description' => null,
+	],
+
+	'tutorial-growshop' => [
+
+		'name' => 'Growshop',
+		'description' => null,
+	],
+
+	'tutorial-plantation' => [
+
+		'name' => 'Plantacja',
+		'description' => null,
+	],
+
+	'tutorial-street' => [
+
+		'name' => 'Ulica',
+		'description' => null,
+	],
+
+	'tutorial-bus-stop' => [
+
+		'name' => 'Przystanek autobusowy',
+		'description' => null,
+	],
+
+
 	'shop' => [
 
 		'name' => 'Testowy sklep ze wszystkim',
@@ -49,4 +80,80 @@ return [
 		'name' => 'Ulica',
 		'description' => 'Ulice miasta wypełnione są ludzi którzy tylko czekają na Twój towar',
 	],
+
+	'grocery-store' => [
+
+		'name' => 'Sklep spożywczy',
+		'description' => 'Najświerzsze jedzenie jakie możesz dostać',
+	],
+
+	'gun-shop' => [
+
+		'name' => 'Sklep z bronią',
+		'description' => 'Potrzebujesz broni? Tutaj ją dostaniesz!',
+	],
+
+	'grow-shop' => [
+
+		'name' => 'Growshop',
+		'description' => 'Tylko do celów kolekcjonerskich ;)',
+	],
+
+	'sport-shop' => [
+
+		'name' => 'Sklep sportowy',
+		'description' => 'Stworzony specjalnie dla masochistów',
+	],
+
+	'black-market' => [
+
+		'name' => 'Czarny rynek',
+		'description' => 'Miejsce handlu zielskiem',
+	],
+
+	'toy-store' => [
+
+		'name' => 'Sklep z zabawkami',
+		'description' => null,
+	],
+
+	'car-showroom' => [
+
+		'name' => 'Salon samochodowy',
+		'description' => null,
+	],
+
+	'miscellaneous-store' => [
+
+		'name' => 'Sklep z różnościami',
+		'description' => null,
+	],
+
+	'motorcycle-shop' => [
+
+		'name' => 'Sklep z motocyklami',
+		'description' => null,
+	],
+
+	'vehicle-exchange' => [
+
+		'name' => 'Giełda pojazdów',
+		'description' => null,
+	],
+
+	'outgoing-road' => [
+
+		'name' => 'Droga wyjazdowa',
+		'description' => null,
+	],
+
+	'police-station' => [
+
+		'name' => 'Posterunek policji',
+		'description' => null,
+	],
+
+
+
+
 ];

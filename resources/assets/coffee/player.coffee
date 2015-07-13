@@ -93,6 +93,7 @@ fill = (data) ->
 loaded = (data) ->
 
 	fill data
+	window.reload() if data.reload
 	setTimeout load, data.nextUpdate * 1000
 
 

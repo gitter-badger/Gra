@@ -1,6 +1,11 @@
 <?php
 
 return [
+	'title' => 'Tytuł',
+	'date' => 'Data',
+	'content' => 'Zawartość',
+
+
 
 	'deal' => [
 

@@ -9,6 +9,7 @@ use Validator;
 use HempEmpire\User;
 use Illuminate\Http\Request;
 use HempEmpire\Http\Controllers\Controller;
+use HempEmpire\Jobs\SendVerification;
 
 use Request as RequestFacade;
 
@@ -40,7 +41,13 @@ class AuthController extends Controller
             );
         }
         
-        $this->create($request->all(), $request);
+        $user = $this->create($request->all(), $request);
+
+        $job = new SendVerification($user);
+        $this->dispatch($job);
+
+
+        $this->success('registrationDone');
 
 
         return redirect(route('home'));
@@ -118,9 +125,35 @@ class AuthController extends Controller
             'newsletter' => $data['r_news'],
             'registration_ip' => $request->getClientIp(),
             'premiumPoints' => 0,
-            'remiumStart' => null,
+            'premiumStart' => null,
             'premiumEnd' => null,
             'admin' => Config::get('app.debug', false),
+            'verified' => false,
+            'token' => str_random(64),
         ]);
+    }
+
+
+    public function verify($token)
+    {
+        $user = User::where(['token' => $token])->first();
+
+        if(is_null($user))
+        {
+            $this->danger('wrongUser');
+        }
+        elseif($user->verified)
+        {
+            $this->danger('alreadyVerified');
+        }
+        else
+        {
+            $user->verified = true;
+            $user->save();
+
+            $this->success('userVerified');
+        }
+
+        return redirect(route('home'));
     }
 }

@@ -106,10 +106,7 @@ class Plantation extends Component
 			else
 			{
 				$this->player->energy -= $energy;
-				$this->player->jobName = 'planting';
-				$this->player->jobStart = $now;
-				$this->player->jobEnd = $now + $duration;
-				$this->player->energyUpdate = $now + $duration;
+				$this->player->startPlanting($duration, false);
 
 				$slot->isEmpty = false;
 				$slot->species = $seed->getSpecies();
@@ -243,11 +240,8 @@ class Plantation extends Component
 			{
 
 				$this->player->energy -= $energy;
-				$this->player->jobName = 'harvesting';
-				$this->player->jobStart = $now;
-				$this->player->jobEnd = $now + $duration;
-				$this->player->energyUpdate = $now + $duration;
-
+				$this->player->startHarvesting($duration, false);
+				
 				$slot->isEmpty = true;
 
 

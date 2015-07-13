@@ -1,0 +1,17 @@
+<?php
+
+namespace HempEmpire\Events;
+use HempEmpire\Location;
+use HempEmpire\Player;
+use Illuminate\Queue\SerializesModels;
+
+class LocationEnter extends Event {
+	use SerializesModels;
+	public $player;
+	public $location;
+
+	public function __construct(Player $player, Location $location) {
+		$this->player   = $player;
+		$this->location = $location;
+	}
+}

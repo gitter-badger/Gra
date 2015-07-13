@@ -57,18 +57,8 @@ class Work extends Component
 				{
 					if(count($works) > 0)
 					{
-						$n = null;
-						$m = null;
-
-						try
-						{
-							$n = mt_rand(0, count($works) - 1);
-							$m = $works[$n];
-						}
-						catch(\Exception $e)
-						{
-							ddd($e->getMessage(), $n, $m, $works);
-						}
+						$n = mt_rand(0, count($works) - 1);
+						$m = $works[$n];
 
 
 						$c = $currentGroup->works()->firstOrCreate([
@@ -166,16 +156,10 @@ class Work extends Component
 				$duration = $work->work->duration;
 
 				if(Config::get('app.debug', false))
-					$duration = 60;
-
-				$start = time();
-				$end = $start + $duration;
+					$duration /= 60;
 
 
-				$this->player->jobName = 'work';
-				$this->player->jobStart = $start;
-				$this->player->jobEnd = $end;
-				$this->player->energyUpdate = $end;
+				$this->player->startWorking($duration, false);
 
 				$work->active = false;
 				$work->save();

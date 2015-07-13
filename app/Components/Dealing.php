@@ -37,7 +37,6 @@ class Dealing extends Component
 		}
 		else
 		{
-			$now = time();
 			$duration *= 3600;
 
 			if(Config::get('app.debug', false))
@@ -45,14 +44,12 @@ class Dealing extends Component
 				$duration /= 60;
 			}
 
-
 			$this->player->energy -= $energy;
-			$this->player->jobName = 'dealing';
-			$this->player->jobStart = $now;
-			$this->player->jobEnd = $now + $duration;
-			$this->player->energyUpdate = $now + $duration;
 
-			if($this->player->save())
+			
+
+
+			if($this->player->startDealing($duration))
 			{
 				$minInterval = $this->getProperty('minInterval');
 				$maxInterval = $this->getProperty('maxInterval');

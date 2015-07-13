@@ -4,6 +4,8 @@
 namespace HempEmpire\Components;
 use HempEmpire\Location;
 use HempEmpire\Jobs\TravelEnds;
+use HempEmpire\Events\LocationLeave;
+use Event;
 use Config;
 
 class Travel extends Component
@@ -107,17 +109,16 @@ class Travel extends Component
 			}
 			else
 			{
-				$start = time();
-				$end = $start + $duration;
-
+				if(Config::get('app.debug', false))
+				{
+					$duration /= 60;
+				}
 
 
 				$this->player->money -= $cost;
-				$this->player->location_place_id = null;
-				$this->player->jobName = 'travel';
-				$this->player->jobStart = $start;
-				$this->player->jobEnd = $end;
-				$this->player->energyUpdate = $end;
+                $this->player->location()->associate($location);
+                $this->player->moveTo(null, false);
+                $this->player->startWorking($duration, false);
 
 
 				if($this->player->save())
@@ -126,6 +127,7 @@ class Travel extends Component
 					$job->delay($duration);
 
 					$this->dispatch($job);
+
 
 					$this->success('travelStarted');
 				}

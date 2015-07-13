@@ -18,6 +18,7 @@ function () {
 			return view('home');
 		}]);
 
+Route::get('/auth/verify/{token}', ['as' => 'user.verify', 'uses' => 'Auth\AuthController@verify']);
 Route::controller('/auth', 'Auth\AuthController', [
 
 		'postLogin'    => 'user.login',
@@ -30,11 +31,11 @@ Route::group(['prefix' => '/payments'], function () {
 		Route::controller('/transferuj', 'Payments\TransferujController');
 	});
 
-Route::group(['prefix' => '/api', 'middleware' => ['auth', 'world', 'player']], function () {
+Route::group(['prefix' => '/api', 'middleware' => ['auth', 'verified', 'world', 'player']], function () {
 		Route::controller('/character', 'Api\PlayerController');
 	});
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
 		//World
 
 		Route::group(['prefix'  => '/admin', 'middleware'  => 'admin'], function () {
@@ -142,20 +143,8 @@ Route::group(['middleware' => 'auth'], function () {
 									return view('job');
 								} else {
 									if (!$request->has('action')) {
-										$newPlace = $request->input('place');
-
-										if (strlen($newPlace) == 0) {
-											$newPlace = null;
-										}
-
-										if (is_null($newPlace) != is_null($player->place)) {
-											$place = $player->location->places()->whereId($newPlace)->first();
-
-											if (empty($newPlace) || (isset($place) && $place->isAvailable())) {
-												$player->location_place_id = $newPlace;
-												$player->save();
-											}
-										}
+										$place = $player->location->places()->whereId($request->input('place'))->first();
+										$player->moveTo($place);
 
 										return redirect('game');
 									} else {
@@ -165,12 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
 											return redirect('game');
 										} else {
 											$place->loadComponents();
-
-											if ($request->has('action')) {
-												return $place->action($request);
-											} else {
-												return $place->view();
-											}
+											return $place->action($request);
 										}
 									}
 

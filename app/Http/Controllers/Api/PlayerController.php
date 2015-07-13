@@ -21,7 +21,11 @@ class PlayerController extends Controller
 
 	public function getIndex()
 	{
-		return $this->player->toJson();
+		$json = $this->player->toJson();
+		$this->player->reload = false;
+		$this->player->save();
+
+		return $json;
 	}
 
 	public function getNotifications()

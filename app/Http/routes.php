@@ -21,6 +21,7 @@ Route::get('/', ['as' => 'home', 'middleware' => 'guest', function()
 }]);
 
 
+Route::get('/auth/verify/{token}', ['as' => 'user.verify', 'uses' => 'Auth\AuthController@verify']);
 Route::controller('/auth', 'Auth\AuthController', [
 
 	'postLogin' => 'user.login',
@@ -35,7 +36,7 @@ Route::group(['prefix' => '/payments'], function()
 });
 
 
-Route::group(['prefix' => '/api', 'middleware' => ['auth', 'world', 'player']], function() 
+Route::group(['prefix' => '/api', 'middleware' => ['auth', 'verified', 'world', 'player']], function() 
 {
 	Route::controller('/character', 'Api\PlayerController');
 });
@@ -43,7 +44,7 @@ Route::group(['prefix' => '/api', 'middleware' => ['auth', 'world', 'player']], 
 
 
 
-Route::group(['middleware' => 'auth'], function()
+Route::group(['middleware' => ['auth', 'verified']], function()
 {
 	//World
 
@@ -188,22 +189,8 @@ Route::group(['middleware' => 'auth'], function()
 				{
 					if(!$request->has('action'))
 					{
-						$newPlace = $request->input('place');
-
-						if(strlen($newPlace) == 0)
-							$newPlace = null;
-
-
-						if(is_null($newPlace) != is_null($player->place))
-						{
-							$place = $player->location->places()->whereId($newPlace)->first();
-
-							if(empty($newPlace) || (isset($place) && $place->isAvailable()))
-							{
-								$player->location_place_id = $newPlace;
-								$player->save();
-							}
-						}
+						$place = $player->location->places()->whereId($request->input('place'))->first();
+						$player->moveTo($place);
 						
 						return redirect('game');
 					}
@@ -218,15 +205,7 @@ Route::group(['middleware' => 'auth'], function()
 						else
 						{
 							$place->loadComponents();
-
-							if($request->has('action'))
-							{
-								return $place->action($request);
-							}
-							else
-							{
-								return $place->view();
-							}
+							return $place->action($request);
 						}
 					}
 

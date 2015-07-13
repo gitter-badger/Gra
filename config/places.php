@@ -30,7 +30,7 @@ return [
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 900, 'minStuff' => 5, 'maxStuff' => 10, 'burnChance' => 0]],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minInterval' => 2000, 'maxInterval' => 2000, 'minStuff' => 15, 'maxStuff' => 15, 'burnChance' => 100]],
 		'requires' => ['quest:first-plant']
 	],
 	[
@@ -38,7 +38,7 @@ return [
 		'image' => 'bus-stop.jpg',
 		'visible' => false,
 		'components' => ['travel'],
-		'properties' => ['travel' => ['cost' => 0.1, 'speed' => 4, 'available' => 'city, village']],
+		'properties' => ['travel' => ['cost' => 0.1, 'speed' => 4, 'available' => 'capital']],
 		'requires' => ['quest:first-deal']
 	],
 	[

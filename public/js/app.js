@@ -315,6 +315,9 @@
 
   loaded = function(data) {
     fill(data);
+    if (data.reload) {
+      window.reload();
+    }
     return setTimeout(load, data.nextUpdate * 1000);
   };
 

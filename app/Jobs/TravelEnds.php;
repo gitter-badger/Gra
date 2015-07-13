@@ -3,11 +3,13 @@
 namespace HempEmpire\Jobs;
 
 use DB;
+use Event;
+use HempEmpire\Events\LocationEnter;
 use HempEmpire\Jobs\Job;
 use HempEmpire\Location;
+
 use HempEmpire\Player;
 use Illuminate\Contracts\Bus\SelfHandling;
-
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -36,9 +38,6 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue {
 	public function handle() {
 		$success = DB::transaction(function () {
 				if ($this->player->jobName == 'travel') {
-					$this->player->location()->associate($this->location);
-					$this->player->location_place_id = null;
-
 					$this->player->smugglerExperience += $this->player->getStuffsCount();
 
 					return $this->player->save();
@@ -48,6 +47,7 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue {
 			});
 
 		if ($success) {
+			Event::fire(new LocationEnter($this->player, $this->location));
 			$this->player->completeQuest('first-travel');
 		}
 

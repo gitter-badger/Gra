@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'HempEmpire\Events\SomeEvent' => [
-            'HempEmpire\Listeners\EventListener',
+        'HempEmpire\Events\PlaceLeave' => [
+            'HempEmpire\Listeners\Search',
         ],
     ];
 

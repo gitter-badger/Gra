@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->integer('premiumStart')->unsigned()->nullable();
             $table->integer('premiumEnd')->unsigned()->nullable();
             $table->boolean('admin')->default(false);
+            $table->boolean('verified')->default(false);
+            $table->string('token')->unique();
 
 
             $table->timestamps();
