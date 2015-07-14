@@ -30,6 +30,9 @@ class Place extends Model
 		if(empty($this->_components))
 		{
 			$this->_components = json_decode($value, true);
+
+			if(is_null($this->_components))
+				$this->_components = [];
 		}
 
 		return $this->_components;

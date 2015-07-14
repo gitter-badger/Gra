@@ -83,7 +83,7 @@ class WorkController extends Controller {
 	 */
 	public function destroy($workGroupId, $workId) {
 		WorkGroup::findOrFail($workGroupId)->works()->whereId($workId)->delete();
-		return redirect(route('admin.workGroup.show', ['workGroup' => $workGroup]));
+		return redirect(route('admin.workGroup.show', ['workGroup' => $workGroupId]));
 	}
 
 	private function modify(Work $work, Request $request) {

@@ -2,6 +2,8 @@
 
 
 namespace HempEmpire\Components;
+use Config;
+
 
 class VehicleTravel extends Travel
 {
@@ -39,7 +41,17 @@ class VehicleTravel extends Travel
 	protected function getSpeed()
 	{
         $speedIncrease = (100 + $this->player->smugglerLevel * 5) / 100;
-		return 1.0 / ($this->vehicle->getSpeed() * $speedIncrease);
+		$speed = 1.0 / ($this->vehicle->getSpeed() * $speedIncrease);
+
+
+		if(Config::get('app.debug', false))
+		{
+			return $speed * 60;
+		}
+		else
+		{
+			return $speed * 3600;
+		}
 	}
 
 	protected function getCost()

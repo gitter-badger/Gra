@@ -5,6 +5,12 @@ return [
 	'date'    => 'Data',
 	'content' => 'Zawartość',
 
+	'welcome' => [
+
+		'title'   => 'Witamy w HempEmpire!',
+		'content' => 'Naszym celem było stworzenie gry która pozwoli Ci się wczuć w proczes produkcji oraz rozpowszechniania ganji. Twoim celem w tej grze jest dobrze się bawić i zdobyć tyle kasy ile tylko potrafisz unieść. Życzymi miłej zabawy - zespół HempEmpire',
+	],
+
 	'deal' => [
 
 		'title'   => 'Sprzedałeś :sell sztuk towaru zarabiając $:price',

@@ -1,36 +1,20 @@
 
 
+<div class='media text-center'>
 
 
-<div class='row text-center'>
-	
+	<div class='media-left media-middle'>
 
-	@if(!isset($image) || $image == true)
-	<div class='col-xs-4'>
-
-		<img class='img-responsive center-block' src='{{ $item->getImage() }}'/>
+		<img class='media-object item-icon' src='{{ $item->getImage() }}'/>
 	</div>
 
+	<div class='media-body'>
 
-	<div class='col-xs-4'>
-	
-		<h4><strong>{{ $item->getTitle() }}</strong></h4>
+		<h4 class='media-heading'><strong>{{ $item->getTitle() }}</strong></h4>
 		<p>{{ $item->getDescription() }}</p>
+
 	</div>
-
-	@else
-
-
-	<div class='col-xs-12'>
-	
-		<h4><strong>{{ $item->getTitle() }}</strong></h4>
-		<p>{{ $item->getDescription() }}</p>
-	</div>
-
-	@endif
 </div>
-
-<hr/>
 
 <div class='row text-center'>
 	<div class='col-xs-6'>

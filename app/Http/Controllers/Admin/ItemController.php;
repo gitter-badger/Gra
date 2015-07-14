@@ -45,8 +45,8 @@ class ItemController extends Controller {
 	public function index() {
 		$items = $this->getItemQuery()->paginate($this->perPage);
 
-		return view('admin.item.list')
-		->with('type', $this->type)
+		return view('admin.item.'.$this->type.'.list')
+		                               ->with('type', $this->type)
 		->with('items', $items);
 	}
 

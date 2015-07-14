@@ -282,6 +282,13 @@ textarea {
 .navbar-text {
   cursor: default;
 }
+.item-icon {
+  max-width: 128px;
+  max-height: 128px;
+}
+.tooltip-inner {
+  min-width: 256px;
+}
 
 .pagination-fix > .pagination {
   margin-top: 0 !important;

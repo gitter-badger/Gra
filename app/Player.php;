@@ -244,6 +244,10 @@ class Player extends Model {
 		return $this->hasOne(PlayerEquipment::class );
 	}
 
+	public function investments() {
+		return $this->hasMany(PlayerInvestment::class );
+	}
+
 	public function save(array $options = array()) {
 		return \DB::transaction(function () use ($options) {
 				$success = true;

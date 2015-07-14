@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call('ShopSeeder');
         $this->call('WorkSeeder');
         $this->call('QuestSeeder');
+        $this->call('InvestmentSeeder');
 
         $this->call('DeveloperSeeder');
         Model::reguard();

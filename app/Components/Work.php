@@ -11,6 +11,8 @@ use Config;
 class Work extends Component
 {
 	private $works = [];
+	private $lastUpdate;
+	private $nextUpdate;
 
 
 
@@ -38,6 +40,15 @@ class Work extends Component
 				'work_group_id' => $group->id,
 				'location_place_id' => $this->getPlaceId(),
 			]);
+
+			if(is_null($this->lastUpdate))
+			{
+				$this->lastUpdate = $currentGroup->lastUpdated;
+			}
+			else
+			{
+				$this->lastUpdate = min($currentGroup->lastUpdated, $this->lastUpdate);
+			}
 
 
 
@@ -85,6 +96,11 @@ class Work extends Component
 			foreach($works as $work)
 				$this->works[$work->id] = $work;
 		}
+
+		if(!is_null($this->lastUpdate))
+			$this->lastUpdate = time();
+
+		$this->nextUpdate = $this->lastUpdate + $workReset;
 	}
 
 
@@ -118,6 +134,8 @@ class Work extends Component
 	public function view()
 	{
 		return view('component.work')
+			->with('lastUpdate', $this->lastUpdate)
+			->with('nextUpdate', $this->nextUpdate)
 			->with('works', collection_paginate($this->getWorks(), 16));
 	}
 
@@ -171,7 +189,8 @@ class Work extends Component
 
 					$this->dispatch($job);
 
-					$this->success('workStarted');
+					$this->success('workStarted')
+						->with('name', lcfirst($work->work->getTitle()));
 				}
 				else
 				{

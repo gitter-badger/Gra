@@ -24,7 +24,7 @@
 	->max($player->plantatorMaxExperience)->now($player->plantatorExperience)->addClass('plantator-bar'))) !!}
 
 
-{!! BootForm::staticInput('<strong>' . trans('player.smugglerLevel') . '</strong>')->value(entity('progressGroup')
+{!! BootForm::staticInput('<strong>' . trans('statistic.smugglerLevel') . '</strong>')->value(entity('progressGroup')
 	->appendAddon('<span class="smuggler-level">' . $player->smugglerLevel . '</span>')->append(entity('progress')->min(0)
 	->max($player->smugglerMaxExperience)->now($player->smugglerExperience)->addClass('smuggler-bar'))) !!}
 

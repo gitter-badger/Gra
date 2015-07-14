@@ -36,4 +36,15 @@ return [
 	'plantWatered' => 'Roślina podlana',
 	'plantNotReady' => 'Roślina nie jest jeszcze gotowa do zbiorów',
 	'plantHarvested' => 'Zebrałeś :count sztuk :name',
+
+
+	'workStarted' => 'Rozpocząłeś pracę :name',
+	'dealingStarted' => 'Rozpocząłeś dealowanie',
+
+
+	'nothingToCollect' => 'Nie masz nic do zebrania',
+	'investmentCollected' => 'Zebrałeś $:value',
+	'upgradeMaxLevel' => 'Osiągniętno maksymalny poziom rozbudowy',
+	'incomeUpgrated' => 'Przychód zwiększony o $:value',
+	'capacityUpgrated' => 'Pojemność zwiększony o $:value',
 ];

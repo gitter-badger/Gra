@@ -84,6 +84,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 				Route::resource('/questGroup', 'Admin\QuestGroupController');
 				Route::resource('/questGroup.quest', 'Admin\QuestController', ['except' => ['index']]);
 
+				Route::get('/investment/export', ['as' => 'admin.investment.export', 'uses' => 'Admin\InvestmentController@export']);
+				Route::resource('/investment', 'Admin\InvestmentController');
+
 			});
 
 		Route::get('/worlds', ['as' => 'world.list', function () {

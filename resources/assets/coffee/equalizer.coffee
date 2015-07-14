@@ -48,7 +48,7 @@ equalize = ->
 
 
 	$('.row.equalize').each ->
-		console.log('new row')
+		#console.log('new row')
 		heights = []
 		row = 0
 		sum = 0

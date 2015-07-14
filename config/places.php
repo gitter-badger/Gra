@@ -94,7 +94,7 @@ return [
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 2, 'burnChance' => 25]],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 4, 'burnChance' => 25]],
 		'requires' => []
 	],
 	[
@@ -102,7 +102,7 @@ return [
 		'image' => 'convenience-store.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'grocery-store']],
+		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -110,7 +110,7 @@ return [
 		'image' => 'gun-shop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'gun-shop']],
+		'properties' => ['shop' => ['name' => 'gun-shop', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -118,7 +118,7 @@ return [
 		'image' => 'growshop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'grow-shop']],
+		'properties' => ['shop' => ['name' => 'grow-shop', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -126,7 +126,7 @@ return [
 		'image' => 'sport-shop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'sport-shop']],
+		'properties' => ['shop' => ['name' => 'sport-shop', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -142,7 +142,7 @@ return [
 		'image' => 'toy-store.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'toy-store']],
+		'properties' => ['shop' => ['name' => 'toy-store', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -150,7 +150,7 @@ return [
 		'image' => 'show-room.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'car-showroom']],
+		'properties' => ['shop' => ['name' => 'car-showroom', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -158,7 +158,7 @@ return [
 		'image' => 'miscellaneous-store.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'miscellaneous-store']],
+		'properties' => ['shop' => ['name' => 'miscellaneous-store', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -166,7 +166,7 @@ return [
 		'image' => 'motorcycle-shop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'motorcycle-shop']],
+		'properties' => ['shop' => ['name' => 'motorcycle-shop', 'delivery' => 86400]],
 		'requires' => []
 	],
 	[
@@ -191,6 +191,22 @@ return [
 		'visible' => true,
 		'components' => ['arrest'],
 		'properties' => ['arrest' => ['duration' => 7200]],
+		'requires' => []
+	],
+	[
+		'name' => 'dump',
+		'image' => 'dump.jpg',
+		'visible' => true,
+		'components' => ['work'],
+		'properties' => ['work' => ['groups' => 'dump', 'reset' => 28800, 'atOnce' => 1, 'perGroup' => 1]],
+		'requires' => []
+	],
+	[
+		'name' => 'restaurant',
+		'image' => 'restaurant.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'restaurant']],
 		'requires' => []
 	],
 ];

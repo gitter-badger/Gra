@@ -42,7 +42,7 @@ class Experience implements Reward
 		$value = $this->experience;
 
 		if($this->perLevel)
-			$value .= ' * ' . trans('player.level');
+			$value .= ' * ' . trans('statistic.level');
 		
 		return trans('reward.experience', ['value' => $value]);
 	}

@@ -25,12 +25,12 @@
 
 			@foreach($items as $item)
 
-
 				<tr>
 					<td>{{ $item->id }}</td>
 					<td>{{ $item->getName() }}</td>
 					<td>{{ $item->getTitle() }}</td>
 					<td>{{ trans('item.types.' . $item->getType()) }}</td>
+
 					<td>
 
 						<a href="{{ route('admin.item.' . $type . '.show', [$type => $item->id]) }}" class="btn btn-info">

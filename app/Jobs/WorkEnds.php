@@ -40,7 +40,7 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
     {
         $success = DB::transaction(function()
         {
-            if($this->player->jobName == 'work')
+            if($this->player->jobName == 'working')
             {
                 $rewards = $this->work->work->getRewards();
 

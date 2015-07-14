@@ -6,9 +6,9 @@
 
 
 {!! BootForm::multiInputGroup('<strong>Plony</strong>')
-	->after(BootForm::builder()->number('harvestMin')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMinHarvest() : null))
+	->after(BootForm::builder()->number('harvestMin')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMinHarvest() : null)->min(0)->max(1000))
 	->after('<span class="input-group-addon">-</span>')
-	->after(BootForm::builder()->number('harvestMax')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMaxHarvest() : null))
+	->after(BootForm::builder()->number('harvestMax')->defaultValue(isset($item) && $item->getType() == 'seed' ? $item->getMaxHarvest() : null)->min(0)->max(1000))
 	!!}
 
 {!! BootForm::number('<strong>Jakość</strong>', 'sequality')

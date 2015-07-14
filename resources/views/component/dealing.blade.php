@@ -19,7 +19,7 @@
 					->min($minDuration)->max($maxDuration)->value($minDuration)->after('h')->data('ng-model', 'duration') !!}
 
 
-				{!! BootForm::submit(trans('dealing.start'), 'btn-primary') !!}
+				{!! BootForm::submit(trans('action.dealing'), 'btn-primary') !!}
 			</div>
 
 			{!! BootForm::close() !!}

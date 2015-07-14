@@ -5,13 +5,13 @@ return [
 	'tutorial-buletin-board' => [
 
 		'name' => 'Tablica ogłoszeń',
-		'description' => null,
+		'description' => 'Szukasz pracy? Tutaj znajdziesz kilka ofert.',
 	],
 
 	'tutorial-growshop' => [
 
 		'name' => 'Growshop',
-		'description' => null,
+		'description' => 'Sprzedajemy nasiona tylko w celach kolekcjonerskich!',
 	],
 
 	'tutorial-plantation' => [
@@ -154,6 +154,11 @@ return [
 	],
 
 
+	'dump' => [
+
+		'name' => 'Skup surowców wtórnych',
+		'description' => null,
+	],
 
 
 ];

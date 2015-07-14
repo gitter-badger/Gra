@@ -19,6 +19,7 @@ class Shop extends Component
 	public function init()
 	{
 		$name = $this->getProperty('name');
+		$delivery = $this->getProperty('delivery');
 
 		$template = TemplateModel::whereName($name)->select('id')->firstOrFail();
 
@@ -31,7 +32,7 @@ class Shop extends Component
 		]);
 
 
-		if(is_null($this->shop->lastVisited) || ($this->shop->lastVisited + 8 * 3600) < time())
+		if((!is_null($delivery) || is_null($this->shop->lastVisited)) && (is_null($this->shop->lastVisited) || ($this->shop->lastVisited + $delivery) < time()))
 		{
 			DB::transaction(function() use($template)
 			{
@@ -119,6 +120,17 @@ class Shop extends Component
 			$items = $this->shop->getItems();
 		}
 
+		$delivery = $this->getProperty('delivery');
+		$lastUpdate = null;
+		$nextUpdate = null;
+
+		if(!is_null($delivery))
+		{
+			$lastUpdate = $this->shop->lastVisited;
+			$nextUpdate = $lastUpdate + $delivery;
+		}
+
+
 
 
 
@@ -131,7 +143,9 @@ class Shop extends Component
 			->with('vehicles', $vehicles)
 			->with('seeds', $seeds)
 			->with('stuffs', $stuffs)
-			->with('items', $this->paginate($items, $view));
+			->with('items', $this->paginate($items, $view))
+			->with('lastUpdate', $lastUpdate)
+			->with('nextUpdate', $nextUpdate);
 	}
 
 	public function actionBuy($request)
@@ -199,7 +213,7 @@ class Shop extends Component
 				$item->onBuy($this->player);
 
 				$this->success('itemBought')
-					->with('item', $item->getName())
+					->with('item', $item->getTitle())
 					->with('count', $count);
 			}
 			else

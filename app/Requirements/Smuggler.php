@@ -24,6 +24,6 @@ class Smuggler implements Requirement
 
 	public function getText()
 	{
-		return trans('requirement.smugglerLevel', ['value' => $this->level]);
+		return trans('requirement.smuggler', ['value' => $this->level]);
 	}
 }

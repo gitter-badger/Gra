@@ -40,7 +40,7 @@ class Money implements Reward
 		$value = $this->money;
 
 		if($this->perLevel)
-			$value .= ' * ' . trans('player.level');
+			$value .= ' * ' . trans('statistic.level');
 		
 		return trans('reward.money', ['value' => $value]);
 	}

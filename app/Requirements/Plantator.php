@@ -24,6 +24,6 @@ class Plantator implements Requirement
 
 	public function getText()
 	{
-		return trans('requirement.plantatorLevel', ['value' => $this->level]);
+		return trans('requirement.plantator', ['value' => $this->level]);
 	}
 }

@@ -52,7 +52,7 @@ class ItemController extends Controller
     {
         $items = $this->getItemQuery()->paginate($this->perPage);
 
-        return view('admin.item.list')
+        return view('admin.item.' . $this->type . '.list')
             ->with('type', $this->type)
             ->with('items', $items);
     }

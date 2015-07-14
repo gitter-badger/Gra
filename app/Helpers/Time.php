@@ -30,13 +30,19 @@ function duration_to_time($duration)
 function time_to_duration($time)
 {
 	$left = $time;
-	$s = $left % 60;
-	$left = ($left - $s) / 60;
-	$m = $left % 60;
-	$left = ($left - $m) / 60;
-	$h = $left % 60;
-	$left = ($left - $h) / 24;
-	$d = $left;
+	$ds = 24 * 3600;
+	$hs = 3600;
+	$ms = 60;
+
+	$d = floor($left / $ds);
+	$left -= $d * $ds;
+	$h = floor($left / $hs);
+	$left -= $h * $hs;
+	$m = floor($left / $ms);
+	$left -= $m * $ms;
+	$s = $left;
+
+
 
 	$string = '';
 

@@ -24,6 +24,6 @@ class Dealer implements Requirement
 
 	public function getText()
 	{
-		return trans('requirement.dealerLevel', ['value' => $this->level]);
+		return trans('requirement.dealer', ['value' => $this->level]);
 	}
 }

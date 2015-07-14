@@ -13,6 +13,7 @@ return [
 		'shop' => [
 
 			'name',
+			'delivery',
 		],
 
 		'store' => [
@@ -72,6 +73,11 @@ return [
 			'maxPrice',
 			'allow',
 			'deny',
+		],
+
+		'investment' => [
+
+			'name',
 		],
 	],
 ];

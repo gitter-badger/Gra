@@ -90,7 +90,7 @@
 
 		<div class="col-xs-12 text-center">
 	
-			<h4>@lang('player.itemsEmpty')</h4>
+			<h4>@lang('player.empty')</h4>
 
 		</div>
 

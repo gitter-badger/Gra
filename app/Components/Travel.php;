@@ -85,7 +85,7 @@ class Travel extends Component {
 				$this->player->money -= $cost;
 				$this->player->location()->associate($location);
 				$this->player->moveTo(null, false);
-				$this->player->startWorking($duration, false);
+				$this->player->startTraveling($duration, false);
 
 				if ($this->player->save()) {
 					$job = new TravelEnds($this->player, $location);

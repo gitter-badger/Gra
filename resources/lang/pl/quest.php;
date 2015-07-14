@@ -5,7 +5,7 @@ return [
 	'first-work' => [
 
 		'name'        => 'Pierwsza praca',
-		'description' => 'Hajs nie jest ważny, ale żeby coś osiągnąć jest Ci niezbędny. Najprostszą legalną drogą aby go zdobyć jest wziąć się do roboty. A więc nie ma na co czekać, odwiedź tablicę ogłoszeń i znajdź jakieś ogłoszenie. Po rozpoczęciu pracy nie będziesz mugł jej przerwać i będziesz musiał czekać, aż pasek postępu zniknie.',
+		'description' => 'Hajs nie jest ważny, ale żeby coś osiągnąć jest Ci niezbędny. Najprostszą legalną drogą aby go zdobyć jest wziąć się do roboty. A więc nie ma na co czekać, odwiedź tablicę ogłoszeń i znajdź jakieś ogłoszenie. Po rozpoczęciu pracy nie będziesz mógł jej przerwać i będziesz musiał czekać, aż pasek postępu zniknie.',
 		'complete'    => 'Ale to było męczące, prawda? Każda praca pochłania pewną ilość energi którą symbolizuje zielony pasek. Nie będziesz mógł wykonywać niektórych akcji jeśli nie będziesz miał wystarczającej ilości energi. Energia odnawia się automatycznie, co pokazuje mały niebieski pasek pod wskaźnikiem energi. Możesz też odnowić poziom energii spożywając pokarmy lub pijąc napoje. W prawym górnym rogu - tuż obok nazwy Twojej postaci - jest wyświetlany Twój poziom. Jeśli osiągniesz ilość punktów doświadczenia potrzebnych do awansu, dostaniesz dodatkowy poziom. Niektóre prace będą wtedy przynosiły więcej pieniędzy i doświadczenia. Pamiętaj dzienna ilość prac jest ograniczona! Dobra koniec gadania czas na kolejny etap w Twojej drodzę do bogactwa.',
 	],
 

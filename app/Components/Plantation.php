@@ -89,8 +89,8 @@ class Plantation extends Component
 			if(Config::get('app.debug', false))
 			{
 				$duration /= 60;
-				$growth /= 60;
-				$watering /= 60;
+				$growth /= 3600;
+				$watering /= 3600;
 			}
 
 

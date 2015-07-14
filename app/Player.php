@@ -304,6 +304,11 @@ class Player extends Model
 		return $this->hasOne(PlayerEquipment::class);
 	}
 
+	public function investments()
+	{
+		return $this->hasMany(PlayerInvestment::class);
+	}
+
 
 
 
@@ -896,9 +901,18 @@ class Player extends Model
 
 
 
-	public function startTraveling($duration)
+	public function startTraveling($duration, $save = true)
 	{
 		$this->startJob('traveling', $duration);
+
+		if($save)
+		{
+			return $this->save();
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	public function startDealing($duration, $save = true)

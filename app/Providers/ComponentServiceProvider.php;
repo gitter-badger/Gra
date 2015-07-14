@@ -59,5 +59,9 @@ class ComponentServiceProvider extends ServiceProvider {
 		$this->app->bind('component.arrest', function ($app) {
 				return new \HempEmpire\Components\Arrest;
 			});
+
+		$this->app->bind('component.investment', function ($app) {
+				return new \HempEmpire\Components\Investment;
+			});
 	}
 }

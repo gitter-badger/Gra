@@ -62,7 +62,7 @@ class Travel extends Component
 	{
 		if(Config::get('app.debug', false))
 		{
-			return (1.0 / $this->getProperty('speed'));
+			return (1.0 / $this->getProperty('speed')) * 60;
 		}
 		else
 		{
@@ -109,16 +109,10 @@ class Travel extends Component
 			}
 			else
 			{
-				if(Config::get('app.debug', false))
-				{
-					$duration /= 60;
-				}
-
-
 				$this->player->money -= $cost;
                 $this->player->location()->associate($location);
                 $this->player->moveTo(null, false);
-                $this->player->startWorking($duration, false);
+                $this->player->startTraveling($duration, false);
 
 
 				if($this->player->save())
