@@ -6,7 +6,7 @@ return [
 		'image' => 'bulletin-board.jpg',
 		'visible' => false,
 		'components' => ['work'],
-		'properties' => ['work' => ['groups' => 'tutorial-works', 'reset' => 604800, 'atOnce' => 1, 'perGroup' => 1]],
+		'properties' => ['work' => ['groups' => 'tutorial-works', 'atOnce' => 1, 'perGroup' => 1]],
 		'requires' => []
 	],
 	[
@@ -85,8 +85,8 @@ return [
 		'name' => 'plantation',
 		'image' => 'plantation.jpg',
 		'visible' => false,
-		'components' => ['plantation'],
-		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5]],
+		'components' => ['plantation', 'investment'],
+		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5], 'investment' => ['name' => 'hemp-field', 'price' => 10000]],
 		'requires' => []
 	],
 	[
@@ -101,8 +101,8 @@ return [
 		'name' => 'grocery-store',
 		'image' => 'convenience-store.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400]],
+		'components' => ['shop', 'investment'],
+		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400], 'investment' => ['name' => 'grocery-store', 'price' => 8000]],
 		'requires' => []
 	],
 	[
@@ -149,8 +149,8 @@ return [
 		'name' => 'car-showroom',
 		'image' => 'show-room.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'car-showroom', 'delivery' => 86400]],
+		'components' => ['shop', 'investment'],
+		'properties' => ['shop' => ['name' => 'car-showroom', 'delivery' => 86400], 'investment' => ['name' => 'car-showroom', 'price' => 25000]],
 		'requires' => []
 	],
 	[
@@ -206,7 +206,63 @@ return [
 		'image' => 'restaurant.jpg',
 		'visible' => true,
 		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'restaurant']],
+		'properties' => ['investment' => ['name' => 'restaurant', 'price' => 30000]],
+		'requires' => []
+	],
+	[
+		'name' => 'casino',
+		'image' => 'casino.jpg',
+		'visible' => true,
+		'components' => ['investment', 'gambling'],
+		'properties' => ['investment' => ['name' => 'casino', 'price' => 50000], 'gambling' => ['minBet' => 50, 'maxBet' => 2500, 'exchange' => 1.7, 'duration' => 1200]],
+		'requires' => []
+	],
+	[
+		'name' => 'night-club',
+		'image' => 'night-club.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'night-club', 'price' => 35000]],
+		'requires' => []
+	],
+	[
+		'name' => 'hotel',
+		'image' => 'hotel.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'hotel', 'price' => 50000]],
+		'requires' => []
+	],
+	[
+		'name' => 'bank',
+		'image' => 'bank.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'bank', 'price' => 75000]],
+		'requires' => []
+	],
+	[
+		'name' => 'pub',
+		'image' => 'pub.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'pub', 'price' => 18000]],
+		'requires' => []
+	],
+	[
+		'name' => 'game-room',
+		'image' => 'game-room.jpg',
+		'visible' => true,
+		'components' => ['investment', 'gambling'],
+		'properties' => ['investment' => ['name' => 'game-room', 'price' => 15000], 'gambling' => ['minBet' => 5, 'maxBet' => 100, 'exchange' => 2, 'duration' => 600]],
+		'requires' => []
+	],
+	[
+		'name' => 'motel',
+		'image' => 'motel.jpg',
+		'visible' => true,
+		'components' => ['investment'],
+		'properties' => ['investment' => ['name' => 'motel', 'price' => 20000]],
 		'requires' => []
 	],
 ];

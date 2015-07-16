@@ -19,15 +19,4 @@ class Investment extends Model
     }
 
 
-    public function getTimeAttribute($value)
-    {
-    	if(Config::get('app.debug', false))
-    	{
-    		return floor($value / 360);
-    	}
-    	else
-    	{
-    		return $value;
-    	}
-    }
 }

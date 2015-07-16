@@ -53,7 +53,6 @@
     selector = '.' + columns.join(',.');
     return $('.row.equalize').each(function() {
       var col, heights, hs, i, j, p, row, sum;
-      console.log('new row');
       heights = [];
       row = 0;
       sum = 0;

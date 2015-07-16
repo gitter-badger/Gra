@@ -1,10 +1,13 @@
 <div class='media text-center'>
 
+	@if(!isset($image) || $image == true)
 
 	<div class='media-left media-middle'>
 
 		<img class='media-object item-icon' src='{{ $item->getImage() }}'/>
 	</div>
+
+	@endif
 
 	<div class='media-body'>
 

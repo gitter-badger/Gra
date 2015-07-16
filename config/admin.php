@@ -78,6 +78,19 @@ return [
 		'investment' => [
 
 			'name',
+			'price',
+		],
+
+		'gambling' => [
+
+			'minBet',
+			'maxBet',
+			'exchange',
+			'duration',
+		],
+
+		'bank' => [
+
 		],
 	],
 ];

@@ -51,7 +51,7 @@ class Rewards extends ClassContainer
 		foreach($this->objects as $object)
 		{
 			if($object->isVisible())
-				$buffer .= '<li class="list-group-item">' . $object->getText() . '</li>';
+				$buffer .= '<li class="list-group-item list-group-item-info">' . $object->getText() . '</li>';
 		}
 
 		$buffer .= '</ul>';

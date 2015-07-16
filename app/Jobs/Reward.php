@@ -38,6 +38,7 @@ class Reward extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        echo __METHOD__ . PHP_EOL;
         return $this->rewards->give($this->player);
     }
 }

@@ -84,11 +84,15 @@
 			{!! $works->render() !!}
 		</div>
 	</div>
-	{!! entity('timer')
-		->min($lastUpdate)
-		->max($nextUpdate)
-		->now(time())
-		->reversed(false)
-	!!}
+
+	@if(!is_null($lastUpdate) && !is_null($nextUpdate))
+	
+		{!! entity('timer')
+			->min($lastUpdate)
+			->max($nextUpdate)
+			->now(time())
+			->reversed(false)
+		!!}
+	@endif
 
 </div>

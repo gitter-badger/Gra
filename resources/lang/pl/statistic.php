@@ -26,4 +26,8 @@ return [
 	'talentPoints' => 'Punkty talentów',
 
 
+	'damage' => 'Obrażenia',
+	'defense' => 'Obrona',
+	'speed' => 'Szybkość',
+	'critChance' => 'Szansa na uderzenie krytyczne',
 ];

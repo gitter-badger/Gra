@@ -214,8 +214,29 @@ class Player extends Model
 
 			if($player->attributes['wanted'] >= 6 && $player->jobName != 'arrest')
 			{
+				$locations = Location::with('places')->get();
+				$distance = null;
+				$place = null;
+
+				foreach($locations as $l)
+				{
+					$d = $player->location->getDistanceTo($l);
+
+					if((is_null($distance) || $d < $distance))
+					{
+						$p = $l->findPlaceWithComponent('arrest');
+
+						if(!is_null($p))
+						{
+							$place = $p;
+							$distance = $d;
+						}
+					}
+				}
+
 				$duration = $place->getProperty('arrest.duration') * 6;
 				$player->startArrest($duration, false);
+				$player->reload = true;
 			}
 		});
 	}
@@ -607,7 +628,7 @@ class Player extends Model
 		}
 		else
 		{
-			$updates[] = $now + 60;
+			$updates[] = $now + 30;
 		}
 
 		if(!is_null($value) && $value > $now)
@@ -830,7 +851,7 @@ class Player extends Model
 
 	public function moveToArrest($save = true)
 	{
-		$locations = Location::with('places')->where('id', '<>', $this->location->id)->get();
+		$locations = Location::with('places')->get();
 		$distance = null;
 		$place = null;
 		$location = null;
@@ -958,6 +979,20 @@ class Player extends Model
 		}
 	}
 
+	public function startGambling($duration, $save = true)
+	{
+		$this->startJob('gambling', $duration);
+
+		if($save)
+		{
+			return $this->save();
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	public function startWorking($duration)
 	{
 		$this->startJob('working', $duration);
@@ -1012,6 +1047,122 @@ class Player extends Model
 
 
 
+	private $_weapon;
+	private $_armor;
+
+	public function getWeapon()
+	{
+		if(empty($this->_weapon))
+			$this->_weapon = $this->equipment->weapon();
+
+		return $this->_weapon;
+	}
+
+	public function getArmor()
+	{
+		if(empty($this->_armor))
+			$this->_armor = $this->equipment->armor();
+
+		return $this->_armor;
+	}
+
+	public function getDamage()
+	{
+		$weapon = $this->getWeapon();
+		$minDamage = 0;
+		$maxDamage = 0;
+
+		if(is_null($weapon))
+		{
+			$minDamage = floor($this->strength / 10);
+			$maxDamage = floor($this->strength / 5) + 1;
+		}
+		else
+		{
+			list($minDamage, $maxDamage) = $weapon->getDamage();
+			$type = $weapon->getSubType();
+
+			if($type == 'melee')
+			{
+				$minDamage += floor($this->strength / 10);
+				$maxDamage += floor($this->strength / 5) + 1;
+			}
+			elseif($type == 'ranged')
+			{
+				$minDamage += floor($this->perception / 10);
+				$maxDamage += floor($this->perception / 5) + 1;
+			}
+		}
+
+		return [$minDamage, $maxDamage];
+	}
+
+	public function getDefense()
+	{
+		$armor = $this->getArmor();
+		$defense = 0;
+
+		if(!is_null($armor))
+			$defense = $armor->getArmor();
+
+		return $this->endurance + $defense;
+	}
+
+	public function getSpeed()
+	{
+		$speed = 1.0;
+
+		$weapon = $this->getWeapon();
+		$armor = $this->getArmor();
+
+		if(!is_null($weapon))
+			$speed += $weapon->getSpeed();
+
+		if(!is_null($armor))
+			$speed += $armor->getSpeed();
+
+
+		return $this->agility * $speed;
+	}
+
+	public function getCritChance()
+	{
+		$weapon = $this->getWeapon();
+
+		if(is_null($weapon))
+		{
+			return 0;
+		}
+		else
+		{
+			return round($weapon->getCritChance() * 10000) / 100;
+		}
+	}
+
+	public function rollHit()
+	{
+		return $this->roll(0, $this->perception);
+	}
+
+	public function rollDodge()
+	{
+		return $this->roll(0, $this->agility);
+	}
+
+
+	public function rollCrit()
+	{
+		$chance = $this->getCritChance();
+
+		return (100 - $this->roll(0, 99)) < round($chance);
+	}
+
+	public function rollDamage()
+	{
+		list($minDamage, $maxDamage) = $this->getDamage();
+
+		return $this->roll($minDamage, $maxDamage);
+	}
 
 
 

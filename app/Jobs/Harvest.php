@@ -40,6 +40,7 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 	public function handle()
 	{
+        echo __METHOD__ . PHP_EOL;
 		$count = $this->player->roll($this->countMin, $this->countMax);
 		$template = TemplateStuff::where('name', '=', $this->species . '-stuff')->first();
 		$stuff = new Stuff;
@@ -49,6 +50,7 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 
 
+        $this->player->experience += ceil($count / 10);
 		$this->player->plantatorExperience += $count;
 
 		$success = DB::transaction(function() use($stuff, $count)

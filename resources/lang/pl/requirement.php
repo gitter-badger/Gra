@@ -19,4 +19,5 @@ return [
 	'luck' => '<strong>Wymagane szczęście</strong>: :value%',
 
 	'quest' => '<strong>Wymagane ukończenie zadania</strong>: :value',
+	'equiped' => '<strong>Wymagany przedmiot</strong> :value',
 ];

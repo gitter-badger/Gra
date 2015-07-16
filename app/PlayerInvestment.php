@@ -3,6 +3,7 @@
 namespace HempEmpire;
 
 use Illuminate\Database\Eloquent\Model;
+use Config;
 
 class PlayerInvestment extends Model
 {
@@ -25,6 +26,18 @@ class PlayerInvestment extends Model
     public function investment()
     {
     	return $this->belongsTo(Investment::class);
+    }
+
+    public function getTimeAttribute()
+    {
+        if(Config::get('app.debug', false))
+        {
+            return floor($this->investment->time / 360);
+        }
+        else
+        {
+            return $this->investment->time;
+        }
     }
 
 
@@ -60,7 +73,7 @@ class PlayerInvestment extends Model
 
     public function getNextUpdateAttribute()
     {
-    	return $this->lastUpdate + $this->investment->time;
+    	return $this->lastUpdate + $this->time;
     }
 
     public function getMoneyAttribute()
@@ -70,18 +83,30 @@ class PlayerInvestment extends Model
     }
 
     private $_moneyUpdated = false;
-    public function updateMoney()
+    public function updateMoney($save = true)
     {
     	if(!$this->_moneyUpdated)
     	{
     		$now = time();
 
-    		$interval = max($now - $this->lastUpdate, 0);
-    		$ticks = floor($interval / $this->investment->time);
-    		$this->lastUpdate += $this->investment->time * $ticks;
-    		$this->attributes['money'] = min($this->attributes['money'] + $ticks * $this->income, $this->capacity);
-    		$this->_moneyUpdated = true;
-    		$this->save();
+            if($this->bought)
+            {
+                $interval = max($now - $this->lastUpdate, 0);
+                $ticks = floor($interval / $this->time);
+                $this->lastUpdate += $this->time * $ticks;
+                $this->attributes['money'] = min($this->attributes['money'] + $ticks * $this->income, $this->capacity);
+                $this->_moneyUpdated = true;
+            }
+            else
+            {
+                $this->lastUpdate = $now;
+            }
+
+            if($save)
+            {
+                return $this->save();
+            }
     	}
+        return true;
     }
 }

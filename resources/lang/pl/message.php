@@ -38,7 +38,7 @@ return [
 	'plantHarvested' => 'Zebrałeś :count sztuk :name',
 
 
-	'workStarted' => 'Rozpocząłeś pracę :name',
+	'workStarted' => 'Rozpocząłeś pracę: :name',
 	'dealingStarted' => 'Rozpocząłeś dealowanie',
 
 

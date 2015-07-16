@@ -16,4 +16,21 @@ class PlayerEquipment extends Model
     {
     	return $this->belongsTo(Player::class);
     }
+
+
+
+    public function weapon()
+    {
+    	return $this->weapons()->where('count', '>', 0)->first();
+    }
+
+    public function armor()
+    {
+    	return $this->armors()->where('count', '>', 0)->first();
+    }
+
+    public function vehicle()
+    {
+    	return $this->vehicles()->where('count', '>', 0)->first();
+    }
 }

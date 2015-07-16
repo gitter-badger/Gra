@@ -42,6 +42,12 @@ return [
 		'content' => 'Sprzedając towar na ulicy poszeżasz swoje znajomości przez co masz dostęp do klientów z większymi potrzebami',
 	],
 
+	'smuggler-levelup' => [
+
+		'title' => 'Awansowałeś na poziom :level przemytnika',
+		'content' => 'Twoje umiejętności rosną i czujesz się pewniej prowadząc pojazd',
+	],
+
 	'market-bought' => [
 
 		'title' => 'Ktoś kupił :item (:count)',
@@ -64,5 +70,12 @@ return [
 
 		'title' => 'Zostałeś aresztowany',
 		'content' => ':text',
+	],
+
+
+	'_kup_se_rower' => [
+
+		'title' => 'Kup se ten rower',
+		'description' => ';)',
 	],
 ];

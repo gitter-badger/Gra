@@ -2,7 +2,7 @@
 
 return [
 
-	'name' => 'Nazwa',
+	'name' => 'Imię',
 	'statistics' => 'Statystyki',
 	'items' => 'Przedmioty',
 	'empty' => 'Brak przedmiotów',

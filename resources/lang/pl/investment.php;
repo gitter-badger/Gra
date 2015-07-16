@@ -7,5 +7,6 @@ return [
 	'incomeBonus'   => 'Bonus do przychodów',
 	'capacityBonus' => 'Bonus do pojemności',
 	'upgradeCost'   => 'Koszt ulepszenia',
+	'price'         => 'Cena',
 
 ];

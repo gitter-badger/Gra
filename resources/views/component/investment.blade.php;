@@ -1,5 +1,7 @@
 <div class="well">
 
+	@if($investment->bought)
+
 	<div class="row">
 		<div class="col-xs-6 col-xs-offset-3">
 
@@ -132,5 +134,42 @@
 
 		</div>
 	</div>
+
+	@else
+
+	<div class="row">
+
+		<div class="col-xs-6 col-xs-offset-3">
+
+			<div class="row">
+
+
+				<div class="col-xs-6 col-xs-offset-3">
+
+					<div class="panel panel-default">
+						<div class="panel-body text-center">
+
+							<p><strong>@lang('investment.price'):</strong> ${{ $price }}</p>
+
+							{!! BootForm::open()->post() !!}
+							{!! BootForm::token() !!}
+							{!! BootForm::hidden('action')->value('invest') !!}
+
+							{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+
+							{!! BootForm::close() !!}
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+	@endif
+
 
 </div>

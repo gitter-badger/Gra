@@ -88,9 +88,9 @@ class Plantation extends Component
 
 			if(Config::get('app.debug', false))
 			{
-				$duration /= 60;
-				$growth /= 3600;
-				$watering /= 3600;
+				$duration = max($duration / 60, 1);
+				$growth = max($growth / 3600, 1);
+				$watering = max($watering / 3600, 1);
 			}
 
 
@@ -152,6 +152,7 @@ class Plantation extends Component
 			$energy = Config::get('player.watering.energy');
 
 
+
 			if($this->player->energy < $energy)
 			{
 				$this->danger('notEnoughEnergy')
@@ -174,6 +175,11 @@ class Plantation extends Component
 				$slot->start += $dryFor;
 				$slot->end += $dryFor;
 				$slot->lastWatered = $now;
+
+				if(Config::get('app.debug', false))
+				{
+					$slot->watering *= 2;
+				}
 
 
 				$success = DB::transaction(function() use($slot)

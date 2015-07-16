@@ -77,5 +77,15 @@ class ComponentServiceProvider extends ServiceProvider
         {
             return new \HempEmpire\Components\Investment;
         });
+
+        $this->app->bind('component.gambling', function($app)
+        {
+            return new \HempEmpire\Components\Gambling;
+        });
+
+        $this->app->bind('component.bank', function($app)
+        {
+            return new \HempEmpire\Components\Bank;
+        });
     }
 }

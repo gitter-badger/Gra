@@ -109,6 +109,9 @@ class Travel extends Component
 			}
 			else
 			{
+				if(Config::get('app.debug', false))
+					$duration /= 60;
+
 				$this->player->money -= $cost;
                 $this->player->location()->associate($location);
                 $this->player->moveTo(null, false);

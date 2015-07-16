@@ -6,12 +6,17 @@ use DB;
 
 class Rent extends Component
 {
-	protected $index = -1;
+	protected $index = -100;
+	protected $timer;
+
 
 
 	private function getRentTimer()
 	{
-		return $this->getPlace()->timers()->whereName('rent')->first();
+		if(empty($this->timer))
+			$this->timer = $this->getPlace()->timers()->whereName('rent')->first();
+
+		return $this->timer;
 	}
 
 	private function getRentCost()

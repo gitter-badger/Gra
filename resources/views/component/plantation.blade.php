@@ -137,7 +137,7 @@
 
 				@else
 				
-					<h4 class="text-center">@lang('plantation.noSeeds')</h4>
+					<h4 class="text-center">@lang('plantation.empty')</h4>
 				@endif
 			</div>
 		</div>

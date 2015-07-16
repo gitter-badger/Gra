@@ -52,7 +52,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-
+        echo __METHOD__ . PHP_EOL;
         DB::transaction(function() use(&$haveStuff)
         {
             $haveStuff = $this->player->getStuffsCount();
@@ -102,6 +102,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 if($sell <= 0)
                     break;
             }
+            $this->player->experience += ceil($totalSell / 10);
 
 
             $now = time();
@@ -136,6 +137,10 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 $this->player->nextUpdate = min($this->player->nextUpdate, $now + $interval);
 
                 $this->dispatch($job);
+            }
+            elseif($haveStuff == 0)
+            {
+                $this->player->reload = false;
             }
 
             $success = DB::transaction(function() use($array, $totalSell, $totalPrice)

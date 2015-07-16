@@ -43,12 +43,17 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        echo __METHOD__ . PHP_EOL;
         $success = DB::transaction(function()
         {
             if($this->player->jobName == 'traveling')
             {
-                $this->player->smugglerExperience += $this->player->getStuffsCount();
+                $count = $this->player->getStuffsCount();
+
+                $this->player->experience += ceil($count / 10);
+                $this->player->smugglerExperience += $count;
                 $this->player->wanted--;
+                $this->player->wantedUpdate = time();
 
 
                 return $this->player->save();

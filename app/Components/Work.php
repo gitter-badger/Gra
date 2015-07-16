@@ -24,8 +24,8 @@ class Work extends Component
 		$perGroup = $this->getProperty('perGroup');
 
 
-		if(Config::get('app.debug', false))
-			$workReset = 600;
+		if(Config::get('app.debug', false) && !is_null($workReset))
+			$workReset /= 60;
 
 
 		$groups = explode_trim(',', $this->getProperty('groups'));
@@ -41,7 +41,13 @@ class Work extends Component
 				'location_place_id' => $this->getPlaceId(),
 			]);
 
-			if(is_null($this->lastUpdate))
+			
+
+			if(is_null($workReset))
+			{
+				$this->lastUpdate = null;
+			}
+			elseif(is_null($this->lastUpdate))
 			{
 				$this->lastUpdate = $currentGroup->lastUpdated;
 			}
@@ -50,16 +56,12 @@ class Work extends Component
 				$this->lastUpdate = min($currentGroup->lastUpdated, $this->lastUpdate);
 			}
 
-
-
-			if(is_null($currentGroup->lastUpdated) || (time() - $currentGroup->lastUpdated) >= $workReset)
+			if((!is_null($workReset) || is_null($currentGroup->lastUpdated)) && (time() - $currentGroup->lastUpdated) >= $workReset)
 			{
-
 				$currentGroup->lastUpdated = time();
 
 				$currentGroup->works()->update(['active' => false]);
 				$currentGroup->save();
-
 
 				$works = $group->works->all();
 
@@ -97,10 +99,9 @@ class Work extends Component
 				$this->works[$work->id] = $work;
 		}
 
-		if(!is_null($this->lastUpdate))
-			$this->lastUpdate = time();
+		if(!is_null($this->lastUpdate) && !is_null($workReset))
+			$this->nextUpdate = $this->lastUpdate + $workReset;
 
-		$this->nextUpdate = $this->lastUpdate + $workReset;
 	}
 
 
@@ -190,7 +191,7 @@ class Work extends Component
 					$this->dispatch($job);
 
 					$this->success('workStarted')
-						->with('name', lcfirst($work->work->getTitle()));
+						->with('name', $work->work->getTitle());
 				}
 				else
 				{

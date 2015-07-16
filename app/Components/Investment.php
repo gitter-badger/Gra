@@ -15,6 +15,7 @@ class Investment extends Component
 	public function init()
 	{
 		$name = $this->getProperty('name');
+		$price = $this->getProperty('price');
 		$investment = InvestmentModel::whereName($name)->firstOrFail();
 
 
@@ -29,17 +30,31 @@ class Investment extends Component
 
 		if(!$this->investment->exists)
 		{
+			$this->investment->bought = is_null($price);
 			$this->investment->money = 0;
 			$this->investment->incomeLevel = 1;
 			$this->investment->capacityLevel = 1;
 			$this->investment->lastUpdate = time();
+		}
+
+		$this->investment->updateMoney();
+
+
+		if($this->investment->bought)
+		{
+			$this->index = -10;
+		}
+		else
+		{
+			$this->index = 10;
 		}
 	}
 
 	public function view()
 	{
 		return view('component.investment')
-			->with('investment', $this->investment);
+			->with('investment', $this->investment)
+			->with('price', $this->getProperty('price'));
 	}
 
 	public function actionCollect()
@@ -142,6 +157,41 @@ class Investment extends Component
 				}
 			}
 		}
+	}
 
+	public function actionInvest()
+	{
+		$price = $this->getProperty('price');
+
+		if(is_null($price) || $this->investment->bought)
+		{
+			$this->danger('investmentAlreadyBought');
+		}
+		elseif($this->player->money < $price)
+		{
+			$this->danger('notEnoughtMoney')
+				->with('value', $price);
+		}
+		else
+		{
+			$this->player->money -= $price;
+			$this->investment->bought = true;
+			$this->investment->lastUpdate = time();
+
+
+			$success = DB::transaction(function()
+			{
+				return $this->player->save() && $this->investment->save();
+			});
+
+			if($success)
+			{
+				$this->success('investmentBought');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
 	}
 }

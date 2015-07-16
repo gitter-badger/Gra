@@ -45,6 +45,7 @@ class SendVerification extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        echo __METHOD__ . PHP_EOL;
         $data = [
 
             'email' => $this->user->email,
