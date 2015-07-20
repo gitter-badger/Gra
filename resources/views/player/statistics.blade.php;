@@ -8,6 +8,7 @@
 	{!! BootForm::openHorizontal(['xs' => [4, 8]])->post()->action(route('player.statistics')) !!}
 
 
+	{!! BootForm::staticInput(null)->value('<img class="img-responsive center-block" src="' . $player->avatar . '"/>') !!}
 	{!! BootForm::staticInput('<strong>' . trans('player.name') . '</strong>')->value($player->name) !!}
 
 	<hr/>

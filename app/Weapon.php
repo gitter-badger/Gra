@@ -102,12 +102,14 @@ class Weapon extends Model implements WeaponContract
 		return DB::transaction(function() use($player)
 		{
 
-			$item = $player->equipment->weapons()->first();
+			$item = $player->equipment->weapon();
+
 
 			if(isset($item))
 			{
-				if(!$player->equipment->takeItem($item, 1) ||
-					!$player->giveItem($item, 1))
+
+				if(!($player->equipment->takeItem($item, 1) &&
+					$player->giveItem($item, 1)))
 				{
 					return false;
 				}

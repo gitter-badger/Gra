@@ -21,6 +21,7 @@ class CreatePlayersTable extends Migration
             $table->integer('location_place_id')->unsigned()->nullable();
 
             $table->string('name');
+            $table->string('avatar');
 
             $table->integer('level')->unsigned();
             $table->integer('experience')->unsigned();

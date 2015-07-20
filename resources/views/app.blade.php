@@ -258,6 +258,7 @@
 
 				<div class="navbar-right">
 					<p class="navbar-text">
+						<img src="{{ $player->avatar }}" class="avatar-small"/>
 						<strong title="@lang('player.name')">{{ $player->name }} </strong> 
 						<span class="badge level" title="@lang('statistic.level')">{{ $player->level }}</span>
 						<span class="badge plantator-level" title="@lang('statistic.plantatorLevel')">{{ $player->plantatorLevel }}</span>

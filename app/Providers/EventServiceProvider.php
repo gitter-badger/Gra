@@ -15,6 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'HempEmpire\Events\PlaceLeave' => [
             'HempEmpire\Listeners\Search',
+            'HempEmpire\Listeners\Beat',
         ],
     ];
 

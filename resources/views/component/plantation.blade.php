@@ -37,7 +37,9 @@
 					<?php $after = entity('timer')
 						->min($slot->start)
 						->max($slot->end)
-						->stop($slot->nextWatering); ?>
+						->stop($slot->nextWatering)
+						->ca('#337AB7')
+						->cb('#5CB85C'); ?>
 
 				@endif
 

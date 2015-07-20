@@ -72,10 +72,15 @@ return [
 		'content' => ':text',
 	],
 
+	'battle-win' => [
 
-	'_kup_se_rower' => [
+		'title' => 'Wygrałeś walkę',
+		'content' => ':log <canvas id="battleView" width="600px" height="450px"></canvas>',
+	],
 
-		'title' => 'Kup se ten rower',
-		'description' => ';)',
+	'battle-lose' => [
+
+		'title' => 'Przegrałeś walkę',
+		'content' => ':log <canvas id="battleView" width="600px" height="450px"></canvas>',
 	],
 ];

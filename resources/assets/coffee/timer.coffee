@@ -14,6 +14,8 @@ update = (timer) ->
 	min = $(bar).data 'min'
 	max = $(bar).data 'max'
 	stop = $(bar).data 'stop'
+	ca = $(bar).data('ca')
+	cb = $(bar).data('cb')
 
 
 
@@ -33,6 +35,7 @@ update = (timer) ->
 
 
 	$(bar).css 'width', (percent * 100) + '%'
+	$(bar).css('background-color', Math.lerpColors(percent, ca, cb)) if ca? and cb?
 	$(label).text window.timeFormat? max - now
 
 	refresh() if time > max and reload

@@ -1,4 +1,383 @@
 (function() {
+  var clicked;
+
+  clicked = function() {
+    $('.avatar').removeClass('active');
+    $('#avatar').val($(this).data('avatar'));
+    return $(this).addClass('active');
+  };
+
+  $(function() {
+    return $('.avatar').click(clicked).first().trigger('click');
+  });
+
+}).call(this);
+
+(function() {
+  var Battle, Character, battle, requestFrame;
+
+  Character = (function() {
+    function Character(team, data) {
+      var image;
+      image = new Image();
+      image.src = data.avatar;
+      image.onload = (function(_this) {
+        return function() {
+          return _this.avatar = image;
+        };
+      })(this);
+      this.team = team;
+      this.name = data.name;
+      this.id = data.id;
+      this.level = data.level;
+      this.health = data.health;
+      this.maxHealth = data.maxHealth;
+      this.strength = data.strength;
+      this.perception = data.perception;
+      this.endurance = data.endurance;
+      this.charisma = data.charisma;
+      this.intelligence = data.intelligence;
+      this.agility = data.agility;
+      this.luck = data.luck;
+    }
+
+    Character.prototype.draw = function(context, size) {
+      var measure, text;
+      if (this.team === 'red') {
+        context.strokeStyle = 'rgba(217, 83, 79, 1)';
+        context.fillStyle = 'rgba(217, 83, 79, 0.4)';
+      } else {
+        context.strokeStyle = 'rgba(51, 122, 183, 1)';
+        context.fillStyle = 'rgba(51, 122, 183, 0.4)';
+      }
+      context.fillRect(0, 0, size, size);
+      context.strokeRect(0, 0, size, size);
+      if (this.avatar != null) {
+        context.drawImage(this.avatar, 0, 20, size, size - 20);
+      }
+      text = this.name + ' (' + this.level + ')';
+      context.fillStyle = '#000000';
+      measure = context.measureText(text);
+      context.fillText(text, (size - measure.width) / 2, 20);
+      context.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+      context.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      context.fillRect(5, size - 25, size - 10, 20);
+      context.strokeRect(5, size - 25, size - 10, 20);
+      context.fillStyle = 'rgba(217, 83, 79, 1)';
+      context.fillRect(5, size - 25, (size - 10) * (this.health / this.maxHealth), 20);
+      text = Math.round(this.health) + ' / ' + this.maxHealth;
+      measure = context.measureText(text);
+      context.fillStyle = '#000000';
+      return context.fillText(text, (size - measure.width) / 2, size - 13);
+    };
+
+    return Character;
+
+  })();
+
+  Battle = (function() {
+    function Battle() {}
+
+    Battle.prototype.speed = {
+      view: 0.05,
+      info: 0.05,
+      next: 0.05
+    };
+
+    Battle.prototype.construct = function() {};
+
+    Battle.prototype.load = function() {
+      var character, data, j, k, len, len1, ref, ref1;
+      if (typeof battleLog !== "undefined" && battleLog !== null) {
+        this.canvas = $('#battleView')[0];
+        this.context = this.canvas.getContext('2d');
+        this.index = 0;
+        this.characters = [];
+        this.state = 'view';
+        this.offset = 0;
+        this.pause = false;
+        $(this.canvas).click((function(_this) {
+          return function(event) {
+            return _this.click(event);
+          };
+        })(this));
+        $(document).keydown((function(_this) {
+          return function(event) {
+            return _this.key(event);
+          };
+        })(this));
+        ref = battleLog['teams']['red'];
+        for (j = 0, len = ref.length; j < len; j++) {
+          data = ref[j];
+          character = new Character('red', data);
+          this.characters[character.id] = character;
+        }
+        ref1 = battleLog['teams']['blue'];
+        for (k = 0, len1 = ref1.length; k < len1; k++) {
+          data = ref1[k];
+          character = new Character('blue', data);
+          this.characters[character.id] = character;
+        }
+        this.action = battleLog['log'][this.index];
+        this.attacker = this.characters[this.action.attacker];
+        this.defender = this.characters[this.action.defender];
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    Battle.prototype.drawCharacters = function(attacker, defender) {
+      var halfWidth, size;
+      size = this.canvas.height * 0.6;
+      halfWidth = this.canvas.width / 2;
+      this.context.save();
+      this.context.translate((halfWidth - size) / 2, (this.canvas.height - size) / 2);
+      attacker.draw(this.context, size);
+      this.context.restore();
+      this.context.save();
+      this.context.translate((halfWidth - size) / 2 + halfWidth, (this.canvas.height - size) / 2);
+      defender.draw(this.context, size);
+      return this.context.restore();
+    };
+
+    Battle.prototype.drawInfo = function(text) {
+      var blockSize, halfHeight, halfWidth, measure, starH, starPikes, starRadius, starW, starWidth, starX, starY, textX, textY;
+      halfWidth = this.canvas.width / 2;
+      halfHeight = this.canvas.height / 2;
+      blockSize = this.canvas.height * 0.6;
+      starRadius = 50;
+      starWidth = starRadius * 2;
+      starX = halfWidth + (blockSize + starRadius) / 2;
+      starY = halfHeight;
+      starW = (blockSize * 0.7) / starWidth;
+      starH = 1.2;
+      starPikes = 13;
+      measure = this.context.measureText(text);
+      textX = starX - measure.width / 2;
+      textY = halfHeight;
+      this.context.save();
+      this.context.lineWidth = 2;
+      this.context.translate(starX, starY);
+      this.context.scale(starW, starH);
+      this.context.fillStyle = '#FFFFFF';
+      this.context.strokeStyle = '#000000';
+      this.drawStar(starPikes, starRadius * 0.6, starRadius);
+      this.context.restore();
+      this.context.save();
+      this.context.translate(textX, textY);
+      this.context.fillStyle = '#000000';
+      this.context.fillText(text, 0, 0);
+      return this.context.restore();
+    };
+
+    Battle.prototype.drawStar = function(pikes, innerRadius, outerRadius) {
+      var i, j, ref, rot, step, x, y;
+      rot = Math.PI / 2 * 3;
+      step = Math.PI / pikes;
+      this.context.beginPath();
+      x = Math.cos(rot) * outerRadius;
+      y = Math.sin(rot) * outerRadius;
+      this.context.moveTo(x, y);
+      rot += step;
+      for (i = j = 1, ref = pikes; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+        x = Math.cos(rot) * innerRadius;
+        y = Math.sin(rot) * innerRadius;
+        this.context.lineTo(x, y);
+        rot += step;
+        x = Math.cos(rot) * outerRadius;
+        y = Math.sin(rot) * outerRadius;
+        this.context.lineTo(x, y);
+        rot += step;
+      }
+      this.context.lineTo(0, -outerRadius);
+      this.context.fill();
+      this.context.stroke();
+      return this.context.closePath();
+    };
+
+    Battle.prototype.draw = function() {
+      var action, animate, at, attacker, defender, height, i, j, len, mark, measure, nextAction, nextAttacker, nextDefender, position, prevAction, prevAttacker, prevDefender, ref, text, width;
+      this.context.fillStyle = '#FFFFFF';
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.offset += this.speed[this.state];
+      animate = true;
+      if (this.state === 'view' && animate) {
+        action = battleLog['log'][this.index];
+        attacker = this.characters[action.attacker];
+        defender = this.characters[action.defender];
+        if (action.type === 'hit') {
+          defender.health = action.health;
+        }
+        this.drawCharacters(attacker, defender);
+        if (this.offset > 1.0 && !this.pause) {
+          this.offset = 0.0;
+          defender.startHealth = defender.health;
+          if (action.type === 'hit') {
+            defender.endHealth = Math.max(defender.health - action.damage, 0);
+          } else {
+            defender.endHealth = defender.health;
+          }
+          this.state = 'info';
+        }
+        animate = false;
+      }
+      if (this.state === 'info' && animate) {
+        action = battleLog['log'][this.index];
+        attacker = this.characters[action.attacker];
+        defender = this.characters[action.defender];
+        this.drawCharacters(attacker, defender);
+        if (this.offset <= 1.0) {
+          this.context.globalAlpha = this.offset;
+          defender.health = defender.startHealth;
+        } else {
+          if (this.offset <= 2.0) {
+            this.context.globalAlpha = 1.0;
+            i = Math.clamp(this.offset - 1.0, 0, 1);
+            defender.health = Math.lerp(i, defender.endHealth, defender.startHealth);
+          } else {
+            defender.health = defender.endHealth;
+            this.context.globalAlpha = Math.max(3.0 - this.offset, 0);
+          }
+        }
+        if (this.offset > 4.0) {
+          this.offset = 0.0;
+          this.state = 'next';
+        }
+        if (action.type === 'hit') {
+          text = action.damage;
+          if (action.crit) {
+            text += '!';
+          }
+        } else {
+          text = 'dodge';
+        }
+        this.drawInfo(text);
+        this.context.globalAlpha = 1.0;
+        animate = false;
+      }
+      if (this.state === 'next' && animate) {
+        prevAction = battleLog['log'][this.index];
+        nextAction = battleLog['log'][this.index + 1];
+        prevAttacker = this.characters[prevAction.attacker];
+        prevDefender = this.characters[prevAction.defender];
+        position = (this.canvas.height / 2) * this.offset;
+        this.context.save();
+        this.context.translate(0, -position);
+        this.drawCharacters(prevAttacker, prevDefender);
+        this.context.restore();
+        this.context.save();
+        this.context.translate(0, this.canvas.height - position);
+        if (nextAction != null) {
+          nextAttacker = this.characters[nextAction.attacker];
+          nextDefender = this.characters[nextAction.defender];
+          if (nextAction.type === 'hit') {
+            nextDefender.health = nextAction.health;
+          }
+          this.drawCharacters(nextAttacker, nextDefender);
+        } else {
+          text = 'End';
+          this.context.fillStyle = '#000000';
+          measure = this.context.measureText(text);
+          this.context.fillText(text, (this.canvas.width - measure.width) / 2, (this.canvas.height - 15) / 2);
+        }
+        this.context.restore();
+        if (this.offset > 2.0) {
+          this.index++;
+          this.offset = 0.0;
+          if (nextAction != null) {
+            this.state = 'view';
+          } else {
+            this.state = 'end';
+          }
+        }
+        animate = false;
+      }
+      if (this.state === 'end' && animate) {
+        text = 'End';
+        this.offset = 0.0;
+        this.context.fillStyle = '#000000';
+        measure = this.context.measureText(text);
+        this.context.fillText(text, (this.canvas.width - measure.width) / 2, (this.canvas.height - 15) / 2);
+        animate = false;
+      }
+      width = this.canvas.width - 4;
+      height = this.canvas.height - 2;
+      this.context.save();
+      this.context.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+      this.context.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      this.context.fillRect(2, height - 20, width, 20);
+      this.context.strokeRect(2, height - 20, width, 20);
+      this.context.fillStyle = '#5BC0DE';
+      this.context.fillRect(2, height - 20, width * (this.index / (battleLog['log'].length - 1)), 20);
+      this.context.lineWidth = 5;
+      ref = battleLog['marks'];
+      for (j = 0, len = ref.length; j < len; j++) {
+        mark = ref[j];
+        if (mark.type === 'fainted') {
+          this.context.strokeStyle = '#D9534F';
+        }
+        at = (mark.at / (battleLog['log'].length - 1)) * width;
+        this.context.beginPath();
+        this.context.moveTo(at - this.context.lineWidth / 2, height - 20);
+        this.context.lineTo(at - this.context.lineWidth / 2, height);
+        this.context.stroke();
+      }
+      return this.context.restore();
+    };
+
+    Battle.prototype.click = function(event) {
+      var b, coords, l, r, t, x, y;
+      coords = this.canvas.relMouseCoords(event);
+      x = coords.x;
+      y = coords.y;
+      l = 2;
+      r = l + this.canvas.width - 4;
+      b = this.canvas.height - 2;
+      t = b - 20;
+      if (x >= l && x <= r && y >= t && y <= b) {
+        this.index = Math.round((x - l) / (r - l) * (battleLog['log'].length - 1));
+        this.state = 'view';
+        return this.offset = 0.0;
+      }
+    };
+
+    Battle.prototype.key = function(event) {
+      if (event.which === 32) {
+        this.pause = !this.pause;
+      }
+      if (event.which === 37) {
+        this.index = Math.max(this.index - 1, 0);
+        this.offset = 1.0;
+        this.state = 'view';
+      }
+      if (event.which === 39) {
+        this.index = Math.min(this.index + 1, battleLog['log'].length - 1);
+        this.offset = 1.0;
+        return this.state = 'view';
+      }
+    };
+
+    return Battle;
+
+  })();
+
+  battle = new Battle;
+
+  requestFrame = function() {
+    battle.draw();
+    return window.requestAnimationFrame(requestFrame);
+  };
+
+  $(function() {
+    if (battle.load()) {
+      return requestFrame();
+    }
+  });
+
+}).call(this);
+
+(function() {
   var equalize, getColumns, getPrefix, getSize, widths;
 
   widths = {
@@ -315,7 +694,7 @@
   loaded = function(data) {
     fill(data);
     if (data.reload) {
-      window.reload();
+      window.location.refresh();
     }
     return setTimeout(load, data.nextUpdate * 1000);
   };
@@ -340,13 +719,19 @@
       method: 'GET',
       success: loaded
     });
-    return $.ajax({
-      url: url + '/notifications',
-      dataType: 'json',
-      mathod: 'GET',
-      success: notify
-    });
+    if (window.active) {
+      return $.ajax({
+        url: url + '/notifications',
+        dataType: 'json',
+        mathod: 'GET',
+        success: notify
+      });
+    }
   };
+
+  $(window).focus(function() {
+    return load();
+  });
 
   $(function() {
     return load();
@@ -421,13 +806,15 @@
   };
 
   update = function(timer) {
-    var bar, label, max, min, now, percent, ref, ref1, reload, reversed, stop, time;
+    var bar, ca, cb, label, max, min, now, percent, ref, ref1, reload, reversed, stop, time;
     bar = $(timer).children('.progress-bar').last();
     label = $(timer).children('.progress-label');
     time = Math.round((new Date).getTime() / 1000.0);
     min = $(bar).data('min');
     max = $(bar).data('max');
     stop = $(bar).data('stop');
+    ca = $(bar).data('ca');
+    cb = $(bar).data('cb');
     reversed = Boolean((ref = $(bar).data('reversed')) != null ? ref : false);
     reload = Boolean((ref1 = $(bar).data('reload')) != null ? ref1 : true);
     if (stop != null) {
@@ -439,6 +826,9 @@
       percent = 1 - percent;
     }
     $(bar).css('width', (percent * 100) + '%');
+    if ((ca != null) && (cb != null)) {
+      $(bar).css('background-color', Math.lerpColors(percent, ca, cb));
+    }
     $(label).text(typeof window.timeFormat === "function" ? window.timeFormat(max - now) : void 0);
     if (time > max && reload) {
       refresh();
@@ -467,7 +857,7 @@
 }).call(this);
 
 (function() {
-  var base, clone, notifications, showNotify, timeFormat, timeSeparate, updateProgress;
+  var base, clone, notifications, relMouseCoords, showNotify, timeFormat, timeSeparate, updateProgress;
 
   window.format || (window.format = {
     time: {
@@ -596,12 +986,47 @@
     return Math.max(Math.min(value, max), min);
   });
 
+  Math.lerp || (Math.lerp = function(i, a, b) {
+    return (a * i) + (b * (1 - i));
+  });
+
+  Math.hexToRgb || (Math.hexToRgb = function(hex) {
+    var result;
+    result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (result) {
+      return {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      };
+    }
+    return null;
+  });
+
+  Math.rgbToHex || (Math.rgbToHex = function(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  });
+
+  Math.lerpColors || (Math.lerpColors = function(i, a, b) {
+    var ca, cb, cc;
+    ca = Math.hexToRgb(a);
+    cb = Math.hexToRgb(b);
+    cc = {
+      r: Math.round(Math.lerp(i, ca.r, cb.r)),
+      g: Math.round(Math.lerp(i, ca.g, cb.g)),
+      b: Math.round(Math.lerp(i, ca.b, cb.b))
+    };
+    return Math.rgbToHex(cc.r, cc.g, cc.b);
+  });
+
   updateProgress = function() {
-    var bar, label, max, min, now, percent, ref, reversed;
+    var bar, ca, cb, label, max, min, now, percent, ref, reversed;
     bar = $(this).children('.progress-bar');
     label = $(this).children('.progress-label');
     min = $(bar).data('min');
     max = $(bar).data('max');
+    ca = $(bar).data('ca');
+    cb = $(bar).data('cb');
     now = Math.clamp($(bar).data('now'), min, max);
     reversed = Boolean((ref = $(bar).data('reversed')) != null ? ref : false);
     percent = (now - min) / (max - min) * 100;
@@ -609,6 +1034,9 @@
       percent = 100 - percent;
     }
     $(bar).css('width', percent + '%');
+    if ((ca != null) && (cb != null)) {
+      $(bar).css('background-color', Math.lerpColors(percent / 100, ca, cb));
+    }
     return $(label).text(now + ' / ' + max);
   };
 
@@ -617,6 +1045,27 @@
       return this.update || (this.update = updateProgress);
     });
   });
+
+  relMouseCoords = function (event){
+    var totalOffsetX = 0;
+    var totalOffsetY = 0;
+    var canvasX = 0;
+    var canvasY = 0;
+    var currentElement = this;
+
+    do{
+        totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+        totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+    }
+    while(currentElement = currentElement.offsetParent)
+
+    canvasX = event.pageX - totalOffsetX;
+    canvasY = event.pageY - totalOffsetY;
+
+    return {x:canvasX, y:canvasY}
+};
+
+  HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
 
 }).call(this);
 

@@ -14,7 +14,9 @@ class Dealing extends Component
 		return view('component.dealing')
 			->with('energy', $this->getProperty('energy'))
 			->with('minDuration', $this->getProperty('durationMin'))
-			->with('maxDuration', $this->getProperty('durationMax'));
+			->with('maxDuration', $this->getProperty('durationMax'))
+			->with('minPrice', $this->getProperty('minPrice'))
+			->with('maxPrice', $this->getProperty('maxPrice'));
 	}
 
 
@@ -22,13 +24,19 @@ class Dealing extends Component
 	public function actionDeal()
 	{
 		$duration = Request::input('duration');
+		$price = round(Request::input('price'));
 		$energy = $duration * $this->getProperty('energy');
-
+		$minPrice = $this->getProperty('minPrice');
+		$maxPrice = $this->getProperty('maxPrice');
 
 		if($duration < $this->getProperty('durationMin') ||
 			$duration > $this->getProperty('durationMax'))
 		{
 			$this->danger('wrongDuration');
+		}
+		elseif($price < $minPrice || $price > $maxPrice)
+		{
+			$this->danger('wrongPrice');
 		}
 		elseif($this->player->energy < $energy)
 		{
@@ -37,7 +45,7 @@ class Dealing extends Component
 		}
 		else
 		{
-			$duration *= 3600;
+			$duration *= 600;
 
 			if(Config::get('app.debug', false))
 			{
@@ -56,6 +64,8 @@ class Dealing extends Component
 				$minStuff = $this->getProperty('minStuff');
 				$maxStuff = $this->getProperty('maxStuff');
 				$burnChance = $this->getProperty('burnChance');
+				$beatChance = $this->getProperty('beatChance');
+				$beatChance = round($beatChance * (($price - $minPrice) / ($maxPrice - $minPrice) + 1) * 2);
 
 				if(Config::get('app.debug', false))
 				{
@@ -63,7 +73,7 @@ class Dealing extends Component
 					$maxInterval /= 60;
 				}
 
-				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff, $burnChance);
+				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $burnChance, $beatChance);
 
 				$this->dispatch($deal);
 

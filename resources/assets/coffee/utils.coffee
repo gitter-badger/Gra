@@ -123,9 +123,37 @@ Math.clamp or= (value, min, max) ->
 	Math.max(Math.min(value, max), min)
 
 
+Math.lerp or= (i, a, b) ->
+	(a * i) + (b * (1 - i))
 
 
 
+Math.hexToRgb or= (hex) -> 
+    result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+
+    } if result;
+    null;
+
+Math.rgbToHex or= (r, g, b) ->
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+
+
+Math.lerpColors or= (i, a, b) ->
+
+	ca = Math.hexToRgb a
+	cb = Math.hexToRgb b
+
+	cc = {
+		r: Math.round(Math.lerp(i, ca.r, cb.r)),
+		g: Math.round(Math.lerp(i, ca.g, cb.g)),
+		b: Math.round(Math.lerp(i, ca.b, cb.b)),
+	}
+
+	return Math.rgbToHex(cc.r, cc.g, cc.b)
 
 
 
@@ -137,6 +165,8 @@ updateProgress = ->
 
 	min = $(bar).data('min')
 	max = $(bar).data('max')
+	ca = $(bar).data('ca')
+	cb = $(bar).data('cb')
 	now = Math.clamp($(bar).data('now'), min, max)
 	reversed = Boolean($(bar).data('reversed') ? false)
 
@@ -144,9 +174,39 @@ updateProgress = ->
 	percent = 100 - percent if reversed
 
 
-	$(bar).css 'width', percent + '%'
+
+
+
+	$(bar).css('width', percent + '%')
+	$(bar).css('background-color', Math.lerpColors(percent / 100, ca, cb)) if ca? and cb?
+
+
+
 	$(label).text(now + ' / ' + max)
 
 $ -> 
 	$('.progress').each ->
 		this.update or= updateProgress
+
+
+
+relMouseCoords = `function (event){
+    var totalOffsetX = 0;
+    var totalOffsetY = 0;
+    var canvasX = 0;
+    var canvasY = 0;
+    var currentElement = this;
+
+    do{
+        totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+        totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+    }
+    while(currentElement = currentElement.offsetParent)
+
+    canvasX = event.pageX - totalOffsetX;
+    canvasY = event.pageY - totalOffsetY;
+
+    return {x:canvasX, y:canvasY}
+}`
+
+HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;

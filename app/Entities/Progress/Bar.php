@@ -35,6 +35,30 @@ class Bar extends Entity
 		return $this->getAttribute('data-now');
 	}
 
+	public function setCa($value)
+	{
+		$this->setAttribute('data-ca', $value);
+
+		return $this;
+	}
+
+	public function getCa()
+	{
+		return $this->getAttribute('data-ca');
+	}
+
+	public function setCb($value)
+	{
+		$this->setAttribute('data-cb', $value);
+
+		return $this;
+	}
+
+	public function getCb()
+	{
+		return $this->getAttribute('data-cb');
+	}
+
 	public function setMax($value)
 	{
 		$this->max = $value;

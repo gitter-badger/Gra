@@ -93,7 +93,7 @@ fill = (data) ->
 loaded = (data) ->
 
 	fill data
-	window.reload() if data.reload
+	window.location.refresh() if data.reload
 	setTimeout load, data.nextUpdate * 1000
 
 
@@ -110,6 +110,7 @@ notify = (data) ->
 
 
 load = ->
+
 	$.ajax {
 
 		url: url,
@@ -118,17 +119,19 @@ load = ->
 		success: loaded
 	}
 
-	$.ajax {
+	if window.active
+		$.ajax {
 
-		url: url + '/notifications',
-		dataType: 'json',
-		mathod: 'GET',
-		success: notify
-	}
+			url: url + '/notifications',
+			dataType: 'json',
+			mathod: 'GET',
+			success: notify
+		}
 
 
 	
-
+$(window).focus ->
+	load()
 
 
 $ ->

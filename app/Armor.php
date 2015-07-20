@@ -101,12 +101,14 @@ class Armor extends Model implements ArmorContract
 		return DB::transaction(function() use($player)
 		{
 
-			$item = $player->equipment->armors()->first();
+			$item = $player->equipment->armor();
+
 
 			if(isset($item))
 			{
-				if(!$player->equipment->takeItem($item, 1) ||
-					!$player->giveItem($item, 1))
+
+				if(!($player->equipment->takeItem($item, 1) &&
+					$player->giveItem($item, 1)))
 				{
 					return false;
 				}

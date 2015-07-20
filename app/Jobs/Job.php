@@ -5,8 +5,13 @@ namespace HempEmpire\Jobs;
 use Illuminate\Bus\Queueable;
 
 
+abstract class QueueableJob
+{
+    use Queueable;
+}
 
-abstract class Job
+
+abstract class Job extends QueueableJob
 {
     /*
     |--------------------------------------------------------------------------
@@ -19,5 +24,10 @@ abstract class Job
     |
     */
 
-    use Queueable;
+
+
+    public function delay($time)
+    {
+        return parent::delay($time - 1);
+    }
 }

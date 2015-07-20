@@ -359,7 +359,7 @@ class ItemController extends Controller
                 $output .= '\'weight\' => ' . $weapon->weight . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($weapon->properties) . ', ';
 
-                $output .= '\'damage\' => [' . $weapon->damageMin . ', ' . $weapon->damageMax .  '], ';
+                $output .= '\'damage\' => [' . ($weapon->damageMin * 2) . ', ' . ($weapon->damageMax * 3) .  '], ';
                 $output .= '\'critChance\' => ' . Formatter::number($weapon->critChance, 2) . ', ';
                 $output .= '\'speed\' => ' . Formatter::signed(Formatter::number($weapon->speed, 2)) . ', ';
                 $output .= '\'type\' => \'' . $weapon->type . '\'],' . PHP_EOL;

@@ -1,19 +1,29 @@
 <?php
+namespace HempEmpire;
+use TransText;
+use TextArray;
+
 
 class Battleground
 {
+	private $lastBattleId = 0;
 	private $red = [];
 	private $blue = [];
+	private $report = [];
 	private $queue;
 
 
 	public function joinRed($character)
 	{
+		$character->battleId = ++$this->lastBattleId;
+		$this->reportJoin($character, 'red');
 		$this->red[] = ['red', $character];
 	}
 
 	public function joinBlue($character)
 	{
+		$character->battleId = ++$this->lastBattleId;
+		$this->reportJoin($character, 'blue');
 		$this->blue[] = ['blue', $character];
 	}
 
@@ -90,6 +100,7 @@ class Battleground
 		$enemy = null;
 
 
+
 		if($team == 'red')
 		{
 			$enemy = $this->findBlue($character->level);
@@ -99,20 +110,30 @@ class Battleground
 			$enemy = $this->findRed($character->level);
 		}
 
-		if(!is_null($enemy))
+		if(!is_null($enemy) && $character->health > 0)
 		{
 			$damage = $character->rollDamage();
 			$defense = 0;
+			$crit = $character->rollCrit();
 
-			if(!$character->rollCrit())
-				$defense = $enemy->getDamage();
+			if(!$crit)
+				$defense = $enemy->getDefense();
 
 			$hit = $character->rollHit();
 			$dodge = $enemy->rollDodge();
 
+
 			if($hit >= $dodge)
 			{
+				$this->reportHit($character, $enemy, $damage, $defense, $crit);
 				$enemy->health -= max($damage - $defense, 1);
+
+				if($enemy->health <= 0)
+					$this->reportDie($enemy);
+			}
+			else
+			{
+				$this->reportMiss($character, $enemy);
 			}
 		}
 	}
@@ -160,6 +181,94 @@ class Battleground
 	}
 
 
+	protected function reportHit($attacker, $defender, $damage, $defense, $crit)
+	{
+		if(empty($this->report['log']))
+			$this->report['log'] = [];
 
+
+		$this->report['log'][] = [
+
+			'type' => 'hit',
+			'attacker' => $attacker->battleId,
+			'defender' => $defender->battleId,
+			'damage' => max($damage - $defense, 1),
+			'health' => $defender->health,
+			'crit' => $crit,
+		];
+	}
+
+	protected function reportMiss($attacker, $defender)
+	{
+		if(empty($this->report['log']))
+			$this->report['log'] = [];
+
+
+		$this->report['log'][] = [
+
+			'type' => 'miss',
+			'attacker' => $attacker->battleId,
+			'defender' => $defender->battleId,
+		];
+	}
+
+	protected function reportJoin($character, $team)
+	{
+		if(empty($this->report['teams']))
+			$this->report['teams'] = [];
+
+		if(empty($this->report['teams'][$team]))
+			$this->report['teams'][$team] = [];
+
+		$this->report['teams'][$team][] = [
+
+			'id' => $character->battleId,
+			'name' => $character->name,
+			'avatar' => $character->avatar,
+			'level' => $character->level,
+			'health' => $character->health,
+			'maxHealth' => $character->maxHealth,
+			'strength' => $character->strength,
+			'perception' => $character->perception,
+			'endurance' => $character->endurance,
+			'charisma' => $character->charisma,
+			'intelligence' => $character->intelligence,
+			'agility' => $character->agility,
+			'luck' => $character->luck,
+		];
+	}
+
+	protected function reportDie($character)
+	{
+		if(empty($this->report['marks']))
+			$this->report['marks'] = [];
+
+		$this->report['marks'][] = [
+
+			'type' => 'fainted',
+			'at' => count($this->report['log']) - 1,
+		];
+	}
+
+	public function report()
+	{
+		return '<script type="text/javascript">var battleLog = ' . json_encode($this->report) . ';</script>';
+	}
+
+	public function winner()
+	{
+		if($this->hasRed())
+		{
+			return 'red';
+		}
+		elseif($this->hasBlue())
+		{
+			return 'blue';
+		}
+		else
+		{
+			return null;
+		}
+	}
 
 }

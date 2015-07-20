@@ -49,6 +49,34 @@ class Progress extends Entity
 	}
 
 
+	public function setCa($value)
+	{
+		$this->bar->setCa($value);
+		$this->label->setCa($value);
+
+		return $this;
+	}
+
+	public function getCa()
+	{
+		return $this->bar->getCa();
+	}
+
+
+	public function setCb($value)
+	{
+		$this->bar->setCb($value);
+		$this->label->setCb($value);
+
+		return $this;
+	}
+
+	public function getCb()
+	{
+		return $this->bar->getCb();
+	}
+
+
 	public function setMax($value)
 	{
 		$this->bar->setMax($value);

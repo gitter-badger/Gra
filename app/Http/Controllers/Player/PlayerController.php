@@ -26,7 +26,8 @@ class PlayerController extends Controller
 	public function getCreate()
 	{
 		return view('player.create')
-			->with('points', Config::get('player.start.stats'));
+			->with('points', Config::get('player.start.stats'))
+			->with('avatars', Config::get('player.avatars'));
 	}
 
 	public function postCreate(Request $request)
@@ -66,6 +67,8 @@ class PlayerController extends Controller
 			$player->user_id = $user->id;
 			$player->world_id = $world->id;
 			$player->location_id = Location::getStartLocation()->id;
+
+			$player->avatar = asset('images/avatars/' . Config::get('player.avatars.' . $request->input('avatar'), '0.png'));
 
 
 			$player->name = $request->input('name');

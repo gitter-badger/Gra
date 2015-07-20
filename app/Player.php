@@ -20,7 +20,7 @@ class Player extends Model
 	use ItemContainer;
 	use DispatchesMessages;
 
-	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'name', 'level', 'experience',
+	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'name', 'avatar', 'level', 'experience',
 		'maxExperience',  'plantatorLevel', 'plantatorExperience', 'plantatorMaxExperience', 'smugglerLevel', 
 		'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 'dealerExperience', 'dealerMaxExperience', 
 		'health', 'maxHealth', 'healthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
@@ -41,7 +41,8 @@ class Player extends Model
 
 	public $timestamps = false;
 	private static $active;
-
+	public $battleId;
+	public $healthLock = false;
 
 
 
@@ -238,6 +239,33 @@ class Player extends Model
 				$player->startArrest($duration, false);
 				$player->reload = true;
 			}
+
+			if($player->attributes['health'] <= 0 && $player->jobName != 'healing-normal' && $player->jobName != 'healing-fast' && $player->jobEnd <= time())
+			{
+				$locations = Location::with('places')->get();
+				$distance = null;
+				$place = null;
+
+				foreach($locations as $l)
+				{
+					$d = $player->location->getDistanceTo($l);
+
+					if((is_null($distance) || $d < $distance))
+					{
+						$p = $l->findPlaceWithComponent('hospital');
+
+						if(!is_null($p))
+						{
+							$place = $p;
+							$distance = $d;
+						}
+					}
+				}
+
+				$duration = $place->getProperty('hospital.normalSpeed') * $player->maxHealth;
+				$player->startHealing($duration, false);
+				$player->reload = true;
+			}
 		});
 	}
 
@@ -359,17 +387,78 @@ class Player extends Model
 	}
 
 
+	public function getHealthUpdateTimeAttribute()
+	{
+		$time = null;
+
+		if($this->attributes['health'] < $this->maxHealth && !is_null($this->place))
+		{
+			if($this->jobName == 'healing-normal')
+			{
+				$time = $this->place->getProperty('hospital.normalSpeed');
+			}
+			elseif($this->jobName == 'healing-fast')
+			{
+				$time = $this->place->getProperty('hospital.fastSpeed');
+			}
+
+			if(!is_null($time) && Config::get('app.debug', false))
+				$time /= 60;
+		}
+
+		return $time;
+	}
 
 
 
 	public function getNextHealthUpdateAttribute()
 	{
-		return null;
+		$time = $this->healthUpdateTime;
+
+		if(is_null($time) || ($this->jobName != 'healing-normal' && $this->jobName == 'healing-fast') && $this->jobEnd >= time())
+		{
+			return null;
+		}
+		else
+		{
+			return $this->healthUpdate + $time;
+		}
 	}
 
-	protected function updateHealth()
+	private $_healthUpdated = false;
+	protected function updateHealth($save = true, $force = false)
 	{
+		if(!$this->_healthUpdated || $force)
+		{
+			$now = time();
+			$last = $this->healthUpdate;
+			$time = $this->healthUpdateTime;
 
+
+			if(!is_null($time) && !$this->healthLock)
+			{
+				$interval = max($now - $last, 0);
+				$updates = floor($interval / $time);
+
+
+				$this->_healthUpdated = true;
+				$this->attributes['health'] = min($this->attributes['health'] + $updates, $this->maxHealth);
+				$this->healthUpdate += $updates * $time;
+			}
+			else
+			{
+				$this->healthUpdate = time();
+			}
+
+			if($save)
+				$this->save();
+		}
+	}
+
+	public function getHealthAttribute($value)
+	{
+		$this->updateHealth();
+		return $this->attributes['health'];
 	}
 
 
@@ -442,7 +531,7 @@ class Player extends Model
 	public function getEnergyAttribute($value)
 	{
 		$this->updateEnergy();
-		return $value;
+		return $this->attributes['energy'];
 	}
 
 
@@ -894,6 +983,51 @@ class Player extends Model
 	}
 
 
+	public function moveToHospital($save = true)
+	{
+		$locations = Location::with('places')->get();
+		$distance = null;
+		$place = null;
+		$location = null;
+
+		foreach($locations as $l)
+		{
+			$d = $this->location->getDistanceTo($l);
+
+			if((is_null($distance) || $d < $distance))
+			{
+				$p = $l->findPlaceWithComponent('hospital');
+
+				if(!is_null($p))
+				{
+					$place = $p;
+					$distance = $d;
+					$location = $l;
+				}
+			}
+		}
+
+		if(!is_null($location) && !is_null($place))
+		{
+			$this->location_id = $location->id;
+			$this->location_place_id = $place->id;
+
+			if($save)
+			{
+				return $this->save();
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 
 
 
@@ -1040,6 +1174,26 @@ class Player extends Model
 		}
 	}
 
+	public function startHealing($duration, $save = true, $type = 'normal')
+	{
+		if(Config::get('app.debug', false))
+			$duration /= 60;
+
+		$this->startJob('healing-' . $type, $duration);
+		$this->healthUpdate = time();
+		$this->moveToHospital(false);
+	
+
+		if($save)
+		{
+			return $this->save();
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 
 
 
@@ -1105,7 +1259,7 @@ class Player extends Model
 		if(!is_null($armor))
 			$defense = $armor->getArmor();
 
-		return $this->endurance + $defense;
+		return floor($this->endurance / 5) + $defense;
 	}
 
 	public function getSpeed()
@@ -1141,12 +1295,12 @@ class Player extends Model
 
 	public function rollHit()
 	{
-		return $this->roll(0, $this->perception);
+		return mt_rand(0, $this->perception);
 	}
 
 	public function rollDodge()
 	{
-		return $this->roll(0, $this->agility);
+		return mt_rand(0, $this->agility);
 	}
 
 

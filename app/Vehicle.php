@@ -104,7 +104,7 @@ class Vehicle extends Model implements VehicleContract
 	{
 		return DB::transaction(function() use($player)
 		{
-			$item = $player->equipment->vehicles()->first();
+			$item = $player->equipment->vehicle();
 
 			if(isset($item))
 			{

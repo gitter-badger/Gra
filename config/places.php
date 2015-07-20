@@ -30,7 +30,7 @@ return [
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minInterval' => 2000, 'maxInterval' => 2000, 'minStuff' => 15, 'maxStuff' => 15, 'burnChance' => 100]],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minPrice' => 5, 'maxPrice' => 20, 'minInterval' => 2000, 'maxInterval' => 2000, 'minStuff' => 15, 'maxStuff' => 15, 'beatChance' => 0, 'burnChance' => 100]],
 		'requires' => ['quest:first-plant']
 	],
 	[
@@ -62,7 +62,7 @@ return [
 		'image' => 'bus-stop.jpg',
 		'visible' => false,
 		'components' => ['travel'],
-		'properties' => ['travel' => ['cost' => 4, 'speed' => 20, 'available' => 'city,village']],
+		'properties' => ['travel' => ['cost' => 0.25, 'speed' => 20, 'available' => 'city,village']],
 		'requires' => []
 	],
 	[
@@ -70,7 +70,7 @@ return [
 		'image' => 'train-station.jpg',
 		'visible' => false,
 		'components' => ['travel'],
-		'properties' => ['travel' => ['cost' => 8, 'speed' => 40, 'available' => 'city']],
+		'properties' => ['travel' => ['cost' => 1, 'speed' => 40, 'available' => 'city']],
 		'requires' => []
 	],
 	[
@@ -78,7 +78,7 @@ return [
 		'image' => 'bulletin-board.jpg',
 		'visible' => false,
 		'components' => ['work'],
-		'properties' => ['work' => ['groups' => 'bulletin-board, test', 'reset' => 86400, 'atOnce' => 2, 'perGroup' => 4]],
+		'properties' => ['work' => ['groups' => 'bulletin-board', 'reset' => 86400, 'atOnce' => 2, 'perGroup' => 4]],
 		'requires' => []
 	],
 	[
@@ -94,7 +94,7 @@ return [
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 4, 'burnChance' => 25]],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minPrice' => 5, 'maxPrice' => 20, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 4, 'beatChance' => 20, 'burnChance' => 25]],
 		'requires' => []
 	],
 	[
@@ -237,7 +237,7 @@ return [
 		'name' => 'bank',
 		'image' => 'bank.jpg',
 		'visible' => true,
-		'components' => ['investment'],
+		'components' => ['investment', 'bank'],
 		'properties' => ['investment' => ['name' => 'bank', 'price' => 75000]],
 		'requires' => []
 	],
@@ -263,6 +263,46 @@ return [
 		'visible' => true,
 		'components' => ['investment'],
 		'properties' => ['investment' => ['name' => 'motel', 'price' => 20000]],
+		'requires' => []
+	],
+	[
+		'name' => 'sanctuary',
+		'image' => 'sanctuary.jpg',
+		'visible' => true,
+		'components' => ['church'],
+		'properties' => ['church' => ['price' => 100, 'bonus' => 15, 'duration' => 28800]],
+		'requires' => []
+	],
+	[
+		'name' => 'church',
+		'image' => 'church.jpg',
+		'visible' => true,
+		'components' => ['church'],
+		'properties' => ['church' => ['price' => 50, 'bonus' => 7, 'duration' => 28800]],
+		'requires' => []
+	],
+	[
+		'name' => 'chapel',
+		'image' => 'chapel.jpg',
+		'visible' => true,
+		'components' => ['church'],
+		'properties' => ['church' => ['price' => 25, 'bonus' => 3, 'duration' => 28800]],
+		'requires' => []
+	],
+	[
+		'name' => 'hospital',
+		'image' => 'hospital.jpg',
+		'visible' => true,
+		'components' => ['hospital'],
+		'properties' => ['hospital' => ['normalSpeed' => 360, 'normalPrice' => 5, 'fastSpeed' => 288, 'fastPrice' => 10]],
+		'requires' => []
+	],
+	[
+		'name' => 'clinic',
+		'image' => 'clinic.jpg',
+		'visible' => true,
+		'components' => ['hospital'],
+		'properties' => ['hospital' => ['normalSpeed' => 432, 'normalPrice' => 3, 'fastSpeed' => 360, 'fastPrice' => 7]],
 		'requires' => []
 	],
 ];

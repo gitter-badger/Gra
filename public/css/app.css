@@ -1,3 +1,16 @@
+.avatar.active {
+  box-shadow: 0 0 3px #286090;
+}
+.avatar-small {
+  max-width: 32px;
+}
+
+#battleView {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .disabled,
 .disabled * {
   color: gray;
@@ -15,7 +28,8 @@ img.disabled {
 }
 .list-group,
 .input-group,
-.well {
+.well,
+.progress {
   margin-bottom: 0px;
 }
 .btn-block {
@@ -296,7 +310,7 @@ textarea {
 }
 
 .plantation-pot {
-  background-image: url('/public/images/plants/pot.png');
+  background-image: url('/images/plants/pot.png');
   background-size: cover;
   background-position: -40px 50px;
   background-repeat: no-repeat;

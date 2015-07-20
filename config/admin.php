@@ -60,10 +60,13 @@ return [
 			'durationMin',
 			'durationMax',
 			'energy',
+			'minPrice',
+			'maxPrice',
 			'minInterval',
 			'maxInterval',
 			'minStuff',
 			'maxStuff',
+			'beatChance',
 			'burnChance',
 		],
 
@@ -91,6 +94,21 @@ return [
 
 		'bank' => [
 
+		],
+
+		'church' => [
+
+			'price',
+			'bonus',
+			'duration',
+		],
+
+		'hospital' => [
+
+			'normalSpeed',
+			'normalPrice',
+			'fastSpeed',
+			'fastPrice',
 		],
 	],
 ];

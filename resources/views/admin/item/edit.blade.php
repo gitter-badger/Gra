@@ -49,7 +49,8 @@
 		@endif
 
 
-		{!! BootForm::number('<strong>Cena</strong>', 'price')->defaultValue(isset($item) ? $item->getPrice() : 0) !!}
+		{!! BootForm::number('<strong>Cena</strong>', 'price')->defaultValue(isset($item) ? $item->getPrice() : 0)
+			->min(1)->max(100000000) !!}
 
 
 		<?php $checkbox = BootForm::checkbox('<strong>Premium</strong>', 'premium'); ?>
