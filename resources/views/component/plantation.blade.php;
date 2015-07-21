@@ -1,36 +1,40 @@
-<div class="row">
+<div>
+	<h4><strong>@lang('plantation.title')</strong></h4>
+	<div class="well">
 
-	@foreach($slots as $index => $slot)
+		<div class="row">
 
-		<div class="col-xs-6 col-sm-4 col-md-2">
+			@foreach($slots as $index => $slot)
+
+				<div class="col-xs-6 col-sm-4 col-md-2">
 
 
-			@if($slot->isEmpty)
+					@if($slot->isEmpty)
 
-				<button type="button" class="btn btn-default btn-block no-padding square" data-square="height"
-					data-toggle="modal" data-target="#seedsModal" data-slot="{{ $index }}">
+						<button type="button" class="btn btn-default btn-block no-padding square" data-square="height"
+							data-toggle="modal" data-target="#seedsModal" data-slot="{{ $index }}">
 
-					<div class="plantation-pot"></div>
-				</button>
-			@else
+							<div class="plantation-pot"></div>
+						</button>
+					@else
 
 <?php $content = null;
 $after         = null;
 ?>
 {!! BootForm::open()->post() !!}
-				{!! BootForm::token() !!}
-				{!! BootForm::hidden('slot')->value($index) !!}
+						{!! BootForm::token() !!}
+						{!! BootForm::hidden('slot')->value($index) !!}
 
-<?php $frame       = clamp((time()-$slot->start)/($slot->end-$slot->start), 0, 1)*17;?>
-				<?php $content = '<img class="plantation-pot plantation-plant img-responsive" data-start="'.$slot->start.
+<?php $frame         = clamp((time()-$slot->start)/($slot->end-$slot->start), 0, 1)*17;?>
+						<?php $content = '<img class="plantation-pot plantation-plant img-responsive" data-start="'.$slot->start.
 '" data-end="'.$slot->end.'" data-watering="'.$slot->nextWatering.'" src="'.asset('images/plants/plant-'.$frame.'.png').'"/>';?>
 @if($slot->isReady)
 
-					{!! BootForm::hidden('action')->value('harvest') !!}
+							{!! BootForm::hidden('action')->value('harvest') !!}
 
-				@else
+						@else
 
-					{!! BootForm::hidden('action')->value('watering') !!}
+							{!! BootForm::hidden('action')->value('watering') !!}
 
 <?php $after = entity('timer')
 ->min($slot->start)
@@ -39,24 +43,25 @@ $after         = null;
 ->ca('#337AB7')
 ->cb('#5CB85C');?>
 
-				@endif
+						@endif
 
 
 
-				{!! BootForm::submit($content)->addClass('btn-block no-padding square')->data('square', 'height') !!}
-				{!! BootForm::close() !!}
-				{!! $after !!}
-			@endif
+						{!! BootForm::submit($content)->addClass('btn-block no-padding square')->data('square', 'height') !!}
+						{!! BootForm::close() !!}
+						{!! $after !!}
+					@endif
+
+
+				</div>
+
+			@endforeach
+
 
 
 		</div>
-
-	@endforeach
-
-
-
+	</div>
 </div>
-
 
 @if(isset($seeds))
 

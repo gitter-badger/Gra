@@ -94,7 +94,7 @@ return [
 		'image' => 'street.jpg',
 		'visible' => false,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minPrice' => 5, 'maxPrice' => 20, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 4, 'beatChance' => 20, 'burnChance' => 25]],
+		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 10, 'energy' => 10, 'minPrice' => 5, 'maxPrice' => 20, 'minInterval' => 600, 'maxInterval' => 1800, 'minStuff' => 1, 'maxStuff' => 4, 'beatChance' => 30, 'burnChance' => 25]],
 		'requires' => []
 	],
 	[

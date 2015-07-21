@@ -1,4 +1,5 @@
 <div>
+	<h4><strong>@lang('shop.title')</strong></h4>
 <?php $url = Request::url();?>
 <ul class="nav nav-tabs">
 
@@ -84,7 +85,7 @@
 
 					<div class="panel panel-default">
 
-						<div class="panel-content">
+						<div class="panel-body text-center">
 
 							@include('details.item')
 
@@ -158,5 +159,15 @@
 
 
 	</div>
+
+	@if(!is_null($lastUpdate) && !is_null($nextUpdate))
+
+		{!! entity('timer')
+			->min($lastUpdate)
+			->max($nextUpdate)
+			->now(time())
+			->reversed(false)
+		!!}
+	@endif
 
 </div>

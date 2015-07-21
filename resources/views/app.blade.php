@@ -223,6 +223,11 @@
 						</ul>
 					</div>
 
+					{!! entity('navItem') 
+						->icon('envelope')
+						->url(route('message.index'))
+						->text(trans('navigation.messages'))
+						->append(' <span class="badge messages">' . $player->messagesCount . '</span>') !!}
 					
 					{!! entity('navItem') 
 						->icon('exclamation-sign')

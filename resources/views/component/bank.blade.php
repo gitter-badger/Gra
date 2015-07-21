@@ -1,4 +1,5 @@
 <div>
+	<h4><strong>@lang('bank.title')</strong></h4>
 	<?php $url = Request::url(); ?>
 
 	<ul class="nav nav-tabs">
@@ -19,13 +20,14 @@
 	</ul>
 
 	<div class="tab-content">
-		<div class="well">
+		<div class="well text-center">
 
+			
 			<div class="row">
 				<div class="col-xs-6 col-xs-offset-3">
 
 					<div class="panel panel-default">
-						<div class="panel-body text-center">
+						<div class="panel-body">
 
 							{!! BootForm::open()->post() !!}
 							{!! BootForm::token() !!}

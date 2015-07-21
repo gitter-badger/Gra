@@ -1,4 +1,5 @@
 <div>
+	<h4><strong>@lang('shop.title')</strong></h4>
 	<?php $url = Request::url(); ?>
 
 	<ul class="nav nav-tabs">
@@ -85,7 +86,7 @@
 					
 					<div class="panel panel-default">
 						
-						<div class="panel-content">
+						<div class="panel-body text-center">
 
 							@include('details.item')
 

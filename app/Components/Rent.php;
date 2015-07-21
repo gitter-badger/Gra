@@ -8,6 +8,14 @@ class Rent extends Component {
 	protected $index = -100;
 	protected $timer;
 
+	public function init() {
+		$timer = $this->getRentTimer();
+
+		if (!is_null($timer) && $timer->active) {
+			$this->index = -$this->index;
+		}
+	}
+
 	private function getRentTimer() {
 		if (empty($this->timer)) {
 			$this->timer = $this->getPlace()->timers()->whereName('rent')->first();
@@ -33,7 +41,11 @@ class Rent extends Component {
 			->with('cost', $this->getRentCost())
 			->with('duration', $this->getRentDuration());
 		} else {
-			$container = entity();
+			$container = entity()
+			->addClass('text-center');
+
+			$well = entity()
+			->addClass('well');
 
 			$row = entity()
 			->addClass('row');
@@ -49,10 +61,11 @@ class Rent extends Component {
 			->reversed(true);
 
 			return $container
-			->append('<h4>'.trans('rent.duration').'</h4>')
-			->append($row
-				->append($col
-					->append($progress)));
+			->append($well
+				->append('<h4>'.trans('rent.duration').'</h4>')
+				->append($row
+					->append($col
+						->append($progress))));
 		}
 	}
 

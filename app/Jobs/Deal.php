@@ -28,6 +28,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
     protected $minStuff;
     protected $maxStuff;
     protected $price;
+    protected $priceFactor;
     protected $burnChance;
     protected $beatChance;
 
@@ -37,7 +38,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $burnChance, $beatChance)
+    public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $priceFactor, $burnChance, $beatChance)
     {
         $this->player = $player;
         $this->minInterval = $minInterval;
@@ -45,6 +46,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
         $this->minStuff = $minStuff;
         $this->maxStuff = $maxStuff;
         $this->price = $price;
+        $this->priceFactor = $priceFactor;
         $this->burnChance = $burnChance;
         $this->beatChance = $beatChance;
     }
@@ -88,7 +90,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                     $sell -= $count;
                     $totalSell += $count;
 
-                    $price = round($stuff->getPrice() * $count);
+                    $price = $this->price * $count;
                     $totalPrice += $price;
                     $avgQuality += $stuff->quality * $count;
 
@@ -124,11 +126,13 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                     $this->player->wantedUpdate = $now;
                     $this->player->wanted++;
                 }
+                $roll = $this->player->roll(floor($avgQuality) * 5, 100);
 
-                if($this->player->roll(floor($avgQuality) * 10, 100) < $this->beatChance)
+                if($roll < ($this->beatChance / $this->priceFactor))
                 {
                     $job = new Battle();
                     $job->joinBlue($this->player);
+                    $job->reason('blue', new TransText('dealing.beat'));
                     $job->generateRed($this->player->level);
 
                     if($this->player->level % 20 >= 10)
@@ -142,18 +146,21 @@ class Deal extends Job implements SelfHandling, ShouldQueue
 
 
 
-                $minInterval = $now + $this->minInterval;
-                $maxInterval = $now + $this->maxInterval;
+                $minInterval = $now + round($this->minInterval / $this->priceFactor);
+                $maxInterval = $now + round($this->maxInterval / $this->priceFactor);
 
                 $nextCustomer = $this->player->jobName == 'dealing' && $this->player->jobEnd >= $maxInterval && $haveStuff > 0;
 
+                echo 'Roll: ' . $roll . ' treshold: ' . ($this->beatChance / $this->priceFactor) . PHP_EOL;
+                echo 'Min: ' . time_to_duration($minInterval - $now) . ' Max: ' . time_to_duration($maxInterval - $now) . PHP_EOL;
                 
 
                 if($nextCustomer)
                 {
                     $interval = mt_rand($this->minInterval, $this->maxInterval);
 
-                    $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff, $this->price, $this->burnChance, $this->beatChance);
+                    $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff,
+                        $this->price, $this->priceFactor, $this->burnChance, $this->beatChance);
                     $job->delay($interval);
 
                     $this->player->nextUpdate = min($this->player->nextUpdate, $now + $interval);

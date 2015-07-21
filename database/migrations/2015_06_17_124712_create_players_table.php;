@@ -39,6 +39,7 @@ class CreatePlayersTable extends Migration {
 				$table->integer('health')->unsigned();
 				$table->integer('maxHealth')->unsigned();
 				$table->integer('healthUpdate')->unsigned();
+				$table->integer('endHealthUpdate')->unsigned();
 
 				$table->integer('energy')->unsigned();
 				$table->integer('maxEnergy')->unsinged();

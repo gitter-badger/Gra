@@ -1,39 +1,42 @@
-<div class="well">
+<div>
+	<h4><strong>@lang('gambling.title')</strong></h4>
+	<div class="well text-center">
 
-<div class="row">
-	<div class="col-xs-6 col-xs-offset-3">
-		
-		<div class="panel panel-default">
-			<div class="panel-body text-center" data-ng-app="game" data-ng-controller="gambling">
-
-
-				{!! BootForm::open()->post() !!}
-				{!! BootForm::token() !!}
-				{!! BootForm::hidden('action')->value('bet') !!}
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+				
+				<div class="panel panel-default">
+					<div class="panel-body" data-ng-app="game" data-ng-controller="gambling">
 
 
-				{!! BootForm::range('<strong>' . trans('gambling.bet') . '</strong>', 'value')
-					->min($minBet)->max($maxBet)->data('ng-model', 'bet')->before('$')->value($minBet) !!}
-
-				{!! BootForm::staticInput('<strong>' . trans('gambling.money') . '</strong>')
-					->value('$<span data-ng-bind="money()"></span>') !!}
+						{!! BootForm::open()->post() !!}
+						{!! BootForm::token() !!}
+						{!! BootForm::hidden('action')->value('bet') !!}
 
 
+						{!! BootForm::range('<strong>' . trans('gambling.bet') . '</strong>', 'value')
+							->min($minBet)->max($maxBet)->data('ng-model', 'bet')->before('$')->value($minBet) !!}
 
-				{!! BootForm::submit(trans('gambling.gamble'), 'btn-primary')
-					->addClass('center-block') !!}
+						{!! BootForm::staticInput('<strong>' . trans('gambling.money') . '</strong>')
+							->value('$<span data-ng-bind="money()"></span>') !!}
 
-				{!! BootForm::close() !!}
 
+
+						{!! BootForm::submit(trans('gambling.gamble'), 'btn-primary')
+							->addClass('center-block') !!}
+
+						{!! BootForm::close() !!}
+
+
+					</div>
+				</div>
 
 			</div>
 		</div>
 
+
+
 	</div>
-</div>
-
-
-
 </div>
 
 <script type="text/javascript">

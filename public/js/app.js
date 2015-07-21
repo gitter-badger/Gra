@@ -14,7 +14,7 @@
 }).call(this);
 
 (function() {
-  var Battle, Character, battle, requestFrame;
+  var Battle, Character, accumulator, battle, interval, lastTime, requestFrame;
 
   Character = (function() {
     function Character(team, data) {
@@ -32,13 +32,6 @@
       this.level = data.level;
       this.health = data.health;
       this.maxHealth = data.maxHealth;
-      this.strength = data.strength;
-      this.perception = data.perception;
-      this.endurance = data.endurance;
-      this.charisma = data.charisma;
-      this.intelligence = data.intelligence;
-      this.agility = data.agility;
-      this.luck = data.luck;
     }
 
     Character.prototype.draw = function(context, size) {
@@ -79,9 +72,9 @@
     function Battle() {}
 
     Battle.prototype.speed = {
-      view: 0.05,
-      info: 0.05,
-      next: 0.05
+      view: 3.0,
+      info: 3.0,
+      next: 3.0
     };
 
     Battle.prototype.construct = function() {};
@@ -196,11 +189,11 @@
       return this.context.closePath();
     };
 
-    Battle.prototype.draw = function() {
+    Battle.prototype.draw = function(delta) {
       var action, animate, at, attacker, defender, height, i, j, len, mark, measure, nextAction, nextAttacker, nextDefender, position, prevAction, prevAttacker, prevDefender, ref, text, width;
       this.context.fillStyle = '#FFFFFF';
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.offset += this.speed[this.state];
+      this.offset += this.speed[this.state] * delta;
       animate = true;
       if (this.state === 'view' && animate) {
         action = battleLog['log'][this.index];
@@ -364,14 +357,27 @@
 
   battle = new Battle;
 
-  requestFrame = function() {
-    battle.draw();
+  lastTime = new Date().getTime();
+
+  interval = 1000 / 60;
+
+  accumulator = 0.0;
+
+  requestFrame = function(time) {
+    var delta;
+    delta = Math.max(time - lastTime, 0);
+    lastTime = time;
+    accumulator += delta;
+    while (accumulator >= interval) {
+      accumulator -= interval;
+      battle.draw(interval / 1000);
+    }
     return window.requestAnimationFrame(requestFrame);
   };
 
   $(function() {
     if (battle.load()) {
-      return requestFrame();
+      return window.requestAnimationFrame(requestFrame);
     }
   });
 
@@ -552,6 +558,37 @@
     $('input[type=range]').change(rangeChanged).mousemove(rangeChanged);
     $('.number-minus').children('button').click(numberDecrease);
     return $('.number-plus').children('button').click(numberIncrease);
+  });
+
+}).call(this);
+
+(function() {
+  var i, lastTime, len, vendor, vendors;
+
+  lastTime = 0;
+
+  vendors = ['webkit', 'moz'];
+
+  if (!window.requestAnimationFrame) {
+    for (i = 0, len = vendors.length; i < len; i++) {
+      vendor = vendors[i];
+      window.requestAnimationFrame = window[vendor + 'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendor + 'CancelAnimationFrame'] || window[vendor + 'CancelRequestAnimationFrame'];
+    }
+  }
+
+  window.requestAnimationFrame || (window.requestAnimationFrame = function(callback, element) {
+    var currTime, id, timeToCall;
+    currTime = new Date().getTime();
+    timeToCall = Math.max(0, 16 - (currTime - lastTime));
+    id = window.setTimeout(function() {
+      return callback(currTime + timeToCall);
+    }, timeToCall);
+    return id;
+  });
+
+  window.cancelAnimationFrame || (window.cancelAnimationFrame = function(id) {
+    return clearTimeout(id);
   });
 
 }).call(this);

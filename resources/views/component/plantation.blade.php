@@ -1,64 +1,70 @@
-<div class="row">
-	
-	@foreach($slots as $index => $slot)
 
-		<div class="col-xs-6 col-sm-4 col-md-2">
+<div>
+	<h4><strong>@lang('plantation.title')</strong></h4>
+	<div class="well">
 
+		<div class="row">
+			
+			@foreach($slots as $index => $slot)
 
-			@if($slot->isEmpty)
-
-				<button type="button" class="btn btn-default btn-block no-padding square" data-square="height" 
-					data-toggle="modal" data-target="#seedsModal" data-slot="{{ $index }}">
-
-					<div class="plantation-pot"></div>
-				</button>
-			@else
-
-				<?php $content = null; $after = null; ?>
-
-				{!! BootForm::open()->post() !!}
-				{!! BootForm::token() !!}
-				{!! BootForm::hidden('slot')->value($index) !!}
-
-				<?php $frame = clamp((time() - $slot->start) / ($slot->end - $slot->start), 0, 1) * 17; ?>
-				<?php $content = '<img class="plantation-pot plantation-plant img-responsive" data-start="' . $slot->start . 
-					'" data-end="' . $slot->end . '" data-watering="' . $slot->nextWatering . '" src="' . asset('images/plants/plant-' . $frame . '.png') . '"/>'; ?>
+				<div class="col-xs-6 col-sm-4 col-md-2">
 
 
+					@if($slot->isEmpty)
 
-				@if($slot->isReady)
+						<button type="button" class="btn btn-default btn-block no-padding square" data-square="height" 
+							data-toggle="modal" data-target="#seedsModal" data-slot="{{ $index }}">
 
-					{!! BootForm::hidden('action')->value('harvest') !!}
+							<div class="plantation-pot"></div>
+						</button>
+					@else
 
-				@else
+						<?php $content = null; $after = null; ?>
 
-					{!! BootForm::hidden('action')->value('watering') !!}
+						{!! BootForm::open()->post() !!}
+						{!! BootForm::token() !!}
+						{!! BootForm::hidden('slot')->value($index) !!}
 
-					<?php $after = entity('timer')
-						->min($slot->start)
-						->max($slot->end)
-						->stop($slot->nextWatering)
-						->ca('#337AB7')
-						->cb('#5CB85C'); ?>
-
-				@endif
+						<?php $frame = clamp((time() - $slot->start) / ($slot->end - $slot->start), 0, 1) * 17; ?>
+						<?php $content = '<img class="plantation-pot plantation-plant img-responsive" data-start="' . $slot->start . 
+							'" data-end="' . $slot->end . '" data-watering="' . $slot->nextWatering . '" src="' . asset('images/plants/plant-' . $frame . '.png') . '"/>'; ?>
 
 
 
-				{!! BootForm::submit($content)->addClass('btn-block no-padding square')->data('square', 'height') !!}
-				{!! BootForm::close() !!}
-				{!! $after !!}
-			@endif
+						@if($slot->isReady)
+
+							{!! BootForm::hidden('action')->value('harvest') !!}
+
+						@else
+
+							{!! BootForm::hidden('action')->value('watering') !!}
+
+							<?php $after = entity('timer')
+								->min($slot->start)
+								->max($slot->end)
+								->stop($slot->nextWatering)
+								->ca('#337AB7')
+								->cb('#5CB85C'); ?>
+
+						@endif
+
+
+
+						{!! BootForm::submit($content)->addClass('btn-block no-padding square')->data('square', 'height') !!}
+						{!! BootForm::close() !!}
+						{!! $after !!}
+					@endif
+
+
+				</div>
+
+			@endforeach
+
 
 
 		</div>
-
-	@endforeach
-
-
-
+	</div>
 </div>
-
 
 @if(isset($seeds))
 

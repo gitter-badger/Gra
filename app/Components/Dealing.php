@@ -65,7 +65,8 @@ class Dealing extends Component
 				$maxStuff = $this->getProperty('maxStuff');
 				$burnChance = $this->getProperty('burnChance');
 				$beatChance = $this->getProperty('beatChance');
-				$beatChance = round($beatChance * (($price - $minPrice) / ($maxPrice - $minPrice) + 1) * 2);
+				$priceFactor = 1.5 - ($price - $minPrice) / ($maxPrice - $minPrice);
+				
 
 				if(Config::get('app.debug', false))
 				{
@@ -73,7 +74,8 @@ class Dealing extends Component
 					$maxInterval /= 60;
 				}
 
-				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $burnChance, $beatChance);
+				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff,
+					$price, $priceFactor, $burnChance, $beatChance);
 
 				$this->dispatch($deal);
 

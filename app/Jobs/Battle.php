@@ -23,6 +23,8 @@ class Battle extends Job implements SelfHandling, ShouldQueue
     private $battleground;
     private $red;
     private $blue;
+    private $reasonRed;
+    private $reasonBlue;
 
 
     /**
@@ -35,6 +37,8 @@ class Battle extends Job implements SelfHandling, ShouldQueue
         $this->battleground = new Battleground;
         $this->red = [];
         $this->blue = [];
+        $this->reasonRed = null;
+        $this->reasonBlue = null;
     }
 
     protected function insertRed($character)
@@ -93,6 +97,18 @@ class Battle extends Job implements SelfHandling, ShouldQueue
         $this->insertBlue($generator->generate($level));
     }
 
+    public function reason($team, $reason)
+    {
+        if($team == 'red')
+        {
+            $this->reasonRed = $reason;
+        }
+        elseif($team == 'blue')
+        {
+            $this->reasonBlue = $reason;
+        }
+    }
+
 
     /**
      * Execute the job.
@@ -137,6 +153,7 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             if($character instanceof Player)
             {
                 $character->newReport('battle-' . ($winner == 'red' ? 'win' : 'lose'))
+                    ->param('reason', $this->reasonRed)
                     ->param('log', $report)
                     ->send();
 
@@ -161,6 +178,7 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             if($character instanceof Player)
             {
                 $character->newReport('battle-' . ($winner == 'blue' ? 'win' : 'lose'))
+                    ->param('reason', $this->reasonBlue)
                     ->param('log', $report)
                     ->send();
 

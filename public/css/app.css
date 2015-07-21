@@ -26,6 +26,9 @@ img.disabled {
 .no-padding {
   padding: 0;
 }
+.no-margin {
+  margin: 0;
+}
 .list-group,
 .input-group,
 .well,
@@ -302,6 +305,9 @@ textarea {
 }
 .tooltip-inner {
   min-width: 256px;
+}
+.tab-content > .panel {
+  border-top: 0;
 }
 
 .pagination-fix > .pagination {

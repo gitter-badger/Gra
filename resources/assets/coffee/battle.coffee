@@ -18,13 +18,6 @@ class Character
 		@level = data.level
 		@health = data.health
 		@maxHealth = data.maxHealth
-		@strength = data.strength
-		@perception = data.perception
-		@endurance = data.endurance
-		@charisma = data.charisma
-		@intelligence = data.intelligence
-		@agility = data.agility
-		@luck = data.luck
 
 
 	draw: (context, size) ->
@@ -68,9 +61,9 @@ class Character
 class Battle
 
 	speed: 
-		view: 0.05
-		info: 0.05
-		next: 0.05
+		view: 3.0
+		info: 3.0
+		next: 3.0
 
 
 
@@ -194,11 +187,11 @@ class Battle
 
 
 
-	draw: ->
+	draw: (delta)->
 
 		@context.fillStyle = '#FFFFFF'
 		@context.clearRect(0, 0, @canvas.width, @canvas.height)
-		@offset += @speed[@state]
+		@offset += @speed[@state] * delta
 		animate = true
 
 		if @state == 'view' and animate
@@ -398,8 +391,21 @@ class Battle
 
 battle = new Battle;
 
-requestFrame = ->
-	battle.draw()
+lastTime = new Date().getTime()
+interval = 1000 / 60
+accumulator = 0.0
+
+
+requestFrame = (time)->
+
+	delta = Math.max(time - lastTime, 0)
+	lastTime = time 
+	accumulator += delta
+
+	while accumulator >= interval
+		accumulator -= interval
+		battle.draw(interval / 1000)
+
 	window.requestAnimationFrame(requestFrame)
 
 
@@ -411,4 +417,4 @@ requestFrame = ->
 
 $ ->
 	if battle.load()
-		requestFrame()
+		window.requestAnimationFrame(requestFrame)

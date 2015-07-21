@@ -16,5 +16,6 @@ class VerifyCsrfToken extends BaseVerifier
         'api/',
         'api/character',
         'api/character/notifications',
+        '_debugbar',
     ];
 }

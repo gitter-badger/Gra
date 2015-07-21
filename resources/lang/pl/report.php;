@@ -74,12 +74,12 @@ return [
 	'battle-win' => [
 
 		'title'   => 'Wygrałeś walkę',
-		'content' => ':log <canvas id="battleView" width="600px" height="450px"></canvas>',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas>',
 	],
 
 	'battle-lose' => [
 
 		'title'   => 'Przegrałeś walkę',
-		'content' => ':log <canvas id="battleView" width="600px" height="450px"></canvas>',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas>',
 	],
 ];

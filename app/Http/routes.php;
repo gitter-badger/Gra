@@ -192,6 +192,26 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 						Route::post('/reports/destroyAll', ['as'                 => 'reports.destroyAll', 'uses'                 => 'ReportsController@destroyAll']);
 						Route::resource('/reports', 'ReportsController', ['only' => ['index', 'show', 'destroy']]);
 
+						Route::group(['prefix'  => '/messages'], function () {
+								Route::get('/', ['as' => 'message.index', 'uses' => 'MailController@getIndex']);
+
+								Route::get('/create', ['as' => 'message.create', 'uses' => 'MailController@getCreate']);
+								Route::post('/send', ['as'  => 'message.send', 'uses'  => 'MailController@postCreate']);
+
+								Route::get('/inbox', ['as'     => 'message.inbox.index', 'uses'     => 'MailController@getInbox']);
+								Route::get('/outbox', ['as'    => 'message.outbox.index', 'uses'    => 'MailController@getOutbox']);
+								Route::get('/blacklist', ['as' => 'blacklist.index', 'uses' => 'MailController@getBlacklist']);
+
+								Route::get('/inbox/{mail}', ['as'  => 'message.inbox.view', 'uses'  => 'MailController@inboxView']);
+								Route::get('/outbox/{mail}', ['as' => 'message.outbox.view', 'uses' => 'MailController@outboxView']);
+
+								Route::get('/reply/{mail}', ['as'  => 'message.reply', 'uses'  => 'MailController@reply']);
+								Route::get('/resend/{mail}', ['as' => 'message.resend', 'uses' => 'MailController@resend']);
+
+								Route::post('/blacklist/add', ['as'            => 'blacklist.add', 'uses'            => 'MailController@addBlacklist']);
+								Route::get('/blacklist/remove/{player}', ['as' => 'blacklist.remove', 'uses' => 'MailController@removeBlacklist']);
+							});
+
 						Route::get('/premiumShop', ['as' => 'premiumShop', function () {
 									return view('premiumshop');
 								}]);

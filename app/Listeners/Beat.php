@@ -6,6 +6,7 @@ use HempEmpire\Events\PlaceLeave;
 use HempEmpire\Jobs\Battle;
 use Debugbar;
 use Config;
+use TransText;
 
 
 class Beat
@@ -27,6 +28,7 @@ class Beat
 		{
 			$job = new Battle();
 			$job->joinBlue($event->player);
+			$job->reason('blue', new TransText('battle.reason.attack'));
 			$job->generateRed($event->player->level);
 
 			$this->dispatch($job);

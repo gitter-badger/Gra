@@ -23,7 +23,7 @@ class Player extends Model
 	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'name', 'avatar', 'level', 'experience',
 		'maxExperience',  'plantatorLevel', 'plantatorExperience', 'plantatorMaxExperience', 'smugglerLevel', 
 		'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 'dealerExperience', 'dealerMaxExperience', 
-		'health', 'maxHealth', 'healthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
+		'health', 'maxHealth', 'healthUpdate', 'endHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
 		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money'];
 
@@ -34,10 +34,10 @@ class Player extends Model
 		'dealerExperience', 'dealerMaxExperience', 'health', 'maxHealth', 'healthUpdate',
 		'nextHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'nextEnergyUpdate', 'wanted', 'wantedUpdate',
 		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'charisma', 'intelligence', 'agility', 'luck',
-		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'reload'];
+		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload'];
 
 
-	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount'];
+	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount'];
 
 	public $timestamps = false;
 	private static $active;
@@ -358,6 +358,20 @@ class Player extends Model
 		return $this->hasMany(PlayerInvestment::class);
 	}
 
+	public function inbox()
+	{
+		return $this->hasMany(Mail::class, 'receiver_id')
+			->where('receiver_deleted', '=', false)
+			->orderBy('date', 'desc');
+	}
+
+	public function outbox()
+	{
+		return $this->hasMany(Mail::class, 'sender_id')
+			->where('sender_deleted', '=', false)
+			->orderBy('date', 'desc');
+	}
+
 
 
 
@@ -415,7 +429,7 @@ class Player extends Model
 	{
 		$time = $this->healthUpdateTime;
 
-		if(is_null($time) || ($this->jobName != 'healing-normal' && $this->jobName == 'healing-fast') && $this->jobEnd >= time())
+		if(is_null($time) || ($this->jobName != 'healing-normal' && $this->jobName == 'healing-fast') || $this->endHealthUpdate <= time())
 		{
 			return null;
 		}
@@ -430,7 +444,7 @@ class Player extends Model
 	{
 		if(!$this->_healthUpdated || $force)
 		{
-			$now = time();
+			$now = min(time(), $this->endHealthUpdate);
 			$last = $this->healthUpdate;
 			$time = $this->healthUpdateTime;
 
@@ -802,13 +816,18 @@ class Player extends Model
 		return $this->reports()->unreaded()->count();
 	}
 
+	public function getMessagesCountAttribute()
+	{
+		return $this->inbox()->unreaded()->count();
+	}
+
 
 
 
 	public function roll($min, $max, $option = 0)
 	{
 		$r = [];
-		$n = max(round(($this->luck > 50 ? $this->luck - 50 : 50 - $this->luck) / 5), 1);
+		$n = max(round(($this->luck > 50 ? $this->luck - 50 : 50 - $this->luck) / 20), 1);
 
 
 		for($i = 0; $i < $n; ++$i)
@@ -1179,8 +1198,11 @@ class Player extends Model
 		if(Config::get('app.debug', false))
 			$duration /= 60;
 
+		$now = time();
+
 		$this->startJob('healing-' . $type, $duration);
-		$this->healthUpdate = time();
+		$this->healthUpdate = $now;
+		$this->endHealthUpdate = $now + $duration;
 		$this->moveToHospital(false);
 	
 

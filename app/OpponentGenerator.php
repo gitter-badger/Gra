@@ -106,7 +106,7 @@ class OpponentGenerator
 		$opponent->armorId = $this->rollArmor($level);
 
 
-		$statistics = Config::get('player.start.stats') - 5 + ((Config::get('player.levelup.statisticsPoints') - 1) * $level);
+		$statistics = Config::get('player.start.stats') + Config::get('player.levelup.statisticsPoints') * $level - 5;
 
 
 		for($i = 0; $i < $statistics; ++$i)
