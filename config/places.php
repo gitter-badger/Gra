@@ -45,8 +45,8 @@ return [
 		'name' => 'warehouse',
 		'image' => 'warehouse.jpg',
 		'visible' => false,
-		'components' => ['store', 'rent'],
-		'properties' => ['store' => ['deny' => 'vehicle'], 'rent' => ['cost' => 1000, 'duration' => 604800]],
+		'components' => ['store', 'rent', 'work'],
+		'properties' => ['store' => ['deny' => 'vehicle'], 'rent' => ['cost' => 1000, 'duration' => 604800], 'work' => ['groups' => 'warehouse', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1]],
 		'requires' => []
 	],
 	[
@@ -221,8 +221,8 @@ return [
 		'name' => 'night-club',
 		'image' => 'night-club.jpg',
 		'visible' => true,
-		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'night-club', 'price' => 35000]],
+		'components' => ['work', 'investment'],
+		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'night-club', 'price' => 35000]],
 		'requires' => []
 	],
 	[
@@ -245,8 +245,8 @@ return [
 		'name' => 'pub',
 		'image' => 'pub.jpg',
 		'visible' => true,
-		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'pub', 'price' => 18000]],
+		'components' => ['work', 'investment'],
+		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'pub', 'price' => 18000]],
 		'requires' => []
 	],
 	[

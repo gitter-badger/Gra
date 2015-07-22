@@ -284,6 +284,8 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 			});
 
 
+			Route::controller('/ranking', 'RankingController');
+
 
 			Route::get('/premiumShop', ['as' => 'premiumShop', function()
 			{
