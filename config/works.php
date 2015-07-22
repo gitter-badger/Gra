@@ -75,23 +75,57 @@ return [
 			'requires' => []
 		],
 	],
+	'club' => [
+		'club-bartender' => [
+			'duration' => 3600,
+			'costs' => ['energy:30'],
+			'rewards' => ['money:50', 'experience:25'],
+			'requires' => null
+		],
+		'club-waiter' => [
+			'duration' => 3600,
+			'costs' => ['energy:30'],
+			'rewards' => ['money:50', 'experience:25'],
+			'requires' => null
+		],
+	],
 	'dump' => [
 		'collecting-scrap-metal' => [
 			'duration' => 1800,
 			'costs' => ['energy:20'],
 			'rewards' => ['money:10', 'experience:15'],
-			'requires' => null
+			'requires' => []
 		],
 		'collection-of-waste-paper' => [
 			'duration' => 1800,
 			'costs' => ['energy:20'],
 			'rewards' => ['money:10', 'experience:15'],
-			'requires' => null
+			'requires' => []
 		],
 		'collecting-bottles' => [
 			'duration' => 1800,
 			'costs' => ['energy:20'],
 			'rewards' => ['money:10', 'experience:15'],
+			'requires' => []
+		],
+	],
+	'shop' => [
+		'shop-unloading-cargo' => [
+			'duration' => 1200,
+			'costs' => ['energy:20'],
+			'rewards' => ['money:20', 'experience:10'],
+			'requires' => null
+		],
+		'shop-covering-goods' => [
+			'duration' => 1200,
+			'costs' => ['energy:20'],
+			'rewards' => ['money:20', 'experience:10'],
+			'requires' => null
+		],
+		'shop-salesman' => [
+			'duration' => 3600,
+			'costs' => ['energy:30'],
+			'rewards' => ['money:50', 'experience:25'],
 			'requires' => null
 		],
 	],
@@ -101,6 +135,14 @@ return [
 			'costs' => ['energy:10'],
 			'rewards' => ['money:20,0', 'experience:5,0'],
 			'requires' => []
+		],
+	],
+	'warehouse' => [
+		'warehouse-warehouseman' => [
+			'duration' => 3600,
+			'costs' => ['energy:30'],
+			'rewards' => ['money:50', 'experience:25'],
+			'requires' => null
 		],
 	],
 ];

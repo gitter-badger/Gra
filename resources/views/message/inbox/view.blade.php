@@ -1,15 +1,15 @@
-@extends('mail.base')
+@extends('message.base')
 
 
 @section('mail-content')
 
-{!! BootForm::openHorizontal(2, 10) !!}
+{!! BootForm::openHorizontal(['xs' => [2, 10]]) !!}
 
 {!! BootForm::staticInput(trans('mail.from'))
 	->value($mail->sender->name) !!}
 
 {!! BootForm::staticInput(trans('mail.date'))
-	->value($mail->date) !!}
+	->value(date('Y-m-d H:i:s', $mail->date)) !!}
 
 {!! BootForm::staticInput(trans('mail.title'))
 	->value($mail->title) !!}
@@ -24,12 +24,12 @@
 	<div class="col-md-10 col-md-offset-2">
 		<div class="btn-group">
 			
-			<a href="{{ url('/messages/create/reply/' . $mail->id) }}" class="btn btn-primary">
+			<a href="{{ route('message.reply', ['mail' => $mail->id]) }}" class="btn btn-primary">
 				
 				@lang('mail.reply')
 			</a>
 
-			<a href="{{ url('/messages/inbox/delete/' . $mail->id) }}" class="btn btn-danger">
+			<a href="{{ route('message.inbox.delete', ['mail' => $mail->id]) }}" class="btn btn-danger">
 				
 				@lang('mail.delete')
 			</a>

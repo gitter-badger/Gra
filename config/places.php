@@ -101,32 +101,32 @@ return [
 		'name' => 'grocery-store',
 		'image' => 'convenience-store.jpg',
 		'visible' => false,
-		'components' => ['shop', 'investment'],
-		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400], 'investment' => ['name' => 'grocery-store', 'price' => 8000]],
+		'components' => ['shop', 'work', 'investment'],
+		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2], 'investment' => ['name' => 'grocery-store', 'price' => 8000]],
 		'requires' => []
 	],
 	[
 		'name' => 'gun-shop',
 		'image' => 'gun-shop.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'gun-shop', 'delivery' => 86400]],
+		'components' => ['shop', 'work'],
+		'properties' => ['shop' => ['name' => 'gun-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
 		'requires' => []
 	],
 	[
 		'name' => 'grow-shop',
 		'image' => 'growshop.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'grow-shop', 'delivery' => 86400]],
+		'components' => ['shop', 'work'],
+		'properties' => ['shop' => ['name' => 'grow-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
 		'requires' => []
 	],
 	[
 		'name' => 'sport-shop',
 		'image' => 'sport-shop.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'sport-shop', 'delivery' => 86400]],
+		'components' => ['shop', 'work'],
+		'properties' => ['shop' => ['name' => 'sport-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
 		'requires' => []
 	],
 	[
@@ -141,8 +141,8 @@ return [
 		'name' => 'toy-store',
 		'image' => 'toy-store.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'toy-store', 'delivery' => 86400]],
+		'components' => ['shop', 'work'],
+		'properties' => ['shop' => ['name' => 'toy-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
 		'requires' => []
 	],
 	[
@@ -157,8 +157,8 @@ return [
 		'name' => 'miscellaneous-store',
 		'image' => 'miscellaneous-store.jpg',
 		'visible' => false,
-		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'miscellaneous-store', 'delivery' => 86400]],
+		'components' => ['shop', 'work'],
+		'properties' => ['shop' => ['name' => 'miscellaneous-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
 		'requires' => []
 	],
 	[

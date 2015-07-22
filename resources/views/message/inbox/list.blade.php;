@@ -27,11 +27,11 @@
 
 			<td>{{ $mail->sender->name }}</td>
 			<td>{{ $mail->title }}</td>
-			<td>{{ $mail->date }}</td>
+			<td>{{ date('Y-m-d H:i:s', $mail->date) }}</td>
 			<td>
 				<div class="btn-group">
-				<a href="{{ url('messages/inbox/view/' . $mail->id) }}" class="btn btn-primary">@lang('mail.open')</a>
-				<a href="{{ url('messages/inbox/delete/' . $mail->id) }}" class="btn btn-danger">@lang('mail.delete')</a>
+				<a href="{{ route('message.inbox.view', ['mail' => $mail->id]) }}" class="btn btn-primary">@lang('mail.open')</a>
+				<a href="{{ route('message.inbox.delete', ['mail' => $mail->id]) }}" class="btn btn-danger">@lang('mail.delete')</a>
 				</div>
 			</td>
 		</tr>

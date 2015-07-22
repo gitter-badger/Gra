@@ -72,6 +72,12 @@ return [
 		'content' => ':text',
 	],
 
+	'search' => [
+
+		'title' => 'Zostałeś przeszukany przez policję',
+		'content' => 'Znaleźli przy Tobie :count sztuk zioła. Niestety musisz spędzić :duration w areszcie',
+	],
+
 	'battle-win' => [
 
 		'title' => 'Wygrałeś walkę',

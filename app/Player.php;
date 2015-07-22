@@ -303,6 +303,14 @@ class Player extends Model {
 		            ->orderBy('date', 'desc');
 	}
 
+	public function blacklist() {
+		return $this->belongsToMany(Player::class , 'player_blacklist', 'player_id', 'blocked_id');
+	}
+
+	public function events() {
+		return $this->hasMany(Event::class );
+	}
+
 	public function save(array $options = array()) {
 		return \DB::transaction(function () use ($options) {
 				$success = true;
@@ -1006,6 +1014,26 @@ class Player extends Model {
 		list($minDamage, $maxDamage) = $this->getDamage();
 
 		return $this->roll($minDamage, $maxDamage);
+	}
+
+	public function renderEvents() {
+		$output = '';
+
+		$events = $this->events()->get();
+		$this->events()->delete();
+
+		foreach ($events as $event)
+		$output .= $event->render();
+
+		return $output;
+	}
+
+	public function pushEvent($object) {
+		$this->events()->create([
+
+				'player_id' => $this->id,
+				'object'    => serialize($object),
+			]);
 	}
 
 }

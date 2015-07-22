@@ -7,7 +7,7 @@
 
 	<thead>
 		<tr>
-			<th>@lang('game.character')</th>
+			<th>@lang('blacklist.name')</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -30,13 +30,13 @@
 		<tr>
 			<td colspan="2"> 
 
-				{!! BootForm::open()->post()->action('/messages/blacklist/add') !!}
+				{!! BootForm::open()->post()->action(route('blacklist.add')) !!}
 				{!! BootForm::token() !!}
 
 
 				<div class="input-group">
 
-					<input type="text" name="character" class="form-control"/>
+					<input type="text" name="name" class="form-control"/>
 
 					<div class="input-group-btn">
 

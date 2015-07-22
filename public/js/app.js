@@ -302,7 +302,7 @@
       this.context.fillRect(2, height - 20, width, 20);
       this.context.strokeRect(2, height - 20, width, 20);
       this.context.fillStyle = '#5BC0DE';
-      this.context.fillRect(2, height - 20, width * (this.index / (battleLog['log'].length - 1)), 20);
+      this.context.fillRect(2, height - 20, width * (Math.min(this.index / (battleLog['log'].length - 1), 1)), 20);
       this.context.lineWidth = 5;
       ref = battleLog['marks'];
       for (j = 0, len = ref.length; j < len; j++) {
@@ -312,8 +312,8 @@
         }
         at = (mark.at / (battleLog['log'].length - 1)) * width;
         this.context.beginPath();
-        this.context.moveTo(at - this.context.lineWidth / 2, height - 20);
-        this.context.lineTo(at - this.context.lineWidth / 2, height);
+        this.context.moveTo(at - this.context.lineWidth / 2 + 2, height - 20);
+        this.context.lineTo(at - this.context.lineWidth / 2 + 2, height);
         this.context.stroke();
       }
       return this.context.restore();
@@ -379,6 +379,27 @@
     if (battle.load()) {
       return window.requestAnimationFrame(requestFrame);
     }
+  });
+
+}).call(this);
+
+(function() {
+  var dialogs;
+
+  dialogs = [];
+
+  $(function() {
+    dialogs = $('.modal.autoshow');
+    return $(dialogs).each(function(index) {
+      if (index === 0) {
+        $(this).modal('show');
+      }
+      if (index < (dialogs.length - 1)) {
+        return $(this).on('hidden.bs.modal', function(event) {
+          return $(dialogs[index + 1]).modal('show');
+        });
+      }
+    });
   });
 
 }).call(this);

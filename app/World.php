@@ -12,8 +12,15 @@ use Auth;
 class World extends Model
 {
 	protected $fillable = ['open'];
-
 	private static $_selected;
+
+
+
+
+
+
+
+
 
 	public static function getSelected()
 	{

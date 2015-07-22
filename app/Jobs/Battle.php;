@@ -6,9 +6,10 @@ use HempEmpire\Battleground;
 use HempEmpire\Jobs\Job;
 use HempEmpire\OpponentGenerator;
 use HempEmpire\Player;
+use HempEmpire\ReportDialog;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -116,10 +117,18 @@ class Battle extends Job implements SelfHandling, ShouldQueue {
 
 		foreach ($this->red as $character) {
 			if ($character instanceof Player) {
-				$character->newReport('battle-'.($winner == 'red'?'win':'lose'))
+				$type = 'battle-'.($winner == 'red'?'win':'lose');
+
+				$character->newReport($type)
 				          ->param('reason', $this->reasonRed)
 				->param('log', $report)
 				->send();
+
+				$dialog = new ReportDialog($type);
+				$dialog->with('reason', $this->reasonRed)
+				->with('log', $report);
+
+				$character->pushEvent($dialog);
 
 				if ($winner != 'red') {
 					$character->experience += floor($redExp/5);
@@ -136,10 +145,18 @@ class Battle extends Job implements SelfHandling, ShouldQueue {
 
 		foreach ($this->blue as $character) {
 			if ($character instanceof Player) {
-				$character->newReport('battle-'.($winner == 'blue'?'win':'lose'))
+				$type = 'battle-'.($winner == 'blue'?'win':'lose');
+
+				$character->newReport($type)
 				          ->param('reason', $this->reasonBlue)
 				->param('log', $report)
 				->send();
+
+				$dialog = new ReportDialog($type);
+				$dialog->with('reason', $this->reasonBlue)
+				->with('log', $report);
+
+				$character->pushEvent($dialog);
 
 				if ($winner != 'blue') {
 					$character->experience += floor($blueExp/5);

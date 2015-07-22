@@ -6,6 +6,7 @@ namespace HempEmpire\Http\Controllers;
 use Config;
 use HempEmpire\Player;
 use HempEmpire\World;
+use HempEmpire\Mail;
 use Illuminate\Http\Request;
 
 
@@ -37,9 +38,7 @@ class MailController extends Controller
 
 	public function postCreate(Request $request)
 	{
-
-		$world = World::get();
-		$player = $world->characters()->whereName($request->input('to'))->first();
+		$player = $this->world->players()->whereName($request->input('to'))->first();
 
 		if(empty($player))
 		{
@@ -106,8 +105,10 @@ class MailController extends Controller
 	}
 
 
-	public function inboxView(Mail $mail)
+	public function inboxView($mailId)
 	{
+		$mail = Mail::find($mailId);
+
 		if(empty($mail) || $mail->receiver_deleted)
 		{
 			$this->danger('messageDoesNotExists');
@@ -127,15 +128,39 @@ class MailController extends Controller
 		return redirect(route('message.inbox.index'));
 	}
 
-	public function reply(Mail $mail)
+	public function inboxDelete($mailId)
 	{
+		$mail = Mail::find($mailId);
+
+		if(empty($mail) || $mail->receiver_deleted)
+		{
+			$this->danger('messageDoesNotExists');
+		}
+		elseif($mail->receiver_id != $this->player->id)
+		{
+			$this->danger('wrongMessage');
+		}
+		else
+		{
+			$mail->receiver_deleted = true;
+			$mail->save();
+
+			$this->success('messageDeleted');
+		}
+		return redirect(route('message.inbox.index'));
+	}
+
+	public function reply($mailId)
+	{
+		$mail = Mail::find($mailId);
+
 		if($mail->receiver_id != $this->player->id)
 		{
 			$this->danger('wrongMessage');
 		}
 		else
 		{
-			return view('mail.create')
+			return view('message.create')
 				->with('to', $mail->sender->name)
 				->with('title', 'Re: ' . $mail->title);
 		}
@@ -143,8 +168,10 @@ class MailController extends Controller
 		return redirect(route('message.inbox.index'));
 	}
 
-	public function resend(Mail $mail)
+	public function resend($mailId)
 	{
+		$mail = Mail::find($mailId);
+
 		if($mail->sender_id != $this->player->id)
 		{
 			$this->danger('wrongMessage');
@@ -157,8 +184,10 @@ class MailController extends Controller
 		}
 	}
 
-	public function outboxView(Mail $mail)
+	public function outboxView($mailId)
 	{
+		$mail = Mail::find($mailId);
+
 		if(empty($mail) || $mail->sender_deleted)
 		{
 			$this->danger('messageDoesNotExists');
@@ -175,11 +204,34 @@ class MailController extends Controller
 		return redirect(route('message.outbox.index'));
 	}
 
+	public function outboxDelete($mailId)
+	{
+		$mail = Mail::find($mailId);
+
+		if(empty($mail) || $mail->sender_deleted)
+		{
+			$this->danger('messageDoesNotExists');
+		}
+		elseif($mail->sender_id != $this->player->id)
+		{
+			$this->danger('wrongMessage');
+		}
+		else
+		{
+			$mail->sender_deleted = true;
+			$mail->save();
+
+			$this->success('messageDeleted');
+		}
+		return redirect(route('message.outbox.index'));
+	}
+
 	public function addBlacklist(Request $request)
 	{
 		$name = $request->input('name');
 
-		$player = $this->world->characters()->whereName($name)->first();
+		$player = $this->world->players()->whereName($name)->first();
+
 
 		if(empty($player))
 		{
@@ -203,9 +255,15 @@ class MailController extends Controller
 		return redirect(route('blacklist.index'));
 	}
 
-	public function removeBlacklist(Player $player)
+	public function removeBlacklist($playerId)
 	{
-		if($this->player->blacklist()->where('blocked_id', '=', $player->id)->count() == 0)
+		$player = Player::find($playerId);
+
+		if(empty($player))
+		{
+			$this->danger('characterDoesNotExists');
+		}
+		elseif($this->player->blacklist()->where('blocked_id', '=', $player->id)->count() == 0)
 		{
 			$this->danger('characterIsNotInBlacklist');
 		}

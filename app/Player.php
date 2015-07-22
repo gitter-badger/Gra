@@ -372,6 +372,16 @@ class Player extends Model
 			->orderBy('date', 'desc');
 	}
 
+	public function blacklist()
+	{
+		return $this->belongsToMany(Player::class, 'player_blacklist', 'player_id', 'blocked_id');
+	}
+
+	public function events()
+	{
+		return $this->hasMany(Event::class);
+	}
+
 
 
 
@@ -1344,6 +1354,28 @@ class Player extends Model
 
 
 
+	public function renderEvents()
+	{
+		$output = '';
+
+		$events = $this->events()->get();
+		$this->events()->delete();
+
+		foreach($events as $event)
+			$output .= $event->render();
+
+		return $output;
+	}
+
+
+	public function pushEvent($object)
+	{
+		$this->events()->create([
+
+			'player_id' => $this->id,
+			'object' => serialize($object),
+		]);
+	}
 
 
 

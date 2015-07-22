@@ -329,7 +329,7 @@ class Battle
 		@context.strokeRect(2, height - 20, width, 20)
 
 		@context.fillStyle = '#5BC0DE'
-		@context.fillRect(2, height - 20, width * (@index / (battleLog['log'].length - 1)), 20)
+		@context.fillRect(2, height - 20, width * (Math.min(@index / (battleLog['log'].length - 1), 1)), 20)
 		@context.lineWidth = 5
 
 		for mark in battleLog['marks']
@@ -340,8 +340,8 @@ class Battle
 			at = (mark.at / (battleLog['log'].length - 1)) * width
 
 			@context.beginPath()
-			@context.moveTo(at - @context.lineWidth / 2, height - 20)
-			@context.lineTo(at - @context.lineWidth / 2, height)
+			@context.moveTo(at - @context.lineWidth / 2 + 2, height - 20)
+			@context.lineTo(at - @context.lineWidth / 2 + 2, height)
 			@context.stroke()
 
 		@context.restore()

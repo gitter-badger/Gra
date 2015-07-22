@@ -205,8 +205,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 								Route::get('/inbox/{mail}', ['as'  => 'message.inbox.view', 'uses'  => 'MailController@inboxView']);
 								Route::get('/outbox/{mail}', ['as' => 'message.outbox.view', 'uses' => 'MailController@outboxView']);
 
-								Route::get('/reply/{mail}', ['as'  => 'message.reply', 'uses'  => 'MailController@reply']);
-								Route::get('/resend/{mail}', ['as' => 'message.resend', 'uses' => 'MailController@resend']);
+								Route::get('/inbox/delete/{mail}', ['as'  => 'message.inbox.delete', 'uses'  => 'MailController@inboxDelete']);
+								Route::get('/outbox/delete/{mail}', ['as' => 'message.outbox.delete', 'uses' => 'MailController@outboxDelete']);
+
+								Route::get('/create/reply/{mail}', ['as'  => 'message.reply', 'uses'  => 'MailController@reply']);
+								Route::get('/create/resend/{mail}', ['as' => 'message.resend', 'uses' => 'MailController@resend']);
 
 								Route::post('/blacklist/add', ['as'            => 'blacklist.add', 'uses'            => 'MailController@addBlacklist']);
 								Route::get('/blacklist/remove/{player}', ['as' => 'blacklist.remove', 'uses' => 'MailController@removeBlacklist']);

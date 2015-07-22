@@ -182,7 +182,6 @@
 <body>
 	@if(isset($player))
 
-
 	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 
