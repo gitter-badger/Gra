@@ -305,5 +305,13 @@ return [
 		'properties' => ['hospital' => ['normalSpeed' => 432, 'normalPrice' => 3, 'fastSpeed' => 360, 'fastPrice' => 7]],
 		'requires' => []
 	],
+	[
+		'name' => 'den',
+		'image' => 'den.jpg',
+		'visible' => true,
+		'components' => ['attack'],
+		'properties' => ['attack' => ['minLevel' => 10, 'levelDiff' => 3]],
+		'requires' => ['level:10']
+	],
 ];
 ?>

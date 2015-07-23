@@ -54,6 +54,7 @@ class DeveloperSeeder extends Seeder
 
                 'user_id' => $user->id,
                 'world_id' => 1,
+                'location_id' => 2,
                 'name' => 'Player' . ($i + 1),
                 'avatar' => asset('images/avatars/' . ($i % 9) . '.png'),
                 'strength' => mt_rand(0, 5),
@@ -62,6 +63,9 @@ class DeveloperSeeder extends Seeder
                 'charisma' => mt_rand(0, 5),
                 'intelligence' => mt_rand(0, 5),
                 'agility' => mt_rand(0, 5),
+
+                'jobStart' => 0,
+                'jobEnd' => 0,
             ]);
         }
     }

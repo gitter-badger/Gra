@@ -110,5 +110,11 @@ return [
 			'fastSpeed',
 			'fastPrice',
 		],
+
+		'attack' => [
+
+			'minLevel',
+			'levelDiff',
+		],
 	],
 ];

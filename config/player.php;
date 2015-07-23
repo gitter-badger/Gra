@@ -50,6 +50,12 @@ return [
 		'duration' => 10*60,
 	],
 
+	'attacking' => [
+
+		'energy'   => 25,
+		'duration' => 10*60,
+	],
+
 	'avatars' => [
 
 		'0.png',

@@ -24,7 +24,7 @@ class Beat
 
 	public function handle(PlaceLeave $event)
 	{
-		if(mt_rand(0, 100) < 20 && $event->place->location->is('city'))
+		if(mt_rand(0, 100) < 10 && $event->place->location->is('city'))
 		{
 			$job = new Battle();
 			$job->joinBlue($event->player);

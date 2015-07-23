@@ -121,7 +121,6 @@ class Player extends Model
 				$report = $player->newReport('levelup');
 
 				$player->level++;
-				$player->health = $player->maxHealth;
 				$player->energy = $player->maxEnergy;
 				$player->experience -= $player->maxExperience;
 				$player->maxExperience = Config::get('experience.table.' . $player->level);
@@ -240,11 +239,17 @@ class Player extends Model
 				$player->reload = true;
 			}
 
-			if($player->attributes['health'] <= 0 && $player->jobName != 'healing-normal' && $player->jobName != 'healing-fast' && $player->jobEnd <= time())
+			if($player->attributes['health'] <= 0 && (!starts_with($player->jobName, 'healing') || $player->jobEnd <= time()))
 			{
 				$locations = Location::with('places')->get();
 				$distance = null;
 				$place = null;
+
+				
+				$locations = Location::with('places')->get();
+				$distance = null;
+				$place = null;
+				$location = null;
 
 				foreach($locations as $l)
 				{
@@ -258,12 +263,25 @@ class Player extends Model
 						{
 							$place = $p;
 							$distance = $d;
+							$location = $l;
 						}
 					}
 				}
 
 				$duration = $place->getProperty('hospital.normalSpeed') * $player->maxHealth;
-				$player->startHealing($duration, false);
+
+				if(Config::get('app.debug', false))
+					$duration /= 60;
+
+				$now = time();
+
+				$player->startJob('healing-normal', $duration);
+				$player->location_id = $location->id;
+				$player->location_place_id = $place->id;
+				$player->healthUpdate = $now;
+				$player->endHealthUpdate = $now + $duration;
+	
+
 				$player->reload = true;
 			}
 		});
@@ -1214,6 +1232,26 @@ class Player extends Model
 		$this->healthUpdate = $now;
 		$this->endHealthUpdate = $now + $duration;
 		$this->moveToHospital(false);
+	
+
+		if($save)
+		{
+			return $this->save();
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	public function startAttacking($duration, $save = true)
+	{
+		if(Config::get('app.debug', false))
+			$duration /= 60;
+
+		$now = time();
+
+		$this->startJob('attacking', $duration);
 	
 
 		if($save)
