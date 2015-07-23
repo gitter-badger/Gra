@@ -82,7 +82,11 @@ class Rent extends Component
 
 	public function action($name, $request)
 	{
-		if($name !== 'rent')
+		if($name == 'work')
+		{
+			return;
+		}
+		elseif($name !== 'rent')
 		{
 
 			$timer = $this->getRentTimer();

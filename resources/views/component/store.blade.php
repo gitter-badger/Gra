@@ -42,7 +42,7 @@
 								{!! BootForm::open()->post()->action(route('game', ['view' => $view])) !!}
 								{!! BootForm::token() !!}
 
-								{!! BootForm::hidden('action')->value('buy') !!}
+								{!! BootForm::hidden('action')->value($view) !!}
 								{!! BootForm::hidden('item')->value($item->getId()) !!}
 								{!! BootForm::hidden('type')->value($item->getType()) !!}
 
@@ -57,7 +57,7 @@
 
 											<div class="input-group-btn">
 
-												{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+												{!! BootForm::submit(trans('action.' . $view), 'btn-primary')->addClass('center-block') !!}
 											</div>
 
 										</div>
@@ -65,7 +65,7 @@
 				
 									@else
 
-										{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+										{!! BootForm::submit(trans('action.' . $view), 'btn-primary')->addClass('center-block') !!}
 
 									@endif
 								@else

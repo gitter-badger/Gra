@@ -37,6 +37,8 @@ class Attack extends Component {
 			$this->danger('cannotAttackYourself');
 		} elseif ($this->player->location_id != $character->location_id || $character->jobEnd > time()) {
 			$this->danger('playerRunAway');
+		} elseif ($character->level < $this->getProperty('minLevel') || abs($this->player->level-$character->level) > $this->getProperty('levelDiff')) {
+			$this->danger('cannotAttackPlayer');
 		} else {
 			$this->player->energy -= $energy;
 			$this->player->startAttacking($duration, false);

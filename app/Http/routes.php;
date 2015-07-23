@@ -215,7 +215,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 								Route::get('/blacklist/remove/{player}', ['as' => 'blacklist.remove', 'uses' => 'MailController@removeBlacklist']);
 							});
 
-						Route::controller('/ranking', 'RankingController');
+						Route::controller('/ranking', 'RankingController', [
+
+								'getIndex' => 'ranking',
+							]);
 
 						Route::get('/premiumShop', ['as' => 'premiumShop', function () {
 									return view('premiumshop');

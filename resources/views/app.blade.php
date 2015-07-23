@@ -239,6 +239,10 @@
 						->url(route('premiumShop'))
 						->text(trans('navigation.premiumShop')) !!}
 
+					{!! entity('navItem') 
+						->icon('list-alt')
+						->url(route('ranking'))
+						->text(trans('navigation.ranking')) !!}
 
 					{!! entity('navItem') 
 						->icon('globe')

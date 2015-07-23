@@ -12,4 +12,6 @@ return [
 	'gamble' => 'Obstaw',
 	'pay' => 'Zapłać',
 	'treat' => 'Rozpocznij leczenie',
+	'put' => 'Zostaw',
+	'take' => 'Weź',
 ];

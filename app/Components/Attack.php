@@ -52,6 +52,10 @@ class Attack extends Component
 		{
 			$this->danger('playerRunAway');
 		}
+		elseif($character->level < $this->getProperty('minLevel') || abs($this->player->level - $character->level) > $this->getProperty('levelDiff'))
+		{
+			$this->danger('cannotAttackPlayer');
+		}
 		else
 		{
 			$this->player->energy -= $energy;

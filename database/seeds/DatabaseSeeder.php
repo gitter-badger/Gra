@@ -31,7 +31,9 @@ class DatabaseSeeder extends Seeder
         $this->call('QuestSeeder');
         $this->call('InvestmentSeeder');
 
-        $this->call('DeveloperSeeder');
+        if(Config::get('app.debug', false))
+            $this->call('DeveloperSeeder');
+        
         Model::reguard();
     }
 }

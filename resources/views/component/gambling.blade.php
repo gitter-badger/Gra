@@ -15,7 +15,7 @@
 
 
 						{!! BootForm::range('<strong>' . trans('gambling.bet') . '</strong>', 'value')
-							->min($minBet)->max($maxBet)->data('ng-model', 'bet')->before('$')->value($minBet) !!}
+							->min($minBet)->max(min($maxBet, $player->money))->data('ng-model', 'bet')->before('$')->value($minBet) !!}
 
 						{!! BootForm::staticInput('<strong>' . trans('gambling.money') . '</strong>')
 							->value('$<span data-ng-bind="money()"></span>') !!}
