@@ -16,7 +16,7 @@
 
 	<tbody>
 		
-	@foreach($mails as $mail)
+	@forelse($mails as $mail)
 
 
 		@if($mail->viewed)
@@ -35,9 +35,16 @@
 				</div>
 			</td>
 		</tr>	
+	@empty
+	
+	<tr>
+		<td colspan="4">
+			<h4 class="text-center">@lang('mail.empty')</h4>
+		</td>
+	</tr>
 
 
-	@endforeach
+	@endforelse
 	</tbody>
 	
 	<tfoot>

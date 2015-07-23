@@ -13,7 +13,7 @@
 				@foreach($worlds as $world)
 
 					<a href="{{ route('world.select', ['world' => $world->id]) }}"
-						class="list-group-item btn btn-{{ $world->isSelected() ? 'primary active' : 'default' }}{{ $world->isAvailable() ? '' : ' disabled' }}">
+						class="list-group-item btn btn-{{ $world->isSelected() ? 'primary active' : ($world->hasCharacter() ? 'success list-group-item-success' : 'default') }}{{ $world->isAvailable() ? '' : ' disabled' }}">
 
 						<p>@lang('world.' . $world->id) <span class="badge">{{ $world->population }}</span></p>
 					</a>

@@ -20,12 +20,6 @@ return [
 			'rewards' => ['money:10', 'experience:10'],
 			'requires' => []
 		],
-		'work-in-the-warehouse' => [
-			'duration' => 1800,
-			'costs' => ['energy:20'],
-			'rewards' => ['money:20', 'experience:20'],
-			'requires' => ['strength:10', 'endurance: 15']
-		],
 		'laying-panels' => [
 			'duration' => 1800,
 			'costs' => ['energy:20'],
@@ -62,31 +56,19 @@ return [
 			'rewards' => ['money:20', 'experience:20'],
 			'requires' => ['charisma:15']
 		],
-		'unloading-a-truck' => [
-			'duration' => 1800,
-			'costs' => ['energy:20'],
-			'rewards' => ['money:20', 'experience:20'],
-			'requires' => ['strength:10', 'endurance:10']
-		],
-		'covering-the-goods' => [
-			'duration' => 1800,
-			'costs' => ['energy:20'],
-			'rewards' => ['money:20', 'experience:20'],
-			'requires' => []
-		],
 	],
 	'club' => [
 		'club-bartender' => [
 			'duration' => 3600,
 			'costs' => ['energy:30'],
 			'rewards' => ['money:50', 'experience:25'],
-			'requires' => null
+			'requires' => []
 		],
 		'club-waiter' => [
 			'duration' => 3600,
 			'costs' => ['energy:30'],
 			'rewards' => ['money:50', 'experience:25'],
-			'requires' => null
+			'requires' => []
 		],
 	],
 	'dump' => [
@@ -114,19 +96,19 @@ return [
 			'duration' => 1200,
 			'costs' => ['energy:20'],
 			'rewards' => ['money:20', 'experience:10'],
-			'requires' => null
+			'requires' => []
 		],
 		'shop-covering-goods' => [
 			'duration' => 1200,
 			'costs' => ['energy:20'],
 			'rewards' => ['money:20', 'experience:10'],
-			'requires' => null
+			'requires' => []
 		],
 		'shop-salesman' => [
 			'duration' => 3600,
 			'costs' => ['energy:30'],
 			'rewards' => ['money:50', 'experience:25'],
-			'requires' => null
+			'requires' => []
 		],
 	],
 	'tutorial-works' => [
@@ -142,7 +124,7 @@ return [
 			'duration' => 3600,
 			'costs' => ['energy:30'],
 			'rewards' => ['money:50', 'experience:25'],
-			'requires' => null
+			'requires' => []
 		],
 	],
 ];

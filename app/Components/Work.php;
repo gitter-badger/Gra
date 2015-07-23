@@ -7,7 +7,8 @@ use HempEmpire\Jobs\WorkEnds;
 use HempEmpire\WorkGroup;
 
 class Work extends Component {
-	private $works = [];
+	protected $index = -200;
+	private $works   = [];
 	private $lastUpdate;
 	private $nextUpdate;
 

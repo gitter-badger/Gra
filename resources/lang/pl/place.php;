@@ -158,4 +158,88 @@ return [
 		'description' => null,
 	],
 
+	'restaurant' => [
+
+		'name'        => 'Restauracja',
+		'description' => null,
+	],
+
+	'casino' => [
+
+		'name'        => 'Kasyno',
+		'description' => null,
+	],
+
+	'night-club' => [
+
+		'name'        => 'Klub nocny',
+		'description' => null,
+	],
+
+	'hotel' => [
+
+		'name'        => 'Hotel',
+		'description' => null,
+	],
+
+	'bank' => [
+
+		'name'        => 'Bank',
+		'description' => null,
+	],
+
+	'pub' => [
+
+		'name'        => 'Pub',
+		'description' => null,
+	],
+
+	'game-room' => [
+
+		'name'        => 'Salon gier',
+		'description' => null,
+	],
+
+	'motel' => [
+
+		'name'        => 'Motel',
+		'description' => null,
+	],
+
+	'sanctuary' => [
+
+		'name'        => 'Sanktuarium',
+		'description' => null,
+	],
+
+	'church' => [
+
+		'name'        => 'Kościół',
+		'description' => null,
+	],
+
+	'chapel' => [
+
+		'name'        => 'Kaplica',
+		'description' => null,
+	],
+
+	'hospital' => [
+
+		'name'        => 'Szpital',
+		'description' => null,
+	],
+
+	'clinic' => [
+
+		'name'        => 'Klinika',
+		'description' => null,
+	],
+
+	'den' => [
+
+		'name'        => 'Melina',
+		'description' => null,
+	],
+
 ];

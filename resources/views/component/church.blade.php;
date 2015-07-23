@@ -8,8 +8,6 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 
-						<h4>@lang('church.description')</h4>
-
 						@if($timer->active)
 
 

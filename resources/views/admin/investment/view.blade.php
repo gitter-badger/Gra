@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		
+
 		<h2>{{ $investment->name }} -- Podgląd</h2>
 	</div>
 
@@ -18,6 +18,9 @@
 
 	{!! BootForm::staticInput('<strong>Nazwa</strong>', 'name')
 		->value($investment->name) !!}
+
+	{!! BootForm::staticInput('<strong>Nazwa wyświetlana</strong>', 'name')
+		->value(trans('investment.' . $investment->name)) !!}
 
 
 	{!! BootForm::staticInput('<strong>Bazowy przychód</strong>', 'baseIncome')

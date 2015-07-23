@@ -10,6 +10,7 @@ use Config;
 
 class Work extends Component
 {
+	protected $index = -200;
 	private $works = [];
 	private $lastUpdate;
 	private $nextUpdate;

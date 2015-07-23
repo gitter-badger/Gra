@@ -19,6 +19,9 @@
 	{!! BootForm::staticInput('<strong>Nazwa</strong>', 'name')
 		->value($investment->name) !!}
 
+	{!! BootForm::staticInput('<strong>Nazwa wyświetlana</strong>', 'name')
+		->value(trans('investment.' . $investment->name)) !!}
+
 
 	{!! BootForm::staticInput('<strong>Bazowy przychód</strong>', 'baseIncome')
 		->value($investment->baseIncome) !!}

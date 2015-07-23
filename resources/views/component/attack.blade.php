@@ -1,12 +1,12 @@
 <div>
-	<h4>@lang('attack.title')</h4>
+	<h4><strong>@lang('attack.title')</strong></h4>
 
 	<div class="well text-center">
 
 		<div class="row equalize">
 
 
-			@foreach($characters as $character)
+			@forelse($characters as $character)
 			<div class="col-xs-6 col-md-4">
 				
 
@@ -27,7 +27,14 @@
 				{!! BootForm::close() !!}
 
 			</div>
-			@endforeach
+			@empty
+
+			<div class="col-xs-12">
+
+				<h4>@lang('attack.empty')</h4>
+			</div>
+
+			@endforelse
 		</div>
 
 

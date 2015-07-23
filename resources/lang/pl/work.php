@@ -2,6 +2,7 @@
 
 return [
 
+	'title' => 'Dostępne prace',
 	'duration' => 'Czas trwania',
 	'rewards' => 'Nagrody',
 	'costs' => 'Koszta',
@@ -121,4 +122,43 @@ return [
 		'description' => null,
 	],
 
+
+
+
+
+	'club-bartender' => [
+
+		'name' => 'Pracuj jako barman',
+		'description' => null,
+	],
+
+	'club-waiter' => [
+
+		'name' => 'Pracuj jako kelner',
+		'description' => null,
+	],
+
+	'shop-unloading-cargo' => [
+
+		'name' => 'Rozładunek towaru',
+		'description' => null,
+	],
+
+	'shop-covering-goods' => [
+
+		'name' => 'Wykładanie towaru',
+		'description' => null,
+	],
+
+	'shop-salesman' => [
+
+		'name' => 'Pracuj jako ekspedient',
+		'description' => null,
+	],
+
+	'warehouse-warehouseman' => [
+
+		'name' => 'Pracuj jako magazynier',
+		'description' => null,
+	],
 ];

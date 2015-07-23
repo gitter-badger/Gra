@@ -22,7 +22,7 @@
 
 
 
-						{!! BootForm::submit(trans('gambling.gamble'), 'btn-primary')
+						{!! BootForm::submit(trans('action.gamble'), 'btn-primary')
 							->addClass('center-block') !!}
 
 						{!! BootForm::close() !!}

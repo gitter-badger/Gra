@@ -294,7 +294,7 @@ return [
 		'image' => 'hospital.jpg',
 		'visible' => true,
 		'components' => ['hospital'],
-		'properties' => ['hospital' => ['normalSpeed' => 360, 'normalPrice' => 5, 'fastSpeed' => 288, 'fastPrice' => 10]],
+		'properties' => ['hospital' => ['normalSpeed' => 360, 'normalPrice' => 3, 'fastSpeed' => 288, 'fastPrice' => 5]],
 		'requires' => []
 	],
 	[
@@ -302,7 +302,7 @@ return [
 		'image' => 'clinic.jpg',
 		'visible' => true,
 		'components' => ['hospital'],
-		'properties' => ['hospital' => ['normalSpeed' => 432, 'normalPrice' => 3, 'fastSpeed' => 360, 'fastPrice' => 7]],
+		'properties' => ['hospital' => ['normalSpeed' => 432, 'normalPrice' => 1, 'fastSpeed' => 360, 'fastPrice' => 3]],
 		'requires' => []
 	],
 	[

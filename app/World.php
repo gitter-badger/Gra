@@ -118,6 +118,14 @@ class World extends Model
 		}
 	}
 
+	public function hasCharacter(User $user = null)
+	{
+		if(is_null($user))
+			$user = Auth::user();
+
+		return $this->players()->where('user_id', '=', $user->id)->count() > 0;
+	}
+
 	public function getName()
 	{
 		return $this->id;

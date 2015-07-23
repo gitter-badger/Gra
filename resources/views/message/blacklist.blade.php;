@@ -7,7 +7,7 @@
 
 	<thead>
 		<tr>
-			<th>@lang('blacklist.name')</th>
+			<th>@lang('player.name')</th>
 			<th></th>
 		</tr>
 	</thead>

@@ -1,5 +1,5 @@
 <div>
-	<h4><strong>@lang('investment.title', ['investment' => trans('investment.' . $investment->name)])</strong></h4>
+	<h4><strong>@lang('investment.title', ['name' => trans('investment.' . $investment->investment->name)])</strong></h4>
 
 	<div class="well text-center">
 

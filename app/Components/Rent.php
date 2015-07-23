@@ -73,7 +73,7 @@ class Rent extends Component
 
 			return $container
 				->append($well
-					->append('<h4>' . trans('rent.duration') . '</h4>')
+					->append('<h4>' . trans('rent.left') . '</h4>')
 					->append($row
 						->append($col
 							->append($progress))));
@@ -136,7 +136,7 @@ class Rent extends Component
 				}
 				else
 				{
-					$this->danger('unknown');
+					$this->danger('saveError');
 				}
 			}
 		}
