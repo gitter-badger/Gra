@@ -17,8 +17,7 @@ class CreateGangMembersTable extends Migration
             $table->increments('id');
             $table->integer('gang_id')->unsigned();
             $table->integer('player_id')->unsigned();
-            $table->enum('role', ['member', 'oficer', 'boss']);
-            $table->integer('permissions')->unsigned();
+            $table->enum('role', ['newbie', 'member', 'officer', 'boss']);
         });
     }
 

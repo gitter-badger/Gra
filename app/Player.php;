@@ -336,6 +336,10 @@ class Player extends Model {
 		return $this->hasOne(GangMember::class );
 	}
 
+	public function invitations() {
+		return $this->hasMany(PlayerInvitation::class );
+	}
+
 	public function save(array $options = array()) {
 		return \DB::transaction(function () use ($options) {
 				$success = true;

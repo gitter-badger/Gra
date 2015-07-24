@@ -16,6 +16,7 @@ class CreateGangsTable extends Migration {
 				$table->string('name');
 				$table->integer('level')->unsigned();
 				$table->integer('money')->unsigned();
+				$table->integer('respect')->unsigned();
 				$table->timestamps();
 			});
 	}

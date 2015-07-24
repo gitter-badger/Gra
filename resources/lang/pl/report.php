@@ -89,4 +89,34 @@ return [
 		'title' => 'Przegrałeś walkę',
 		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas>',
 	],
+
+	'invitation' => [
+
+		'title' => 'Zostałeś zaproszony do gangu :gang',
+		'content' => 'Gracz :by zaprosił Cię do gangu :gang',
+	],
+
+	'kick' => [
+
+		'title' => 'Zostałeś wyrzucony z gangu :gang',
+		'content' => 'Gracz :by wyrzucił Cię z gangu :gang',
+	],
+
+	'promoted' => [
+
+		'title' => 'Zostałeś awansowany',
+		'content' => 'Gracz :by awansował Cię na :role',
+	],
+
+	'demoted' => [
+
+		'title' => 'Zostałeś degradowany',
+		'content' => 'Gracz :by zdegradował Cię na :role',
+	],
+
+	'invitationCanceled' => [
+
+		'title' => 'Gang :gang cofnął zaproszenie',
+		'content' => 'Gracz :by z gangu :gang cofnął zaproszenie',
+	],
 ];

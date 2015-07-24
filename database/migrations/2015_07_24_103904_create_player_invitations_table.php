@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGangsTable extends Migration
+class CreatePlayerInvitationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,11 @@ class CreateGangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('gangs', function (Blueprint $table)
+        Schema::create('player_invitations', function (Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('world_id')->unsigned();
-            $table->string('name');
-            $table->integer('level')->unsigned();
-            $table->integer('money')->unsigned();
-            $table->integer('respect')->unsigned();
+            $table->integer('player_id')->unsigned();
+            $table->integer('gang_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateGangsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('gangs');
+        Schema::drop('player_invitations');
     }
 }

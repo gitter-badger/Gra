@@ -199,4 +199,61 @@ class PlayerController extends Controller
 		return redirect(route('player.items'));
 	}
 
+
+	public function getInvitations()
+	{
+		$player = Player::getActive();
+
+		if(is_null($player->gang))
+		{
+			return view('player.invitations')
+				->with('invitations', $player->invitations);
+		}
+		else
+		{
+			return redirect()->route('player.statistics');
+		}
+	}
+
+	public function postInvitations(Request $request)
+	{
+		$player = Player::getActive();
+		$invitation = $player->invitations()->whereId($request->input('invitation'))->first();
+
+
+		if(!is_null($player->gang))
+		{
+			$this->danger('youAlreadyHaveGang');
+		}
+		elseif(is_null($invitation))
+		{
+			$this->danger('wrongInvitation');
+		}
+		else
+		{
+			$member = new \HempEmpire\GangMember;
+			$member->gang_id = $invitation->gang_id;
+			$member->player_id = $player->id;
+			$member->role = 'newbie';
+
+			$player->gang_id = $invitation->gang_id;
+
+
+			$success = DB::transaction(function() use($member, $player, $invitation)
+			{
+				return $member->save() && $player->save() && $invitation->delete();
+			});
+
+			if($success)
+			{
+				$this->success('invitationAccepted');
+				return redirect()->route('player.statistics');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+		return redirect()->route('player.invitations');
+	}
 }

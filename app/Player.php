@@ -410,6 +410,11 @@ class Player extends Model
 		return $this->hasOne(GangMember::class);
 	}
 
+	public function invitations()
+	{
+		return $this->hasMany(PlayerInvitation::class);
+	}
+
 
 
 

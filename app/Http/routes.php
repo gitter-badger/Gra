@@ -45,29 +45,11 @@ Route::group(['prefix' => '/api', 'middleware' => ['auth', 'verified', 'world', 
 
 Route::get('/test', function()
 {
-	$generator = new \HempEmpire\OpponentGenerator;
-	$player = Player::getActive();
-
-	$battleground = new \HempEmpire\Battleground;
-
-	//$battleground->joinRed($player);
-	//$battleground->joinBlue($generator->generate($player->level));
-
-	for($i = 0; $i < 8; ++$i)
+	foreach(Player::all() as $player)
 	{
-		$battleground->joinRed($generator->generate(($i + 1) * 11));
-		$battleground->joinBlue($generator->generate(($i + 1) * 11));
+		$player->experience += 1;
+		$player->save();
 	}
-
-	Debugbar::startMeasure('battle', 'Walka');
-
-	$battleground->battle();
-
-	Debugbar::sopMeasuer('battle');
-
-
-	return view('battle')
-		->with('log', $battleground->report());
 });
 
 
@@ -177,6 +159,8 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 			'getStatistics' => 'player.statistics',
 			'getItems' => 'player.items',
 			'postItems' => 'player.use',
+			'getInvitations' => 'player.invitations',
+			'postInvitations' => 'player.accept',
 		]);
 
 
