@@ -20,12 +20,12 @@ class Player extends Model
 	use ItemContainer;
 	use DispatchesMessages;
 
-	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'name', 'avatar', 'level', 'experience',
+	protected $fillable = ['user_id', 'world_id', 'location_id', 'location_place_id', 'gang_id', 'name', 'avatar', 'level', 'experience',
 		'maxExperience',  'plantatorLevel', 'plantatorExperience', 'plantatorMaxExperience', 'smugglerLevel', 
 		'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 'dealerExperience', 'dealerMaxExperience', 
 		'health', 'maxHealth', 'healthUpdate', 'endHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
-		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money'];
+		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money', 'respect'];
 
 
 
@@ -399,6 +399,22 @@ class Player extends Model
 	{
 		return $this->hasMany(Event::class);
 	}
+
+	public function gang()
+	{
+		return $this->belongsTo(Gang::class);
+	}
+
+	public function member()
+	{
+		return $this->hasOne(GangMember::class);
+	}
+
+
+
+
+
+
 
 
 

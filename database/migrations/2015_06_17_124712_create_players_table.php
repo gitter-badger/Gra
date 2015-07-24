@@ -19,6 +19,7 @@ class CreatePlayersTable extends Migration
             $table->integer('world_id')->unsigned();
             $table->integer('location_id')->unsigned();
             $table->integer('location_place_id')->unsigned()->nullable();
+            $table->integer('gang_id')->unsigned()->nullable();
 
             $table->string('name');
             $table->string('avatar');
@@ -77,7 +78,8 @@ class CreatePlayersTable extends Migration
             $table->integer('statisticPoints')->unsigned();
             $table->integer('talentPoints')->unsigned();
 
-            $table->integer('money');
+            $table->integer('money')->unsigned();
+            $table->integer('respect')->unsigned();
         });
     }
 

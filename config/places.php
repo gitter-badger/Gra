@@ -313,5 +313,13 @@ return [
 		'properties' => ['attack' => ['minLevel' => 10, 'levelDiff' => 3]],
 		'requires' => ['level:10']
 	],
+	[
+		'name' => 'headquarters',
+		'image' => 'headquarters.jpg',
+		'visible' => true,
+		'components' => ['gang'],
+		'properties' => [],
+		'requires' => ['level:10']
+	],
 ];
 ?>

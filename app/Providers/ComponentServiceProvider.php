@@ -102,5 +102,10 @@ class ComponentServiceProvider extends ServiceProvider
         {
             return new \HempEmpire\Components\Attack;
         });
+
+        $this->app->bind('component.gang', function($app)
+        {
+            return new \HempEmpire\Components\Gang;
+        });
     }
 }

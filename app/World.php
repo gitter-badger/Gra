@@ -93,10 +93,22 @@ class World extends Model
 		return !is_null($selected) && $selected->id == $this->id;
 	}
 
+
+
+
 	public function players()
 	{
 		return $this->hasMany(Player::class);
 	}
+
+	public function gangs()
+	{
+		return $this->hasMany(Gang::class);
+	}
+
+
+
+
 
 
 	public function getPopulationAttribute()

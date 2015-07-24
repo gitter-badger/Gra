@@ -116,5 +116,10 @@ return [
 			'minLevel',
 			'levelDiff',
 		],
+
+		'gang' => [
+
+			
+		],
 	],
 ];
