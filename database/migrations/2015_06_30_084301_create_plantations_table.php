@@ -20,6 +20,11 @@ class CreatePlantationsTable extends Migration
 
             $table->float('light');
             $table->float('ground');
+
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('location_place_id')->references('id')->on('location_places');
         });
     }
 

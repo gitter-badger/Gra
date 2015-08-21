@@ -2,10 +2,11 @@
 
 namespace HempEmpire;
 
+use Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Gang extends Model {
-	protected $fillable = ['world_id', 'name', 'level', 'money', 'respect'];
+	protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack'];
 	public $timestamps  = true;
 
 	public function world() {
@@ -24,11 +25,37 @@ class Gang extends Model {
 		return $this->members()->count()+$this->invitations()->count();
 	}
 
-	public function getUpgradeCostAttribute() {
-		return round(exp($this->level/10)*100);
+	public function getLevelAttribute() {
+		$q = $this->members()->leftJoin('players', 'gang_members.player_id', '=', 'players.id');
+
+		return round($q->sum('level')/$q->count());
+	}
+
+	public function getAccomodationUpgradeCostAttribute() {
+		return round(exp($this->accomodationLevel)*Config::get('gang.upgrade.accomodation.cost'));
+	}
+
+	public function getAccomodationMaxLevel() {
+		return Config::get('gang.upgrade.accomodation.maxLevel');
+	}
+
+	public function getAttackUpgradeCostAttribute() {
+		return round(exp($this->attackLevel)*Config::get('gang.upgrade.attack.cost'));
+	}
+
+	public function getAttackMaxLevel() {
+		return Config::get('gang.upgrade.attack.maxLevel');
+	}
+
+	public function getDefenseUpgradeCostAttribute() {
+		return round(exp($this->defenseLevel)*Config::get('gang.upgrade.defense.cost'));
+	}
+
+	public function getDefenseMaxLevel() {
+		return Config::get('gang.upgrade.defense.maxLevel');
 	}
 
 	public function getMembersLimitAttribute() {
-		return floor($this->level/10)+4;
+		return $this->accomodationLevel+3;
 	}
 }

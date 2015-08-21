@@ -1,0 +1,106 @@
+@if(isset($player))
+
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="navbar-header navbar-left">
+
+				{!! BootForm::open()->post()->addClass('navbar-form navbar-left')->addClass(is_null($player->place) || $player->isBusy || !isCurrentRoute('game') ? 'invisible' : null) !!}
+				{!! BootForm::token() !!}
+				{!! BootForm::hidden('place')->value(null) !!}
+
+
+				<button type="submit" class="btn btn-default">{!! entity('icon')->icon('arrow-left') !!}</button>
+
+				{!! BootForm::close() !!}
+
+
+				<div class="btn-group navbar-left">
+
+					{!! entity('navItem')
+						->icon('home')
+						->url(route('game'))
+						->text(is_null($player->place) ? $player->location->getName() : $player->place->getName()) !!}
+
+					<div class="btn-group">
+
+						{!! entity('navItem')
+							->icon('user')
+							->url(route('player.index'))
+							->text($player->name) !!}
+
+						<button type="button" class="btn btn-{!! isCurrentRoute('player.index') ? 'primary' : 'default' !!} navbar-btn dropdown-toggle" data-toggle="dropdown">
+    						<span class="caret"></span>
+						</button>
+
+						<ul class="dropdown-menu">
+
+							<li {!! isCurrentRoute('player.statistics') ? ' class="active"' : '' !!}><a href="{{ route('player.statistics') }}">@lang('player.statistics')</a></li>
+							<li {!! isCurrentRoute('player.items') ? ' class="active"' : '' !!}><a href="{{ route('player.items') }}">@lang('player.items')</a></li>
+							<li {!! isCurrentRoute('player.talents') ? ' class="active"' : '' !!}><a href="{{ route('player.talents') }}">@lang('player.talents')</a></li>
+							<li {!! isCurrentRoute('player.quests') ? ' class="active"' : '' !!}><a href="{{ route('player.quests') }}">@lang('player.quests')</a></li>
+
+							@if(is_null($player->gang))
+
+							<li {!! isCurrentRoute('player.invitations') ? ' class="active"' : '' !!}><a href="{{ route('player.invitations') }}">@lang('player.invitations')</a></li>
+							@endif
+						</ul>
+					</div>
+
+					{!! entity('navItem')
+						->icon('envelope')
+						->url(route('message.index'))
+						->text(trans('navigation.messages'))
+						->append(' <span class="badge" data-ng-bind="player.messages"></span>') !!}
+
+					{!! entity('navItem')
+						->icon('exclamation-sign')
+						->url(route('reports.index'))
+						->text(trans('navigation.reports'))
+						->append(' <span class="badge" data-ng-bind="player.reports"></span>') !!}
+
+					{!! entity('navItem')
+						->icon('usd')
+						->url(route('premiumShop'))
+						->addClass('disabled')
+						->text(trans('navigation.premiumShop')) !!}
+
+					{!! entity('navItem')
+						->icon('list-alt')
+						->url(route('ranking'))
+						->text(trans('navigation.ranking')) !!}
+
+					{!! entity('navItem')
+						->icon('globe')
+						->url(route('world.list'))
+						->text($player->world->getTitle()) !!}
+
+
+					{!! entity('navItem')
+						->icon('cog')
+						->url(route('user.index'))
+						->text(trans('navigation.user')) !!}
+
+					@if($player->user->admin)
+
+					{!! entity('navItem')
+						->icon('dashboard')
+						->url(route('admin.index'))
+						->text(trans('navigation.adminDashboard')) !!}
+
+					@endif
+
+					{!! entity('navItem')
+						->icon('lock')
+						->url(route('user.logout'))
+						->text(trans('navigation.logout')) !!}
+				</div>
+			</div>
+
+
+		</div>
+	</nav>
+
+
+
+	@endif

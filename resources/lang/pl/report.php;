@@ -26,7 +26,7 @@ return [
 	'levelup' => [
 
 		'title'   => 'Awansowałeś na poziom :level',
-		'content' => 'Awansując na kolejny poziom zyskałeś :statistics punktów statystyk :talent'
+		'content' => 'Awansując na kolejny poziom i zyskałeś :statistics punktów statystyk'
 	],
 
 	'plantator-levelup' => [
@@ -80,13 +80,25 @@ return [
 	'battle-win' => [
 
 		'title'   => 'Wygrałeś walkę',
-		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas>',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas><p>:rewards</p>',
 	],
 
 	'battle-lose' => [
 
 		'title'   => 'Przegrałeś walkę',
-		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas>',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas><p>:rewards</p>',
+	],
+
+	'gang-battle-win' => [
+
+		'title'   => 'Twój gang wygrał walkę',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas><p>:rewards</p>',
+	],
+
+	'gang-battle-lose' => [
+
+		'title'   => 'Twój gang przegrał walkę',
+		'content' => '<p>:reason</p>:log <canvas id="battleView" width="600px" height="450px"></canvas><p>:rewards</p>',
 	],
 
 	'invitation' => [
@@ -117,5 +129,17 @@ return [
 
 		'title'   => 'Gang :gang cofnął zaproszenie',
 		'content' => 'Gracz :by z gangu :gang cofnął zaproszenie',
+	],
+
+	'gang-attack' => [
+
+		'title'   => 'Zostałeś wezwany do broni',
+		'content' => 'Twój gang planuje atak na :gang o :at',
+	],
+
+	'gang-defend' => [
+
+		'title'   => 'Zostałeś wezwany do broni',
+		'content' => 'Wrogi gang :gang planuje atak na Twój gang o :at',
 	],
 ];

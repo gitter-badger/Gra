@@ -18,6 +18,8 @@ class CreateTemplateShopDeliveriesTable extends Migration
             $table->integer('shop_id')->unsigned();
             $table->morphs('item');
             $table->integer('count')->unsigned();
+
+            $table->foreign('shop_id')->references('id')->on('template_shops');
         });
     }
 

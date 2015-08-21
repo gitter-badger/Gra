@@ -16,11 +16,19 @@ class Store extends Component
 
 	public function init()
 	{
-		$this->store = StoreModel::firstOrCreate([
+		$this->store = StoreModel::firstOrNew([
 
 			'location_place_id' => $this->getPlaceId(),
 			'player_id' => $this->player->id,
 		]);
+
+		if(!$this->store->exists)
+		{
+			$this->store->level = 0;
+			$this->store->premiumLevel = 0;
+			$this->store->capacity = $this->getProperty('baseCapacity');
+			$this->store->save();
+		}
 	}
 
 	private function paginate($array, $view, $perPage = 16)
@@ -99,6 +107,16 @@ class Store extends Component
 		return array_search($type, $types) !== false;
 	}
 
+	private function getExpandPrice()
+	{
+		return $this->getProperty('levelBasePrice') + $this->getProperty('levelPrice') * $this->store->level;
+	}
+
+	private function getPremiumExpandPrice()
+	{
+		return $this->getProperty('premiumLevelBasePrice') + $this->getProperty('premiumLevelPrice') * $this->store->premiumLevel;
+	}
+
 
 	public function view()
 	{
@@ -112,6 +130,10 @@ class Store extends Component
 			$items = $this->getItems($this->store, $view);
 
 			return view('component.store')
+				->with('weight', $this->store->getWeight())
+				->with('capacity', $this->store->getCapacity())
+				->with('normalPrice', $this->getExpandPrice())
+				->with('premiumPrice', $this->getPremiumExpandPrice())
 				->with('view', $view)
 				->with('items', $items);
 		}
@@ -120,6 +142,10 @@ class Store extends Component
 			$items = $this->getItems($this->player, $view);
 
 			return view('component.store')
+				->with('weight', $this->store->getWeight())
+				->with('capacity', $this->store->getCapacity())
+				->with('normalPrice', $this->getExpandPrice())
+				->with('premiumPrice', $this->getPremiumExpandPrice())
 				->with('view', $view)
 				->with('items', $items);
 		}
@@ -131,23 +157,28 @@ class Store extends Component
 		$id = $request->input('item');
 		$type = $request->input('type');
 		$count = $request->input('count', 1);
+		$space = $this->store->getCapacity() - $this->store->getWeight();
 
 		$item = $this->player->findItemById($type, $id);
 
 
 		if(is_null($item))
 		{
-			$this->error('invalidItem');
+			$this->danger('invalidItem');
 		}
 		elseif(!$this->isAllowedType($type))
 		{
-			$this->error('cantPut')
+			$this->danger('cantPut')
 				->with('type', trans('item.types.' . $type));
 
 		}
 		elseif($count < 1 || $count > $item->getCount())
 		{
-			$this->error('wrongQuantity');
+			$this->danger('wrongQuantity');
+		}
+		elseif($count * $item->getWeight() > $space)
+		{
+			$this->danger('notEnoughSpace');
 		}
 		else
 		{
@@ -165,7 +196,7 @@ class Store extends Component
 			}
 			else
 			{
-				$this->error('unknown');
+				$this->danger('saveError');
 			}
 		}
 	}
@@ -181,16 +212,20 @@ class Store extends Component
 
 		if(is_null($item))
 		{
-			$this->error('invalidItem');
+			$this->danger('invalidItem');
 		}
 		elseif(!$this->isAllowedType($type))
 		{
-			$this->error('cantTake')
+			$this->danger('cantTake')
 				->with('type', trans('item.types.' . $type));
 		}
 		elseif($count < 1 || $count > $item->getCount())
 		{
-			$this->error('wrongQuantity');
+			$this->danger('wrongQuantity');
+		}
+		elseif($count * $item->getWeight() < $space)
+		{
+			$this->danger('notEnoughSpace');
 		}
 		else
 		{
@@ -208,7 +243,73 @@ class Store extends Component
 			}
 			else
 			{
-				$this->error('unknown');
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	public function actionExpand($request)
+	{
+		$type = $request->input('type');
+
+		if($type == 'normal')
+		{
+			if($this->player->money < $this->getExpandPrice())
+			{
+				$this->danger('notEnoughMoney')
+					->with('value', $this->getExpandPrice());
+			}
+			else
+			{
+				$this->player->money -= $this->getExpandPrice();
+				$this->store->level++;
+				$this->store->capacity += $this->getProperty('capacityPerLevel');
+
+
+				$success = DB::transaction(function()
+				{
+					return $this->player->save() && $this->store->save();
+				});
+
+				if($success)
+				{
+					$this->success('storeExpanded');
+				}
+				else
+				{
+					$this->danger('saveError');
+				}
+
+			}
+		}
+		elseif($type == 'premium')
+		{
+			if($this->player->user->premiumPoints < $this->getPremiumExpandPrice())
+			{
+				$this->danger('notEnoughPremiumPoints')
+					->with('value', $this->getPremiumExpandPrice());
+			}
+			else
+			{
+				$this->player->user->premiumPoints -= $this->getPremiumExpandPrice();
+				$this->store->premiumLevel++;
+				$this->store->capacity += $this->getProperty('capacityPerPremiumLevel');
+
+
+				$success = DB::transaction(function()
+				{
+					return $this->player->user->save() && $this->store->save();
+				});
+
+				if($success)
+				{
+					$this->success('storeExpanded');
+				}
+				else
+				{
+					$this->danger('saveError');
+				}
+
 			}
 		}
 	}

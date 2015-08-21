@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Weapon as WeaponContract;
 
 class TemplateWeapon extends Model implements WeaponContract
 {
-    protected $fillable = ['name', 'image', 'damageMin', 'damageMax', 'critChance', 'speed', 'price', 'premium', 'weight', 'type', 'properties'];
+    protected $fillable = ['name', 'image', 'damageMin', 'damageMax', 'critChance', 'speed', 'price', 'premium', 'type', 'properties', 'weight'];
     public $timestamps = false;
     private $props;
     protected $raw = false;

@@ -21,7 +21,7 @@ class Search
 
 	public function handle(PlaceLeave $event)
 	{
-		if($event->player->roll(0, 100) < ($event->player->wanted * 15) && $event->place->location->is('city'))
+		if($event->player->roll(0, 100) < ($event->player->wanted * 15) && $event->place->location->is('city') && $event->player->level >= 10)
 		{
 			$count = $event->player->getStuffsCount();
 

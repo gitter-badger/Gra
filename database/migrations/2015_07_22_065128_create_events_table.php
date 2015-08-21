@@ -18,6 +18,10 @@ class CreateEventsTable extends Migration
             $table->integer('player_id')->unsigned();
             $table->json('object');
             $table->timestamps();
+
+
+
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

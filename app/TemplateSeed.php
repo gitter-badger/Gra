@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Seed as SeedContract;
 
 class TemplateSeed extends Model implements SeedContract
 {
-    protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'growth', 'watering', 'harvestMin', 'harvestMax', 'quality', 'properties'];
+    protected $fillable = ['name', 'image', 'premium', 'price', 'growth', 'watering', 'harvestMin', 'harvestMax', 'quality', 'properties', 'weight'];
     public $timestamps = false;
     private $props;
     protected $raw = false;
@@ -70,14 +70,14 @@ class TemplateSeed extends Model implements SeedContract
 		return $this->premium;
 	}
 
-	public function getWeight()
-	{
-		return $this->weight;
-	}
-
 	public function getCount()
 	{
 		return null;
+	}
+
+	public function getWeight()
+	{
+		return $this->weight;
 	}
 
 	public function getTemplate()

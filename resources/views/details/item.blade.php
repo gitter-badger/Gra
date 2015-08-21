@@ -20,6 +20,8 @@
 </div>
 
 <div class='row text-center'>
+
+	@if(!isset($generalDetails) || $generalDetails == true)
 	<div class='col-xs-6'>
 
 		<p><strong>@lang('item.type'): </strong><br/> {{ trans('item.types.' . $item->getType()) }}</p>
@@ -41,11 +43,12 @@
 			<p><strong>@lang('item.price'): </strong><br/> ${{ $item->getPrice() }}</p>
 		@endif
 	</div>
-
+	
 	<div class='col-xs-6'>
 
 		<p><strong>@lang('item.weight'): </strong><br/> {{ $item->getWeight() }}</p>
 	</div>
+	@endif
 
 	@if(!isset($typeDetails) || $typeDetails == true)
 

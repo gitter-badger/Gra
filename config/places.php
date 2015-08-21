@@ -6,7 +6,7 @@ return [
 		'image' => 'bulletin-board.jpg',
 		'visible' => false,
 		'components' => ['work'],
-		'properties' => ['work' => ['groups' => 'tutorial-works', 'atOnce' => 1, 'perGroup' => 1]],
+		'properties' => ['work' => ['groups' => 'tutorial-works', 'atOnce' => 1, 'perGroup' => 1, 'resetable' => 0]],
 		'requires' => []
 	],
 	[
@@ -14,7 +14,7 @@ return [
 		'image' => 'growshop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'tutorial-growshop']],
+		'properties' => ['shop' => ['name' => 'tutorial-growshop', 'items' => 1]],
 		'requires' => ['quest:first-work']
 	],
 	[
@@ -46,7 +46,7 @@ return [
 		'image' => 'warehouse.jpg',
 		'visible' => false,
 		'components' => ['store', 'rent', 'work'],
-		'properties' => ['store' => ['deny' => 'vehicle'], 'rent' => ['cost' => 1000, 'duration' => 604800], 'work' => ['groups' => 'warehouse', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1]],
+		'properties' => ['store' => ['deny' => 'vehicle', 'baseCapacity' => 200, 'capacityPerLevel' => 100, 'capacityPerPremiumLevel' => 250, 'levelPrice' => 500, 'premiumLevelPrice' => 2, 'levelBasePrice' => 1000, 'premiumLevelBasePrice' => 1], 'rent' => ['cost' => 250, 'duration' => 604800], 'work' => ['groups' => 'warehouse', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -54,7 +54,7 @@ return [
 		'image' => 'garage.jpg',
 		'visible' => false,
 		'components' => ['store', 'rent'],
-		'properties' => ['store' => ['allow' => 'vehicle'], 'rent' => ['cost' => 1000, 'duration' => 604800]],
+		'properties' => ['store' => ['allow' => 'vehicle', 'baseCapacity' => 500, 'capacityPerLevel' => 100, 'capacityPerPremiumLevel' => 200, 'levelPrice' => 250, 'premiumLevelPrice' => 1, 'levelBasePrice' => 500, 'premiumLevelBasePrice' => 1], 'rent' => ['cost' => 150, 'duration' => 604800]],
 		'requires' => []
 	],
 	[
@@ -78,7 +78,7 @@ return [
 		'image' => 'bulletin-board.jpg',
 		'visible' => false,
 		'components' => ['work'],
-		'properties' => ['work' => ['groups' => 'bulletin-board', 'reset' => 86400, 'atOnce' => 2, 'perGroup' => 4]],
+		'properties' => ['work' => ['groups' => 'bulletin-board', 'reset' => 86400, 'atOnce' => 2, 'perGroup' => 4, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -86,7 +86,7 @@ return [
 		'image' => 'plantation.jpg',
 		'visible' => false,
 		'components' => ['plantation', 'investment'],
-		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5], 'investment' => ['name' => 'hemp-field', 'price' => 10000]],
+		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 5], 'investment' => ['name' => 'hemp-field', 'price' => 350000]],
 		'requires' => []
 	],
 	[
@@ -101,8 +101,8 @@ return [
 		'name' => 'grocery-store',
 		'image' => 'convenience-store.jpg',
 		'visible' => false,
-		'components' => ['shop', 'work', 'investment'],
-		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2], 'investment' => ['name' => 'grocery-store', 'price' => 8000]],
+		'components' => ['shop', 'investment', 'work'],
+		'properties' => ['shop' => ['name' => 'grocery-store', 'delivery' => 86400, 'items' => 5, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'investment' => ['name' => 'grocery-store', 'price' => 150000, 'worksNeeded' => 100, 'groups' => 'shop-boss'], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -110,7 +110,7 @@ return [
 		'image' => 'gun-shop.jpg',
 		'visible' => false,
 		'components' => ['shop', 'work'],
-		'properties' => ['shop' => ['name' => 'gun-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
+		'properties' => ['shop' => ['name' => 'gun-shop', 'delivery' => 86400, 'items' => 4, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -118,7 +118,7 @@ return [
 		'image' => 'growshop.jpg',
 		'visible' => false,
 		'components' => ['shop', 'work'],
-		'properties' => ['shop' => ['name' => 'grow-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
+		'properties' => ['shop' => ['name' => 'grow-shop', 'delivery' => 86400, 'items' => 5, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -126,7 +126,7 @@ return [
 		'image' => 'sport-shop.jpg',
 		'visible' => false,
 		'components' => ['shop', 'work'],
-		'properties' => ['shop' => ['name' => 'sport-shop', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
+		'properties' => ['shop' => ['name' => 'sport-shop', 'delivery' => 86400, 'items' => 4, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -142,7 +142,7 @@ return [
 		'image' => 'toy-store.jpg',
 		'visible' => false,
 		'components' => ['shop', 'work'],
-		'properties' => ['shop' => ['name' => 'toy-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
+		'properties' => ['shop' => ['name' => 'toy-store', 'delivery' => 86400, 'items' => 3, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -150,7 +150,7 @@ return [
 		'image' => 'show-room.jpg',
 		'visible' => false,
 		'components' => ['shop', 'investment'],
-		'properties' => ['shop' => ['name' => 'car-showroom', 'delivery' => 86400], 'investment' => ['name' => 'car-showroom', 'price' => 25000]],
+		'properties' => ['shop' => ['name' => 'car-showroom', 'delivery' => 86400, 'items' => 3, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'investment' => ['name' => 'car-showroom', 'price' => 250000]],
 		'requires' => []
 	],
 	[
@@ -158,7 +158,7 @@ return [
 		'image' => 'miscellaneous-store.jpg',
 		'visible' => false,
 		'components' => ['shop', 'work'],
-		'properties' => ['shop' => ['name' => 'miscellaneous-store', 'delivery' => 86400], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2]],
+		'properties' => ['shop' => ['name' => 'miscellaneous-store', 'delivery' => 86400, 'items' => 4, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800], 'work' => ['groups' => 'shop', 'reset' => 21600, 'atOnce' => 2, 'perGroup' => 2, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -166,7 +166,7 @@ return [
 		'image' => 'motorcycle-shop.jpg',
 		'visible' => false,
 		'components' => ['shop'],
-		'properties' => ['shop' => ['name' => 'motorcycle-shop', 'delivery' => 86400]],
+		'properties' => ['shop' => ['name' => 'motorcycle-shop', 'delivery' => 86400, 'items' => 3, 'resetable' => 1, 'resetCost' => 2, 'resetCooldown' => 28800]],
 		'requires' => []
 	],
 	[
@@ -206,7 +206,7 @@ return [
 		'image' => 'restaurant.jpg',
 		'visible' => true,
 		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'restaurant', 'price' => 30000]],
+		'properties' => ['investment' => ['name' => 'restaurant', 'price' => 300000, 'worksNeeded' => 175]],
 		'requires' => []
 	],
 	[
@@ -214,7 +214,7 @@ return [
 		'image' => 'casino.jpg',
 		'visible' => true,
 		'components' => ['investment', 'gambling'],
-		'properties' => ['investment' => ['name' => 'casino', 'price' => 50000], 'gambling' => ['minBet' => 50, 'maxBet' => 2500, 'exchange' => 1.7, 'duration' => 1200]],
+		'properties' => ['investment' => ['name' => 'casino', 'price' => 1000000, 'worksNeeded' => 250], 'gambling' => ['minBet' => 50, 'maxBet' => 2500, 'exchange' => 1.7, 'duration' => 1200]],
 		'requires' => []
 	],
 	[
@@ -222,7 +222,7 @@ return [
 		'image' => 'night-club.jpg',
 		'visible' => true,
 		'components' => ['work', 'investment'],
-		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'night-club', 'price' => 35000]],
+		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'night-club', 'price' => 500000, 'worksNeeded' => 200]],
 		'requires' => []
 	],
 	[
@@ -230,7 +230,7 @@ return [
 		'image' => 'hotel.jpg',
 		'visible' => true,
 		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'hotel', 'price' => 50000]],
+		'properties' => ['investment' => ['name' => 'hotel', 'price' => 750000, 'worksNeeded' => 225]],
 		'requires' => []
 	],
 	[
@@ -246,7 +246,7 @@ return [
 		'image' => 'pub.jpg',
 		'visible' => true,
 		'components' => ['work', 'investment'],
-		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'pub', 'price' => 18000]],
+		'properties' => ['work' => ['groups' => 'club', 'reset' => 21600, 'atOnce' => 1, 'perGroup' => 1], 'investment' => ['name' => 'pub', 'price' => 200000, 'worksNeeded' => 150]],
 		'requires' => []
 	],
 	[
@@ -254,7 +254,7 @@ return [
 		'image' => 'game-room.jpg',
 		'visible' => true,
 		'components' => ['investment', 'gambling'],
-		'properties' => ['investment' => ['name' => 'game-room', 'price' => 15000], 'gambling' => ['minBet' => 5, 'maxBet' => 100, 'exchange' => 2, 'duration' => 600]],
+		'properties' => ['investment' => ['name' => 'game-room', 'price' => 150000], 'gambling' => ['minBet' => 5, 'maxBet' => 100, 'exchange' => 2, 'duration' => 600]],
 		'requires' => []
 	],
 	[
@@ -262,7 +262,7 @@ return [
 		'image' => 'motel.jpg',
 		'visible' => true,
 		'components' => ['investment'],
-		'properties' => ['investment' => ['name' => 'motel', 'price' => 20000]],
+		'properties' => ['investment' => ['name' => 'motel', 'price' => 250000]],
 		'requires' => []
 	],
 	[
@@ -310,7 +310,7 @@ return [
 		'image' => 'den.jpg',
 		'visible' => true,
 		'components' => ['attack'],
-		'properties' => ['attack' => ['minLevel' => 10, 'levelDiff' => 3]],
+		'properties' => ['attack' => ['minLevel' => 10, 'threshold' => 25]],
 		'requires' => ['level:10']
 	],
 	[
@@ -320,6 +320,30 @@ return [
 		'components' => ['gang'],
 		'properties' => [],
 		'requires' => ['level:10']
+	],
+	[
+		'name' => 'gang-bank',
+		'image' => 'gang-bank.jpg',
+		'visible' => false,
+		'components' => ['gang-bank'],
+		'properties' => [],
+		'requires' => ['gang:']
+	],
+	[
+		'name' => 'gang-warehouse',
+		'image' => 'gang-warehouse.jpg',
+		'visible' => false,
+		'components' => ['gang-store'],
+		'properties' => ['gang-store' => ['deny' => 'vehicle', 'baseCapacity' => 500, 'capacityPerLevel' => 100, 'capacityPerPremiumLevel' => 200, 'levelPrice' => 1000, 'premiumLevelPrice' => 5, 'levelBasePrice' => 2500, 'premiumLevelBasePrice' => 3]],
+		'requires' => ['gang:']
+	],
+	[
+		'name' => 'town-hall',
+		'image' => 'town-hall.jpg',
+		'visible' => true,
+		'components' => ['npc'],
+		'properties' => ['npc' => ['name' => 'secretary']],
+		'requires' => []
 	],
 ];
 ?>

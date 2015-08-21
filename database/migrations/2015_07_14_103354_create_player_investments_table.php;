@@ -21,8 +21,16 @@ class CreatePlayerInvestmentsTable extends Migration {
 				$table->integer('capacityLevel')->unsigned();
 				$table->integer('incomeLevel')->unsigned();
 
+				$table->integer('worksCount')->unsigned();
+				$table->integer('worksNeeded')->unsigned();
+
 				$table->integer('bought');
 				$table->integer('lastUpdate')->unsigned();
+
+				$table->integer('managerId')->unsigned()->nullable();
+				$table->integer('managerExpires')->unsigned()->nullable();
+				$table->integer('managerMoney')->unsigned();
+
 			});
 	}
 

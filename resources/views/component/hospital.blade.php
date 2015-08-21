@@ -1,8 +1,8 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="hospital">
 	<h4><strong>@lang('hospital.title')</strong></h4>
 	<div class="well text-center">
 
-		<div class="row" data-ng-app="game" data-ng-controller="hospital">
+		<div class="row" data-ng-controller="hospital">
 
 			<div class="col-xs-6">
 			
@@ -26,7 +26,11 @@
 							->data('ng-bind', 'normalDuration()') !!}
 
 						{!! BootForm::submit(trans('action.treat'), 'btn-primary')
-							->addClass('center-block') !!}
+							->addClass('center-block')
+							->addClass('tutorial-step')
+							->data('tutorial-index', 0)
+							->attribute('title', trans('tutorial.hospital.heal.title'))
+							->data('content', trans('tutorial.hospital.heal.content')) !!}
 
 						{!! BootForm::close() !!}
 					</div>
@@ -56,7 +60,11 @@
 							->data('ng-bind', 'fastDuration()') !!}
 
 						{!! BootForm::submit(trans('action.treat'), 'btn-primary')
-							->addClass('center-block') !!}
+							->addClass('center-block')
+							->addClass('tutorial-step')
+							->data('tutorial-index', 0)
+							->attribute('title', trans('tutorial.hospital.heal.title'))
+							->data('content', trans('tutorial.hospital.heal.content')) !!}
 
 						{!! BootForm::close() !!}
 					</div>
@@ -75,7 +83,7 @@
 	
 (function() {
 
-	var app = angular.module('game', []);
+	var app = angular.module('game');
 
 	app.controller('hospital', function($scope) {
 

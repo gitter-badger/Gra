@@ -17,6 +17,9 @@ class CreateLocationPlacesTable extends Migration
             $table->increments('id');
             $table->integer('place_id')->unsigned();
             $table->integer('location_id')->unsigned();
+
+            $table->foreign('place_id')->references('id')->on('places');
+            $table->foreign('location_id')->references('id')->on('locations');
         });
     }
 

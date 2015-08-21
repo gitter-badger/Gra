@@ -22,6 +22,8 @@ class Opponent
 	public $agility;
 	public $weaponId;
 	public $armorId;
+	public $money;
+	public $respect;
 
 
 	private $_weapon;

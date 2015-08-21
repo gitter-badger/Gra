@@ -18,8 +18,9 @@
 			<li class="list-group-item"><a href="{{ route('admin.item.index') }}">Przedmioty</a></li>
 			<li class="list-group-item"><a href="{{ route('admin.shop.index') }}">Sklepy</a></li>
 			<li class="list-group-item"><a href="{{ route('admin.workGroup.index') }}">Grupy prac</a></li>
-			<li class="list-group-item"><a href="{{ route('admin.questGroup.index') }}">Grupy zadań</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.quest.index') }}">Zadania</a></li>
 			<li class="list-group-item"><a href="{{ route('admin.investment.index') }}">Inwestycje</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.npc.index') }}">Npc</a></li>
 		</ul>
 
 

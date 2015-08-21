@@ -1,4 +1,4 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="work">
 	<h4><strong>@lang('work.title')</strong></h4>
 	<div class="well text-center">
 	
@@ -39,10 +39,21 @@
 									{!! BootForm::open()->post() !!}
 									{!! BootForm::token() !!}
 
-									{!! BootForm::hidden('action')->value('work') !!}
+									{!! BootForm::hidden('action')->value('work.work') !!}
 									{!! BootForm::hidden('work')->value($work->id) !!}
 
-									{!! BootForm::submit(trans('action.work'), 'btn-primary')->addClass('text-center') !!}
+									<?php 
+									$submit = BootForm::submit(trans('action.work'), 'btn-primary')
+										->addClass('text-center')
+										->addClass('tutorial-step')
+										->data('tutorial-index', 0)
+										->attribute('title', trans('tutorial.work.work.title'))
+										->data('content', trans('tutorial.work.work.content')); 
+
+
+									echo $submit;
+
+									?>
 
 									{!! BootForm::close() !!}
 
@@ -86,14 +97,52 @@
 		</div>
 	</div>
 
+
 	@if(!is_null($lastUpdate) && !is_null($nextUpdate))
-	
-		{!! entity('timer')
-			->min($lastUpdate)
-			->max($nextUpdate)
-			->now(time())
-			->reversed(false)
-		!!}
+
+		<div class="progress-group btn-small">
+
+
+			{!! entity('timer')
+				->min($lastUpdate)
+				->max($nextUpdate)
+				->now(time())
+				->reversed(false)
+			!!}
+
+
+			@if($resetable)
+
+
+				@if(is_null($lastReset) || $nextReset <= time())
+				
+
+				{!! BootForm::open()->post()->addClass('progress-btn') !!}
+				{!! BootForm::token() !!}
+
+				{!! BootForm::hidden('action')->value('work.reset') !!}
+				{!! BootForm::submit(trans('work.reset', ['cost' => $resetCost]), 'btn-success') !!}
+
+				{!! BootForm::close() !!}
+
+
+				@else
+
+				<div class="progress-btn">
+
+					<div class="btn btn-success disabled time-left" data-to="{{ $nextReset }}">
+					</div>
+
+				</div>
+
+
+				@endif
+
+
+			@endif
+
+		</div>
 	@endif
+
 
 </div>

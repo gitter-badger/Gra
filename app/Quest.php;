@@ -5,14 +5,11 @@ namespace HempEmpire;
 use Illuminate\Database\Eloquent\Model;
 
 class Quest extends Model {
-	protected $fillable = ['name', 'group_id', 'requires', 'rewards'];
+	protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable'];
 	public $timestamps  = false;
 	private $_requires;
 	private $_rewards;
-
-	public function group() {
-		return $this->belongsTo(QuestGroup::class , 'group_id');
-	}
+	private $_objectives;
 
 	public function getRequiresAttribute($value) {
 		if (empty($this->_requires)) {
@@ -28,12 +25,23 @@ class Quest extends Model {
 		return $this->_rewards;
 	}
 
+	public function getObjectivesAttribute($value) {
+		if (empty($this->_objectives)) {
+			$this->_objectives = json_decode($value);
+		}
+		return $this->_objectives;
+	}
+
 	public function getRewards() {
 		return new Rewards($this->rewards);
 	}
 
 	public function getRequirements() {
 		return new Requirements($this->requires);
+	}
+
+	public function getObjectives() {
+		return new Objectives($this->objectives);
 	}
 
 	public function getName() {
@@ -51,4 +59,5 @@ class Quest extends Model {
 	public function getCompleted() {
 		return trans('quest.'.$this->name.'.complete');
 	}
+
 }

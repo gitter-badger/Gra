@@ -72,6 +72,8 @@ class CreatePlayersTable extends Migration {
 
 				$table->integer('money')->unsigned();
 				$table->integer('respect')->unsigned();
+
+				$table->string('token')->unique();
 			});
 	}
 

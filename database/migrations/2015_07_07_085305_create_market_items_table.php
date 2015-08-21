@@ -19,6 +19,10 @@ class CreateMarketItemsTable extends Migration
             $table->integer('player_id')->unsigned();
             $table->integer('price')->unsigned();
             $table->morphs('item');
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('market_id')->references('id')->on('markets');
         });
     }
 

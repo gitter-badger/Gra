@@ -132,10 +132,15 @@ class Market extends Component
 	{
 		$itemId = Request::input('item');
 		$item = $this->market->items()->whereId($itemId)->first();
+		$space = $this->player->capacity - $this->player->weight;
 
 		if(is_null($item))
 		{
 			$this->danger('wrongItem');
+		}
+		elseif($item->getCount() * $item->getWeight() > $space)
+		{
+			$this->danger('notEnoughSpace');
 		}
 		else
 		{
@@ -277,7 +282,7 @@ class Market extends Component
 			{
 				$this->success('itemOfferedSold')
 					->with('item', $item->getTitle())
-					->with('count', $item->getCount());
+					->with('count', $count);
 			}
 			else
 			{

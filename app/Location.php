@@ -3,6 +3,8 @@
 namespace HempEmpire;
 
 use Illuminate\Database\Eloquent\Model;
+use TransText;
+use Formatter;
 use Config;
 
 
@@ -31,6 +33,11 @@ class Location extends Model
 		return static::whereName(Config::get('player.start.location'))->firstOrFail();
 	}
 
+
+
+
+
+
 	public function getName()
 	{
 		return $this->name;
@@ -38,12 +45,12 @@ class Location extends Model
 
 	public function getTitle()
 	{
-		return trans('location.' . $this->name . '.name');
+		return new TransText('location.' . $this->name . '.name');
 	}
 
 	public function getImage()
 	{
-		return asset('images/locations/' . $this->image);
+		return asset('/images/locations/' . $this->image);
 	}
 
 	public function getGroupsAttribute($value)
@@ -71,5 +78,20 @@ class Location extends Model
 				return $place;
 		}
 		return null;
+	}
+
+
+	public function renderMap()
+	{
+		$content = '<div class="location-map" style="background: url(\'' . $this->getMap() . '\'); ">';
+
+		foreach($this->places as $place)
+		{
+			$content .= '<div class="place-mark" style="left: ' . Formatter::percent($place->x) . '; top: ' . Formatter::percent($place->y) . '"></div>';
+		}
+
+		$content .= '</div>';
+
+		return $content;
 	}
 }

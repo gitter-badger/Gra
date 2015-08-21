@@ -133,6 +133,22 @@ trait ItemContainer
         return $this->stuffs()->sum('count');
     }
 
+    private $_weight;
+    public function getWeight()
+    {
+        if(empty($this->_weight))
+        {
+            $this->_weight = 0.0;
+            $items = $this->getItems();
+
+
+            foreach($items as $item)
+                $this->_weight += $item->getWeight() * $item->getCount();
+        }
+
+        return $this->_weight;
+    }
+
 
 
 
@@ -172,6 +188,9 @@ trait ItemContainer
     {  
         DB::transaction(function()
         {
+            if(isset($this->_weight))
+                $this->_weight = 0.0;
+
             $this->weapons()->update(['count' => 0]);
             $this->armors()->update(['count' => 0]);
             $this->foods()->update(['count' => 0]);
@@ -183,6 +202,18 @@ trait ItemContainer
 
     public function giveItem(ItemContract $item, $count)
     {
+        if(method_exists($this, 'getCapacity'))
+        {
+            $space = $this->getCapacity() - $this->getWeight();
+            $count = min($count, $space / $item->getWeight());
+        }
+
+        if(isset($this->_weight))
+        {
+            $this->_weight += $item->getWeight() * $count;
+        }
+
+
         $type = $item->getType();
         $item->useRawValues(true);
 
@@ -312,6 +343,11 @@ trait ItemContainer
     {
         $type = $item->getType();
         $item->useRawValues(true);
+
+        if(isset($this->_weight))
+        {
+            $this->_weight -= $item->getWeight() * $count;
+        }
 
         if($type == 'weapon')
         {

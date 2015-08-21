@@ -23,8 +23,8 @@ class SeedSeeder extends Seeder
 
                     'name' => $specie['name'] . '-seed',
                     'image' => 'seed.jpg',
-                    'weight' => $specie['weight'][0],
                     'price' => $specie['price'][0],
+                    'weight' => $specie['weight'][0],
                     'premium' => $specie['premium'][0],
 
                     'growth' => $specie['growth'],
@@ -50,8 +50,8 @@ class SeedSeeder extends Seeder
 
                     'name' => $seed['name'] ,
                     'image' => $seed['image'],
-                    'weight' => $seed['weight'],
                     'price' => $seed['price'],
+                    'weight' => $seed['weight'],
                     'premium' => $seed['premium'],
 
                     'growth' => $seed['growth'],

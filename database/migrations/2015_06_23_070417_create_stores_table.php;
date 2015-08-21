@@ -14,6 +14,10 @@ class CreateStoresTable extends Migration {
 				$table->increments('id');
 				$table->integer('player_id')->unsigned();
 				$table->integer('location_place_id')->unsigned();
+
+				$table->integer('level')->unsigned();
+				$table->integer('premiumLevel')->unsigned();
+				$table->integer('capacity')->unsigned();
 			});
 	}
 

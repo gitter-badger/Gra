@@ -126,7 +126,15 @@ class World extends Model
 		{
 			$user = Auth::user();
 
-			return $user->players()->where('world_id', '=', $this->id)->count() == 1;
+			if(!is_null($user))
+			{
+				return $user->players()->where('world_id', '=', $this->id)->count() == 1;
+			}
+			else
+			{
+				return false;
+			}
+
 		}
 	}
 

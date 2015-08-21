@@ -14,110 +14,38 @@ use HempEmpire\World;
 use HempEmpire\Player;
 
 
-
-Route::get('/', ['as' => 'home', 'middleware' => 'guest', function()
+Route::group(['domain' => 'gra.pl'], function()
 {
-    return view('home');
-}]);
-
-
-Route::get('/auth/verify/{token}', ['as' => 'user.verify', 'uses' => 'Auth\AuthController@verify']);
-Route::controller('/auth', 'Auth\AuthController', [
-
-	'postLogin' => 'user.login',
-	'postRegister' => 'user.register',
-	'getLogout' => 'user.logout',
-]);
-
-Route::group(['prefix' => '/payments'], function()
-{
-	Route::controller('/fortumo', 'Payments\FortumoController');
-	Route::controller('/transferuj', 'Payments\TransferujController');
-});
-
-
-Route::group(['prefix' => '/api', 'middleware' => ['auth', 'verified', 'world', 'player']], function() 
-{
-	Route::controller('/character', 'Api\PlayerController');
-});
-
-
-
-Route::get('/test', function()
-{
-	foreach(Player::all() as $player)
+	Route::get('/', ['as' => 'home', 'middleware' => 'guest', function()
 	{
-		$player->experience += 1;
-		$player->save();
-	}
-});
+	    return view('home');
+	}]);
 
 
+	Route::controller('/auth/password', 'Auth\PasswordController');
+	Route::controller('/auth/facebook', 'Auth\FacebookController');
 
 
-Route::group(['middleware' => ['auth', 'verified']], function()
-{
-	//World
+	Route::get('/auth/verify/{token}', ['as' => 'user.verify', 'uses' => 'Auth\AuthController@verify']);
+	Route::controller('/auth', 'Auth\AuthController', [
 
-	Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function()
+		'postLogin' => 'user.login',
+		'postRegister' => 'user.register',
+		'getLogout' => 'user.logout',
+	]);
+
+
+	Route::group(['prefix' => '/payments'], function()
 	{
-		Route::get('/', ['as' => 'admin.index', function()
-		{
-			return view('admin.main');
-		}]);
-
-		Route::resource('/world', 'Admin\WorldController', ['except' => ['store']]);
-
-		Route::get('/location/export', ['as' => 'admin.location.export', 'uses' => 'Admin\LocationController@export']);
-		Route::resource('/location', 'Admin\LocationController');
-
-		Route::get('/place/export', ['as' => 'admin.place.export', 'uses' => 'Admin\PlaceController@export']);
-		Route::resource('/place', 'Admin\PlaceController');
-
-
-		Route::group(['prefix' => '/item'], function()
-		{
-			Route::get('/', ['as' => 'admin.item.index', function()
-			{
-				return view('admin.item.types')
-					->with('armorsCount', \HempEmpire\TemplateArmor::count())
-					->with('weaponsCount', \HempEmpire\TemplateWeapon::count())
-					->with('foodsCount', \HempEmpire\TemplateFood::count())
-					->with('seedsCount', \HempEmpire\TemplateSeed::count())
-					->with('stuffsCount', \HempEmpire\TemplateStuff::count())
-					->with('vehiclesCount', \HempEmpire\TemplateVehicle::count());
-			}]);
-
-			Route::get('/export', ['as' => 'admin.item.export', 'uses' => 'Admin\ItemController@export']);
-
-			Route::resource('/weapon', 'Admin\WeaponController');
-			Route::resource('/armor', 'Admin\ArmorController');
-			Route::resource('/food', 'Admin\FoodController');
-			Route::resource('/seed', 'Admin\SeedController');
-			Route::resource('/stuff', 'Admin\StuffController');
-			Route::resource('/vehicle', 'Admin\VehicleController');
-		});
-
-
-		Route::get('/shop/export', ['as' => 'admin.shop.export', 'uses' => 'Admin\ShopController@export']);
-		Route::resource('/shop', 'Admin\ShopController');
-		Route::resource('/shop.delivery', 'Admin\ShopDeliveryController', ['except' => ['index']]);
-
-		Route::get('/workGroup/export', ['as' => 'admin.workGroup.export', 'uses' => 'Admin\WorkGroupController@export']);
-		Route::resource('/workGroup', 'Admin\WorkGroupController');
-		Route::resource('/workGroup.work', 'Admin\WorkController', ['except' => ['index']]);
-
-
-		Route::get('/questGroup/export', ['as' => 'admin.questGroup.export', 'uses' => 'Admin\QuestGroupController@export']);
-		Route::resource('/questGroup', 'Admin\QuestGroupController');
-		Route::resource('/questGroup.quest', 'Admin\QuestController', ['except' => ['index']]);
-
-
-		Route::get('/investment/export', ['as' => 'admin.investment.export', 'uses' => 'Admin\InvestmentController@export']);
-		Route::resource('/investment', 'Admin\InvestmentController');
-
+		Route::controller('/fortumo', 'Payments\FortumoController');
+		Route::controller('/transferuj', 'Payments\TransferujController');
 	});
 
+
+	Route::post('queue/receive', function()
+	{
+		return Queue::marshal();
+	});
 
 	Route::get('/worlds', ['as' => 'world.list', function()
 	{
@@ -125,31 +53,107 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 			->with('worlds', World::all());
 	}]);
 
-
-	Route::get('/worlds/{world}', ['as' => 'world.select', function($world)
+	Route::get('/lang/{lang}', function($lang)
 	{
-		if(World::setSelected($world))
+		$redirect = redirect()->back();
+
+		if(array_search($lang, Config::get('app.languages')) !== false)
 		{
-			if(!Player::hasActive())
-			{
-				return redirect(route('player.create'));
-			}
-			else
-			{
-				return redirect(route('game'));
-			}
+			$redirect->withCookie('lang', $lang, 10 * 365 * 24 * 60, '/', 'gra.pl', false, true);
 		}
-		else
-		{
-			return redirect(route('world.list'));
-		}
-	}]);
+
+		return $redirect;
+	});
+});
 
 
-	Route::group(['middleware' => 'world'], function()
-	{
+
+Route::group(['domain' => '{server}.gra.pl', 'before' => 'worldSelect', 'middleware' => 'world'], function()
+{
+	Route::get('/player/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
+
+	Route::group(['middleware' => ['auth', 'verified']], function()
+	{		
+		Route::controller('/user', 'UserController', [
+
+			'getIndex' => 'user.index',
+			'getChange' => 'user.change',
+			'getTutorial' => 'user.tutorial',
+			'getFacebook' => 'user.facebook',
+			'getLanguage' => 'user.language',
+		]);
+
+		Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function()
+		{
+			Route::get('/', ['as' => 'admin.index', function()
+			{
+				return view('admin.main');
+			}]);
+
+			Route::resource('/world', 'Admin\WorldController', ['except' => ['store']]);
+
+			Route::get('/location/export', ['as' => 'admin.location.export', 'uses' => 'Admin\LocationController@export']);
+			Route::resource('/location', 'Admin\LocationController');
+
+			Route::get('/place/export', ['as' => 'admin.place.export', 'uses' => 'Admin\PlaceController@export']);
+			Route::resource('/place', 'Admin\PlaceController');
+
+
+			Route::group(['prefix' => '/item'], function()
+			{
+				Route::get('/', ['as' => 'admin.item.index', function()
+				{
+					return view('admin.item.types')
+						->with('armorsCount', \HempEmpire\TemplateArmor::count())
+						->with('weaponsCount', \HempEmpire\TemplateWeapon::count())
+						->with('foodsCount', \HempEmpire\TemplateFood::count())
+						->with('seedsCount', \HempEmpire\TemplateSeed::count())
+						->with('stuffsCount', \HempEmpire\TemplateStuff::count())
+						->with('vehiclesCount', \HempEmpire\TemplateVehicle::count());
+				}]);
+
+				Route::get('/export', ['as' => 'admin.item.export', 'uses' => 'Admin\ItemController@export']);
+
+				Route::resource('/weapon', 'Admin\WeaponController');
+				Route::resource('/armor', 'Admin\ArmorController');
+				Route::resource('/food', 'Admin\FoodController');
+				Route::resource('/seed', 'Admin\SeedController');
+				Route::resource('/stuff', 'Admin\StuffController');
+				Route::resource('/vehicle', 'Admin\VehicleController');
+			});
+
+
+			Route::get('/shop/export', ['as' => 'admin.shop.export', 'uses' => 'Admin\ShopController@export']);
+			Route::resource('/shop', 'Admin\ShopController');
+			Route::resource('/shop.delivery', 'Admin\ShopDeliveryController', ['except' => ['index']]);
+
+			Route::get('/workGroup/export', ['as' => 'admin.workGroup.export', 'uses' => 'Admin\WorkGroupController@export']);
+			Route::resource('/workGroup', 'Admin\WorkGroupController');
+			Route::resource('/workGroup.work', 'Admin\WorkController', ['except' => ['index']]);
+
+
+			Route::get('/quest/export', ['as' => 'admin.quest.export', 'uses' => 'Admin\QuestController@export']);
+			Route::resource('/quest', 'Admin\QuestController');
+
+
+			Route::get('/investment/export', ['as' => 'admin.investment.export', 'uses' => 'Admin\InvestmentController@export']);
+			Route::resource('/investment', 'Admin\InvestmentController');
+
+
+
+			Route::get('/npc/export', ['as' => 'admin.npc.export', 'uses' => 'Admin\NpcController@export']);
+			Route::resource('/npc', 'Admin\NpcController');
+
+		});
+
 		//Player
 
+
+
+		Route::group(['prefix' => '/api', 'middleware' => 'player'], function() 
+		{
+			Route::controller('/character', 'Api\PlayerController');
+		});
 
 		Route::controller('/character', 'Player\PlayerController', [
 
@@ -159,20 +163,19 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 			'getStatistics' => 'player.statistics',
 			'getItems' => 'player.items',
 			'postItems' => 'player.use',
+			'getTalents' => 'player.talents',
 			'getInvitations' => 'player.invitations',
 			'postInvitations' => 'player.accept',
+			'getReference' => 'player.reference',
+			'getQuests' => 'player.quests',
 		]);
 
 
 		Route::group(['middleware' => 'player'], function()
 		{
-
-
-
-
-
 			Route::get('/game', ['as' => 'game', function()
 			{
+
 				$player = Player::getActive();
 
 
@@ -201,10 +204,16 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 			Route::post('/game', function(Illuminate\Http\Request $request)
 			{
 				$player = Player::getActive();
+				$response = null;
+
+
+				foreach($player->quests as $quest)
+					$quest->init();
+
 
 				if($player->isBusy)
 				{
-					return view('job');
+					$response = view('job');
 				}
 				else
 				{
@@ -213,7 +222,7 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 						$place = $player->location->places()->whereId($request->input('place'))->first();
 						$player->moveTo($place);
 						
-						return redirect('game');
+						$response = redirect()->route('game');
 					}
 					else
 					{
@@ -221,16 +230,21 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 
 						if(is_null($place) || !$place->isAvailable())
 						{
-							return redirect('game');
+							$response = redirect()->route('game');
 						}
 						else
 						{
 							$place->loadComponents();
-							return $place->action($request);
+							$response = $place->action($request);
 						}
 					}
 
 				}
+
+				foreach($player->quests as $quest)
+					$quest->finit();
+
+				return $response;
 			});
 
 			Route::post('/reports/readAll', ['as' => 'reports.readAll', 'uses' => 'ReportsController@readAll']);
@@ -282,8 +296,28 @@ Route::group(['middleware' => ['auth', 'verified']], function()
 
 		});
 
+
 	});
+
+
 });
+
+Route::filter('worldSelect', function($route)
+{
+	$worldId = substr($route->getParameter('server'), 1);
+	$world = World::find($worldId);
+
+	//dd($world);
+
+	if(isset($world) && $world->isAvailable())
+	{
+		Session::set('world', $world->id);
+		View::share('player', Player::getActive());
+	}
+
+	$route->forgetParameter('server');
+});
+
 
 
 

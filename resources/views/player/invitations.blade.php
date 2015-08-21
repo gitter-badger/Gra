@@ -20,12 +20,23 @@
 				<td>{{ $invitation->created_at }}</td>
 				<td>
 					
-					{!! BootForm::open()->post()->action(route('player.accept')) !!}
+					{!! BootForm::open()->post()->action(route('player.accept'))->addClass('from-inline') !!}
 					{!! BootForm::token() !!}
+					{!! BootForm::hidden('action')->value('accept') !!}
 					{!! BootForm::hidden('invitation')->value($invitation->id) !!}
 						
 
 					{!! BootForm::submit(trans('action.accept'), 'btn-primary') !!}
+
+					{!! BootForm::close() !!}
+					
+					{!! BootForm::open()->post()->action(route('player.accept'))->addClass('from-inline') !!}
+					{!! BootForm::token() !!}
+					{!! BootForm::hidden('action')->value('reject') !!}
+					{!! BootForm::hidden('invitation')->value($invitation->id) !!}
+						
+
+					{!! BootForm::submit(trans('action.reject'), 'btn-danger') !!}
 
 					{!! BootForm::close() !!}
 				</td>

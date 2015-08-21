@@ -16,9 +16,12 @@ class CreateQuestsTable extends Migration
         {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->integer('group_id')->unsigned();
+            $table->boolean('repeatable');
+            $table->boolean('breakable');
+            $table->boolean('auto');
             $table->json('requires');
             $table->json('rewards');
+            $table->json('objectives');
         });
     }
 

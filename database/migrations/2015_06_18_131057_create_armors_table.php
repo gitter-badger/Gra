@@ -19,6 +19,9 @@ class CreateArmorsTable extends Migration
             $table->morphs('owner');
             $table->integer('template_id')->unsigned();
             $table->integer('count')->unsigned();
+
+
+            $table->foreign('template_id')->references('id')->on('template_armors');
         });
     }
 

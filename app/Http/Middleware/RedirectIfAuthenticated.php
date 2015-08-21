@@ -36,7 +36,7 @@ class RedirectIfAuthenticated
     {
         if ($this->auth->check())
         {
-            return redirect(route('game'));
+            return (redirect()->route('game'));
         }
 
         return $next($request);

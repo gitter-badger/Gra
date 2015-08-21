@@ -244,4 +244,10 @@ return [
 		'description' => null,
 	],
 
+	'headquarters' => [
+
+		'name' => 'Siedziba gangu',
+		'description' => null,
+	],
+
 ];

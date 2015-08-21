@@ -8,6 +8,8 @@ use HempEmpire\TemplateShop as TemplateModel;
 use DB;
 use Request;
 use Config;
+use Event;
+use HempEmpire\Events\ItemBought;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class Shop extends Component
@@ -34,31 +36,48 @@ class Shop extends Component
 
 		if((!is_null($delivery) || is_null($this->shop->lastVisited)) && (is_null($this->shop->lastVisited) || ($this->shop->lastVisited + $delivery) < time()))
 		{
-			DB::transaction(function() use($template)
+			$this->delivery($template);
+		}
+	}
+
+	private function delivery($template = null)
+	{
+		if(is_null($template))
+			$template = $this->shop->template;
+
+		return DB::transaction(function() use($template)
+		{
+			$this->shop->deleteItems();
+
+			$deliveries = $template->deliveries()->with('item')->get();
+			$count = $this->getProperty('items', count($deliveries));
+
+
+			while($count > 0 && count($deliveries) > 0)
 			{
-				$this->shop->deleteItems();
+				$count--;
+				$index = mt_rand(0, count($deliveries) - 1);
+				$delivery = $deliveries[$index];
+				$deliveries->pull($index);
+				$deliveries = $deliveries->values();
 
-				$deliveries = $template->deliveries()->with('item')->get();
-
-				foreach($deliveries as $delivery)
+				if(!$this->shop->giveItem($delivery->item, $delivery->count))
 				{
-					if(!$this->shop->giveItem($delivery->item, $delivery->count))
+					if(Config::get('app.debug', false))
 					{
-						if(Config::get('app.debug', false))
-						{
-							dd($delivery);
-						}
-						else
-						{
-							return false;
-						}
+						dd($delivery);
+					}
+					else
+					{
+						return false;
 					}
 				}
 
-				$this->shop->lastVisited = time();
-				return $this->shop->save();
-			});
-		}
+			}
+
+			$this->shop->lastVisited = time();
+			return $this->shop->save();
+		});
 	}
 
 	private function paginate($array, $view, $perPage = 16)
@@ -145,16 +164,23 @@ class Shop extends Component
 			->with('stuffs', $stuffs)
 			->with('items', $this->paginate($items, $view))
 			->with('lastUpdate', $lastUpdate)
-			->with('nextUpdate', $nextUpdate);
+			->with('nextUpdate', $nextUpdate)
+			->with('resetable', $this->getProperty('resetable', false))
+			->with('resetCost', $this->getProperty('resetCost'))
+			->with('lastReset', $this->shop->lastReseted)
+			->with('nextReset', $this->shop->lastReseted + $this->getProperty('resetCooldown'));
 	}
 
 	public function actionBuy($request)
 	{
+
 		$id = $request->input('item');
 		$type = $request->input('type');
 		$count = $request->input('count', 1);
 
 		$item = $this->shop->findItemById($type, $id);
+		$space = $this->player->capacity - $this->player->weight;
+
 
 
 		if(is_null($item))
@@ -164,6 +190,10 @@ class Shop extends Component
 		elseif($count < 1 || $count > $item->getCount())
 		{
 			$this->danger('wrongQuantity');
+		}
+		elseif($count * $item->getWeight() > $space)
+		{
+			$this->danger('notEnoughSpace');
 		}
 		else
 		{
@@ -210,7 +240,7 @@ class Shop extends Component
 
 			if($success)
 			{
-				$item->onBuy($this->player);
+				Event::fire(new ItemBought($this->player, $item, $count));
 
 				$this->success('itemBought')
 					->with('item', $item->getTitle())
@@ -221,5 +251,47 @@ class Shop extends Component
 				$this->danger('unknown');
 			}
 		}
+	}
+
+
+
+	public function actionReset()
+	{
+		$cost = $this->getProperty('resetCost');
+		$next = $this->shop->lastReseted + $this->getProperty('resetCooldown');
+
+		//dd($this->shop, date('Y-m-d H:i:s', $next), date('Y-m-d H:i:s'));
+
+		if($this->player->premiumPoints < $cost)
+		{
+			$this->danger('notEnoughPremiumPoints')
+				->with('value', $cost);
+		}
+		elseif(!is_null($this->shop->lastReseted) && $next > time())
+		{
+			$this->danger('cantResetYet');
+		}
+		else
+		{
+			$this->shop->lastReseted = time();
+			$this->player->user->premiumPoints -= $cost;
+
+
+			$success = DB::transaction(function()
+			{
+				return $this->player->user->save() && $this->delivery();
+			});
+
+			if($success)
+			{
+				$this->success('shopReseted');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+
+
 	}
 }

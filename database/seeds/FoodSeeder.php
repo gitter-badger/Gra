@@ -21,8 +21,8 @@ class FoodSeeder extends Seeder
 
         		'name' => $food['name'],
                 'image' => $food['name'] . '.jpg',
-        		'weight' => $food['weight'],
         		'price' => $food['price'],
+                'weight' => $food['weight'],
         		'premium' => $food['premium'],
 
         		'health' => $food['health'],

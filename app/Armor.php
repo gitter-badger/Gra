@@ -62,6 +62,11 @@ class Armor extends Model implements ArmorContract
 		return $this->template->getPrice();
 	}
 
+	public function getWeight()
+	{
+		return $this->template->getWeight();
+	}
+
 	public function isPremium()
 	{
 		return $this->template->isPremium();
@@ -70,11 +75,6 @@ class Armor extends Model implements ArmorContract
 	public function getCount()
 	{
 		return $this->count;
-	}
-
-	public function getWeight()
-	{
-		return $this->template->getWeight();
 	}
 
 	public function getTemplate()

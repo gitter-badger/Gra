@@ -1,4 +1,6 @@
-<div>
+
+
+<div data-tutorial="true" data-tutorial-name="gambling" data-ng-controller="gambling">
 	<h4><strong>@lang('gambling.title')</strong></h4>
 	<div class="well text-center">
 
@@ -6,7 +8,7 @@
 			<div class="col-xs-6 col-xs-offset-3">
 				
 				<div class="panel panel-default">
-					<div class="panel-body" data-ng-app="game" data-ng-controller="gambling">
+					<div class="panel-body">
 
 
 						{!! BootForm::open()->post() !!}
@@ -23,7 +25,11 @@
 
 
 						{!! BootForm::submit(trans('action.gamble'), 'btn-primary')
-							->addClass('center-block') !!}
+							->addClass('center-block')
+							->addClass('tutorial-step')
+							->data('tutorial-index', 0)
+							->attribute('title', trans('tutorial.gambling.gamble.title'))
+							->data('content', trans('tutorial.gambling.gamble.content')) !!}
 
 						{!! BootForm::close() !!}
 
@@ -43,7 +49,8 @@
 
 (function() {
 
-	var app = angular.module('game', []);
+	var app = angular.module('game');
+
 
 	app.controller('gambling', function($scope) {
 
@@ -55,10 +62,8 @@
 			return Math.round($scope.exchange * $scope.bet);
 		};
 	});
-
-
-
 })();
+
 
 
 </script>

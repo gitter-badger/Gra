@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call('ShopSeeder');
         $this->call('WorkSeeder');
         $this->call('QuestSeeder');
+        $this->call('NpcSeeder');
         $this->call('InvestmentSeeder');
 
         if(Config::get('app.debug', false))

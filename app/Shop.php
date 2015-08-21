@@ -11,7 +11,7 @@ class Shop extends Model
     use ItemContainer;
     
 
-    protected $fillable = ['template_id', 'player_id', 'location_place_id', 'lastVisited'];
+    protected $fillable = ['template_id', 'player_id', 'location_place_id', 'lastVisited', 'lastReseted'];
     public $timestamps = false;
 
 

@@ -9,7 +9,7 @@ class Battleground
 	private $lastBattleId = 0;
 	private $red = [];
 	private $blue = [];
-	private $report = [];
+	private $report = ['teams' => ['blue' => [], 'red' => []], 'marks' => [], 'log' => []];
 	private $queue;
 
 

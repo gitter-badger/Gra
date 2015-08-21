@@ -16,7 +16,8 @@ class LocationSeeder extends Seeder {
 			$records[] = [
 
 				'name'   => $location['name'],
-				'image'  => $location['image'],
+				'thumb'  => $location['thumb'],
+				'map'    => $location['map'],
 				'groups' => json_encode($location['groups']),
 				'x'      => $location['x'],
 				'y'      => $location['y'],

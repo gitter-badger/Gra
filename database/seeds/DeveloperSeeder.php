@@ -14,6 +14,8 @@ class DeveloperSeeder extends Seeder
      */
     public function run()
     {
+        $tokens = [];
+
         $user = User::create([
 
             'email' => 'habavx@gmail.com',
@@ -26,16 +28,11 @@ class DeveloperSeeder extends Seeder
             'admin' => true,
             'verified' => true,
             'token' => str_random(64),
+            'language' => 'pl',
         ]);
 
         for($i = 0; $i < 1000; ++$i)
         {
-            if($i % 100 == 0)
-            {
-                $n = floor($i / 100) * 100;
-                echo $n . ' - ' . ($n + 100) . PHP_EOL;
-            }
-
             $user = User::create([
 
                 'email' => 'habavx' . ($i + 1) . '@gmail.com',
@@ -48,7 +45,20 @@ class DeveloperSeeder extends Seeder
                 'admin' => false,
                 'verified' => true,
                 'token' => str_random(64),
+                'language' => 'pl',
             ]);
+
+            $token = null;
+
+            do
+            {
+                $token = str_random(8);
+
+            } while(array_search($token, $tokens) !== false);
+
+            $tokens[] = $token;
+
+
 
             $player = Player::create([
 
@@ -56,7 +66,7 @@ class DeveloperSeeder extends Seeder
                 'world_id' => 1,
                 'location_id' => 2,
                 'name' => 'Player' . ($i + 1),
-                'avatar' => asset('images/avatars/' . ($i % 9) . '.png'),
+                'avatar' => ($i % 9) . '.png',
                 'strength' => mt_rand(0, 5),
                 'perception' => mt_rand(0, 5),
                 'endurance' => mt_rand(0, 5),
@@ -66,7 +76,11 @@ class DeveloperSeeder extends Seeder
 
                 'jobStart' => 0,
                 'jobEnd' => 0,
+
+                'token' => $token,
             ]);
+
+            echo "$i / 1000 \r";
         }
     }
 }

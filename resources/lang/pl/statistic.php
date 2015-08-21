@@ -20,6 +20,7 @@ return [
 	'agility' => 'Zręczność',
 	'luck' => 'Szczęście',
 
+	'respect' => 'Respekt',
 	'money' => 'Hajs',
 	'premiumPoints' => 'Punkty premium',
 	'statisticPoints' => 'Punkty statystyk',
@@ -29,5 +30,9 @@ return [
 	'damage' => 'Obrażenia',
 	'defense' => 'Obrona',
 	'speed' => 'Szybkość',
-	'critChance' => 'Szansa na uderzenie krytyczne',
+	'critChance' => 'Szansa na krytyka',
+
+
+	'experienceModifier' => 'Bonus doświadczenia',
+	'moneyModifier' => 'Bonus nagród',
 ];

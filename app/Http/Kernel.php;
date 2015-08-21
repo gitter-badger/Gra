@@ -18,6 +18,7 @@ class Kernel extends HttpKernel {
 		\Illuminate\View\Middleware\ShareErrorsFromSession::class ,
 		\HempEmpire\Http\Middleware\VerifyCsrfToken::class ,
 		\HempEmpire\Http\Middleware\ShareData::class ,
+		\HempEmpire\Http\Middleware\SetLanguage::class ,
 	];
 
 	/**

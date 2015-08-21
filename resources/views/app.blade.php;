@@ -4,6 +4,12 @@
 	<script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 @endsection
 
+@section('footer')
+
+
+	<p class="text-right current-time">{{ date('Y-m-d H:i:s') }}</p>
+@endsection
+
 
 @section('topbar')
 
@@ -121,165 +127,80 @@
 
 
 
+@section('meta')
+
+
+@endsection
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	@yield('meta')
+
 	<title>HempEmpire - Alpha</title>
 
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+	<!--link href="{{ asset('/css/app.css') }}" rel="stylesheet"-->
 
-<?php
 
-$hour   = date('H');
-$folder = null;
-
-if ($hour >= 20 || $hour < 8) {
-	$folder = 'night';
-} else {
-	$folder = 'day';
-}
-
-?>
-<!-- Fonts -->
+	<!-- Fonts -->
 	<link href="{{ asset('/css/fonts/roboto.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('/css/fonts/flaticon.css') }}" rel="stylesheet" type="text/css">
 
-	<!-- Bootstrap -->
-	<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/css/' . $folder . '/theme.css') }}" rel="stylesheet" type="text/css">
-
-	<!-- JQuery UI -->
-	<link href="{{ asset('/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/css/' . $folder . '/jquery-ui.theme.min.css') }}" rel="stylesheet" type="text/css">
-
-	<link href="{{ asset('/css/ui.notify.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
 
 
+	@if(Config::get('app.debug'))
 
-	<script src="{{ asset('/js/jquery.min.js') }}"></script>
-	<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('/js/angular.min.js') }}"></script>
-	<script src="{{ asset('/js/jquery-ui.js') }}"></script>
-	<!--script src="{{ asset('/js/jquery.notify.js') }}"></script-->
-	<script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
-	<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
+		<!-- Bootstrap -->
+		<link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
+
+		<script src="{{ asset('/js/jquery.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap.js') }}"></script>
+		<script src="{{ asset('/js/angular.js') }}"></script>
+		<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
+	@else
+
+
+		<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
+
+		<script src="{{ asset('/js/jquery.min.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('/js/angular.min.js') }}"></script>
+		<script src="{{ asset('/js/jquery.mousewheel.min.js') }}"></script>
+	@endif
+
 
 
 
 
 
 </head>
-<body>
-	@if(isset($player))
-
-	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-
-			<div class="navbar-header navbar-left">
-
-				{!! BootForm::open()->post()->addClass('navbar-form navbar-left')->addClass(is_null($player->place) || $player->isBusy || !isCurrentRoute('game') ? 'invisible' : null) !!}
-				{!! BootForm::token() !!}
-				{!! BootForm::hidden('place')->value(null) !!}
 
 
-				<button type="submit" class="btn btn-default">{!! entity('icon')->icon('arrow-left') !!}</button>
+<body data-ng-app="game" data-ng-controller="player">
+	<script type="text/javascript">
 
-				{!! BootForm::close() !!}
+	(function() {
 
+		var app = angular.module('game', []);
 
-				<div class="btn-group navbar-left">
+	})();
 
-					{!! entity('navItem')
-						->icon('home')
-						->url(route('game'))
-						->text(is_null($player->place) ? $player->location->getTitle() : $player->place->getTitle()) !!}
-
-					<div class="btn-group">
-
-						{!! entity('navItem')
-							->icon('user')
-							->url(route('player.index'))
-							->text($player->name) !!}
-
-						<button type="button" class="btn btn-{!! isCurrentRoute('player.index') ? 'primary' : 'default' !!} navbar-btn dropdown-toggle" data-toggle="dropdown">
-    						<span class="caret"></span>
-						</button>
-
-						<ul class="dropdown-menu">
-
-							<li {!! isCurrentRoute('player.statistics') ? ' class="active"' : '' !!}><a href="{{ route('player.statistics') }}">@lang('player.statistics')</a></li>
-							<li {!! isCurrentRoute('player.items') ? ' class="active"' : '' !!}><a href="{{ route('player.items') }}">@lang('player.items')</a></li>
-						</ul>
-					</div>
-
-					{!! entity('navItem')
-						->icon('envelope')
-						->url(route('message.index'))
-						->text(trans('navigation.messages'))
-						->append(' <span class="badge messages">' . $player->messagesCount . '</span>') !!}
-
-					{!! entity('navItem')
-						->icon('exclamation-sign')
-						->url(route('reports.index'))
-						->text(trans('navigation.reports'))
-						->append(' <span class="badge reports">' . $player->reportsCount . '</span>') !!}
-
-					{!! entity('navItem')
-						->icon('usd')
-						->url(route('premiumShop'))
-						->text(trans('navigation.premiumShop')) !!}
-
-					{!! entity('navItem')
-						->icon('list-alt')
-						->url(route('ranking'))
-						->text(trans('navigation.ranking')) !!}
-
-					{!! entity('navItem')
-						->icon('globe')
-						->url(route('world.select'))
-						->text($player->world->getTitle()) !!}
-
-					@if($player->user->admin)
-
-					{!! entity('navItem')
-						->icon('dashboard')
-						->url(url('admin'))
-						->text(trans('navigation.adminDashboard')) !!}
-
-					@endif
-
-					{!! entity('navItem')
-						->icon('lock')
-						->url(route('user.logout'))
-						->text(trans('navigation.logout')) !!}
-				</div>
-
-				<div class="navbar-right">
-					<p class="navbar-text">
-						<img src="{{ $player->avatar }}" class="avatar-small"/>
-						<strong title="@lang('player.name')">{{ $player->name }} </strong>
-						<span class="badge level" title="@lang('statistic.level')">{{ $player->level }}</span>
-						<span class="badge plantator-level" title="@lang('statistic.plantatorLevel')">{{ $player->plantatorLevel }}</span>
-						<span class="badge smuggler-level" title="@lang('statistic.smugglerLevel')">{{ $player->smugglerLevel }}</span>
-						<span class="badge dealer-level" title="@lang('statistic.dealerLevel')">{{ $player->dealerLevel }}</span>
-					</p>
-					<p class="navbar-text money" title="@lang('statistic.money')">{{ Formatter::money($player->money) }}</p>
-					<p class="navbar-text" title="@lang('statistic.premiumPoints')">{{ $player->premiumPoints }}pp</p>
-					<p class="navbar-text luck" title="@lang('statistic.luck')">{{ $player->luck }}%</p>
-				</div>
-			</div>
-
-
-		</div>
-	</nav>
+	</script>
 
 
 
-	@endif
+	@include('navigation')
+
+
+
 
 
 	<div class="container">
@@ -302,7 +223,68 @@ if ($hour >= 20 || $hour < 8) {
 	</div>
 
 
+	<script type="text/javascript">
+
+		(function() {
+
+			var app = angular.module('game');
+
+			app.controller('player', function($scope) {
+
+				@if(isset($player))
+				$scope.player = {
+
+					level: {{ $player->level }},
+					plantatorLevel: {{ $player->plantatorLevel }},
+					smugglerLevel: {{ $player->smugglerLevel }},
+					dealerLevel: {{ $player->dealerLevel }},
+					strength: {{ $player->strength }},
+					perception: {{ $player->perception }},
+					endurance: {{ $player->endurance }},
+					charisma: {{ $player->charisma }},
+					intelligence: {{ $player->intelligence }},
+					agility: {{ $player->agility }},
+					luck: {{ $player->luck }},
+					money: {{ $player->money }},
+					premiumPoints: {{ $player->premiumPoints }},
+					reports: {{ $player->reportsCount }},
+					messages: {{ $player->messagesCount }},
+					respect: {{ $player->respect }},
+					weight: {{ $player->weight }},
+					capacity: {{ $player->capacity }},
+					experienceModifier: {{ $player->experienceModifier }},
+					moneyModifier: {{ $player->moneyModifier }},
+				};
+				@else
+				$scope.player = null;
+
+				@endif
+
+
+				$scope.round = function(value, precision) {
+
+					var n, v, r;
+
+					if(precision === null || typeof precision == 'undefined')
+						precision = 0;
+
+					n = Math.pow(10, precision);
+					v = value * n;
+					r = Math.round(v)
+					v = r / n;
+
+					return v;
+				};
+			});
+
+		})();
+
+	</script>
+
+
 	@yield('styles')
 	@yield('scripts')
+
+
 </body>
 </html>

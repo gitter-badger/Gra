@@ -3,10 +3,12 @@
 namespace HempEmpire;
 
 use Config;
+use Formatter;
 use Illuminate\Database\Eloquent\Model;
+use TransText;
 
 class Location extends Model {
-	protected $fillable = ['name', 'image', 'groups', 'x', 'y'];
+	protected $fillable = ['name', 'thumb', 'plan', 'groups', 'x', 'y'];
 	public $timestamps  = false;
 
 	public function places() {
@@ -25,15 +27,15 @@ class Location extends Model {
 	}
 
 	public function getName() {
-		return $this->name;
+		return new TransText('location.'.$this->name.'.name');
 	}
 
-	public function getTitle() {
-		return trans('location.'.$this->name.'.name');
+	public function getMap() {
+		return asset('images/locations/maps/'.$this->map);
 	}
 
-	public function getImage() {
-		return asset('images/locations/'.$this->image);
+	public function getThumb() {
+		return asset('images/locations/thumbs/'.$this->thumb);
 	}
 
 	public function getGroupsAttribute($value) {
@@ -58,5 +60,17 @@ class Location extends Model {
 		}
 
 		return null;
+	}
+
+	public function renderMap() {
+		$content = '<div class="location-map" style="background: url(\''.$this->getMap().'\'); ">';
+
+		foreach ($this->places as $place) {
+			$content .= '<div class="place-mark" style="left: '.Formatter::percent($place->x).'; top: '.Formatter::percent($place->y).'"></div>';
+		}
+
+		$content .= '</div>';
+
+		return $content;
 	}
 }

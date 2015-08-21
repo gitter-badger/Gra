@@ -21,13 +21,14 @@ class VehicleSeeder extends Seeder
 
         		'name' => $vehicle['name'],
                 'image' => $vehicle['name'] . '.jpg',
-        		'weight' => $vehicle['weight'],
         		'price' => $vehicle['price'],
+                'weight' => $vehicle['weight'],
         		'premium' => $vehicle['premium'],
 
         		'speed' => $vehicle['speed'],
         		'cost' => $vehicle['cost'],
         		'capacity' => $vehicle['capacity'],
+                'type' => $vehicle['type'],
 
                 
                 'properties' => json_encode(isset($vehicle['properties']) ? $vehicle['properties'] : []),

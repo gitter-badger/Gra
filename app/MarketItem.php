@@ -78,14 +78,14 @@ class MarketItem extends Model implements ItemContract
 		return $this->item->isPremium();
 	}
 
-	public function getWeight()
-	{
-		return $this->item->getWeight();
-	}
-
 	public function getCount()
 	{
 		return $this->item->getCount();
+	}
+
+	public function getWeight()
+	{
+		return $this->item->getWeight();
 	}
 
 	public function getTemplate()

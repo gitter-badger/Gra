@@ -21,6 +21,11 @@ class CreateStuffsTable extends Migration
             $table->integer('count')->unsigned();
 
             $table->integer('quality')->unsigned()->nullable();
+
+
+
+
+            $table->foreign('template_id')->references('id')->on('template_stuffs');
         });
     }
 

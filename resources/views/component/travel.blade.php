@@ -1,4 +1,4 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="travel">
 	<h4><strong>@lang('travel.title')</strong></h4>
 	<div class="well text-center">
 		<div class="row equalize">
@@ -16,7 +16,10 @@
 					{!! BootForm::hidden('location')->value($location->id) !!}
 
 
-					<button type="submit" class="btn btn-block" style="padding: 0; border: 0">
+					
+
+					<button type="submit" class="btn btn-block tutorial-step" style="padding: 0; border: 0"
+						data-tutorial-index="0" title="@lang('tutorial.travel.travel.title')" data-content="@lang('tutorial.travel.travel.content')">
 							
 
 						<img class="img-responsive center-block" src="{{ $location->getImage() }}" style="width: 100%"/>

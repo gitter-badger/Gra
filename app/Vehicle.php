@@ -163,4 +163,9 @@ class Vehicle extends Model implements VehicleContract
 			return $this->capacity;
 		}
 	}
+
+	public function getSubType()
+	{
+		return $this->template->getSubType();
+	}
 }

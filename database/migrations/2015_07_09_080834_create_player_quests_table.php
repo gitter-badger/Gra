@@ -19,6 +19,13 @@ class CreatePlayerQuestsTable extends Migration
             $table->integer('quest_id')->unsigned();
             $table->boolean('active');
             $table->boolean('done');
+            $table->integer('player_npc_id')->unsigned()->nullable();
+            $table->json('states')->nullable();
+
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('quest_id')->references('id')->on('quests');
         });
     }
 

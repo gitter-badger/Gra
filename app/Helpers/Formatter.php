@@ -87,7 +87,7 @@ class Formatter
 		return round($value * $n) / $n;
 	}
 
-	public static function percent($value, $precision = 0)
+	public static function percent($value, $precision = 2)
 	{
 		return static::number($value * 100, $precision) . '%';
 	}
@@ -157,5 +157,39 @@ class Formatter
 				return $buffer;
 			}
 		}
+	}
+
+	public static function hide($string, $start = 0, $end = -1, $char = '*')
+	{
+		if($end < 0)
+			$end += strlen($string);
+
+
+		$length = $end - $start;
+		$before = substr($string, 0, $start);
+		$after = substr($string, $end);
+		$hidden = '';
+
+
+		for($i = 0; $i <= $length; ++$i)
+			$hidden .= $char;
+
+
+		return $before . $hidden . $after;
+	}
+
+	public static function hideEmail($string, $start = 2, $char = '*')
+	{
+		$end = strpos($string, '@');
+
+		if($end !== false)
+		{
+			return self::hide($string, $start, $end, $char);
+		}
+		else
+		{
+			return null;
+		}
+
 	}
 }

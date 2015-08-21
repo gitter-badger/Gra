@@ -92,9 +92,12 @@ equalize = ->
 				$(col).removeClass("col-#{p}-offset-#{i}")
 			$(col).addClass("col-#{p}-offset-#{hs}")
 
-
+afterLoaded = ->
+	$('img')
+		.on('load', equalize)
 
 
 $ ->
-	$(window).resize -> equalize()
-	equalize()
+	#afterLoaded()
+	#$(window).on('resized', equalize)
+	#equalize()

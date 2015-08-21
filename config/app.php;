@@ -65,7 +65,7 @@ return [
 	|
 	 */
 
-	'fallback_locale' => 'pl',
+	'fallback_locale' => 'en',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -147,8 +147,10 @@ return [
 		AdamWathan\BootForms\BootFormsServiceProvider::class ,
 		Laravel\Socialite\SocialiteServiceProvider::class ,
 		Barryvdh\Debugbar\ServiceProvider::class ,
+		Greggilbert\Recaptcha\RecaptchaServiceProvider::class ,
 
 		HempEmpire\Providers\ComponentServiceProvider::class ,
+		HempEmpire\Providers\UrlGeneratorProvider::class ,
 	],
 
 	/*
@@ -200,7 +202,9 @@ return [
 		'Socialite' => Laravel\Socialite\Facades\Socialite::class ,
 		'BootForm'  => AdamWathan\BootForms\Facades\BootForm::class ,
 		'Debugbar'  => Barryvdh\Debugbar\Facade::class ,
+		'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class ,
 
 	],
 
+	'languages' => ['pl', 'en'],
 ];

@@ -16,9 +16,14 @@ class CreateGangLogsTable extends Migration
         {
             $table->increments('id');
             $table->string('action');
-            $table->integer('player_id');
+            $table->integer('gang_id')->unsigned();
+            $table->integer('player_id')->unsigned()->nullable();
             $table->text('data');
             $table->timestamps();
+
+
+            $table->foreign('gang_id')->references('id')->on('gangs');
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

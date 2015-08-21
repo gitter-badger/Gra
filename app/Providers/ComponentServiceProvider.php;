@@ -87,5 +87,21 @@ class ComponentServiceProvider extends ServiceProvider {
 		$this->app->bind('component.gang', function ($app) {
 				return new \HempEmpire\Components\Gang;
 			});
+
+		$this->app->bind('component.gang-bank', function ($app) {
+				return new \HempEmpire\Components\GangBank;
+			});
+
+		$this->app->bind('component.gang-store', function ($app) {
+				return new \HempEmpire\Components\GangStore;
+			});
+
+		$this->app->bind('component.transport', function ($app) {
+				return new \HempEmpire\Components\Transport;
+			});
+
+		$this->app->bind('component.npc', function ($app) {
+				return new \HempEmpire\Components\Npc;
+			});
 	}
 }

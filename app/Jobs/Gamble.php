@@ -40,12 +40,16 @@ class Gamble extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+
+        foreach($this->player->quests as $quest)
+            $quest->init();
+
         echo __METHOD__ . PHP_EOL;
         if($this->player->jobName == 'gambling')
         {
             $roll = mt_rand(0, 100);
 
-            if($this->player->roll(0, 75) > $roll)
+            if($this->player->roll(0, 50) > $roll)
             {
                 $reward = round($this->bet * $this->exchange);
 
@@ -62,5 +66,11 @@ class Gamble extends Job implements SelfHandling, ShouldQueue
                     ->param('money', $this->bet)->send();
             }
         }
+
+
+
+
+        foreach($this->player->quests as $quest)
+            $quest->finit();
     }
 }

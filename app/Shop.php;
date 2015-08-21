@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shop extends Model {
 	use ItemContainer;
 
-	protected $fillable = ['template_id', 'player_id', 'location_place_id', 'lastVisited'];
+	protected $fillable = ['template_id', 'player_id', 'location_place_id', 'lastVisited', 'lastReseted'];
 	public $timestamps  = false;
 
 	public function template() {
@@ -16,21 +16,5 @@ class Shop extends Model {
 
 	public function player() {
 		return $this->belongsTo(Player::class );
-	}
-
-	public function getLastVisitedAttribute($value) {
-		if (is_null($value)) {
-			return null;
-		} else {
-			return strtotime($value);
-		}
-	}
-
-	public function setLastVisitedAttribute($value) {
-		if (is_numeric($value)) {
-			$this->attributes['lastVisited'] = date('Y-m-d H:i:s', $value);
-		} else {
-			$this->attributes['lastVisited'] = $value;
-		}
 	}
 }

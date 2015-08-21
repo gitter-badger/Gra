@@ -17,6 +17,11 @@ class CreatePlayerBlacklistTable extends Migration
             $table->increments('id');
             $table->integer('player_id')->unsigned();
             $table->integer('blocked_id')->unsigned();
+
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('blocked_id')->references('id')->on('players');
         });
     }
 

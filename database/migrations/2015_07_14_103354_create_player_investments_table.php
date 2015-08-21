@@ -24,8 +24,21 @@ class CreatePlayerInvestmentsTable extends Migration
             $table->integer('capacityLevel')->unsigned();
             $table->integer('incomeLevel')->unsigned();
 
+            $table->integer('worksCount')->unsigned();
+            $table->integer('worksNeeded')->unsigned();
+
             $table->integer('bought');
             $table->integer('lastUpdate')->unsigned();
+
+            $table->integer('managerId')->unsigned()->nullable();
+            $table->integer('managerExpires')->unsigned()->nullable();
+            $table->integer('managerMoney')->unsigned();
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('location_place_id')->references('id')->on('location_places');
+            $table->foreign('investment_id')->references('id')->on('investments');
+
         });
     }
 

@@ -17,7 +17,7 @@ class SelectWorld {
 		if (World::hasSelected()) {
 			return $next($request);
 		} else {
-			return redirect(route('world.list'));
+			return (redirect()->route('world.list'));
 		}
 	}
 }

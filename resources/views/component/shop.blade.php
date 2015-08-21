@@ -1,4 +1,4 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="shop">
 	<h4><strong>@lang('shop.title')</strong></h4>
 	<?php $url = Request::url(); ?>
 
@@ -96,22 +96,36 @@
 								{!! BootForm::open()->post()->action(route('game', ['view' => $view])) !!}
 								{!! BootForm::token() !!}
 
-								{!! BootForm::hidden('action')->value('buy') !!}
+								{!! BootForm::hidden('action')->value('shop.buy') !!}
 								{!! BootForm::hidden('item')->value($item->getId()) !!}
 								{!! BootForm::hidden('type')->value($item->getType()) !!}
+								
+								<?php
+
+								$submit = BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block')
+									->addClass('tutorial-step')
+									->data('tutorial-index', 0)
+									->attribute('title', trans('tutorial.shop.buy.title'))
+									->data('content', trans('tutorial.shop.buy.content'));
+
+								?>
+
 
 
 								@if($requirements->check())
 
 									@if($item->getCount() > 1)
 									
-										<div class="input-group">
+										<div class="row">
 
-											{!! BootForm::number(null, 'count')->min(1)->max($item->getCount())->defaultValue(1) !!}
+											<div class="col-xs-12 col-sm-10">
+											
+												{!! BootForm::number(null, 'count')->min(1)->max($item->getCount())->defaultValue(1) !!}
+											</div>
 
-											<div class="input-group-btn">
+											<div class="col-xs-12 col-sm-2">
 
-												{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+												{!! $submit !!}
 											</div>
 
 										</div>
@@ -119,7 +133,7 @@
 				
 									@else
 
-										{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+										{!! $submit !!}
 
 									@endif
 								@else
@@ -140,6 +154,7 @@
 
 				</div>
 
+				<?php $first = false; ?>
 			@empty
 
 
@@ -163,12 +178,51 @@
 
 	@if(!is_null($lastUpdate) && !is_null($nextUpdate))
 
-		{!! entity('timer')
-			->min($lastUpdate)
-			->max($nextUpdate)
-			->now(time())
-			->reversed(false)
-		!!}
+		<div class="progress-group">
+
+
+			{!! entity('timer')
+				->min($lastUpdate)
+				->max($nextUpdate)
+				->now(time())
+				->reversed(false)
+			!!}
+
+
+			@if($resetable)
+
+
+				@if(is_null($lastReset) || $nextReset <= time())
+				
+
+				{!! BootForm::open()->post()->addClass('progress-btn') !!}
+				{!! BootForm::token() !!}
+
+				{!! BootForm::hidden('action')->value('shop.reset') !!}
+				{!! BootForm::submit(trans('shop.reset', ['cost' => $resetCost]), 'btn-success') !!}
+
+				{!! BootForm::close() !!}
+
+
+				@else
+
+				<div class="progress-btn">
+
+					<div class="btn btn-success disabled time-left" data-to="{{ $nextReset }}">
+					</div>
+
+				</div>
+
+
+				@endif
+
+
+			@endif
+
+		</div>
 	@endif
+
+
+
 
 </div>

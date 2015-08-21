@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Stuff as StuffContract;
 
 class TemplateStuff extends Model implements StuffContract
 {
-    protected $fillable = ['name', 'image', 'premium', 'price', 'weight', 'quality', 'properties'];
+    protected $fillable = ['name', 'image', 'premium', 'price', 'quality', 'properties', 'weight'];
     public $timestamps = false;
     private $props;
     protected $raw = false;
@@ -68,14 +68,14 @@ class TemplateStuff extends Model implements StuffContract
 		return $this->premium;
 	}
 
-	public function getWeight()
-	{
-		return $this->weight;
-	}
-
 	public function getCount()
 	{
 		return null;
+	}
+
+	public function getWeight()
+	{
+		return $this->weight;
 	}
 
 	public function getTemplate()

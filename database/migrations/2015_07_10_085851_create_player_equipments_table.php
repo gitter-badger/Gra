@@ -16,6 +16,9 @@ class CreatePlayerEquipmentsTable extends Migration
         {
             $table->increments('id');
             $table->integer('player_id')->unsigned()->unique();
+
+
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

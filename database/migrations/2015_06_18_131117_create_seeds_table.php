@@ -27,6 +27,10 @@ class CreateSeedsTable extends Migration
             $table->integer('harvestMin')->unsigned()->nullable();
             $table->integer('harvestMax')->unsigned()->nullable();
             $table->integer('quality')->unsigned()->nullable();
+
+
+
+            $table->foreign('template_id')->references('id')->on('template_seeds');
         });
     }
 

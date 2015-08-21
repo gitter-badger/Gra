@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+use HempEmpire\Events\Harvest as HarvestEvent;
+use Event;
 
 use HempEmpire\Player;
 use HempEmpire\TemplateStuff;
@@ -40,6 +42,9 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 	public function handle()
 	{
+	    foreach($this->player->quests as $quest)
+	        $quest->init();
+
         echo __METHOD__ . PHP_EOL;
 		$count = $this->player->roll($this->countMin, $this->countMax);
 		$template = TemplateStuff::where('name', '=', $this->species . '-stuff')->first();
@@ -50,8 +55,7 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 
 
-        $this->player->experience += ceil($count / 10);
-		$this->player->plantatorExperience += $count;
+		$this->player->plantatorExperience += round($count * ($this->quality / 5));
 
 		$success = DB::transaction(function() use($stuff, $count)
 		{
@@ -69,8 +73,14 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 		});
 
 		if($success)
-			$this->player->completeQuest('first-plant');
+		{
+			Event::fire(new HarvestEvent($this->player, $this->species, $count));
+		}
 		
+
+	    foreach($this->player->quests as $quest)
+	        $quest->finit();
+
 		return $success;
 	}
 }

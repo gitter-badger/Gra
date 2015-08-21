@@ -19,18 +19,14 @@
 	
 		{!! Message::renderAll() !!}
 
-		<?php $first = true; ?>
+
+
 		@foreach($views as $view)
 
-			@if(!$first)
-
-				<hr/>
-			@endif
-
-			<?php $first = false; ?>
+			<div class="component">
 			
-
-			{!! $view !!}
+				{!! $view !!}
+			</div>
 
 
 		@endforeach

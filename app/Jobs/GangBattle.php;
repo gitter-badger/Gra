@@ -2,31 +2,349 @@
 
 namespace HempEmpire\Jobs;
 
-class GangBattle extends Battle {
-	protected $redGang;
-	protected $blueGang;
+use HempEmpire\Battleground;
+use HempEmpire\Jobs\Job;
 
-	public function setRedGang($gang) {
-		$this->redGang = $gang;
+use HempEmpire\Player;
+use HempEmpire\ReportDialog;
+use Illuminate\Contracts\Bus\SelfHandling;
+
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use TextArray;
+use TransText;
+
+class GangBattle extends Job implements SelfHandling, ShouldQueue {
+	use InteractsWithQueue, SerializesModels;
+	use DispatchesJobs;
+
+	protected $battleground;
+	protected $red;
+	protected $blue;
+	protected $reasonRed;
+	protected $reasonBlue;
+
+	/**
+	 * Create a new job instance.
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->battleground = new Battleground;
+		$this->red          = null;
+		$this->blue         = null;
+		$this->reasonRed    = null;
+		$this->reasonBlue   = null;
 	}
 
-	public function setBlueGang($gang) {
-		$this->blueGang = $gang;
+	public function reason($team, $reason) {
+		if ($team == 'red') {
+			$this->reasonRed = $reason;
+		} elseif ($team == 'blue') {
+			$this->reasonBlue = $reason;
+		}
 	}
 
+	public function joinRed($gang) {
+		$this->red = $gang;
+	}
+
+	public function joinBlue($gang) {
+		$this->blue = $gang;
+	}
+
+	/**
+	 * Execute the job.
+	 *
+	 * @return void
+	 */
 	public function handle() {
-		foreach ($this->redGang->members as $member) {
-			if (!$member->player->isBusy) {
-				$this->joinRed($member->player);
+		echo __METHOD__ .PHP_EOL;
+
+		$now         = time();
+		$redCount    = 0;
+		$blueCount   = 0;
+		$redExp      = 0;
+		$blueExp     = 0;
+		$redRespect  = 0;
+		$blueRespect = 0;
+		$redMoney    = 0;
+		$blueMoney   = 0;
+
+		foreach ($this->red->members as $member) {
+			$character = $member->player;
+
+			if (!$character->isBusy && $member->joins) {
+				$character->healthLock = true;
+				$redCount++;
+
+				$blueExp += round($character->level*$character->health/2);
+				$blueRespect += max($character->respect/10, 10);
+				$blueMoney += round($character->money/10);
+
+				$this->battleground->joinRed($character);
+
+				foreach ($character->quests as $quest)
+				$quest->init();
 			}
 		}
 
-		foreach ($this->blueGang->members as $member) {
-			if (!$member->player->isBusy) {
-				$this->joinBlue($member->player);
+		foreach ($this->blue->members as $member) {
+			$character = $member->player;
+
+			if (!$character->isBusy && $member->joins) {
+				$character->healthLock = true;
+				$blueCount++;
+
+				$redExp += round($character->level*$character->health/3);
+				$redRespect += max($character->respect/20, 10);
+				$redMoney += round($character->money/15);
+
+				$this->battleground->joinBlue($character);
+
+				foreach ($character->quests as $quest)
+				$quest->init();
 			}
 		}
 
-		return parent::handle();
+		$this->battleground->battle();
+		$winner = $this->battleground->winner();
+		$report = $this->battleground->report();
+
+		$redGangRespect  = 0;
+		$blueGangRespect = 0;
+
+		if ($winner == 'red') {
+			$redGangRespect  = round($this->blue->respect/10);
+			$blueGangRespect = 0;
+
+			if ($blueCount > 0) {
+				$blueGangRespect = round($this->red->respect/20);
+			} else {
+				$blueGangRespect = round($this->blue->respect/4);
+			}
+
+			$this->red->respect += $redGangRespect;
+			$this->blue->respect -= $blueGangRespect;
+		} else {
+			$redGangRespect  = 0;
+			$blueGangRespect = round($this->red->respect/5);
+
+			if ($redCount > 0) {
+				$redGangRespect = round($this->blue->respect/10);
+			} else {
+				$redGangRespect = round($this->red->respect/4);
+			}
+
+			$this->red->respect -= $redGangRespect;
+			$this->blue->respect += $blueGangRespect;
+		}
+
+		$this->red->save();
+		$this->blue->save();
+
+		foreach ($this->red->members as $member) {
+			$character = $member->player;
+			if ($character instanceof Player) {
+				$type = 'gang-battle-'.($winner == 'red'?'win':'lose');
+
+				$rewards = new TextArray;
+				$rewards->separator('</br>');
+
+				if ($winner != 'red') {
+					$respect = round($redRespect/count($this->red));
+					$money   = round($character->money/10);
+
+					$character->reload = true;
+					$character->jobEnd = $now;
+					$character->respect -= $respect;
+					$character->money -= $money;
+
+					if ($redGangRespect > 0) {
+						$text = new TransText('battle.lose.gangRespect');
+						$text->with('value', $redGangRespect);
+
+						$rewards->push($text);
+					}
+
+					if ($respect > 0) {
+						$text = new TransText('battle.lose.respect');
+						$text->with('value', $respect);
+
+						$rewards->push($text);
+					}
+
+					if ($money > 0) {
+						$text = new TransText('battle.lose.money');
+						$text->with('value', $money);
+
+						$rewards->push($text);
+					}
+
+					Event::fire(new Fight($character, false, $money, $respect));
+
+				} else {
+					$experience = round($redExp/count($this->red));
+					$respect    = round($redRespect/count($this->red));
+					$money      = round($redMoney/count($this->red));
+
+					$character->experience += $experience;
+					$character->respect += $respect;
+					$character->money += $money;
+
+					if ($redGangRespect > 0) {
+						$text = new TransText('battle.win.gangRespect');
+						$text->with('value', $redGangRespect);
+
+						$rewards->push($text);
+					}
+
+					if ($experience > 0) {
+						$text = new TransText('battle.win.experience');
+						$text->with('value', $experience);
+
+						$rewards->push($text);
+					}
+
+					if ($respect > 0) {
+						$text = new TransText('battle.win.respect');
+						$text->with('value', $respect);
+
+						$rewards->push($text);
+					}
+
+					if ($money > 0) {
+						$text = new TransText('battle.win.money');
+						$text->with('value', $money);
+
+						$rewards->push($text);
+					}
+
+					Event::fire(new Fight($character, true, $money, $respect, $experience));
+				}
+
+				foreach ($character->quests as $quest)
+				$quest->finit();
+
+				$character->newReport($type)
+				          ->param('reason', $this->reasonRed)
+				->param('log', $report)
+				->param('rewards', $rewards)
+				->send();
+
+				$dialog = new ReportDialog($type);
+				$dialog->with('reason', $this->reasonRed)
+				->with('rewards', $rewards)
+				->with('log', $report);
+
+				$character->pushEvent($dialog);
+
+				$character->healthLock = false;
+				$character->save();
+			}
+		}
+
+		foreach ($this->blue->members as $member) {
+			$character = $member->player;
+			if ($character instanceof Player) {
+				$type = 'gang-battle-'.($winner == 'blue'?'win':'lose');
+
+				$rewards = new TextArray;
+				$rewards->separator('</br>');
+
+				if ($winner != 'blue') {
+					$respect = round($blueRespect/count($this->blue));
+					$money   = round($character->money/15);
+
+					$character->reload = true;
+					$character->jobEnd = $now;
+					$character->respect -= $respect;
+					$character->money -= $money;
+
+					if ($blueGangRespect > 0) {
+						$text = new TransText('battle.lose.gangRespect');
+						$text->with('value', $blueGangRespect);
+
+						$rewards->push($text);
+					}
+
+					if ($respect > 0) {
+						$text = new TransText('battle.lose.respect');
+						$text->with('value', $respect);
+
+						$rewards->push($text);
+					}
+
+					if ($money > 0) {
+						$text = new TransText('battle.lose.money');
+						$text->with('value', $money);
+
+						$rewards->push($text);
+					}
+
+					Event::fire(new Fight($character, false, $money, $respect));
+
+				} else {
+					$experience = round($blueExp/count($this->blue));
+					$respect    = round($blueRespect/count($this->blue));
+					$money      = round($blueMoney/count($this->blue));
+
+					$character->experience += $experience;
+					$character->respect += $respect;
+					$character->money += $money;
+
+					if ($blueGangRespect > 0) {
+						$text = new TransText('battle.win.gangRespect');
+						$text->with('value', $blueGangRespect);
+
+						$rewards->push($text);
+					}
+
+					if ($experience > 0) {
+						$text = new TransText('battle.win.experience');
+						$text->with('value', $experience);
+
+						$rewards->push($text);
+					}
+
+					if ($respect > 0) {
+						$text = new TransText('battle.win.respect');
+						$text->with('value', $respect);
+
+						$rewards->push($text);
+					}
+
+					if ($money > 0) {
+						$text = new TransText('battle.win.money');
+						$text->with('value', $money);
+
+						$rewards->push($text);
+					}
+
+					Event::fire(new Fight($character, true, $money, $respect, $experience));
+				}
+
+				foreach ($character->quests as $quest)
+				$quest->finit();
+
+				$character->newReport($type)
+				          ->param('reason', $this->reasonBlue)
+				->param('log', $report)
+				->param('rewards', $rewards)
+				->send();
+
+				$dialog = new ReportDialog($type);
+				$dialog->with('reason', $this->reasonBlue)
+				->with('rewards', $rewards)
+				->with('log', $report);
+
+				$character->pushEvent($dialog);
+
+				$character->healthLock = false;
+				$character->save();
+			}
+		}
 	}
 }

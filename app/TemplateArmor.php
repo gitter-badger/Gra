@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Armor as ArmorContract;
 
 class TemplateArmor extends Model implements ArmorContract
 {
-    protected $fillable = ['name', 'image', 'armor', 'speed', 'premium', 'price', 'weight', 'properties'];
+    protected $fillable = ['name', 'image', 'armor', 'speed', 'premium', 'price', 'properties', 'weight'];
     public $timestamps = false;
     private $props;
     protected $raw = false;
@@ -65,14 +65,14 @@ class TemplateArmor extends Model implements ArmorContract
 		return $this->price;
 	}
 
-	public function isPremium()
-	{
-		return $this->premium;
-	}
-
 	public function getWeight()
 	{
 		return $this->weight;
+	}
+
+	public function isPremium()
+	{
+		return $this->premium;
 	}
 
 	public function getCount()

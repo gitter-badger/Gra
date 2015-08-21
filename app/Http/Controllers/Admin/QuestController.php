@@ -8,21 +8,31 @@ use HempEmpire\Http\Requests;
 use HempEmpire\Http\Controllers\Controller;
 
 use HempEmpire\Quest;
-use HempEmpire\QuestGroup;
+use Formatter;
 
 
 class QuestController extends Controller
 {
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        return view('admin.quest.list')
+            ->with('quests', Quest::all());
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response
      */
-    public function create($questGroupId)
+    public function create()
     {
-        return view('admin.quest-group.quest.edit')
-            ->with('questGroup', QuestGroup::findOrFail($questGroupId));
+        return view('admin.quest.edit');
     }
 
     /**
@@ -30,16 +40,13 @@ class QuestController extends Controller
      *
      * @return Response
      */
-    public function store($questGroupId, Request $request)
+    public function store(Request $request)
     {
-        $questGroup = QuestGroup::findOrFail($questGroupId);
-
         $quest = new Quest();
-        $quest->group()->associate($questGroup);
         $this->modify($quest, $request);
         $quest->save();
 
-        return redirect(route('admin.questGroup.show', ['questGroup' => $questGroup]));
+        return redirect(route('admin.quest.index'));
     }
 
     /**
@@ -48,10 +55,10 @@ class QuestController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($questGroupId, $questId)
+    public function show($questId)
     {
-        return view('admin.quest-group.quest.view')
-            ->with('quest', QuestGroup::findOrFail($questGroupId)->quests()->whereId($questId)->firstOrFail());
+        return view('admin.quest.view')
+            ->with('quest', Quest::findOrFail($questId));
     }
 
     /**
@@ -60,10 +67,10 @@ class QuestController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($questGroupId, $questId)
+    public function edit($questId)
     {
-        return view('admin.quest-group.quest.edit')
-            ->with('quest', QuestGroup::findOrFail($questGroupId)->quests()->whereId($questId)->firstOrFail());
+        return view('admin.quest.edit')
+            ->with('quest', Quest::findOrFail($questId));
     }
 
     /**
@@ -72,13 +79,13 @@ class QuestController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($questGroupId, $questId, Request $request)
+    public function update($questId, Request $request)
     {
-        $quest = QuestGroup::findOrFail($questGroupId)->quests()->whereId($questId)->firstOrFail();
+        $quest = Quest::findOrFail($questId);
         $this->modify($quest, $request);
         $quest->save();
 
-        return redirect(route('admin.questGroup.quest.show', ['questGroup' => $questGroupId, 'quest' => $questId]));
+        return redirect(route('admin.quest.show', ['quest' => $questId]));
     }
 
     /**
@@ -87,10 +94,10 @@ class QuestController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($questGroupId, $questId)
+    public function destroy($questId)
     {
-        QuestGroup::findOrFail($questGroupId)->quests()->whereId($questId)->delete();
-        return redirect(route('admin.questGroup.show', ['questGroup' => $questGroup]));
+        Quest::findOrFail($questId)->delete();
+        return redirect(route('admin.quest.index'));
     }
 
     
@@ -100,6 +107,31 @@ class QuestController extends Controller
         {
             $quest->name = $request->input('name');
         }
+        if($request->has('repeatable'))
+        {
+            $quest->repeatable = true;
+        }
+        else
+        {
+            $quest->repeatable = false;
+        }
+        if($request->has('breakable'))
+        {
+            $quest->breakable = true;
+        }
+        else
+        {
+            $quest->breakable = false;
+        }
+        if($request->has('auto'))
+        {
+            $quest->auto = true;
+        }
+        else
+        {
+            $quest->auto = false;
+        }
+
         if($request->has('rewards'))
         {
             $quest->rewards = json_encode(explode_trim(PHP_EOL, $request->input('rewards')));
@@ -108,5 +140,40 @@ class QuestController extends Controller
         {
             $quest->requires = json_encode(explode_trim(PHP_EOL, $request->input('requires')));
         }
+        if($request->has('objectives'))
+        {
+            $quest->objectives = json_encode(explode_trim(PHP_EOL, $request->input('objectives')));
+        }
+    }
+
+    public function export()
+    {
+        $output = '[' . PHP_EOL;
+
+        $quests = Quest::all();
+
+        foreach($quests as $quest)
+        {
+            $output .= "\t'" . $quest->name . '\' => [' . PHP_EOL;
+
+            $output .= "\t\t'breakable' => " . Formatter::stringify(true) . ',' . PHP_EOL;
+            $output .= "\t\t'repeatable' => " . Formatter::stringify(true) . ',' . PHP_EOL;
+            $output .= "\t\t'auto' => " . Formatter::stringify(true) . ',' . PHP_EOL;
+
+            $output .= "\t\t'rewards' => " . Formatter::stringify($quest->rewards, true, false) . ',' . PHP_EOL;
+            $output .= "\t\t'objectives' => " . Formatter::stringify($quest->objectives, true, false) . ',' . PHP_EOL;
+            $output .= "\t\t'requires' => " . Formatter::stringify($quest->requires, true, false) . PHP_EOL . "\t]," . PHP_EOL;
+        }
+        $output .= ']';
+
+        
+        $file = fopen(config_path() . '/quests.php', 'w');
+        fwrite($file, '<?php' . PHP_EOL . PHP_EOL . 'return ' . $output . ';' . PHP_EOL . '?>');
+        fclose($file);
+        
+    
+
+        return view('admin.quest.export')
+            ->with('output', $output);
     }
 }

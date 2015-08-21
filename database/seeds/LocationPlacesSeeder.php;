@@ -21,13 +21,15 @@ class LocationPlacesSeeder extends Seeder {
 			if (isset($locationData['places'])) {
 				$places = $locationData['places'];
 
-				foreach ($places as $placeName) {
+				foreach ($places as $placeName => $placeData) {
 					$place = Place::whereName($placeName)->firstOrFail();
 
 					$records[] = [
 
 						'location_id' => $location->id,
 						'place_id'    => $place->id,
+						'x'           => $placeData['x'],
+						'y'           => $placeData['y'],
 					];
 				}
 			}

@@ -58,13 +58,43 @@ abstract class Component implements ComponentContract
 
 	public final function handle($action, $request)
 	{
-		$method = 'action' . ucfirst($action);
+		$parts = explode('.', $action, 2);
+		$action = null;
+		$namespace = null;
 
-		$this->action($action, $request);
-		
-		if(method_exists($this, $method))
+		if(count($parts) == 1)
 		{
-			call_user_func([$this, $method], $request);
+			$action = $parts[0];
+		}
+		elseif(count($parts) == 2)
+		{
+			$namespace = $parts[0];
+			$action = $parts[1];
+		}
+
+
+		if($this->receives($namespace, $action))
+		{
+			$method = 'action' . ucfirst($action);
+
+			$this->action($action, $request);
+			
+			if(method_exists($this, $method))
+			{
+				call_user_func([$this, $method], $request);
+			}
+		}
+	}
+
+	protected function receives($namespace, $action)
+	{
+		if(is_null($namespace))
+		{
+			return !is_null($action);
+		}
+		else
+		{
+			return $namespace == $this->getName();
 		}
 	}
 
@@ -74,7 +104,7 @@ abstract class Component implements ComponentContract
 		$this->place->prevent();
 	}
 
-	protected function getName()
+	public function getName()
 	{
 		if(property_exists($this, 'name'))
 		{
@@ -91,6 +121,11 @@ abstract class Component implements ComponentContract
 		return $this->place->getProperty($this->getName() . '.' . $name, $default);
 	}
 
+	protected function setProperty($name, $value)
+	{
+		$this->place->setProperty($name, $value);
+	}
+
 	protected function getPlaceId()
 	{
 		return $this->place->id;
@@ -105,4 +140,16 @@ abstract class Component implements ComponentContract
 	{
 		return $this->place->name;
 	}
+
+
+
+	public function call($component, $command, $args = [])
+	{
+		$this->place->call($component, $command, $args);
+	}
+
+
+
+
+
 }

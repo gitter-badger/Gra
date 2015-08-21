@@ -18,6 +18,7 @@ class LocationPlace extends Model
 	public $timestamps = false;
     private $_prevent;
     private $_components;
+    private $_properties = [];
 
 
 	public function location()
@@ -65,6 +66,10 @@ class LocationPlace extends Model
         return $this->place->components;
     }
 
+    public function hasComponent($name)
+    {
+        return $this->place->hasComponent($name);
+    }
 
 
     public function loadComponents()
@@ -150,8 +155,13 @@ class LocationPlace extends Model
 
 	public function getProperty($name, $default = null)
 	{
-		return $this->place->getProperty($name, $default);
+		return array_get($this->_properties, $name, $this->place->getProperty($name, $default));
 	}
+
+    public function setProperty($name, $value)
+    {
+        array_set($this->_properties, $name, $value);
+    }
 
     public function getRequirements()
     {
@@ -166,5 +176,22 @@ class LocationPlace extends Model
     public function isVisible()
     {
         return $this->place->isVisible() || $this->isAvailable();
+    }
+
+    public function call($name, $command, $args = [])
+    {
+        foreach($this->_components as $component)
+        {
+            if($component->getName() == $name)
+            {
+                $method = 'command' . ucfirst($command);
+
+                
+                if(method_exists($component, $method))
+                {
+                    call_user_func_array([$component, $method], $args);
+                }
+            }
+        }
     }
 }

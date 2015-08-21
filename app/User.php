@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['email', 'password', 'registration_ip', 'premiumPoints', 'premiumStart', 'premiumEnd', 'admin', 'token', 'verified'];
+    protected $fillable = ['email', 'password', 'registration_ip', 'premiumPoints', 'premiumStart', 'premiumEnd', 'admin', 'token', 'verified', 'fb_id', 'language'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -52,7 +52,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function players()
     {
-        return $this->hasMany('HempEmpire\Player');
+        return $this->hasMany(Player::class);
+    }
+
+    public function tutorials()
+    {
+        return $this->hasMany(UserTutorial::class);
     }
 
 

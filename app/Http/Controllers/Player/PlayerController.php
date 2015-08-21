@@ -14,7 +14,8 @@ class PlayerController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('player', ['except' => ['getCreate', 'postCreate']]);
+		$this->middleware('player', ['except' => ['getCreate', 'postCreate', 'doReference']]);
+		$this->middleware('noplayer', ['only' => ['getCreate', 'postCreate']]);
 	}
 
 	public function getIndex()
@@ -46,6 +47,18 @@ class PlayerController extends Controller
 			'agility' => 'required|integer|min:0',
 		]);
 
+		$token = null;
+
+		do
+		{
+			$token = str_random(8);
+		
+		} while(Player::where(['world_id' => $world->id, 'token' => $token])->count());
+
+
+
+
+
 		$points = Config::get('player.start.stats');
 
 		$points -= $request->input('strength')
@@ -68,7 +81,7 @@ class PlayerController extends Controller
 			$player->world_id = $world->id;
 			$player->location_id = Location::getStartLocation()->id;
 
-			$player->avatar = asset('images/avatars/' . Config::get('player.avatars.' . $request->input('avatar'), '0.png'));
+			$player->avatar = Config::get('player.avatars.' . $request->input('avatar'), '0.png');
 
 
 			$player->name = $request->input('name');
@@ -78,6 +91,8 @@ class PlayerController extends Controller
 			$player->charisma = $request->input('charisma');
 			$player->intelligence = $request->input('intelligence');
 			$player->agility = $request->input('agility');
+
+			$player->token = $token;
 
 			$player->save();
 
@@ -218,7 +233,9 @@ class PlayerController extends Controller
 	public function postInvitations(Request $request)
 	{
 		$player = Player::getActive();
-		$invitation = $player->invitations()->whereId($request->input('invitation'))->first();
+		$invitationId = $request->input('invitation');
+		$invitation = $player->invitations()->where('id', '=', $invitationId)->with('gang')->first();
+
 
 
 		if(!is_null($player->gang))
@@ -231,29 +248,212 @@ class PlayerController extends Controller
 		}
 		else
 		{
-			$member = new \HempEmpire\GangMember;
-			$member->gang_id = $invitation->gang_id;
-			$member->player_id = $player->id;
-			$member->role = 'newbie';
-
-			$player->gang_id = $invitation->gang_id;
-
-
-			$success = DB::transaction(function() use($member, $player, $invitation)
+			if($request->input('action') == 'accept')
 			{
-				return $member->save() && $player->save() && $invitation->delete();
+				$invitations = $player->invitations()->where('id', '<>', $invitationId)->with('gang')->get();
+
+				$member = new \HempEmpire\GangMember;
+				$member->gang_id = $invitation->gang_id;
+				$member->player_id = $player->id;
+				$member->role = 'newbie';
+
+				$player->gang_id = $invitation->gang_id;
+
+
+				$success = DB::transaction(function() use($member, $player)
+				{
+					return $member->save() && $player->save() && $player->invitations()->delete();
+				});
+
+				if($success)
+				{
+					$invitation->gang->newLog('accepted')
+						->subject($player)
+						->save();
+
+					foreach($invitations as $inv)
+						$inv->gang->newLog('rejected')
+							->subject($player)
+							->save();
+
+
+
+					$this->success('invitationAccepted');
+					return redirect()->route('player.statistics');
+				}
+				else
+				{
+					$this->danger('saveError');
+				}
+			}
+			elseif($request->input('action') == 'reject')
+			{
+				$success = DB::transaction(function() use($invitation)
+				{
+					return $invitation->delete();
+				});
+
+				if($success)
+				{
+					$invitation->gang->newLog('rejected')
+						->subject($player)
+						->save();
+
+					$this->success('invitationRejected');
+					return redirect()->route('player.statistics');
+				}
+				else
+				{
+					$this->danger('saveError');
+				}
+			}
+			else
+			{
+				$this->danger('wrongAction');
+			}
+		}
+		return redirect()->route('player.invitations');
+	}
+
+	public function getTalents()
+	{
+		$player = Player::getActive();
+		$trees = Config::get('talents', []);
+
+		return view('player.talents')
+			->with('player', $player)
+			->with('trees', $trees);
+	}
+
+	public function postTalents(Request $request)
+	{
+		$player = Player::getActive();
+		$talent = $request->input('talent');
+		$talents = Config::get('talents');
+		$exists = false;
+		$requirements = [];
+
+
+		foreach($talents as $name => $tree)
+		{
+			if(array_key_exists($talent, $tree))
+			{
+				$requirements = Config::get('talents.' . $name . '.' . $talent . '.requires', []);
+				$exists = true;
+				break;
+			}
+		}
+
+		$requirements = new \HempEmpire\Requirements($requirements);
+
+		if(!$exists)
+		{
+			$this->danger('talentDoesNotExists');
+		}
+		elseif($player->talentPoints < 1)
+		{
+			$this->danger('notEnoughTalents');
+		}
+		elseif($player->hasTalent($talent))
+		{
+			$this->danger('talentAlreadyTaken');
+		}
+		elseif(!$requirements->check($player))
+		{
+			$this->danger('requirementsNotMet');
+		}
+		else
+		{
+			$success = DB::transaction(function() use($player, $talent)
+			{
+				$player->talentPoints--;
+				return $player->save() && $player->talents()->create(['name' => $talent]);
 			});
 
 			if($success)
 			{
-				$this->success('invitationAccepted');
-				return redirect()->route('player.statistics');
+				$this->success('talentTaken');
 			}
 			else
 			{
 				$this->danger('saveError');
 			}
 		}
-		return redirect()->route('player.invitations');
+
+		return redirect()->route('player.talents');
+	}
+
+	public function getReference()
+	{
+		$player = Player::getActive();
+
+		return view('player.reference');
+	}
+
+	public function doReference($token, Request $request)
+	{
+		$player = World::getSelected()->players()->where('token', '=', $token)->orWhere('name', '=', $token)->firstOrFail();
+		$ip = inet_pton($request->ip());
+
+		$reference = $player->references()->where('request_ip', '=', $ip)->first();
+
+		if(is_null($reference))
+		{
+			$at = date('Y-m-d H:i:s', 0);
+
+			$reference = new \HempEmpire\PlayerReference;
+			$reference->player_id = $player->id;
+			$reference->request_ip = $request->ip();
+			$reference->updated_at = 0;
+		}
+
+		$end = $reference->updated_at->timestamp + Config::get('player.reference.interval');
+
+
+		if($player->user->registration_ip == $request->ip())
+		{
+			$this->danger('cantReferenceYourself');
+		}
+		elseif($end <= time())
+		{
+			$player->money += Config::get('player.reference.money');
+
+			$success = DB::transaction(function() use($player, $reference)
+			{
+				return $player->save() && $reference->touch() && $reference->save();
+			});
+
+			if($success)
+			{
+				$this->success('playerDonated');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+		else
+		{
+			$html = '<div class="text-center"><h4>' . trans('player.reference.wait') . '</h4>';
+			$html .= entity('timer')->min($reference->updated_at->timestamp)->now(time())->max($end)->reload(false) . '</div>';
+
+			$this->warning()
+				->with('content', $html);
+		}
+
+
+		return view('player.refered')
+			->with('player', null)
+			->with('p', $player);
+	}
+
+
+	public function getQuests()
+	{
+		$player = Player::getActive();
+
+
+		return view('player.quests')
+			->with('quests', $player->quests()->where(['active' => true])->paginate(25));
 	}
 }

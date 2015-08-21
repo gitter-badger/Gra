@@ -23,8 +23,8 @@ class ArmorSeeder extends Seeder
                 'image' => $armor['name'] . '.jpg',
                 'armor' => $armor['armor'],
         		'speed' => $armor['speed'],
-        		'weight' => $armor['weight'],
         		'price' => $armor['price'],
+                'weight' => $armor['weight'],
         		'premium' => $armor['premium'],
                 'properties' => json_encode(isset($armor['properties']) ? $armor['properties'] : []),
         	];

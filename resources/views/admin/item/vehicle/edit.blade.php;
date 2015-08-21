@@ -7,5 +7,5 @@
 {!! BootForm::number('<strong>Pojemność</strong>', 'capacity')
 	->defaultValue(isset($item) && $item->getType() == 'vehicle' ? $item->getCapacity() : null) !!}
 
-{!! BootForm::checkbox('<strong>Przyśpiesza</strong>', 'boostable')
-	->defaultCheckState(isset($item) && $item->getType() == 'vehicle' ? $item->isBoostable() : false) !!}
+{!! BootForm::select('<strong>Rodzaj</strong>', 'subtype')
+	->options(['bike' => 'Jednoślad', 'car' => 'Samochód'])->defaultValue(isset($item) && $item->getType() == 'vehicle' ? $item->getSubType() : null) !!}

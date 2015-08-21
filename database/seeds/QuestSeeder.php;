@@ -1,6 +1,5 @@
 <?php
 
-use HempEmpire\QuestGroup;
 use Illuminate\Database\Seeder;
 
 class QuestSeeder extends Seeder {
@@ -12,25 +11,22 @@ class QuestSeeder extends Seeder {
 	public function run() {
 		$records = [];
 
-		$groups = Config::get('quests');
+		$quests = Config::get('quests');
 
-		foreach ($groups as $groupName => $quests) {
-			$group = QuestGroup::create([
+		foreach ($quests as $questName => $questData) {
+			$records[] = [
 
-					'name' => $groupName,
-				]);
+				'name'       => $questName,
+				'repeatable' => $questData['repeatable'],
+				'breakable'  => $questData['breakable'],
+				'auto'       => $questData['auto'],
+				'rewards'    => json_encode(isset($questData['rewards'])?$questData['rewards']:[]),
+				'requires'   => json_encode(isset($questData['requires'])?$questData['requires']:[]),
+				'objectives' => json_encode(isset($questData['objectives'])?$questData['objectives']:[]),
+			];
 
-			foreach ($quests as $questName => $questData) {
-				DB::table('quests')->insert([
-
-						'name'     => $questName,
-						'group_id' => $group->id,
-
-						'rewards'  => json_encode(isset($questData['rewards'])?$questData['rewards']:[]),
-						'requires' => json_encode(isset($questData['requires'])?$questData['requires']:[]),
-					]);
-			}
 		}
 
+		DB::table('quests')->insert($records);
 	}
 }

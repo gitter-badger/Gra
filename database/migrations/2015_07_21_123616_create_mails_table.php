@@ -26,8 +26,13 @@ class CreateMailsTable extends Migration
             $table->boolean('viewed')->default(false);
             $table->boolean('receiver_deleted')->default(false);
             $table->boolean('sender_deleted')->default(false);
+            $table->boolean('notified')->default(false);
 
             $table->integer('date')->unsigned();
+
+
+            $table->foreign('receiver_id')->references('id')->on('players');
+            $table->foreign('sender_id')->references('id')->on('players');
         });
     }
 

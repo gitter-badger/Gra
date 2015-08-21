@@ -17,6 +17,11 @@ class CreateMarketsTable extends Migration
             $table->increments('id');
             $table->integer('location_place_id')->unsigned();
             $table->integer('world_id')->unsigned();
+
+
+
+            $table->foreign('location_place_id')->references('id')->on('location_places');
+            $table->foreign('world_id')->references('id')->on('worlds');
         });
     }
 

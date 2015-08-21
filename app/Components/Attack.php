@@ -13,14 +13,18 @@ class Attack extends Component
 	public function view()
 	{
 		$world = $this->player->world;
-		$diff = $this->getProperty('levelDiff');
 
-		$minLevel = max($this->player->level - $diff, $this->getProperty('minLevel'));
-		$maxLevel = $this->player->level + $diff;
+		$threshold = $this->getProperty('threshold');
+
+		$minLevel = $this->getProperty('minLevel');
+		$minRespect = $this->player->respect * (100 - $threshold) / 100;
+		$maxRespect = $this->player->respect * (100 + $threshold) / 100;
 
 
-		$characters = $world->players()->whereBetween('level', [$minLevel, $maxLevel])->where('id', '<>', $this->player->id)
-			->where('jobEnd', '<=', time())->where('location_id', '=', $this->player->location_id)->paginate(25);
+
+
+		$characters = $world->players()->whereBetween('respect', [$minRespect, $maxRespect])->where('id', '<>', $this->player->id)
+			->where('level', '>=', $minLevel)->where('jobEnd', '<=', time())->where('location_id', '=', $this->player->location_id)->paginate(25);
 
 
 		return view('component.attack')
@@ -34,6 +38,10 @@ class Attack extends Component
 		$character = Player::find(Request::input('character'));
 		$energy = Config::get('player.attacking.energy');
 		$duration = Config::get('player.attacking.duration');
+		$minLevel = $this->getProperty('minLevel');
+		$threshold = $this->getProperty('threshold');
+		$minRespect = $this->player->respect * (100 - $threshold) / 100;
+		$maxRespect = $this->player->respect * (100 + $threshold) / 100;
 
 		if($this->player->energy <= $energy)
 		{
@@ -52,7 +60,7 @@ class Attack extends Component
 		{
 			$this->danger('playerRunAway');
 		}
-		elseif($character->level < $this->getProperty('minLevel') || abs($this->player->level - $character->level) > $this->getProperty('levelDiff'))
+		elseif($character->level < $minLevel || $character->respect < $minRespect || $character->respect > $maxRespect)
 		{
 			$this->danger('cannotAttackPlayer');
 		}
@@ -69,8 +77,8 @@ class Attack extends Component
 			$battle->joinBlue($character);
 			$battle->reason('red', trans('attack.attacker', ['name' => $character->name]));
 			$battle->reason('blue', trans('attack.defender', ['name' => $this->player->name]));
-			$battle->delay($duration);
 
+			
 			if($this->player->save())
 			{
 				$this->dispatch($battle);

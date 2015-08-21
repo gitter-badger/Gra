@@ -1,4 +1,4 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="market">
 	<h4><strong>@lang('market.title')</strong></h4>
 	<div>
 		<?php $url = Request::url(); ?>
@@ -26,7 +26,7 @@
 
 					@forelse($items as $item)
 
-
+						<?php $first = true; ?>
 						<?php $requirements = $item->getRequirements(); ?>
 
 						
@@ -44,9 +44,24 @@
 										{!! BootForm::open()->post()->action(route('game', ['view' => $view])) !!}
 										{!! BootForm::token() !!}
 
-										{!! BootForm::hidden('action')->value($view) !!}
+										{!! BootForm::hidden('action')->value('market' . $view) !!}
 										{!! BootForm::hidden('item')->value($item->getId()) !!}
 										{!! BootForm::hidden('type')->value($item->getType()) !!}
+
+										<?php 
+
+										$submit = BootForm::submit(trans('action.' . $view), 'btn-primary')
+											->addClass('center-block')
+											->addClass('tutorial-step')
+											->data('tutorial-index', $view == 'sell' ? 0 : 1)
+											->attribute('title', trans('tutorial.market.' . $view . '.title'))
+											->data('content', trans('tutorial.market.' . $view . '.content')); 
+
+
+										?>
+
+
+
 
 
 										@if($requirements->check())
@@ -65,7 +80,7 @@
 
 														<div class="input-group-btn">
 
-															{!! BootForm::submit(trans('action.' . $view), 'btn-primary')->addClass('center-block') !!}
+															{!! $submit !!}
 														</div>
 
 													</div>
@@ -73,7 +88,7 @@
 							
 												@else
 
-													{!! BootForm::submit(trans('action.' . $view), 'btn-primary')->addClass('center-block') !!}
+													{!! $submit !!}
 
 												@endif
 											@else
@@ -106,6 +121,7 @@
 
 						</div>
 
+						<?php $first = false; ?>
 					@empty
 
 						<div class="col-xs-12 text-center">

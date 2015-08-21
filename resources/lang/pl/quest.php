@@ -2,6 +2,9 @@
 
 return [
 
+	'rewards' => 'Nagrody',
+
+
 	'first-work' => [
 
 		'name' => 'Pierwsza praca',

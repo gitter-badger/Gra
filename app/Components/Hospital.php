@@ -29,6 +29,7 @@ class Hospital extends Component
 		if($health < 1 || $health > ($this->player->maxHealth - $this->player->health))
 		{
 			$this->danger('wrongHealth');
+			return;
 		}
 		else
 		{

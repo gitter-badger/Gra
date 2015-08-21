@@ -355,8 +355,8 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $weapon->name . '\', ';
                 $output .= '\'image\' => \'' . $weapon->image . '\', ';
                 $output .= '\'price\' => ' . $weapon->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($weapon->premium) . ', ';
                 $output .= '\'weight\' => ' . $weapon->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($weapon->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($weapon->properties) . ', ';
 
                 $output .= '\'damage\' => [' . ($weapon->damageMin) . ', ' . ($weapon->damageMax) .  '], ';
@@ -377,8 +377,8 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $armor->name . '\', ';
                 $output .= '\'image\' => \'' . $armor->image . '\', ';
                 $output .= '\'price\' => ' . $armor->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($armor->premium) . ', ';
                 $output .= '\'weight\' => ' . $armor->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($armor->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($armor->properties) . ', ';
 
                 $output .= '\'armor\' => ' . Formatter::number($armor->armor) . ', ';
@@ -397,8 +397,8 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $food->name . '\', ';
                 $output .= '\'image\' => \'' . $food->image . '\', ';
                 $output .= '\'price\' => ' . $food->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($food->premium) . ', ';
                 $output .= '\'weight\' => ' . $food->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($food->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($food->properties) . ', ';
 
                 $output .= '\'health\' => ' . Formatter::stringify($food->health) .  ', ';
@@ -417,8 +417,8 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $seed->name . '\', ';
                 $output .= '\'image\' => \'' . $seed->image . '\', ';
                 $output .= '\'price\' => ' . $seed->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($seed->premium) . ', ';
                 $output .= '\'weight\' => ' . $seed->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($seed->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($seed->properties) . ', ';
 
                 $output .= '\'growth\' => ' . $seed->growth .  ', ';
@@ -439,8 +439,8 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $stuff->name . '\', ';
                 $output .= '\'image\' => \'' . $stuff->image . '\', ';
                 $output .= '\'price\' => ' . $stuff->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($stuff->premium) . ', ';
                 $output .= '\'weight\' => ' . $stuff->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($stuff->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($stuff->properties) . ', ';
 
                 $output .= '\'quality\' => ' . $stuff->quality .  '],' . PHP_EOL;
@@ -458,12 +458,13 @@ class ItemController extends Controller
                 $output .= '\'name\' => \'' . $vehicle->name . '\', ';
                 $output .= '\'image\' => \'' . $vehicle->image . '\', ';
                 $output .= '\'price\' => ' . $vehicle->price . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($vehicle->premium) . ', ';
                 $output .= '\'weight\' => ' . $vehicle->weight . ', ';
+                $output .= '\'premium\' => ' . Formatter::stringify($vehicle->premium) . ', ';
                 $output .= '\'properties\' => ' . Formatter::stringify($vehicle->properties) . ', ';
 
                 $output .= '\'speed\' => ' . $vehicle->speed .  ', ';
                 $output .= '\'cost\' => ' . $vehicle->cost .  ', ';
+                $output .= '\'type\' => \'' . $vehicle->type . '\', ';
                 $output .= '\'capacity\' => ' . $vehicle->capacity .  '],' . PHP_EOL;
             }
             $output .= "\t]," . PHP_EOL;

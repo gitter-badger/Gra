@@ -88,15 +88,16 @@ class Travel extends Component
 
 	public function actionTravel($request)
 	{
-		$location = $this->findLocation($request->input('location'));
+		$to = $this->findLocation($request->input('location'));
+		$from = $this->player->location;
 
-		if(is_null($location))
+		if(is_null($to))
 		{
 			$this->danger('invalidLocation');
 		}
 		else
 		{
-			$distance = $this->player->location->getDistanceTo($location);
+			$distance = $from->getDistanceTo($to);
 
 			$duration = round($distance * $this->getSpeed());
 			$cost = round($distance * $this->getCost());
@@ -113,14 +114,14 @@ class Travel extends Component
 					$duration /= 60;
 
 				$this->player->money -= $cost;
-                $this->player->location()->associate($location);
+                $this->player->location()->associate($to);
                 $this->player->moveTo(null, false);
                 $this->player->startTraveling($duration, false);
 
 
 				if($this->player->save())
 				{
-					$job = new TravelEnds($this->player, $location);
+					$job = new TravelEnds($this->player, $from, $to, $this->getSpeed(), $this->getCost());
 					$job->delay($duration);
 
 					$this->dispatch($job);

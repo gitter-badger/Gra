@@ -27,6 +27,8 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
+        $this->subject = trans('user.resetPassword');
+        $this->redirectPath = '/';
         $this->middleware('guest');
     }
 }

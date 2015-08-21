@@ -3,8 +3,10 @@
 namespace HempEmpire\Components;
 use Config;
 use DB;
-use HempEmpire\Player;
+use Event;
 
+use HempEmpire\Events\ItemBought;
+use HempEmpire\Player;
 use HempEmpire\Shop as ShopModel;
 use HempEmpire\TemplateShop as TemplateModel;
 
@@ -14,7 +16,8 @@ class Shop extends Component {
 	private $shop;
 
 	public function init() {
-		$name = $this->getProperty('name');
+		$name     = $this->getProperty('name');
+		$delivery = $this->getProperty('delivery');
 
 		$template = TemplateModel::whereName($name)->select('id')->firstOrFail();
 
@@ -25,26 +28,42 @@ class Shop extends Component {
 				'location_place_id' => $this->getPlaceId(),
 			]);
 
-		if (is_null($this->shop->lastVisited) || ($this->shop->lastVisited+$this->getProperty('delivery')) < time()) {
-			DB::transaction(function () use ($template) {
-					$this->shop->deleteItems();
+		if ((!is_null($delivery) || is_null($this->shop->lastVisited)) && (is_null($this->shop->lastVisited) || ($this->shop->lastVisited+$delivery) < time())) {
+			$this->delivery($template);
+		}
+	}
 
-					$deliveries = $template->deliveries()->with('item')->get();
+	private function delivery($template = null) {
+		if (is_null($template)) {
+			$template = $this->shop->template;
+		}
 
-					foreach ($deliveries as $delivery) {
-						if (!$this->shop->giveItem($delivery->item, $delivery->count)) {
-							if (Config::get('app.debug', false)) {
-								dd($delivery);
-							} else {
-								return false;
-							}
+		return DB::transaction(function () use ($template) {
+				$this->shop->deleteItems();
+
+				$deliveries = $template->deliveries()->with('item')->get();
+				$count = $this->getProperty('items', count($deliveries));
+
+				while ($count > 0 && count($deliveries) > 0) {
+					$count--;
+					$index = mt_rand(0, count($deliveries)-1);
+					$delivery = $deliveries[$index];
+					$deliveries->pull($index);
+					$deliveries = $deliveries->values();
+
+					if (!$this->shop->giveItem($delivery->item, $delivery->count)) {
+						if (Config::get('app.debug', false)) {
+							dd($delivery);
+						} else {
+							return false;
 						}
 					}
 
-					$this->shop->lastVisited = time();
-					return $this->shop->save();
-				});
-		}
+				}
+
+				$this->shop->lastVisited = time();
+				return $this->shop->save();
+			});
 	}
 
 	private function paginate($array, $view, $perPage = 16) {
@@ -86,6 +105,15 @@ class Shop extends Component {
 			$items = $this->shop->getItems();
 		}
 
+		$delivery   = $this->getProperty('delivery');
+		$lastUpdate = null;
+		$nextUpdate = null;
+
+		if (!is_null($delivery)) {
+			$lastUpdate = $this->shop->lastVisited;
+			$nextUpdate = $lastUpdate+$delivery;
+		}
+
 		return view('component.shop')
 		->with('view', $view)
 		->with('all', $all)
@@ -96,21 +124,29 @@ class Shop extends Component {
 		->with('seeds', $seeds)
 		->with('stuffs', $stuffs)
 		->with('items', $this->paginate($items, $view))
-		->with('lastUpdate', $this->shop->lastVisited)
-		->with('nextUpdate', );
+		->with('lastUpdate', $lastUpdate)
+		->with('nextUpdate', $nextUpdate)
+		->with('resetable', $this->getProperty('resetable', false))
+		->with('resetCost', $this->getProperty('resetCost'))
+		->with('lastReset', $this->shop->lastReseted)
+		->with('nextReset', $this->shop->lastReseted+$this->getProperty('resetCooldown'));
 	}
 
 	public function actionBuy($request) {
+
 		$id    = $request->input('item');
 		$type  = $request->input('type');
 		$count = $request->input('count', 1);
 
-		$item = $this->shop->findItemById($type, $id);
+		$item  = $this->shop->findItemById($type, $id);
+		$space = $this->player->capacity-$this->player->weight;
 
 		if (is_null($item)) {
 			$this->danger('invalidItem');
 		} elseif ($count < 1 || $count > $item->getCount()) {
 			$this->danger('wrongQuantity');
+		} elseif ($count*$item->getWeight() > $space) {
+			$this->danger('notEnoughSpace');
 		} else {
 			$price   = $item->getPrice()*$count;
 			$premium = $item->isPremium();
@@ -140,7 +176,7 @@ class Shop extends Component {
 				});
 
 			if ($success) {
-				$item->onBuy($this->player);
+				Event::fire(new ItemBought($this->player, $item, $count));
 
 				$this->success('itemBought')
 				     ->with('item', $item->getTitle())
@@ -149,5 +185,33 @@ class Shop extends Component {
 				$this->danger('unknown');
 			}
 		}
+	}
+
+	public function actionReset() {
+		$cost = $this->getProperty('resetCost');
+		$next = $this->shop->lastReseted+$this->getProperty('resetCooldown');
+
+		//dd($this->shop, date('Y-m-d H:i:s', $next), date('Y-m-d H:i:s'));
+
+		if ($this->player->premiumPoints < $cost) {
+			$this->danger('notEnoughPremiumPoints')
+			     ->with('value', $cost);
+		} elseif (!is_null($this->shop->lastReseted) && $next > time()) {
+			$this->danger('cantResetYet');
+		} else {
+			$this->shop->lastReseted = time();
+			$this->player->user->premiumPoints -= $cost;
+
+			$success = DB::transaction(function () {
+					return $this->player->user->save() && $this->delivery();
+				});
+
+			if ($success) {
+				$this->success('shopReseted');
+			} else {
+				$this->danger('saveError');
+			}
+		}
+
 	}
 }

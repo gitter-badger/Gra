@@ -1,0 +1,1 @@
+{{ url('/auth/password/reset/' . $token)}}

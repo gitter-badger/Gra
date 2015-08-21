@@ -111,6 +111,14 @@ return [
 			'requires' => []
 		],
 	],
+	'shop-boss' => [
+		'shop-manage' => [
+			'duration' => 5400,
+			'costs' => ['energy:40'],
+			'rewards' => ['money:75', 'experience:60'],
+			'requires' => null
+		],
+	],
 	'tutorial-works' => [
 		'tutorial-distributing-leaflets' => [
 			'duration' => 600,

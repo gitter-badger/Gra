@@ -5,97 +5,109 @@
 
 <div class="well">
 
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-6">
+			
+			<img class="img-responsive center-block" src="{{ $player->avatar }}"/>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			
+			<div class="row">
+
+				<div class="col-xs-4 col-sm-12">
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							@if(isset($armor))
+
+								@include('details.item', ['generalDetails' => false, 'item' => $armor])
+
+							@else
+
+								<p class="text-center"><strong>@lang('player.noArmor')</strong></p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-4 col-sm-12">
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							@if(isset($weapon))
+
+								@include('details.item', ['generalDetails' => false, 'item' => $weapon])
+
+							@else
+
+								<p class="text-center"><strong>@lang('player.noWeapon')</strong></p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-4 col-sm-12">
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							@if(isset($vehicle))
+
+								@include('details.item', ['generalDetails' => false, 'item' => $vehicle])
+
+							@else
+
+								<p class="text-center"><strong>@lang('player.noVehicle')</strong></p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
+
+	<br/>
+
 	<div class="row">
 
-		<div class="col-xs-4 col-sm-2 col-sm-offset-3">
+		@foreach($items as $item)
 
-			@if(isset($armor))
+		<div class="col-xs-6 col-sm-4 col-md-2">
 
-				<div class="btn btn-default btn-block inactive" data-toggle="tooltip" title="@include('details.item', ['image' => false, 'item' => $armor])">
-					<img class="img-responsive" src="{{ $armor->getImage() }}"/>
-				</div>
-			@else
-
-				<div class="btn btn-default btn-block inactive square"></div>
-			@endif
-		</div>
-
-		<div class="col-xs-4 col-sm-2">
-
-			@if(isset($weapon))
-
-				<div class="btn btn-default btn-block inactive" data-toggle="tooltip" title="@include('details.item', ['image' => false, 'item' => $weapon])">
-					<img class="img-responsive" src="{{ $weapon->getImage() }}"/>
-				</div>
-			@else
-
-				<div class="btn btn-default btn-block inactive square"></div>
-			@endif
-		</div>
-
-		<div class="col-xs-4 col-sm-2">
-
-			@if(isset($vehicle))
-
-				<div class="btn btn-default btn-block inactive" data-toggle="tooltip" title="@include('details.item', ['image' => false, 'item' => $vehicle])">
-					<img class="img-responsive" src="{{ $vehicle->getImage() }}"/>
-				</div>
-			@else
-
-				<div class="btn btn-default btn-block inactive square"></div>
-			@endif
-
-		</div>
-
-	</div>
-
-	<hr/>
-
-	<div class="row equalize">
-
-	@forelse($items as $item)
-
-		<?php $requirements = $item->getRequirements(); ?>
-
-		<div class="col-xs-6 col-sm-3 col-md-2{{ $requirements->check() ? '' : ' disabled' }}">
-			
 			@if($item->isUsable())
 
-				{!! BootForm::open()->post()->action(route('player.use')) !!}
-				{!! BootForm::token() !!}
-				{!! BootForm::hidden('item')->value($item->getId()) !!}
-				{!! BootForm::hidden('type')->value($item->getType()) !!}
+			{!! BootForm::open()->post() !!}
+			{!! BootForm::token() !!}
+			{!! BootForm::hidden('item')->value($item->getId()) !!}
+			{!! BootForm::hidden('type')->value($item->getType()) !!}
 
-				
-				<button type="submit" class="btn btn-default btn-block" data-toggle="tooltip" title="@include('details.item', ['image' => false])">
-					
-
-					<img class="img-responsive" src="{{ $item->getImage() }}"/>
-				</button>
-
-
-				{!! BootForm::close() !!}
-			@else
-
-				<div class="btn btn-default btn-block inactive" data-toggle="tooltip" title="@include('details.item', ['image' => false])">
-					<img class="img-responsive" src="{{ $item->getImage() }}"/>
-				</div>
+			<button type="submit">
 			@endif
 
+			<div class="panel panel-default">
+				<div class="panel-body" data-toggle="tooltip" title="@include('details.item', ['image' => false])">
 
+					<img class="img-responsive center-block" src="{{ $item->getImage() }}"/>
+				</div>
+			</div>
+
+			@if($item->isusable())
+			</button>
+			{!! BootForm::close() !!}
+
+			@endif
 		</div>
 
-	@empty
 
-
-		<div class="col-xs-12 text-center">
-	
-			<h4>@lang('player.empty')</h4>
-
-		</div>
-
-	@endforelse
+		@endforeach
 	</div>
+
 </div>
 
 @endsection

@@ -10,8 +10,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 
 use HempEmpire\Player;
-use HempEmpire\CurrentWork;
+use HempEmpire\WorkState;
 use DB;
+
+
+use Event;
+use HempEmpire\Events\WorkEnd;
 
 class WorkEnds extends Job implements SelfHandling, ShouldQueue
 {
@@ -25,7 +29,7 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function __construct(Player $player, CurrentWork $work)
+    public function __construct(Player $player, WorkState $work)
     {
         $this->player = $player;
         $this->work = $work;
@@ -38,6 +42,9 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        foreach($this->player->quests as $quest)
+            $quest->init();
+
         echo __METHOD__ . PHP_EOL;
         $success = DB::transaction(function()
         {
@@ -46,6 +53,7 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
                 $rewards = $this->work->work->getRewards();
 
                 $this->work->done = true;
+                $this->work->counter++;
 
 
                 return $this->work->save() &&
@@ -58,7 +66,12 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
         });
 
         if($success)
-            $this->player->completeQuest('first-work');
+        {
+            Event::fire(new WorkEnd($this->player, $this->work));
+        }
+
+        foreach($this->player->quests as $quest)
+            $quest->finit();
 
         return $success;
     }

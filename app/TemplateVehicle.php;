@@ -6,7 +6,7 @@ use HempEmpire\Contracts\Vehicle as VehicleContract;
 use Illuminate\Database\Eloquent\Model;
 
 class TemplateVehicle extends Model implements VehicleContract {
-	protected $fillable = ['name', 'image', 'price', 'premium', 'speed', 'cost', 'capacity', 'properties'];
+	protected $fillable = ['name', 'image', 'price', 'premium', 'speed', 'cost', 'capacity', 'type', 'properties', 'weight'];
 	private $props;
 	protected $raw = false;
 
@@ -107,6 +107,14 @@ class TemplateVehicle extends Model implements VehicleContract {
 			return null;
 		} else {
 			return $this->capacity;
+		}
+	}
+
+	public function getSubType() {
+		if ($this->raw) {
+			return null;
+		} else {
+			return $this->type;
 		}
 	}
 }

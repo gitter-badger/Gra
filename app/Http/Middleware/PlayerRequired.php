@@ -26,7 +26,7 @@ class PlayerRequired
         }
         else
         {
-            return redirect(route('player.create'));
+            return (redirect()->route('player.create'));
         }
     }
 }

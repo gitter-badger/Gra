@@ -26,10 +26,9 @@
 $price       = $item->isPremium()?$price.'pp':'$'.$price;?>
 
 
+		{!! BootForm::staticInput('<strong>Waga</strong>')->value($item->getWeight()) !!}
 		{!! BootForm::staticInput('<strong>Cena</strong>')->value($price) !!}
 		{!! BootForm::staticInput('<strong>Premium</strong>')->value(Formatter::boolean($item->isPremium())) !!}
-		{!! BootForm::staticInput('<strong>Waga</strong>')->value($item->getWeight()) !!}
-
 
 		{!! BootForm::staticInput('<strong>Wymagania</strong>')->value($item->getRequirements()->rawRender()) !!}
 

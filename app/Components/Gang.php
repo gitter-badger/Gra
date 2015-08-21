@@ -17,23 +17,66 @@ class Gang extends Component
 
 	public function view()
 	{
+		$view = Request::input('view', null);
 		$gang = $this->player->gang;
 		$gangs = [];
 
+
+		if($view === 'attack' && !$this->player->member->can(MemberModel::PERMISSION_ATTACK))
+		{
+			if($gang->battleIsComming())
+			{
+				$view = 'battle';
+			}
+			else
+			{
+				$view = 'general';
+			}
+		}
+
+		if($view === 'upgrade' && !$this->player->member->can(MemberModel::PERMISSION_UPGRADE))
+		{
+			$view = 'general';
+		}
+
+		if($view === 'log' && !$this->player->member->can(MemberModel::PERMISSION_LOG))
+		{
+			$view = 'general';
+		}
+
+		if($view === 'battle' && !$gang->battleIsComming())
+		{
+			$view = 'general';
+		}
+
+
+
+
+		if($view !== 'general' && $view !== 'members' && $view !== 'attack' && $view !== 'upgrade' && $view !== 'log' && $view !== 'battle')
+		{
+			$view = 'general';
+		}
+
+
+
+
+
+
 		if(!is_null($gang))
 		{
-			if($this->player->member->can(MemberModel::PERMISSION_ATTACK))
+			if($this->player->member->can(MemberModel::PERMISSION_ATTACK) && $view == 'attack')
 			{
-				$treshold = Config::get('gang.levelTreshold');
-				$minLevel = $gang->level - $treshold;
-				$maxLevel = $gang->level + $treshold;
+				$threshold = Config::get('gang.threshold');
+				$minRespect = $gang->respect * (100 - $threshold) / 100;
+				$maxRespect = $gang->respect * (100 + $threshold) / 100;
 
 				$gangs = $this->player->world->gangs()->where('id', '<>', $gang->id)
-					->whereBetween('level', [$minLevel, $maxLevel])->get();
+					->whereBetween('respect', [$minRespect, $maxRespect])->where('endAttack', '<', time())->get();
 			}
 		}
 
 		return view('component.gang')
+			->with('view', $view)
 			->with('gang', $this->player->gang)
 			->with('gangs', $gangs);
 	}
@@ -69,23 +112,35 @@ class Gang extends Component
 			}
 			else
 			{
+
 				$success = DB::transaction(function() use($name)
 				{
 					$gang = new GangModel;
 					$gang->world_id = $this->player->world->id;
 					$gang->name = $name;
-					$gang->level = 1;
+					$gang->accomodationLevel = 1;
+					$gang->attackLevel = 1;
+					$gang->defenseLevel = 1;
 					$gang->money = 0;
 					$gang->respect = 0;
+					$gang->startAttack = $gang->endAttack = time();
+
+
+
 
 					if($gang->save())
 					{
+						$gang->newLog('created')
+							->subject($this->player)
+							->save();
+
 						$this->player->gang_id = $gang->id;
 
 						$member = new MemberModel;
 						$member->gang_id = $gang->id;
 						$member->player_id = $this->player->id;
 						$member->role = 'boss';
+						$member->joins = false;
 
 						return $member->save() && $this->player->save();
 					}
@@ -152,6 +207,11 @@ class Gang extends Component
 
 				if($invitation->save())
 				{
+					$this->player->gang->newLog('invited')
+						->subject($this->player)
+						->param('name', $player->name)
+						->save();
+
 					$player->newReport('invitation')
 						->param('gang', $this->player->gang->name)
 						->param('by', $this->player->name)
@@ -203,6 +263,11 @@ class Gang extends Component
 
 				if($success)
 				{
+					$this->player->gang->newLog('kicked')
+						->subject($this->player)
+						->param('name', $player->name)
+						->save();
+
 					$player->newReport('kicked')
 						->param('gang', $this->player->gang->name)
 						->param('by', $this->player->name)
@@ -214,6 +279,33 @@ class Gang extends Component
 				{
 					$this->danger('saveError');
 				}
+			}
+		}
+	}
+
+	public function actionLeave()
+	{
+		if(is_null($this->player->gang))
+		{
+			$this->danger('youDontHaveGang');
+		}
+		else
+		{
+			$success = DB::transaction(function()
+			{
+				$this->player->member()->delete();
+				$this->player->gang_id = null;
+
+				return $this->player->save();
+			});
+
+			if($success)
+			{
+				$this->success('gangLeaved');
+			}
+			else
+			{
+				$this->danger('saveError');
 			}
 		}
 	}
@@ -261,6 +353,12 @@ class Gang extends Component
 						->param('role', new TransText('gang.roles.' . $member->role))
 						->param('by', $this->player->name)
 						->send();
+
+					$this->player->gang->newLog('promoted')
+						->subject($this->player)
+						->param('name', $member->player->name)
+						->param('role', new TransText('gang.roles.' . $member->role))
+						->save();
 
 					$this->success('playerPromoted');
 				}
@@ -316,6 +414,12 @@ class Gang extends Component
 						->param('by', $this->player->name)
 						->send();
 
+					$this->player->gang->newLog('demoted')
+						->subject($this->player)
+						->param('name', $member->player->name)
+						->param('role', new TransText('gang.roles.' . $member->role))
+						->save();
+
 					$this->success('playerDemoted');
 				}
 				else
@@ -353,12 +457,54 @@ class Gang extends Component
 						->param('by', $this->player->name)
 						->send();
 
+
+					$this->player->gang->newLog('canceled')
+						->subject($this->player)
+						->param('name', $invitation->player->name)
+						->save();
+
 					$this->success('invitationCanceled');
 				}
 				else
 				{
 					$this->danger('saveError');
 				}
+			}
+		}
+	}
+
+	public function actionJoin()
+	{
+		if(is_null($this->player->gang))
+		{
+			$this->danger('youDontHaveGang');
+		}
+		elseif($this->player->gang->endAttack <= time())
+		{
+			$this->danger('youAreNotAttacking');
+		}
+		else
+		{
+			$member = $this->player->gang->members()->where('player_id', '=', $this->player->id)->first();
+
+			if($member->joins)
+			{
+				$this->danger('alreadyJoined');
+			}
+			else
+			{
+				$member->joins = true;
+
+				if($member->save())
+				{
+					$this->player->gang->newLog($this->player->gang->action . 'Join')
+						->subject($this->player)
+						->save();
+
+					$this->success('joinedToBattle');
+				}
+				else
+					$this->danger('saveError');
 			}
 		}
 	}
@@ -384,50 +530,151 @@ class Gang extends Component
 			}
 			else
 			{
-				if(abs($this->player->gang->level - $gang->level) > Config::get('gang.levelTreshold'))
+				$threshold = Config::get('gang.threshold');
+				$minRespect = $this->player->gang->respect * (100 - $threshold) / 100;
+				$maxRespect = $this->player->gang->respect * (100 + $threshold) / 100;
+
+				if($gang->repsect < $minRespect || $gang->respect > $maxRespect)
+				{
+					$this->danger('wrongGang');
+				}
+				elseif($gang->endAttack > time())
 				{
 					$this->danger('wrongGang');
 				}
 				else
 				{
 					$battle = new GangBattle;
-					$battle->setRedGang($this->player->gang);
-					$battle->reason('red', new TransText('gang.attacker'));
-					$battle->setBlueGang($gang);
-					$battle->reason('blue', new TransText('gang.defender'));
+					$battle->joinRed($this->player->gang);
+					$battle->reason('red', (new TransText('gang.attacker'))->with('gang', $gang->name));
+					$battle->joinBlue($gang);
+					$battle->reason('blue', (new TransText('gang.defender'))->with('gang', $this->player->gang->name));
 
 					$after = Config::get('gang.battleAfter');
 
 					if(Config::get('app.debug', false))
 						$after /= 60;
 
-					$at = time() + $after;
+
+					$now = time();
+					$at = $now + $after;
 					$date = date('Y-m-d H:i:s', $at);
+
 
 					$battle->delay($after);
 
-
-					foreach($this->player->gang->members as $member)
+					DB::transaction(function() use($gang, $date, $now, $at)
 					{
-						$member->player->newReport('gang-attack')
-							->param('gang', $gang->name)
-							->param('at', $date)
-							->send();
-					}
+
+						foreach($this->player->gang->members as $member)
+						{
+							$member->player->newReport('gang-attack')
+								->param('gang', $gang->name)
+								->param('at', $date)
+								->send();
+
+							$member->joins = false;
+							$member->save();
+						}
 
 
-					foreach($gang->members as $member)
-					{
-						$member->player->newReport('gang-defend')
-							->param('gang', $this->player->gang->name)
-							->param('at', $date)
-							->send();
-					}
+						foreach($gang->members as $member)
+						{
+							$member->player->newReport('gang-defend')
+								->param('gang', $this->player->gang->name)
+								->param('at', $date)
+								->send();
+
+							$member->joins = false;
+							$member->save();
+						}
+
+						$gang->startAttack = $now;
+						$gang->endAttack = $at;
+						$gang->action = 'defend';
+
+						$this->player->gang->startAttack = $now;
+						$this->player->gang->endAttack = $at;
+						$this->player->gang->action = 'attack';
+
+						$this->player->member->joins = true;
+
+						$this->player->gang->newLog('attack')
+							->subject($this->player)
+							->param('name', $gang->name)
+							->save();
+
+						$gang->newLog('defend')
+							->param('name', $this->player->gang->name)
+							->save();
+
+
+						$gang->save();
+						$this->player->gang->save();
+						$this->player->member->save();
+
+					});
 
 					$this->dispatch($battle);
 
 					$this->success('battlePlaned');
 				}
+			}
+		}
+	}
+
+
+	public function actionUpgrade()
+	{
+		$type = Request::input('type');
+		$upgradeCost = $type . 'UpgradeCost';
+		$level = $type . 'Level';
+		$maxLevel = $type . 'MaxLevel';
+
+
+		//dd($level, $this->player->gang->$level, $maxLevel, $this->player->gang->$maxLevel, $upgradeCost, $this->player->gang->$upgradeCost);
+
+
+		if(is_null($this->player->gang))
+		{
+			$this->danger('youDontHaveGang');
+		}
+		elseif(!$this->player->member->can(MemberModel::PERMISSION_UPGRADE))
+		{
+			$this->danger('actionDained');
+		}
+		elseif($type != 'attack' && $type != 'defense' && $type != 'accomodation')
+		{
+			$this->danger('wrongUpgrade');
+		}
+		elseif($this->player->gang->$level >= $this->player->gang->$maxLevel)
+		{
+			$this->danger('maxLevelReached');
+		}
+		elseif($this->player->gang->money < $this->player->gang->$upgradeCost)
+		{
+			$this->danger('notEnoughMoney')
+				->with('value', $this->player->gang->$upgradeCost);
+		}
+		else
+		{
+			$cost = $this->player->gang->$upgradeCost;
+			$this->player->gang->money -= $cost;
+			$this->player->gang->$level++;
+
+			if($this->player->gang->save())
+			{
+				$this->player->gang->newLog($type . 'Upgraded')
+					->subject($this->player)
+					->param('price', $cost)
+					->save();
+
+
+				$this->success('gangUpgrated');
+			}
+			else
+			{
+				$this->danger('saveError');
 			}
 		}
 	}

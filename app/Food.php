@@ -87,6 +87,11 @@ class Food extends Model implements FoodContract
 		return $this->template->getPrice();
 	}
 
+	public function getWeight()
+	{
+		return $this->template->getWeight();
+	}
+
 	public function isPremium()
 	{
 		return $this->template->isPremium();
@@ -95,11 +100,6 @@ class Food extends Model implements FoodContract
 	public function getCount()
 	{
 		return $this->count;
-	}
-
-	public function getWeight()
-	{
-		return $this->template->getWeight();
 	}
 
 	public function getTemplate()

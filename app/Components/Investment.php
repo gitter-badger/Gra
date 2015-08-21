@@ -3,8 +3,14 @@
 namespace HempEmpire\Components;
 use HempEmpire\Investment as InvestmentModel;
 use HempEmpire\PlayerInvestment as PlayerInvestmentModel;
+use HempEmpire\WorkManager;
 use DB;
+use Config;
 use Request;
+use Debugbar;
+
+use Event;
+use HempEmpire\Events\WorkStart;
 
 
 class Investment extends Component
@@ -17,6 +23,7 @@ class Investment extends Component
 		$name = $this->getProperty('name');
 		$price = $this->getProperty('price');
 		$investment = InvestmentModel::whereName($name)->firstOrFail();
+
 
 
 
@@ -35,30 +42,63 @@ class Investment extends Component
 			$this->investment->incomeLevel = 1;
 			$this->investment->capacityLevel = 1;
 			$this->investment->lastUpdate = time();
+			$this->investment->worksCount = 0;
+
+			if($this->place->hasComponent('work'))
+			{
+				$this->investment->worksNeeded = $this->getProperty('worksNeeded');
+			}
+			else
+			{
+				$this->investment->worksNeeded = 0;
+			}
 		}
 
 		$this->investment->updateMoney();
 
+		if(isset($this->manager))
+		{
+			$this->manager->refresh();
+		}
+
 
 		if($this->investment->bought)
 		{
+			$groups = $this->getProperty('groups');
+
+			if(!is_null($groups))
+				$this->setProperty('work.groups', $groups);
+
 			$this->index = -10;
 		}
 		else
 		{
 			$this->index = 10;
 		}
+
+
+		Event::listen(WorkStart::class, function($event)
+		{
+			$this->investment->worksCount++;
+			$this->investment->save();
+		});
+
 	}
 
 	public function view()
 	{
 		return view('component.investment')
 			->with('investment', $this->investment)
+			->with('managers', Config::get('managers'))
 			->with('price', $this->getProperty('price'));
 	}
 
 	public function actionCollect()
 	{
+		if(!$this->investment->bought)
+		{
+			$this->danger('investmentNotBought');
+		}
 		if($this->investment->money == 0)
 		{
 			$this->danger('nothingToCollect');
@@ -90,8 +130,11 @@ class Investment extends Component
 	{
 		$upgrade = Request::input('upgrade');
 
-
-		if($upgrade == 'income')
+		if(!$this->investment->bought)
+		{
+			$this->danger('investmentNotBought');
+		}
+		elseif($upgrade == 'income')
 		{
 			if($this->investment->incomeLevel >= $this->investment->incomeMaxLevel)
 			{
@@ -172,6 +215,10 @@ class Investment extends Component
 			$this->danger('notEnoughtMoney')
 				->with('value', $price);
 		}
+		elseif($this->investment->worksCount < $this->investment->worksNeeded)
+		{
+			$this->danger('investmentNotReady');
+		}
 		else
 		{
 			$this->player->money -= $price;
@@ -186,7 +233,132 @@ class Investment extends Component
 
 			if($success)
 			{
+
+				$groups = $this->getProperty('groups');
+
+				if(!is_null($groups))
+					$this->setProperty('work.groups', $groups);
+
+				$this->call('work', 'reset');
+
 				$this->success('investmentBought');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	public function actionHire()
+	{
+		$manager = Config::get('managers.' . Request::input('manager'));
+
+		if(is_null($manager))
+		{
+			$this->danger('wrongManager');
+		}
+		elseif($this->player->money < $manager['price'])
+		{
+			$this->danger('notEnoughMoney')
+				->with('value', $manager['price']);
+		}
+		elseif($this->investment->hasManager())
+		{
+			$this->danger('alreadyHasManager');
+		}
+		else
+		{
+			$this->player->money -= $manager['price'];
+
+			$this->investment->managerId = Request::input('manager');
+			$this->investment->managerExpires = time() + $manager['duration'];
+			$this->investment->managerMoney = 0;
+
+
+			$success = DB::transaction(function()
+			{
+				return $this->player->save() && $this->investment->save();
+			});
+
+
+			if($success)
+			{
+				$this->success('managerHired');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	public function actionReceive()
+	{
+		if(!$this->investment->hasManager())
+		{
+			$this->danger('dontHaveManager');
+		}
+		elseif($this->investment->managerMoney <= 0)
+		{
+			$this->danger('dontHaveMoney');
+		}
+		else
+		{
+			$money = $this->investment->managerMoney;
+
+			$this->player->money += $this->investment->managerMoney;
+			$this->investment->managerMoney = 0;
+
+
+			$success = DB::transaction(function()
+			{
+				return $this->player->save() && $this->investment->save();
+			});
+
+
+			if($success)
+			{
+				$this->success('managerCollected')
+					->with('value', $money);
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	public function actionRelease()
+	{
+		if(!$this->investment->hasManager())
+		{
+			$this->danger('dontHaveManager');
+		}
+		else
+		{
+			$money = $this->investment->managerMoney;
+
+			$this->player->money += $this->investment->managerMoney;
+			$this->investment->managerMoney = 0;
+			$this->investment->managerId = null;
+
+
+			$success = DB::transaction(function()
+			{
+				return $this->player->save() && $this->investment->save();
+			});
+
+
+			if($success)
+			{
+				if($money > 0)
+				{
+					$this->success('managerCollected')
+						->with('value', $money);
+				}
+
+				$this->success('managerReleased');
 			}
 			else
 			{

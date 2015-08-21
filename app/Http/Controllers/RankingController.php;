@@ -19,12 +19,22 @@ class RankingController extends Controller {
 		$this->player = Player::getActive();
 	}
 
-	protected function select($property, $order = 'DESC') {
+	protected function selectPlayer($property, $order = 'DESC') {
 		if (empty($this->view)) {
 			$pdo = DB::getPdo();
 			$pdo->exec('SET @index := 0');
 
 			$this->view = $pdo->query('SELECT `id`, `name`, `'.$property.'`, @index := @index + 1 as `index` FROM `players` WHERE `world_id` = '.
+				$this->world->id.' ORDER BY `'.$property.'` '.$order)->fetchAll(PDO::FETCH_ASSOC);
+		}
+	}
+
+	protected function selectGang($property, $order = 'DESC') {
+		if (empty($this->view)) {
+			$pdo = DB::getPdo();
+			$pdo->exec('SET @index := 0');
+
+			$this->view = $pdo->query('SELECT `id`, `name`, `'.$property.'`, @index := @index + 1 as `index` FROM `gangs` WHERE `world_id` = '.
 				$this->world->id.' ORDER BY `'.$property.'` '.$order)->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
@@ -54,31 +64,59 @@ class RankingController extends Controller {
 	}
 
 	public function getLevel() {
-		$this->select('level');
+		$this->selectPlayer('level');
 
 		return view('ranking.level')
 		->with('players', $this->paginate());
 	}
 
 	public function getPlantator() {
-		$this->select('plantatorLevel');
+		$this->selectPlayer('plantatorLevel');
 
 		return view('ranking.plantator')
 		->with('players', $this->paginate());
 	}
 
 	public function getSmuggler() {
-		$this->select('smugglerLevel');
+		$this->selectPlayer('smugglerLevel');
 
 		return view('ranking.smuggler')
 		->with('players', $this->paginate());
 	}
 
 	public function getDealer() {
-		$this->select('dealerLevel');
+		$this->selectPlayer('dealerLevel');
 
 		return view('ranking.dealer')
 		->with('players', $this->paginate());
+	}
+
+	public function getRespect() {
+		$this->selectPlayer('respect');
+
+		return view('ranking.respect')
+		->with('players', $this->paginate());
+	}
+
+	public function getGangLevel() {
+		$this->selectGang('level');
+
+		return view('ranking.gang-level')
+		->with('gangs', $this->paginate());
+	}
+
+	public function getGangRespect() {
+		$this->selectGang('respect');
+
+		return view('ranking.gang-respect')
+		->with('gangs', $this->paginate());
+	}
+
+	public function getGangMoney() {
+		$this->selectGang('money');
+
+		return view('ranking.gang-money')
+		->with('gangs', $this->paginate());
 	}
 
 }

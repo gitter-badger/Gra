@@ -16,16 +16,18 @@ class GangMember extends Model
 	const PERMISSION_ATTACK			    = 1 << 7;
     const PERMISSION_PROMOTE            = 1 << 8;
     const PERMISSION_DEMOTE             = 1 << 9;
+    const PERMISSION_CONTRIBUTION       = 1 << 10;
+    const PERMISSION_LOG                = 1 << 11;
 
 
     const PERMISSIONS_NEWBIE        = self::PERMISSION_DEPOSIT_MONEY | self::PERMISSION_PUT_ITEM;
     const PERMISSIONS_MEMBER        = self::PERMISSIONS_NEWBIE  | self::PERMISSION_TAKE_ITEM;
-    const PERMISSIONS_OFFICER       = self::PERMISSIONS_MEMBER | self::PERMISSION_INVITE | self::PERMISSION_KICK | self::PERMISSION_WITHDRAW_MONEY | self::PERMISSION_UPGRADE | self::PERMISSION_ATTACK;
+    const PERMISSIONS_OFFICER       = self::PERMISSIONS_MEMBER | self::PERMISSION_INVITE | self::PERMISSION_KICK | self::PERMISSION_WITHDRAW_MONEY | self::PERMISSION_UPGRADE | self::PERMISSION_ATTACK | self::PERMISSION_CONTRIBUTION | self::PERMISSION_LOG;
     const PERMISSIONS_BOSS          = self::PERMISSIONS_OFFICER | self::PERMISSION_PROMOTE | self::PERMISSION_DEMOTE;
 
 
 
-    protected $fillable = ['gang_id', 'player_id', 'role'];
+    protected $fillable = ['gang_id', 'player_id', 'role', 'joins', 'paid'];
     public $timestamps = false;
 
 

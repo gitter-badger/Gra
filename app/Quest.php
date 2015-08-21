@@ -6,16 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quest extends Model
 {
-    protected $fillable = ['name', 'group_id', 'requires', 'rewards'];
+    protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable'];
     public $timestamps = false;
     private $_requires;
     private $_rewards;
+    private $_objectives;
 
 
-    public function group()
-    {
-    	return $this->belongsTo(QuestGroup::class, 'group_id');
-    }
 
 
     public function getRequiresAttribute($value)
@@ -36,6 +33,15 @@ class Quest extends Model
     	return $this->_rewards;
     }
 
+    public function getObjectivesAttribute($value)
+    {
+        if(empty($this->_objectives))
+        {
+            $this->_objectives = json_decode($value);
+        }
+        return $this->_objectives;
+    }
+
 
     public function getRewards()
     {
@@ -45,6 +51,11 @@ class Quest extends Model
     public function getRequirements()
     {
     	return new Requirements($this->requires);
+    }
+
+    public function getObjectives()
+    {
+        return new Objectives($this->objectives);
     }
 
     public function getName()
@@ -66,4 +77,11 @@ class Quest extends Model
     {
         return trans('quest.' . $this->name . '.complete');
     }
+
+
+
+
+
+
+    
 }

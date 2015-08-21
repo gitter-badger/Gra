@@ -4,8 +4,12 @@ namespace HempEmpire\Components;
 use HempEmpire\Plantation as PlantationModel;
 use HempEmpire\PlantationSlot as SlotModel;
 use HempEmpire\Jobs\Harvest as HarvestJob;
+use HempEmpire\Events\Plant as PlantEvent;
+use HempEmpire\Events\Watering as WateringEvent;
+use HempEmpire\Events\Harvest as HarvestEvent;
 use Request;
 use Config;
+use Event;
 use DB;
 
 
@@ -81,8 +85,19 @@ class Plantation extends Component
 
 			$growth = $seed->getGrowth() * $this->plantation->light;
 			$watering = $seed->getWatering() * $this->plantation->ground;
-
 			$harvestIncrease = (100 + $this->player->plantatorLevel * 5) / 100;
+			$quality = $seed->getQuality();
+
+
+			if($this->player->hasTalent('planting-energy'))
+				$energy /= 2;
+
+			if($this->player->hasTalent('planting-fast'))
+				$duration /= 2;
+
+
+			if($this->player->hasTalent('planting-better'))
+				$growth *= 0.75;
 
 
 
@@ -113,7 +128,7 @@ class Plantation extends Component
 				$slot->watering = $watering;
 				$slot->harvestMin = $seed->getMinHarvest() * $harvestIncrease;
 				$slot->harvestMax = $seed->getMaxHarvest() * $harvestIncrease;
-				$slot->quality = $seed->getQuality();
+				$slot->quality = $quality;
 				$slot->start = $now + $duration;
 				$slot->end = $now + $growth + $duration;
 				$slot->lastWatered = $now + $duration;
@@ -125,6 +140,8 @@ class Plantation extends Component
 
 				if($success)
 				{
+					Event::fire(new PlantEvent($this->player, $slot));
+
 					$this->success('seedPlanted')
 						->with('name', $seed->getTitle())
 						->delay($duration);
@@ -152,6 +169,9 @@ class Plantation extends Component
 			$energy = Config::get('player.watering.energy');
 
 
+			if($this->player->hasTalent('watering-energy'))
+				$energy /= 2;
+
 
 			if($this->player->energy < $energy)
 			{
@@ -163,7 +183,7 @@ class Plantation extends Component
 				$this->player->energy -= $energy;
 				$overwatered = false;
 
-				if($slot->nextWatering > $now)
+				if($slot->nextWatering > $now && !$this->hasTalent('watering-better'))
 				{
 					$overwatered = true;
 					$slot->harvestMax *= 0.85;
@@ -197,6 +217,7 @@ class Plantation extends Component
 					{
 						$this->success('plantWatered');
 					}
+					Event::fire(new WateringEvent($this->player, $slot));
 				}
 				else
 				{
@@ -221,6 +242,12 @@ class Plantation extends Component
 			$energy = Config::get('player.harvesting.energy');
 			$duration = Config::get('player.harvesting.duration');
 
+			if($this->player->hasTalent('harvesting-energy'))
+				$energy /= 2;
+
+			if($this->player->hasTalent('harvesting-fast'))
+				$duration /= 2;
+
 
 
 			if(Config::get('app.debug', false))
@@ -244,11 +271,16 @@ class Plantation extends Component
 			}
 			else
 			{
-
+				$quality = $slot->quality;
 				$this->player->energy -= $energy;
 				$this->player->startHarvesting($duration, false);
 				
 				$slot->isEmpty = true;
+
+
+				if($this->player->hasTalent('harvesting-batter'))
+					$quality = min($quality + 1, 5);
+
 
 
 				$job = new HarvestJob($this->player, $slot->species, $slot->quality, $slot->harvestMin, $slot->harvestMax);

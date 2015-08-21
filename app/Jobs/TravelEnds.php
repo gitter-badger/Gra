@@ -14,6 +14,7 @@ use HempEmpire\Location;
 use DB;
 use Event;
 use HempEmpire\Events\LocationEnter;
+use HempEmpire\Events\Travel;
 
 
 class TravelEnds extends Job implements SelfHandling, ShouldQueue
@@ -21,7 +22,10 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     private $player;
-    private $location;
+    private $from;
+    private $to;
+    private $time;
+    private $cost;
 
 
 
@@ -30,10 +34,13 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function __construct(Player $player, Location $location)
+    public function __construct(Player $player, Location $from, Location $to, $time, $cost)
     {
         $this->player = $player;
-        $this->location = $location;
+        $this->from = $from;
+        $this->to = $to;
+        $this->time = $time;
+        $this->cost = $cost;
     }
 
     /**
@@ -43,6 +50,9 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        foreach($this->player->quests as $quest)
+            $quest->init();
+
         echo __METHOD__ . PHP_EOL;
         $success = DB::transaction(function()
         {
@@ -50,9 +60,8 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
             {
                 $count = $this->player->getStuffsCount();
 
-                $this->player->experience += ceil($count / 10);
-                $this->player->smugglerExperience += $count;
-                $this->player->wanted--;
+                $this->player->smugglerExperience += round($count / 2);
+                $this->player->wanted = max($this->player->wanted - 1, 0);
                 $this->player->wantedUpdate = time();
 
 
@@ -66,9 +75,12 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
 
         if($success)
         {
-            Event::fire(new LocationEnter($this->player, $this->location));
-            $this->player->completeQuest('first-travel');
+            Event::fire(new Travel($this->player, $this->from, $this->to, $this->time, $this->cost));
+            Event::fire(new LocationEnter($this->player, $this->to));
         }
+
+        foreach($this->player->quests as $quest)
+            $quest->finit();
 
         return $success;
     }

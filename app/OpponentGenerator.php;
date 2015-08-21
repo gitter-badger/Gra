@@ -93,6 +93,8 @@ class OpponentGenerator {
 		$opponent->luck         = mt_rand(Config::get('player.luck.min'), Config::get('player.luck.max'));
 		$opponent->weaponId     = $this->rollWeapon($level);
 		$opponent->armorId      = $this->rollArmor($level);
+		$opponent->money        = mt_rand($level*10, $level*100);
+		$opponent->respect      = mt_rand($level, $level*25);
 
 		$statistics = Config::get('player.start.stats')+Config::get('player.levelup.statisticsPoints')*$level-5;
 

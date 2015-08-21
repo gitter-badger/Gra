@@ -1,3 +1,9 @@
+config =
+	fontSize: 30
+	barFontSize: 20
+	nameFontSize: 30
+	margin: 5
+
 
 
 class Character
@@ -32,27 +38,32 @@ class Character
 		context.strokeRect(0, 0, size, size)
 
 		if @avatar?
-			context.drawImage(@avatar, 0, 20, size, size - 20)
+			context.drawImage(@avatar, config.margin, config.margin, size - config.margin * 2, size - config.margin * 2)
 
 		text = @name + ' (' + @level + ')'
 
-		context.fillStyle = '#000000'
+		context.font = config.nameFontSize + 'px Roboto'
+		context.lineWidth = 1
+		context.fillStyle = '#FFFFFF'
+		context.strokeStyle = '#000000'
 		measure = context.measureText(text)
-		context.fillText(text, (size - measure.width) / 2, 20)
+		context.fillText(text, (size - measure.width) / 2, config.nameFontSize)
+		context.strokeText(text, (size - measure.width) / 2, config.nameFontSize)
 
 
+		context.font = config.barFontSize + 'px Roboto'
 		context.strokeStyle = 'rgba(0, 0, 0, 0.7)'
 		context.fillStyle = 'rgba(0, 0, 0, 0.4)'
-		context.fillRect(5, size - 25, size - 10, 20)
-		context.strokeRect(5, size - 25, size - 10, 20)
+		context.fillRect(config.margin, size - config.barFontSize - config.margin, size - config.margin * 2, config.barFontSize)
+		context.strokeRect(config.margin, size - config.barFontSize - config.margin, size - config.margin * 2, config.barFontSize)
 
 		context.fillStyle = 'rgba(217, 83, 79, 1)'
-		context.fillRect(5, size - 25, (size - 10) * (@health / @maxHealth), 20)
+		context.fillRect(config.margin, size - config.barFontSize - config.margin, (size - config.margin * 2) * (@health / @maxHealth), config.barFontSize)
 
 		text = Math.round(@health) + ' / ' + @maxHealth
 		measure = context.measureText(text)
 		context.fillStyle = '#000000'
-		context.fillText(text, (size - measure.width) / 2, size - 13)
+		context.fillText(text, (size - measure.width) / 2, size - config.barFontSize / 2)
 
 
 
@@ -95,6 +106,7 @@ class Battle
 				character = new Character('blue', data)
 				@characters[character.id] = character
 
+			@context.font = config.fontSize + 'px Roboto'
 
 
 			@action = battleLog['log'][@index]
@@ -134,10 +146,10 @@ class Battle
 		starH = 1.2
 		starPikes = 13
 
+		@context.font = config.fontSize + 'px Roboto'
 		measure = @context.measureText(text)
 		textX = starX - measure.width / 2
 		textY = halfHeight
-
 
 
 

@@ -23,6 +23,10 @@ class CreateWorksTable extends Migration
             $table->json('costs');
             $table->json('requires');
             $table->json('rewards');
+
+
+
+            $table->foreign('group_id')->references('id')->on('work_groups');
         });
     }
 

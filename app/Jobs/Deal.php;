@@ -3,9 +3,12 @@
 namespace HempEmpire\Jobs;
 
 use DB;
+use Event;
+use HempEmpire\Events\Deal as DealEvent;
 use HempEmpire\Jobs\Job;
 use HempEmpire\Player;
 use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -53,6 +56,9 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 	public function handle() {
 		echo __METHOD__ .PHP_EOL;
 
+		foreach ($this->player->quests as $quest)
+		$quest->init();
+
 		if ($this->player->jobName == 'dealing' && $this->player->jobEnd > time()) {
 			DB::transaction(function () {
 					$haveStuff = $this->player->getStuffsCount();
@@ -80,7 +86,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 						$totalPrice += $price;
 						$avgQuality += $stuff->quality*$count;
 
-						$this->player->dealerExperience += $count;
+						$this->player->dealerExperience += round($count*($stuff->quality/5));
 
 						$this->player->money += $price;
 						if (!$this->player->takeItem($stuff, $count)) {
@@ -100,7 +106,6 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 					}
 
 					$avgQuality /= $totalSell;
-					$this->player->experience += ceil($totalSell/10);
 
 					$now = time();
 
@@ -110,7 +115,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 						$this->player->wantedUpdate = $now;
 						$this->player->wanted++;
 					}
-					$roll = $this->player->roll(floor($avgQuality)*5, 100);
+					$roll = $this->player->roll(0, 100)+floor($avgQuality)*7;
 
 					if ($roll < ($this->beatChance/$this->priceFactor)) {
 						$job = new Battle();
@@ -151,6 +156,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 
 					$success = DB::transaction(function () use ($array, $totalSell, $totalPrice) {
 							if ($this->player->jobName == 'dealing') {
+
 								return $this->player->newReport('deal')->param('text', $array)->param('sell', $totalSell)->param('price', $totalPrice)->send()
 								 && $this->player->save();
 							} else {
@@ -159,7 +165,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 						});
 
 					if ($success) {
-						$this->player->completeQuest('first-deal');
+						Event::fire(new DealEvent($this->player, $totalSell, $totalPrice));
 					}
 
 					return $success;
@@ -167,5 +173,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue {
 
 		}
 
+		foreach ($this->player->quests as $quest)
+		$quest->finit();
 	}
 }

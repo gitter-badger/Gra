@@ -1,0 +1,135 @@
+
+
+@import '../bower_vendor/bootstrap/less/theme.less';
+@import 'variables.less';
+@import 'mixins.less';
+@import 'place.less';
+
+
+
+body {
+	padding-top: @navbar-height + @padding-base-vertical;
+}
+
+.tab-content > * {
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.avatar.active {
+	box-shadow: 0 0 3px @brand-primary;
+}
+
+.avatar-small {
+	max-width: 32px;
+}
+
+.item-icon {
+	max-width: 128px;
+}
+
+.input-group-btn {
+	margin-top: 0;
+}
+
+
+@keyframes colorize
+{
+	0% {
+
+		box-shadow: 0px 0px 5px 5px @brand-info;
+	}
+
+	50% {
+
+		box-shadow: 0px 0px 5px 7px @brand-success;
+	}
+
+	100% {
+
+		box-shadow: 0px 0px 5px 5px @brand-info;
+	}
+}
+
+.tutorial-active
+{
+	animation: colorize 1s infinite;
+}
+
+#battleView {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
+}
+
+
+
+.plantation-pot {
+	background-image: url('/images/plants/pot.png');
+	background-size: cover;
+	background-position: -40px 50px;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
+.progress-bar-health {
+	.progress-bar-styles(@health-color);
+}
+
+
+.progress-bar-energy {
+	.progress-bar-styles(@energy-color);
+}
+
+
+.progress-bar-experience {
+	.progress-bar-styles(@experience-color);
+}
+
+
+.progress-bar-wanted {
+	.progress-bar-styles(@wanted-color);
+}
+
+
+.progress-bar-plantator {
+	.progress-bar-styles(@plantator-color);
+}
+
+
+.progress-bar-smuggler {
+	.progress-bar-styles(@smuggler-color);
+}
+
+
+.progress-bar-dealer {
+	.progress-bar-styles(@dealer-color);
+}
+
+
+.badge.level {
+	background: @experience-color;
+}
+
+.badge.plantator {
+	background: @plantator-color;
+}
+
+.badge.smuggler {
+	background: @smuggler-color;
+}
+
+.badge.dealer {
+	background: @dealer-color;
+}
+
+
+.navbar-text * {
+	cursor: default;
+}

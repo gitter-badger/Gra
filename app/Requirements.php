@@ -28,6 +28,7 @@ class Requirements extends ClassContainer
 
 		'quest' => \HempEmpire\Requirements\Quest::class,
 		'equiped' => \HempEmpire\Requirements\Equiped::class,
+		'gang' => \HempEmpire\Requirements\Gang::class,
 	];
 
 

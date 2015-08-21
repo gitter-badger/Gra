@@ -14,7 +14,7 @@ setProgress = (object, value, minValue, maxValue, lastUpdate, nextUpdate) ->
 			.data 'max', maxValue
 			.data 'min', minValue
 			.data 'now', value
-		bar[0].update()
+		bar[0].update?()
 
 
 	if timer.length > 0
@@ -73,27 +73,82 @@ fill = (data) ->
 
 
 
-	setValue 'level', data.level
-	setValue 'plantator-level', data.plantatorLevel
-	setValue 'smuggler-level', data.smugglerLevel
-	setValue 'dealer-level', data.dealerLevel
-	setValue 'strength', data.strength,
-	setValue 'perception', data.perception
-	setValue 'endurance', data.endurance
-	setValue 'charisma', data.charisma
-	setValue 'intelligence', data.intelligence
-	setValue 'agility', data.agility
-	setValue 'luck', data.luck + '%'
-	setValue 'statisticPoints', data.statisticPoints
-	setValue 'talentPoints', data.talentPoints
-	setValue 'money', '$' + data.money
-	setValue 'reports', data.reportsCount
+
+	#setValue 'level', data.level
+	#setValue 'plantator-level', data.plantatorLevel
+	#setValue 'smuggler-level', data.smugglerLevel
+	#setValue 'dealer-level', data.dealerLevel
+	#setValue 'strength', data.strength,
+	#setValue 'perception', data.perception
+	#setValue 'endurance', data.endurance
+	#setValue 'charisma', data.charisma
+	#setValue 'intelligence', data.intelligence
+	#setValue 'agility', data.agility
+	#setValue 'luck', data.luck + '%'
+	#setValue 'statisticPoints', data.statisticPoints
+	#setValue 'talentPoints', data.talentPoints
+	#setValue 'money', '$' + data.money
+	#setValue 'reports', data.reportsCount
+	#setValue 'messages', data.messagesCount
+
+	scope = angular.element(document.body).scope()
+
+	if scope? and scope.player?
+		#scope.player.level = data.level
+		#scope.player.plantatorLevel = data.plantatorLevel
+		#scope.player.smugglerLevel = data.smugglerLevel
+		#scope.player.dealerLevel = data.dealerLevel
+		#scope.player.strength = data.strength
+		#scope.player.perception = data.perception
+		#scope.player.endurance = data.endurance
+		#scope.player.charisma = data.charisma
+		#scope.player.intelligence = data.intelligence
+		#scope.player.agility = data.agility
+		#scope.player.luck = data.luck
+		#scope.player.respect = data.respect
+		#scope.player.weight = data.weight
+		#scope.player.capacity = data.capacity
+		#scope.player.minDamage = data.minDamage
+		#scope.player.maxDamage = data.maxDamage
+		#scope.player.defense = data.defense
+		#scope.player.critChance = data.critChance
+		#scope.player.speed = data.speed
+		#scope.player.experienceModifier = data.experienceModifier
+		#scope.player.moneyModifier = data.moneyModifier
+
+		for k, v of data
+			scope.player[k] = v
+
+		scope.$apply()
+
+
 
 
 loaded = (data) ->
 
 	fill data
-	window.location.refresh() if data.reload
+
+	if data.reload
+
+		window.location.refresh()
+	else
+		if window.active
+			$.ajax {
+
+				url: url + '/notifications',
+				dataType: 'json',
+				method: 'GET',
+				success: notify
+			}
+
+			$.ajax {
+
+				url: url + '/messages',
+				dataType: 'json',
+				method: 'GET',
+				success: message,
+			}
+
 	setTimeout load, data.nextUpdate * 1000
 
 
@@ -106,7 +161,23 @@ notify = (data) ->
 			url: '/reports/' + n.id,
 
 		}
-	window.notifyShow()
+
+	if window.active
+		window.notifyShow()
+
+message = (data) ->
+	for n in data
+		window.notify {
+
+			title: '<strong>' + n.author + '</strong>: ' + n.title + '<br/>',
+			message: n.content,
+			url: '/messages/inbox/' + n.id,
+
+		}
+
+	if window.active
+		window.notifyShow()
+
 
 
 load = ->
@@ -119,14 +190,6 @@ load = ->
 		success: loaded
 	}
 
-	if window.active
-		$.ajax {
-
-			url: url + '/notifications',
-			dataType: 'json',
-			mathod: 'GET',
-			success: notify
-		}
 
 
 	

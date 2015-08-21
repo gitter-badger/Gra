@@ -1,0 +1,23 @@
+<?php
+
+namespace HempEmpire\Events;
+
+use HempEmpire\Player;
+use Illuminate\Queue\SerializesModels;
+
+class Fight extends Event {
+	use SerializesModels;
+	public $player;
+	public $win;
+	public $money;
+	public $respect;
+	public $experience;
+
+	public function __construct(Player $player, $win, $money = 0, $respect = 0, $experience = 0) {
+		$this->player     = $player;
+		$this->win        = $win;
+		$this->money      = $money;
+		$this->respect    = $respect;
+		$this->experience = $experience;
+	}
+}

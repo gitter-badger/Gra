@@ -21,6 +21,9 @@ class CreateReportsTable extends Migration
             $table->boolean('readed');
             $table->boolean('notified');
             $table->integer('date');
+
+
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

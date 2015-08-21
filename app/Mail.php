@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mail extends Model 
 {
-	protected $fillable = ['receiver_id', 'sender_id', 'title', 'content', 'viewed', 'receiver_deleted', 'sender_deleted', 'date'];
+	protected $fillable = ['receiver_id', 'sender_id', 'title', 'content', 'viewed', 'receiver_deleted', 'sender_deleted', 'notified', 'date'];
 	protected $visible = ['id', 'author', 'title', 'content', 'date'];
 	protected $appends = ['author'];
 	public $timestamps = false;

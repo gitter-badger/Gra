@@ -25,7 +25,8 @@ class Player extends Model
 		'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 'dealerExperience', 'dealerMaxExperience', 
 		'health', 'maxHealth', 'healthUpdate', 'endHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
-		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money', 'respect'];
+		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money', 'respect',
+		'weight', 'capacity'];
 
 
 
@@ -33,11 +34,13 @@ class Player extends Model
 		'plantatorMaxExperience', 'smugglerLevel', 'smugglerExperience', 'smugglerMaxExperience', 'dealerLevel', 
 		'dealerExperience', 'dealerMaxExperience', 'health', 'maxHealth', 'healthUpdate',
 		'nextHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'nextEnergyUpdate', 'wanted', 'wantedUpdate',
-		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'charisma', 'intelligence', 'agility', 'luck',
-		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload'];
+		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'endurance', 'charisma', 'intelligence', 'agility', 'luck',
+		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload',
+		'experienceModifier', 'moneyModifier', 'respect', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
 
 
-	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount'];
+	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
+		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
 
 	public $timestamps = false;
 	private static $active;
@@ -130,10 +133,14 @@ class Player extends Model
 
 				$player->statisticPoints += $points;
 
-				if($player->level % $talents)
+				if(($player->level % $talents) == 0)
 				{
 					$report->param('talents', new TransText('player.newTalent'));
 					$player->talentPoints++;
+				}
+				else
+				{
+					$report->param('talents', '');
 				}
 
 				$report->send();
@@ -288,12 +295,16 @@ class Player extends Model
 	}
 
 
+
+
 	private static function loadActive()
 	{
 		if(empty(static::$active))
 		{
 			$user = Auth::user();
 			$world = World::getSelected();
+
+			//dd($user, $world);
 
 
 			if(!is_null($user) && !is_null($world))
@@ -413,6 +424,16 @@ class Player extends Model
 	public function invitations()
 	{
 		return $this->hasMany(PlayerInvitation::class);
+	}
+
+	public function talents()
+	{
+		return $this->hasMany(PlayerTalent::class);
+	}
+
+	public function references()
+	{
+		return $this->hasMany(PlayerReference::class);
 	}
 
 
@@ -804,7 +825,44 @@ class Player extends Model
 
 
 
+	public function getAvatarAttribute($value)
+	{
+		if(!is_null($this->user->fb_id))
+		{
+			return '//graph.facebook.com/' . $this->user->fb_id . '/picture?type=large';
+		}
+		else
+		{
+			return asset('images/avatars/' . $value);
+		}
+	}
 
+	public function getCapacity()
+	{
+		$capacity = Config::get('player.capacity.base') + 
+			$this->level * Config::get('player.capacity.perLevel') + 
+			$this->strength * Config::get('player.capacity.perStrength') +
+			$this->endurance * Config::get('player.capacity.perEndurance');
+
+		$vehicle = $this->getVehicle();
+
+		if(isset($vehicle))
+			$capacity += $vehicle->getCapacity();
+
+		return round($capacity);
+	}
+
+
+	public function getWeightAttribute()
+	{
+		return $this->getWeight();
+	}
+
+	public function getCapacityAttribute()
+	{
+
+		return $this->getCapacity();
+	}
 
 
 
@@ -824,18 +882,48 @@ class Player extends Model
 		$this->_userChanged = true;
 	}
 
-
-
-
-
-
-
-
 	public function getIsPremiumAttribute()
 	{
-		\Debugbar::info('Premium: ', $this->user->isPremium);
 		return $this->user->isPremium;
 	}
+
+
+
+
+	public function getExperienceModifierAttribute()
+	{
+		return (100 + $this->intelligence * Config::get('player.modifier.experience')) / 100;
+	}
+
+	public function getMoneyModifierAttribute()
+	{
+		return (100 + $this->charisma * Config::get('player.modifier.money')) / 100;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	public function sendReport($type, $data = [], $date = null)
@@ -942,6 +1030,7 @@ class Player extends Model
 			{
 				$quest->player_id = $this->id;
 				$quest->quest_id = $q->id;
+				$quest->player_npc_id = null;
 				$quest->active = false;
 				$quest->done = false;
 			}
@@ -967,8 +1056,9 @@ class Player extends Model
 			return false;
 		}
 
+		$quest->init();
 
-		return $quest->save();
+		return $quest->finit();
 	}
 
 
@@ -1294,6 +1384,7 @@ class Player extends Model
 
 	private $_weapon;
 	private $_armor;
+	private $_vehicle;
 
 	public function getWeapon()
 	{
@@ -1309,6 +1400,14 @@ class Player extends Model
 			$this->_armor = $this->equipment->armor();
 
 		return $this->_armor;
+	}
+
+	public function getVehicle()
+	{
+		if(empty($this->_vehicle))
+			$this->_vehicle = $this->equipment->vehicle();
+
+		return $this->_vehicle;
 	}
 
 	public function getDamage()
@@ -1339,18 +1438,33 @@ class Player extends Model
 			}
 		}
 
+		if(!is_null($this->gang))
+		{
+			$bonus = (100 + $this->gang->attackLevel * Config::get('gang.bonus.damage')) / 100;
+			$minDamage = round($minDamage * $bonus);
+			$maxDamage = round($maxDamage * $bonus);
+		}
+
 		return [$minDamage, $maxDamage];
 	}
 
 	public function getDefense()
 	{
 		$armor = $this->getArmor();
-		$defense = 0;
+		$defense = floor($this->endurance / 5);
 
 		if(!is_null($armor))
-			$defense = $armor->getArmor();
+			$defense += $armor->getArmor();
 
-		return floor($this->endurance / 5) + $defense;
+
+
+		if(!is_null($this->gang))
+		{
+			$bonus = (100 + $this->gang->defenseLevel * Config::get('gang.bonus.defense')) / 100;
+			$defense = round($defense * $bonus);
+		}
+
+		return $defense;
 	}
 
 	public function getSpeed()
@@ -1410,22 +1524,71 @@ class Player extends Model
 	}
 
 
-
-
-
-	public function renderEvents()
+	public function getMinDamageAttribute()
 	{
-		$output = '';
-
-		$events = $this->events()->get();
-		$this->events()->delete();
-
-		foreach($events as $event)
-			$output .= $event->render();
-
-		return $output;
+		return $this->getDamage()[0];
 	}
 
+	public function getMaxDamageAttribute()
+	{
+		return $this->getDamage()[1];
+	}
+
+	public function getDefenseAttribute()
+	{
+		return $this->getDefense();
+	}
+
+	public function getSpeedAttribute()
+	{
+		return $this->getSpeed();
+	}
+
+	public function getCritChanceAttribute()
+	{
+		return $this->getCritChance();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public function pullEvent()
+	{
+		$event = null;
+
+		do
+		{
+			$event = array_shift($this->events);
+		}
+		while(!is_null($event) && !$event->ready());
+
+
+		if($event->done())
+			$event->delete();
+
+		return $event;
+	}
 
 	public function pushEvent($object)
 	{
@@ -1436,6 +1599,43 @@ class Player extends Model
 		]);
 	}
 
+	public function renderEvents()
+	{
+		$output = '';
+
+		foreach($this->events as $event)
+		{
+			if($event->ready())
+			{
+				$output .= $event->render();
+			}
+
+			if($event->done())
+			{
+				$event->delete();
+			}
+		}
+
+		return $output;
+	}
+
+
+
+	private $_talents;
+	public function hasTalent($name)
+	{
+		if(empty($this->_talents))
+		{
+			$this->_talents = [];
+
+			foreach($this->talents as $talent)
+			{
+				$this->_talents[$talent->name] = true;
+			}
+		}
+
+		return isset($this->_talents[$name]) ? true : false;
+	}
 
 
 

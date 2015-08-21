@@ -55,7 +55,7 @@ class SendVerification extends Job implements SelfHandling, ShouldQueue
         ];
 
 
-        Mail::send('mail.verification', $data, function($message)
+        Mail::send('emails.verification', $data, function($message)
         {
             $message->to($this->user->email)->subject('Account verification');
         });

@@ -23,8 +23,8 @@ class StuffSeeder extends Seeder
 
                     'name' => $specie['name'] . '-stuff',
                     'image' => 'stuff.jpg',
-                    'weight' => $specie['weight'][1],
                     'price' => $specie['price'][1],
+                    'weight' => $specie['weight'][1],
                     'premium' => $specie['premium'][1],
 
                     'quality' => ($specie['quality'][0] + $specie['quality'][1]) / 2,
@@ -47,8 +47,8 @@ class StuffSeeder extends Seeder
 
                     'name' => $stuff['name'],
                     'image' => $stuff['image'],
-                    'weight' => $stuff['weight'],
                     'price' => $stuff['price'],
+                    'weight' => $stuff['weight'],
                     'premium' => $stuff['premium'],
 
                     'quality' => $stuff['quality'],

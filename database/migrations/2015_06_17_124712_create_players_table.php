@@ -80,6 +80,15 @@ class CreatePlayersTable extends Migration
 
             $table->integer('money')->unsigned();
             $table->integer('respect')->unsigned();
+
+            $table->string('token')->unique();
+            $table->timestamps();
+
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('world_id')->references('id')->on('worlds');
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('location_place_id')->references('id')->on('location_places');
         });
     }
 

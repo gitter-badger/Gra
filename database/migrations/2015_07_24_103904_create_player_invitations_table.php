@@ -18,6 +18,10 @@ class CreatePlayerInvitationsTable extends Migration
             $table->integer('player_id')->unsigned();
             $table->integer('gang_id')->unsigned();
             $table->timestamps();
+
+
+            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('gang_id')->references('id')->on('gangs');
         });
     }
 

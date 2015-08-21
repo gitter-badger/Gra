@@ -11,6 +11,9 @@ class Rewards extends ClassContainer
 		'experience' => \HempEmpire\Rewards\Experience::class,
 		'complete' => \HempEmpire\Rewards\Quest::class,
 		'start' => \HempEmpire\Rewards\StartQuest::class,
+		'plantator' => \HempEmpire\Rewards\Plantator::class,
+		'smuggler' => \HempEmpire\Rewards\Smuggler::class,
+		'dealer' => \HempEmpire\Rewards\Dealer::class,
 	];
 
 

@@ -13,7 +13,6 @@
 		{!! BootForm::token() !!}
 
 		{!! BootForm::hidden('avatar')->value(0)->id('avatar') !!}
-		{!! BootForm::text(trans('player.name'), 'name')->required()->min(4)->max(32) !!}
 
 		<div class="fluid-container">
 			<div class="row equalize">
@@ -26,6 +25,8 @@
 				@endforeach
 			</div>
 		</div>
+		
+		{!! BootForm::text(trans('player.name'), 'name')->required()->min(4)->max(32) !!}
 
 		<div class="fluid-container">
 
@@ -34,20 +35,54 @@
 				<div class="col-xs-12">
 
 					{!! BootForm::staticInput(trans('statistic.statisticPoints'), 'statisticsPoints')->value($points) !!}
+				</div>
+
+
+
+
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.strength'), 'strength')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
 
 					
-					{!! BootForm::number(trans('statistic.strength'), 'strength')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-					{!! BootForm::number(trans('statistic.perception'), 'perception')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-					{!! BootForm::number(trans('statistic.endurance'), 'endurance')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-					{!! BootForm::number(trans('statistic.charisma'), 'charisma')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-					{!! BootForm::number(trans('statistic.intelligence'), 'intelligence')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
-					{!! BootForm::number(trans('statistic.agility'), 'agility')->required()->min(0)->defaultValue(0)->addClass('statistic') !!}
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.perception'), 'perception')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
 
 
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.endurance'), 'endurance')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
+
+
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.charisma'), 'charisma')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
+
+
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.intelligence'), 'intelligence')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
+
+
+				<div class="col-xs-12 col-sm-6">
+
+					{!! BootForm::number(trans('statistic.agility'), 'agility')->required()->min(0)->defaultValue(0)->addClass('statistic rollable') !!}
+				</div>
+
+
+				<div class="col-xs-12">
 					<div class="center-block">
 						<a href="{{ route('world.list') }}" class="btn btn-default">{!! entity('icon')->icon('arrow-left') !!}</a>
 
-						{!! BootForm::submit(trans('player.create'), 'btn-primary') !!}
+						{!! BootForm::submit(trans('action.create'), 'btn-primary') !!}
+
+						<div class="btn btn-default statRoller">@lang('action.roll')</div>
 					</div>
 
 				</div>

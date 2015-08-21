@@ -3,6 +3,7 @@
 namespace HempEmpire\Http\Middleware;
 
 use Closure;
+use Session;
 use Illuminate\Contracts\Auth\Guard;
 
 class Authenticate
@@ -46,6 +47,6 @@ class Authenticate
             }
         }
 
-        return $next($request);
+        return ($next($request));
     }
 }

@@ -13,8 +13,8 @@ interface Item
 	public function getType();
 	public function getPrice();
 	public function isPremium();
-	public function getWeight();
 	public function getCount();
+	public function getWeight();
 	public function getTemplate();
 	public function getRequirements();
 	public function useRawValues($raw);

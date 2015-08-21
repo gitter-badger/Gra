@@ -20,6 +20,11 @@ class Rent extends Component
 		}
 	}
 
+	protected function receives($namespace, $action)
+	{
+		return true;
+	}
+
 
 	private function getRentTimer()
 	{
@@ -31,7 +36,7 @@ class Rent extends Component
 
 	private function getRentCost()
 	{
-		return $this->getProperty('cost', 1000);
+		return round($this->getProperty('cost', 1000) * $this->player->level * lerp($this->player->charisma / 100, 1.5, 0.4));
 	}
 
 	private function getRentDuration()
@@ -82,7 +87,7 @@ class Rent extends Component
 
 	public function action($name, $request)
 	{
-		if($name == 'work')
+		if($name == 'work' || $name == 'reset')
 		{
 			return;
 		}

@@ -48,6 +48,8 @@
 
 		@endif
 
+		{!! BootForm::number('<strong>Waga</strong>', 'weight')->defaultValue(isset($item) ? $item->getWeight() : 0)->min(0)->max(1000000)->step(0.1) !!}
+
 
 		{!! BootForm::number('<strong>Cena</strong>', 'price')->defaultValue(isset($item) ? $item->getPrice() : 0)
 			->min(1)->max(100000000) !!}
@@ -61,9 +63,6 @@
 		@endif
 
 		{!! $checkbox !!}
-
-		{!! BootForm::number('<strong>Waga</strong>', 'weight')->defaultValue(isset($item) ? $item->getWeight() : 0) !!}
-
 
 		{!! BootForm::staticInput('<strong>Wymagania - przykład</strong>')
 			->value(\HempEmpire\Requirements::getConfig()) !!}

@@ -18,7 +18,12 @@ $(window).focus ->
 $(window).blur ->
 	window.active = false
 
-
+$(window).resize ->
+	clearTimeout(this.resizeTo) if this.resizeTo
+	this.resizeTo = setTimeout(->
+		$(this).trigger('resized')
+	, 500)
+	
 
 
 
@@ -61,10 +66,13 @@ window.timeFormat or= (value) ->
 
 	text
 
+refreshing = false
+
 
 window.location.refresh or= ->
-	loc = window.location
-	window.location = loc.protocol + '//' + loc.host + loc.pathname + loc.search
+	if not refreshing
+		refreshing = true
+		window.location.reload(true)
 
 
 

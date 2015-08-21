@@ -67,14 +67,14 @@ class Stuff extends Model implements StuffContract
 		return $this->template->isPremium();
 	}
 
-	public function getCount()
-	{
-		return $this->count;
-	}
-
 	public function getWeight()
 	{
 		return $this->template->getWeight();
+	}
+
+	public function getCount()
+	{
+		return $this->count;
 	}
 
 	public function getTemplate()

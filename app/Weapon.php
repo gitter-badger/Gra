@@ -63,6 +63,11 @@ class Weapon extends Model implements WeaponContract
 		return $this->template->getPrice();
 	}
 
+	public function getWeight()
+	{
+		return $this->template->getWeight();
+	}
+
 	public function isPremium()
 	{
 		return $this->template->isPremium();
@@ -71,11 +76,6 @@ class Weapon extends Model implements WeaponContract
 	public function getCount()
 	{
 		return $this->count;
-	}
-
-	public function getWeight()
-	{
-		return $this->template->getWeight();
 	}
 
 	public function getTemplate()

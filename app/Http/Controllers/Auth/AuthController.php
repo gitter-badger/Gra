@@ -7,6 +7,7 @@ use Config;
 use Session;
 use Validator;
 use HempEmpire\User;
+use HempEmpire\World;
 use Illuminate\Http\Request;
 use HempEmpire\Http\Controllers\Controller;
 use HempEmpire\Jobs\SendVerification;
@@ -55,19 +56,26 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
+
         $this->validate($request, [
             'l_email' => 'required|email',
             'l_password' => 'required',
         ]);
 
         $credentials = $this->getCredentials($request);
+        Session::set('world', $request->input('world'));
 
         if (Auth::attempt($credentials, $request->has('l_remember'))) 
         {
+            Session::set('user', Auth::user()->id);
+
             return redirect()->intended(route('game'));
         }
 
-        return redirect(route('home'))
+
+
+        return redirect()
+            ->route('home')
             ->withInput($request->only('l_email', 'l_remember'))
             ->withErrors([
                 'l_email' => trans('error.wrongLoginOrPassword'),
@@ -108,8 +116,10 @@ class AuthController extends Controller
         return Validator::make($data, [
             'r_email' => 'required|email|max:255|unique:users,email',
             'r_password' => 'required|confirmed|min:6',
+            'g-recaptcha-response' => 'required|recaptcha'
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -119,18 +129,28 @@ class AuthController extends Controller
      */
     protected function create(array $data, Request $request)
     {
-        return User::create([
-            'email' => $data['r_email'],
+        $user = User::create([
+            'email' => Session::get('facebook.email', $data['r_email']),
             'password' => bcrypt($data['r_password']),
-            'newsletter' => $data['r_news'],
+            'newsletter' => isset($data['r_news']) ? true : false,
             'registration_ip' => $request->getClientIp(),
-            'premiumPoints' => 0,
+            'premiumPoints' => Session::has('facebook.id') ? Config::get('user.points.facebook') : 0,
             'premiumStart' => null,
             'premiumEnd' => null,
-            'admin' => Config::get('app.debug', false),
-            'verified' => false,
+            'admin' => false,
+            'verified' => true,
             'token' => str_random(64),
+            'fb_id' => Session::has('facebook.id') ? Session::get('facebook.id') : null,
+            'language' => array_search($data['r_language'], Config::get('app.languages')) !== false ? $data['r_language'] : Config::get('app.fallback_locale'),
         ]);
+
+        if(!is_null($user))
+        {
+            Session::forget('facebook.email');
+            Session::forget('facebook.id');
+        }
+
+        return $user;
     }
 
 

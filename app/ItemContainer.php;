@@ -101,6 +101,19 @@ function joinItems() {
 		return $this->stuffs()->sum('count');
 	}
 
+	private $_weight;
+	public function getWeight() {
+		if (empty($this->_weight)) {
+			$this->_weight = 0.0;
+			$items         = $this->getItems();
+
+			foreach ($items as $item)
+			$this->_weight += $item->getWeight()*$item->getCount();
+		}
+
+		return $this->_weight;
+	}
+
 	public function getUniqueWeaponsCount() {
 		return $this->weapons()->where('count', '>', 0)->count();
 	}
@@ -127,6 +140,10 @@ function joinItems() {
 
 	public function deleteItems() {
 		DB::transaction(function () {
+				if (isset($this->_weight)) {
+					$this->_weight = 0.0;
+				}
+
 				$this->weapons()->update(['count'  => 0]);
 				$this->armors()->update(['count'   => 0]);
 				$this->foods()->update(['count'    => 0]);
@@ -137,6 +154,15 @@ function joinItems() {
 	}
 
 	public function giveItem(ItemContract $item, $count) {
+		if (method_exists($this, 'getCapacity')) {
+			$space = $this->getCapacity()-$this->getWeight();
+			$count = min($count, $space/$item->getWeight());
+		}
+
+		if (isset($this->_weight)) {
+			$this->_weight += $item->getWeight()*$count;
+		}
+
 		$type = $item->getType();
 		$item->useRawValues(true);
 
@@ -248,6 +274,10 @@ function joinItems() {
 	public function takeItem(ItemContract $item, $count) {
 		$type = $item->getType();
 		$item->useRawValues(true);
+
+		if (isset($this->_weight)) {
+			$this->_weight -= $item->getWeight()*$count;
+		}
 
 		if ($type == 'weapon') {
 			$weapon = $this->findItemByTemplate($type, $item->getTemplate());

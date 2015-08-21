@@ -3,118 +3,350 @@
 
 @section('tab-content')
 
-<div class="text-center">
+<div class="well">
 
-	{!! BootForm::openHorizontal(['xs' => [4, 8]])->post()->action(route('player.statistics')) !!}
+	<div class="row">
+		<div class="col-xs-12 col-sm-6">
 
-
-	{!! BootForm::staticInput(null)->value('<img class="img-responsive center-block" src="' . $player->avatar . '"/>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('player.name') . '</strong>')->value($player->name) !!}
-
-	<hr/>
+			<img class="img-responsive center-block" src="{{ $player->avatar }}"/>
 
 
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.level') . '</strong>')->value(entity('progressGroup')
-		->appendAddon('<span class="level">' . $player->level . '</span>')->append(entity('progress')->style('info')->min(0)
-		->max($player->maxExperience)->now($player->experience)->addClass('experience-bar'))) !!}
+			<div class="panel panel-default">
+				<div class="panel-body">
 
 
+					<h4 class="text-center"><strong>{{ $player->name }}</strong></h4>
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.plantatorLevel') . '</strong>')->value(entity('progressGroup')
-		->appendAddon('<span class="plantator-level">' . $player->plantatorLevel . '</span>')->append(entity('progress')->style('success')->min(0)
-		->max($player->plantatorMaxExperience)->now($player->plantatorExperience)->addClass('plantator-bar'))) !!}
+					<div class="row">
+						<div class="col-xs-4 text-right">
 
+							<strong>@lang('statistic.level')</strong>
+						</div>
+						<div class="col-xs-8 text-left">
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.smugglerLevel') . '</strong>')->value(entity('progressGroup')
-		->appendAddon('<span class="smuggler-level">' . $player->smugglerLevel . '</span>')->append(entity('progress')->min(0)
-		->max($player->smugglerMaxExperience)->now($player->smugglerExperience)->addClass('smuggler-bar'))) !!}
+							{!! entity('progressGroup')
+								->appendAddon('<span class="level">' . $player->level . '</span>')
+								->append(entity('progress')
+									->style('info')
+									->min(0)
+									->max($player->maxExperience)
+									->now($player->experience)
+									->addClass('experience-bar')
+								) !!}
+						</div>
+					</div>
 
+					<div class="row">
+						<div class="col-xs-4 text-right">
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.dealerLevel') . '</strong>')->value(entity('progressGroup')
-		->appendAddon('<span class="dealer-level">' . $player->dealerLevel . '</span>')->append(entity('progress')->style('danger')->min(0)
-		->max($player->dealerMaxExperience)->now($player->dealerExperience)->addClass('dealer-bar'))) !!}
+							<strong>@lang('statistic.plantatorLevel')</strong>
+						</div>
+						<div class="col-xs-8 text-left">
 
-	<hr/>
+							{!! entity('progressGroup')
+								->appendAddon('<span class="plantator-level">' . $player->plantatorLevel . '</span>')
+								->append(entity('progress')
+									->style('success')
+									->min(0)
+									->max($player->plantatorMaxExperience)
+									->now($player->plantatorExperience)
+									->addClass('plantator-bar')
+								) !!}
+						</div>
+					</div>
 
-<?php $damage = $player->getDamage();?>
-	{!! BootForm::staticInput('<strong>' . trans('statistic.damage') . '</strong>')
-		->value($damage[0] . ' - ' . $damage[1]) !!}
+					<div class="row">
+						<div class="col-xs-4 text-right">
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.defense') . '</strong>')
-		->value($player->getDefense()) !!}
+							<strong>@lang('statistic.smugglerLevel')</strong>
+						</div>
+						<div class="col-xs-8 text-left">
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.speed') . '</strong>')
-		->value($player->getSpeed()) !!}
+							{!! entity('progressGroup')
+								->appendAddon('<span class="smuggler-level">' . $player->smugglerLevel . '</span>')
+								->append(entity('progress')
+									->min(0)
+									->max($player->smugglerMaxExperience)
+									->now($player->smugglerExperience)
+									->addClass('smuggler-bar')
+								) !!}
+						</div>
+					</div>
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.critChance') . '</strong>')
-		->value($player->GetCritChance() . '%') !!}
+					<div class="row">
+						<div class="col-xs-4 text-right">
 
+							<strong>@lang('statistic.dealerLevel')</strong>
+						</div>
+						<div class="col-xs-8 text-left">
 
-	<hr/>
+							{!! entity('progressGroup')
+								->appendAddon('<span class="dealer-level">' . $player->dealerLevel . '</span>')
+								->append(entity('progress')
+									->style('danger')
+									->min(0)
+									->max($player->dealerMaxExperience)
+									->now($player->dealerExperience)
+									->addClass('dealer-bar')
+								) !!}
+						</div>
+					</div>
+				</div>
+			</div>
 
-	{!! BootForm::staticInput('<strong>' . trans('statistic.money') . '</strong>')->value('<span class="money">$' . $player->money . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.premiumPoints') . '</strong>')->value('<span class="premiumPoints">' . $player->premiumPoints . 'pp</span>') !!}
-
-	@if($player->statisticPoints > 0)
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.statisticPoints') . '</strong>', 'statisticsPoints')
-		->value($player->statisticPoints + $player->strength + $player->perception + $player->endurance + $player->charisma + $player->intelligence + $player->agility) !!}
-
-	@else
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.statisticPoints') . '</strong>')
-		->value('<span class="statisticPoints">' . $player->statisticPoints . '</span>') !!}
-
-	@endif
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.talentPoints') . '</strong>')->value('<span class="talentPoints">' . $player->talentPoints . '</span>') !!}
-
-
-	<hr/>
-
-	@if($player->statisticPoints > 0)
-
-
-
-
-	{!! BootForm::number('<strong>' . trans('statistic.strength') . '</strong>', 'strength')->required()
-		->min($player->strength)->defaultValue($player->strength)->addClass('statistic') !!}
-
-	{!! BootForm::number('<strong>' . trans('statistic.perception') . '</strong>', 'perception')->required()
-		->min($player->perception)->defaultValue($player->perception)->addClass('statistic') !!}
-
-	{!! BootForm::number('<strong>' . trans('statistic.endurance') . '</strong>', 'endurance')->required()
-		->min($player->endurance)->defaultValue($player->endurance)->addClass('statistic') !!}
-
-	{!! BootForm::number('<strong>' . trans('statistic.charisma') . '</strong>', 'charisma')->required()
-		->min($player->charisma)->defaultValue($player->charisma)->addClass('statistic') !!}
-
-	{!! BootForm::number('<strong>' . trans('statistic.intelligence') . '</strong>', 'intelligence')->required()
-		->min($player->intelligence)->defaultValue($player->intelligence)->addClass('statistic') !!}
-
-	{!! BootForm::number('<strong>' . trans('statistic.agility') . '</strong>', 'agility')->required()
-		->min($player->agility)->defaultValue($player->agility)->addClass('statistic') !!}
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.luck') . '</strong>')->value('<span class="luck">' . $player->luck . '%</span>') !!}
-
-	{!! BootForm::submit(trans('action.save'), 'btn-primary')->addClass('text-center') !!}
-
-	@else
-
-	{!! BootForm::staticInput('<strong>' . trans('statistic.strength') . '</strong>')->value('<span class="strength">' . $player->strength . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.perception') . '</strong>')->value('<span class="perception">' . $player->perception . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.endurance') . '</strong>')->value('<span class="endurance">' . $player->endurance . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.charisma') . '</strong>')->value('<span class="charisma">' . $player->charisma . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.intelligence') . '</strong>')->value('<span class="intelligence">' . $player->intelligence . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.agility') . '</strong>')->value('<span class="agility">' . $player->agility . '</span>') !!}
-	{!! BootForm::staticInput('<strong>' . trans('statistic.luck') . '</strong>')->value('<span class="luck">' . $player->luck . '%</span>') !!}
+		</div>
 
 
-	@endif
 
-	{!! BootForm::close() !!}
 
+
+
+
+
+		<div class="col-xs-12 col-sm-6">
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+
+
+
+					@if($player->statisticPoints == 0)
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.strength')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.strength">{{ $player->strength }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.perception')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.perception">{{ $player->perception }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.endurance')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.endurance">{{ $player->endurance }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.charisma')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.charisma">{{ $player->charisma }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.intelligence')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.intelligence">{{ $player->intelligence }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.agility')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.agility">{{ $player->agility }}</span>
+						</div>
+					</div>
+
+					@else
+
+						{!! BootForm::openHorizontal(['xs' => [4, 8]])->post()->action(route('player.statistics')) !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.strength') . '</strong>', 'strength')->required()
+							->min($player->strength)->defaultValue($player->strength)->addClass('statistic') !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.perception') . '</strong>', 'perception')->required()
+							->min($player->perception)->defaultValue($player->perception)->addClass('statistic') !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.endurance') . '</strong>', 'endurance')->required()
+							->min($player->endurance)->defaultValue($player->endurance)->addClass('statistic') !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.charisma') . '</strong>', 'charisma')->required()
+							->min($player->charisma)->defaultValue($player->charisma)->addClass('statistic') !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.intelligence') . '</strong>', 'intelligence')->required()
+							->min($player->intelligence)->defaultValue($player->intelligence)->addClass('statistic') !!}
+
+						{!! BootForm::number('<strong>' . trans('statistic.agility') . '</strong>', 'agility')->required()
+							->min($player->agility)->defaultValue($player->agility)->addClass('statistic') !!}
+
+						{!! BootForm::staticInput('<strong>' . trans('statistic.statisticPoints') . '</strong>', 'statisticsPoints')
+							->value($player->statisticPoints + $player->strength + $player->perception + $player->endurance +
+								$player->charisma + $player->intelligence + $player->agility) !!}
+
+						{!! BootForm::submit(trans('action.save'), 'btn-primary') !!}
+
+						{!! BootForm::close() !!}
+					@endif
+
+
+
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.damage')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.minDamage">{{ $player->minDamage }}</span> - <span data-ng-bind="player.maxDamage">{{ $player->maxDamage }}</span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.defense')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.defense">{{ $player->defense }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.speed')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.speed">{{ $player->speed }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.critChance')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.critChance">{{ $player->critChance }}</span>%
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.luck')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.luck">{{ $player->luck }}</span>%
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.respect')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.respect">{{ $player->respect }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.money')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							$<span data-ng-bind="player.money">{{ $player->money }}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.premiumPoints')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							<span data-ng-bind="player.premiumPoints">{{ $player->premiumPoints }}</span>pp
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.experienceModifier')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							+<span data-ng-bind="round((player.experienceModifier - 1) * 100, 2)">{{ Formatter::number(($player->experienceModifier - 1) * 100, 2) }}</span>%
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-4 text-right">
+
+							<strong>@lang('statistic.moneyModifier')</strong>
+						</div>
+						<div class="col-xs-6 text-left">
+
+							+<span data-ng-bind="round((player.moneyModifier - 1) * 100, 2)">{{ Formatter::number(($player->moneyModifier - 1) * 100, 2) }}</span>%
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+
+
+		</div>
+
+
+	</div>
 </div>
 
 

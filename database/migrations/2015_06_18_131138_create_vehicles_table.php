@@ -23,6 +23,10 @@ class CreateVehiclesTable extends Migration
             $table->float('speed')->nullable();
             $table->float('cost')->nullable();
             $table->integer('capacity')->unsigned()->nullable();
+
+
+
+            $table->foreign('template_id')->references('id')->on('template_vehicles');
         });
     }
 

@@ -4,5 +4,6 @@
 return [
 
 	'title' => 'Sklep',
-	'empty' => 'Brak produktów'
+	'empty' => 'Brak produktów',
+	'reset' => 'Nowa dostawa (:costpp)'
 ];

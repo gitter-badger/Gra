@@ -7,7 +7,7 @@ use Config;
 
 class PlayerInvestment extends Model
 {
-    protected $fillable = ['player_id', 'location_place_id', 'investment_id', 'money', 'capacityLevel', 'incomeLevel', 'lastUpdate'];
+    protected $fillable = ['player_id', 'location_place_id', 'investment_id', 'money', 'capacityLevel', 'incomeLevel', 'lastUpdate', 'managerId', 'managerExpires', 'managerMoney'];
     protected $with = ['investment'];
     public $timestamps = false;
 
@@ -93,8 +93,17 @@ class PlayerInvestment extends Model
             {
                 $interval = max($now - $this->lastUpdate, 0);
                 $ticks = floor($interval / $this->time);
-                $this->lastUpdate += $this->time * $ticks;
-                $this->attributes['money'] = min($this->attributes['money'] + $ticks * $this->income, $this->capacity);
+
+                for($i = 0; $i < $ticks; ++$i)
+                {
+                    $left = $this->capacity - $this->attributes['money'];
+                    $this->attributes['money'] += min($this->income, $left);
+                    $this->lastUpdate += $this->time;
+
+                    if($this->hasManager() && $this->lastUpdate <= $this->managerExpires)
+                       $this->managerMoney += max($this->income - $left, 0) * (1.0 - $this->getManagerCost()); 
+                }
+
                 $this->_moneyUpdated = true;
             }
             else
@@ -108,5 +117,72 @@ class PlayerInvestment extends Model
             }
     	}
         return true;
+    }
+
+
+
+    public function hasManager()
+    {
+        return !is_null($this->managerId) && $this->managerId != 0;
+    }
+
+    public function getManager()
+    {
+        if($this->hasManager())
+        {
+            return Config::get('managers.' . $this->managerId);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public function getManagerCost()
+    {
+        $manager = $this->getManager();
+
+        if(is_null($manager))
+        {
+            return 0;
+        }
+        else
+        {
+            return $manager['cost'];
+        }
+    }
+
+
+
+    public function getManagerStart()
+    {
+        $manager = $this->getManager();
+
+
+        if(is_null($manager))
+        {
+            return null;
+        }
+        else
+        {
+            return $this->managerExpires - $manager['duration'];
+        }
+    }
+
+
+
+    public function getManagerEnd()
+    {
+        $manager = $this->getManager();
+
+
+        if(is_null($manager))
+        {
+            return null;
+        }
+        else
+        {
+            return $this->managerExpires;
+        }
     }
 }

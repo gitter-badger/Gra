@@ -3,10 +3,11 @@
 namespace HempEmpire;
 
 use Illuminate\Database\Eloquent\Model;
+use Config;
 
 class Gang extends Model
 {
-    protected $fillable = ['world_id', 'name', 'level', 'money', 'respect'];
+    protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack', 'action'];
     public $timestamps = true;
 
 
@@ -25,6 +26,34 @@ class Gang extends Model
         return $this->hasMany(PlayerInvitation::class);
     }
 
+    public function logs()
+    {
+        return $this->hasMany(GangLog::class);
+    }
+
+
+
+
+
+    public function newLog($action)
+    {
+        $log = new GangLog;
+        $log->gang_id = $this->id;
+        $log->action = $action;
+        $log->data = serialize([]);
+
+        return $log;
+    }
+
+
+    public function battleIsComming()
+    {
+        $now = time();
+        return $this->endAttack > $now;
+    }
+
+
+
 
     public function getMembersCountAttribute()
     {
@@ -32,13 +61,56 @@ class Gang extends Model
     }
 
 
-    public function getUpgradeCostAttribute()
+    public function getLevelAttribute()
     {
-        return round(exp($this->level / 10) * 100);
+        $q = $this->members()->leftJoin('players', 'gang_members.player_id', '=', 'players.id');
+
+        return round($q->sum('level') / $q->count());
     }
+
+
+
+
+    public function getAccomodationUpgradeCostAttribute()
+    {
+        return round(exp($this->accomodationLevel) * Config::get('gang.upgrade.accomodation.cost'));
+    }
+
+    public function getAccomodationMaxLevelAttribute()
+    {
+        return Config::get('gang.upgrade.accomodation.maxLevel');
+    }
+
+
+
+
+    public function getAttackUpgradeCostAttribute()
+    {
+        return round(exp($this->attackLevel) * Config::get('gang.upgrade.attack.cost'));
+    }
+
+    public function getAttackMaxLevelAttribute()
+    {
+        return Config::get('gang.upgrade.attack.maxLevel');
+    }
+
+
+
+
+    public function getDefenseUpgradeCostAttribute()
+    {
+        return round(exp($this->defenseLevel) * Config::get('gang.upgrade.defense.cost'));
+    }
+
+    public function getDefenseMaxLevelAttribute()
+    {
+        return Config::get('gang.upgrade.defense.maxLevel');
+    }
+
+
 
     public function getMembersLimitAttribute()
     {
-        return floor($this->level / 10) + 4;
+        return $this->accomodationLevel + 3;
     }
 }

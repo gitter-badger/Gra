@@ -18,6 +18,7 @@ class ShareData
      */
     public function handle($request, Closure $next)
     {
+        //dd(Player::hasActive(), Player::getActive());
         View::share('player', Player::getActive());
         return $next($request);
     }

@@ -21,7 +21,7 @@ class GangMember extends Model {
 	const PERMISSIONS_OFFICER = self::PERMISSIONS_MEMBER|self::PERMISSION_INVITE|self::PERMISSION_KICK|self::PERMISSION_WITHDRAW_MONEY|self::PERMISSION_UPGRADE|self::PERMISSION_ATTACK;
 	const PERMISSIONS_BOSS    = self::PERMISSIONS_OFFICER|self::PERMISSION_PROMOTE|self::PERMISSION_DEMOTE;
 
-	protected $fillable = ['gang_id', 'player_id', 'role'];
+	protected $fillable = ['gang_id', 'player_id', 'role', 'joins'];
 	public $timestamps  = false;
 
 	public function gang() {

@@ -1,4 +1,4 @@
-<div>
+<div data-tutorial="true" data-tutorial-name="investment">
 	<h4><strong>@lang('investment.title', ['name' => trans('investment.' . $investment->investment->name)])</strong></h4>
 
 	<div class="well text-center">
@@ -68,7 +68,11 @@
 				{!! BootForm::hidden('action')->value('collect') !!}
 
 
-				{!! BootForm::submit(trans('action.collect'), 'btn-primary')->addClass('center-block') !!}
+				{!! BootForm::submit(trans('action.collect'), 'btn-primary')->addClass('center-block')
+					->addClass('tutorial-step')
+					->data('tutorial-index', 1)
+					->attribute('title', trans('tutorial.investment.collect.title'))
+					->data('content', trans('tutorial.investment.collect.content')) !!}
 
 				{!! BootForm::close() !!}
 
@@ -95,10 +99,14 @@
 
 								{!! BootForm::open()->post() !!}
 								{!! BootForm::token() !!}
-								{!! BootForm::hidden('action')->value('upgrade') !!}
+								{!! BootForm::hidden('action')->value('investment.upgrade') !!}
 								{!! BootForm::hidden('upgrade')->value('income') !!}
 
-								{!! BootForm::submit(trans('action.upgrade'), 'btn-primary')->addClass('center-block') !!}
+								{!! BootForm::submit(trans('action.upgrade'), 'btn-primary')->addClass('center-block')
+									->addClass('tutorial-step')
+									->data('tutorial-index', 2)
+									->attribute('title', trans('tutorial.investment.upgrade.title'))
+									->data('content', trans('tutorial.investment.upgrade.content')) !!}
 
 								{!! BootForm::close() !!}
 							</div>
@@ -120,10 +128,14 @@
 
 								{!! BootForm::open()->post() !!}
 								{!! BootForm::token() !!}
-								{!! BootForm::hidden('action')->value('upgrade') !!}
+								{!! BootForm::hidden('action')->value('investment.upgrade') !!}
 								{!! BootForm::hidden('upgrade')->value('capacity') !!}
 
-								{!! BootForm::submit(trans('action.upgrade'), 'btn-primary')->addClass('center-block') !!}
+								{!! BootForm::submit(trans('action.upgrade'), 'btn-primary')->addClass('center-block')
+									->addClass('tutorial-step')
+									->data('tutorial-index', 2)
+									->attribute('title', trans('tutorial.investment.upgrade.title'))
+									->data('content', trans('tutorial.investment.upgrade.content'))  !!}
 
 								{!! BootForm::close() !!}
 							</div>
@@ -136,6 +148,95 @@
 
 
 			</div>
+
+
+		@if($investment->hasManager())
+
+			<?php $manager = $investment->getManager(); ?>
+
+			<div class="col-xs-12">
+				<div class="row">
+
+					<div class="col-xs-6 col-xs-offset-3">
+						
+						<div class="panel panel-default">
+							<div class="panel-body text-center">
+
+								<p><strong>@lang('investment.manager.cost'):</strong> {{ Formatter::percent($manager['cost']) }}</p>
+								<p>
+									<strong>@lang('investment.manager.duration'):</strong> 
+									{!! entity('timer')
+										->min($investment->getManagerStart())
+										->max($investment->getManagerEnd())
+										->now(time());
+									!!}
+								</p>
+
+								<p><strong>@lang('investment.manager.money'): </strong> ${{ $investment->managerMoney }}</p>
+
+
+								<div class="center-block">
+								
+									{!! BootForm::open()->post()->addClass('form-inline') !!}
+									{!! BootForm::token() !!}
+
+									{!! BootForm::hidden('action')->value('receive') !!}
+									{!! BootForm::submit(trans('action.receive'), 'btn-success') !!}
+
+									{!! BootForm::close() !!}
+
+									{!! BootForm::open()->post()->addClass('form-inline') !!}
+									{!! BootForm::token() !!}
+
+									{!! BootForm::hidden('action')->value('release') !!}
+									{!! BootForm::submit(trans('action.release'), 'btn-danger') !!}
+
+									{!! BootForm::close() !!}
+
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		@else
+			<div class="col-xs-12">
+				<div class="row">
+
+					@foreach($managers as $id => $manager)
+
+					<div class="col-xs-6 col-sm-4 col-md-3">
+						
+						<div class="panel panel-default">
+							<div class="panel-body text-center">
+
+								<p><strong>@lang('investment.manager.price'):</strong> ${{ $manager['price'] }}</p>
+								<p><strong>@lang('investment.manager.cost'):</strong> {{ Formatter::percent($manager['cost']) }}</p>
+								<p><strong>@lang('investment.manager.duration'):</strong> {{ Formatter::time($manager['duration']) }}</p>
+
+								{!! BootForm::open()->post() !!}
+								{!! BootForm::token() !!}
+
+								{!! BootForm::hidden('action')->value('hire') !!}
+								{!! BootForm::hidden('manager')->value($id) !!}
+
+								{!! BootForm::submit(trans('action.hire'), 'btn-primary')->addClass('center-block') !!}
+
+								{!! BootForm::close() !!}
+
+							</div>
+						</div>
+					</div>
+
+
+					@endforeach
+				</div>
+			</div>
+
+		@endif
 		</div>
 
 		@else
@@ -152,15 +253,36 @@
 						<div class="panel panel-default">
 							<div class="panel-body text-center">
 
-								<p><strong>@lang('investment.price'):</strong> ${{ $price }}</p>
 
-								{!! BootForm::open()->post() !!}
-								{!! BootForm::token() !!}
-								{!! BootForm::hidden('action')->value('invest') !!}
+								@if($investment->worksCount < $investment->worksNeeded)
 
-								{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block') !!}
+									<p><strong>@lang('investment.works'):</strong></p>
 
-								{!! BootForm::close() !!}
+									{!! entity('progress')
+										->min(0)
+										->now($investment->worksCount)
+										->max($investment->worksNeeded)
+										->style('info')
+									!!}
+
+								@else
+
+
+									<p><strong>@lang('investment.price'):</strong> ${{ $price }}</p>
+
+									{!! BootForm::open()->post() !!}
+									{!! BootForm::token() !!}
+									{!! BootForm::hidden('action')->value('invest') !!}
+
+									{!! BootForm::submit(trans('action.buy'), 'btn-primary')->addClass('center-block')
+										->addClass('tutorial-step')
+										->data('tutorial-index', 0)
+										->attribute('title', trans('tutorial.investment.buy.title'))
+										->data('content', trans('tutorial.investment.buy.content')) !!}
+
+									{!! BootForm::close() !!}
+
+								@endif
 							</div>
 						</div>
 					</div>

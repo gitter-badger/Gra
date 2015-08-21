@@ -28,6 +28,8 @@ class CreatePlantationSlotsTable extends Migration
             $table->integer('start')->unsigned()->nullable();
             $table->integer('end')->unsigned()->nullable();
             $table->integer('lastWatered')->unsigned()->nullable();
+
+            $table->foreign('plantation_id')->references('id')->on('plantations');
         });
     }
 

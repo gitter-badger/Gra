@@ -14,12 +14,23 @@ return [
 
 			'name',
 			'delivery',
+			'items',
+			'resetable',
+			'resetCost',
+			'resetCooldown',
 		],
 
 		'store' => [
 
 			'allow',
 			'deny',
+			'baseCapacity',
+			'capacityPerLevel',
+			'capacityPerPremiumLevel',
+			'levelPrice',
+			'premiumLevelPrice',
+			'levelBasePrice',
+			'premiumLevelBasePrice',
 		],
 
 		'travel' => [
@@ -40,12 +51,23 @@ return [
 			'duration',
 		],
 
+		'investment' => [
+
+			'name',
+			'price',
+			'worksNeeded',
+			'groups',
+		],
+
 		'work' => [
 
 			'groups',
 			'reset',
 			'atOnce',
 			'perGroup',
+			'resetable',
+			'resetCost',
+			'resetCooldown',
 		],
 
 		'plantation' => [
@@ -78,12 +100,6 @@ return [
 			'deny',
 		],
 
-		'investment' => [
-
-			'name',
-			'price',
-		],
-
 		'gambling' => [
 
 			'minBet',
@@ -114,12 +130,39 @@ return [
 		'attack' => [
 
 			'minLevel',
-			'levelDiff',
+			'threshold',
 		],
 
 		'gang' => [
 
 			
+		],
+
+		'gang-bank' => [
+
+		],
+
+		'gang-store' => [
+
+			'allow',
+			'deny',
+			'baseCapacity',
+			'capacityPerLevel',
+			'capacityPerPremiumLevel',
+			'levelPrice',
+			'premiumLevelPrice',
+			'levelBasePrice',
+			'premiumLevelBasePrice',
+		],
+
+		'transport' => [
+
+			
+		],
+
+		'npc' => [
+
+			'name',
 		],
 	],
 ];

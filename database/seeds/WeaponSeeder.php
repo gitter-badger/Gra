@@ -25,9 +25,9 @@ class WeaponSeeder extends Seeder
         		'damageMax' => $weapon['damage'][1],
         		'critChance' => $weapon['critChance'],
         		'speed' => $weapon['speed'],
-        		'weight' => $weapon['weight'],
         		'type' => $weapon['type'],
         		'price' => $weapon['price'],
+                'weight' => $weapon['weight'],
         		'premium' => $weapon['premium'],
 
                 

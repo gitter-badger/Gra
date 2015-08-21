@@ -7,7 +7,7 @@ use HempEmpire\Contracts\Food as FoodContract;
 
 class TemplateFood extends Model implements FoodContract
 {
-    protected $fillable = ['name', 'image', 'price', 'weight', 'premium', 'health', 'energy', 'properties'];
+    protected $fillable = ['name', 'image', 'price', 'premium', 'health', 'energy', 'properties', 'weight'];
     public $timestamps = false;
     private $props;
     protected $raw = false;
@@ -63,14 +63,14 @@ class TemplateFood extends Model implements FoodContract
 		return $this->price;
 	}
 
-	public function isPremium()
-	{
-		return $this->premium;
-	}
-
 	public function getWeight()
 	{
 		return $this->weight;
+	}
+
+	public function isPremium()
+	{
+		return $this->premium;
 	}
 
 	public function getCount()

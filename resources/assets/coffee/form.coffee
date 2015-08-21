@@ -10,6 +10,7 @@ keyUp = (event) ->
 
 
 mouseWheel = (event) ->
+	console.log('mouseWheel')
 	min = parseInt ($(this).attr('min') ? 0)
 	max = parseInt ($(this).attr('max') ? 100)
 	step = parseInt ($(this).attr('step') ? 1)
@@ -25,6 +26,7 @@ mouseWheel = (event) ->
 	event.preventDefault()
 
 rangeChanged = (event) ->
+	console.log('rangeChanged')
 	output = $(this).parent().children('.range-value')
 	before = ($(output).data 'before') ? ''
 	after = ($(output).data 'after') ? ''
@@ -34,6 +36,7 @@ rangeChanged = (event) ->
 
 
 numberDecrease = (event) ->
+	console.log('numberDecrease')
 	input = $(this).parent().parent().children('input')
 	min = parseInt ($(input).attr('min') ? 0)
 	max = parseInt ($(input).attr('max') ? 100)
@@ -45,6 +48,7 @@ numberDecrease = (event) ->
 
 
 numberIncrease = (event) ->
+	console.log('numberIncrease')
 	input = $(this).parent().parent().children('input')
 	min = parseInt ($(input).attr('min') ? 0)
 	max = parseInt ($(input).attr('max') ? 100)
@@ -57,8 +61,7 @@ numberIncrease = (event) ->
 
 
 
-$ -> (
-
+$ -> 
 	$(window)
 		.keyup keyUp
 		.keydown keyDown
@@ -77,4 +80,3 @@ $ -> (
 	$('.number-plus').children('button')
 		.click numberIncrease
 
-)

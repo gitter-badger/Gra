@@ -17,7 +17,12 @@ class CreateGangMembersTable extends Migration
             $table->increments('id');
             $table->integer('gang_id')->unsigned();
             $table->integer('player_id')->unsigned();
+            $table->boolean('joins');
             $table->enum('role', ['newbie', 'member', 'officer', 'boss']);
+
+
+            $table->foreign('gang_id')->references('id')->on('gangs');
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

@@ -16,7 +16,9 @@
         "leafo/scssphp": "dev-master",
         "ptachoire/cssembed": "dev-master",
         "leafo/scssphp-compass": "dev-master",
-        "patchwork/jsqueeze": "^2.0@dev"
+        "patchwork/jsqueeze": "^2.0@dev",
+        "iron-io/iron_mq": "~2.0",
+        "greggilbert/recaptcha": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

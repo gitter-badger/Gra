@@ -8,4 +8,5 @@ return [
 	'adminDashboard' => 'Panel admina',
 	'ranking'        => 'Ranking',
 	'logout'         => 'Wyloguj',
+	'user'           => 'Ustawienia',
 ];

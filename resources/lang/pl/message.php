@@ -3,6 +3,15 @@
 
 return [
 
+	'default' => ':content',
+
+	
+
+	'registrationDone' => 'Rejestracja zakończona, na podany adres email zostanie wysłany link aktywacyjny',
+	'notVerified' => 'Konto nie zostało jeszcze zweryfikowane',
+	'userVerified' => 'Konto zostało zatwierdzone, możesz już się zalogować',
+
+
 	'unknown' => 'Coś poszło nie tak :c',
 
 	'placeRented' => 'Lokal wynajęty',
@@ -21,11 +30,13 @@ return [
 
 	'cantPut' => 'Nie możesz zostawić przedmiotu typu :type',
 	'itemPut' => 'Zostawiłeś :count sztuk :item',
+	'itemUsed' => 'Przedmiot użyty',
 
 	'cantTake' => 'Nie możesz wziąć przedmiotu typu :type',
 	'itemTake' => 'Wziąłeś :count sztuk :item',
 
 
+	'messageSent' => 'Wiadomość wysłana',
 
 	'plantationWrongSeed' => 'Nie można użyć tego jako nasionka',
 	'plantationWrongSlot' => 'To miejsce na roślinę nie jest poprawne',
@@ -47,4 +58,14 @@ return [
 	'upgradeMaxLevel' => 'Osiągniętno maksymalny poziom rozbudowy',
 	'incomeUpgrated' => 'Przychód zwiększony o $:value',
 	'capacityUpgrated' => 'Pojemność zwiększony o $:value',
+
+	'travelStarted' => 'Podróż rozpoczęta',
+
+
+	'playerUpdated' => 'Zapisano',
+
+
+	'questCanceled' => 'Zadanie :name anulowane',
+	'questDeclined' => 'Zadanie :name odrzucone',
+	'questTaken' => 'Zadanie :name przyjęte',
 ];

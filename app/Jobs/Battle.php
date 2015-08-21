@@ -13,6 +13,10 @@ use HempEmpire\Battleground;
 use HempEmpire\Player;
 use HempEmpire\OpponentGenerator;
 use HempEmpire\ReportDialog;
+use HempEmpire\Events\Fight;
+use TextArray;
+use TransText;
+use Event;
 
 
 class Battle extends Job implements SelfHandling, ShouldQueue
@@ -20,11 +24,11 @@ class Battle extends Job implements SelfHandling, ShouldQueue
     use InteractsWithQueue, SerializesModels;
     use DispatchesJobs;
 
-    private $battleground;
-    private $red;
-    private $blue;
-    private $reasonRed;
-    private $reasonBlue;
+    protected $battleground;
+    protected $red;
+    protected $blue;
+    protected $reasonRed;
+    protected $reasonBlue;
 
 
     /**
@@ -123,6 +127,10 @@ class Battle extends Job implements SelfHandling, ShouldQueue
         $now = time();
         $redExp = 0;
         $blueExp = 0;
+        $redRespect = 0;
+        $blueRespect = 0;
+        $redMoney = 0;
+        $blueMoney = 0;
 
 
         foreach($this->red as $character)
@@ -130,8 +138,14 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             if($character instanceof Player)
             {
                 $character->healthLock = true;
-                $blueExp += $character->level * $character->health;
+
+                foreach($character->quests as $quest)
+                    $quest->init();
             }
+
+            $blueExp += round($character->level * $character->health / 2);
+            $blueRespect += max($character->respect / 10, 10);
+            $blueMoney += round($character->money / 10);
         }
 
         foreach($this->blue as $character)
@@ -139,8 +153,14 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             if($character instanceof Player)
             {
                 $character->healthLock = true;
-                $redExp += $character->level * $character->health;
+
+                foreach($character->quests as $quest)
+                    $quest->init();
             }
+
+            $redExp += round($character->level * $character->health / 3);
+            $redRespect += max($character->respect / 20, 10);
+            $redMoney += round($character->money / 15);
         }
 
 
@@ -154,29 +174,100 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             {
                 $type = 'battle-' . ($winner == 'red' ? 'win' : 'lose');
 
+                $rewards = new TextArray;
+                $rewards->separator('</br>');
+
+
+                if($winner != 'red')
+                {
+                    $respect = round($redRespect / count($this->red));
+                    $money = round($character->money / 10);
+
+                    $character->reload = true;
+                    $character->jobEnd = $now;
+                    $character->respect -= $respect;
+                    $character->money -= $money;
+
+                    if($respect > 0)
+                    {
+                        $text = new TransText('battle.lose.respect');
+                        $text->with('value', $respect);
+
+                        $rewards->push($text);
+                    }
+
+                    if($money > 0)
+                    {
+                        $text = new TransText('battle.lose.money');
+                        $text->with('value', $money);
+
+                        $rewards->push($text);
+                    }
+
+                    Event::fire(new Fight($character, false, $money, $respect));
+
+                }
+                else
+                {
+                    $experience = round($redExp / count($this->red));
+                    $respect = round($redRespect / count($this->red));
+                    $money = round($redMoney / count($this->red));
+
+
+                    $character->experience += $experience;
+                    $character->respect += $respect;
+                    $character->money += $money;
+
+
+                    if($experience > 0)
+                    {
+                        $text = new TransText('battle.win.experience');
+                        $text->with('value', $experience);
+
+                        $rewards->push($text);
+                    }
+
+                    if($respect > 0)
+                    {
+                        $text = new TransText('battle.win.respect');
+                        $text->with('value', $respect);
+
+                        $rewards->push($text);
+                    }
+
+                    if($money > 0)
+                    {
+                        $text = new TransText('battle.win.money');
+                        $text->with('value', $money);
+
+                        $rewards->push($text);
+                    }
+
+                    Event::fire(new Fight($character, true, $money, $respect, $experience));
+                }
+
+                foreach($character->quests as $quest)
+                    $quest->finit();
+
+
+
+
+
                 $character->newReport($type)
                     ->param('reason', $this->reasonRed)
                     ->param('log', $report)
+                    ->param('rewards', $rewards)
                     ->send();
 
                 $dialog = new ReportDialog($type);
                 $dialog->with('reason', $this->reasonRed)
+                    ->with('rewards', $rewards)
                     ->with('log', $report);
 
                 $character->pushEvent($dialog);
 
 
 
-                if($winner != 'red')
-                {
-                    $character->experience += floor($redExp / 5);
-                    $character->reload = true;
-                    $character->jobEnd = $now;
-                }
-                else
-                {
-                    $character->experience += $redExp;
-                }
 
                 $character->healthLock = false;
                 $character->save();
@@ -189,29 +280,95 @@ class Battle extends Job implements SelfHandling, ShouldQueue
             {
                 $type = 'battle-' . ($winner == 'blue' ? 'win' : 'lose');
 
-                $character->newReport($type)
-                    ->param('reason', $this->reasonBlue)
-                    ->param('log', $report)
-                    ->send();
-
-                $dialog = new ReportDialog($type);
-                $dialog->with('reason', $this->reasonBlue)
-                    ->with('log', $report);
-
-                $character->pushEvent($dialog);
-
+                $rewards = new TextArray;
+                $rewards->separator('</br>');
 
 
                 if($winner != 'blue')
                 {
-                    $character->experience += floor($blueExp / 5);
+                    $respect = round($blueRespect / count($this->blue));
+                    $money = round($character->money / 15);
+
                     $character->reload = true;
                     $character->jobEnd = $now;
+                    $character->respect -= $respect;
+                    $character->money -= $money;
+
+                    if($respect > 0)
+                    {
+                        $text = new TransText('battle.lose.respect');
+                        $text->with('value', $respect);
+
+                        $rewards->push($text);
+                    }
+
+                    if($money > 0)
+                    {
+                        $text = new TransText('battle.lose.money');
+                        $text->with('value', $money);
+
+                        $rewards->push($text);
+                    }
+
+                    Event::fire(new Fight($character, false, $money, $respect));
+
                 }
                 else
                 {
-                    $character->experience += $blueExp;
+                    $experience = round($blueExp / count($this->blue));
+                    $respect = round($blueRespect / count($this->blue));
+                    $money = round($blueMoney / count($this->blue));
+
+
+                    $character->experience += $experience;
+                    $character->respect += $respect;
+                    $character->money += $money;
+
+
+                    if($experience > 0)
+                    {
+                        $text = new TransText('battle.win.experience');
+                        $text->with('value', $experience);
+
+                        $rewards->push($text);
+                    }
+
+                    if($respect > 0)
+                    {
+                        $text = new TransText('battle.win.respect');
+                        $text->with('value', $respect);
+
+                        $rewards->push($text);
+                    }
+
+                    if($money > 0)
+                    {
+                        $text = new TransText('battle.win.money');
+                        $text->with('value', $money);
+
+                        $rewards->push($text);
+                    }
+                    
+                    Event::fire(new Fight($character, true, $money, $respect, $experience));
                 }
+
+                foreach($character->quests as $quest)
+                    $quest->finit();
+
+
+
+                $character->newReport($type)
+                    ->param('reason', $this->reasonBlue)
+                    ->param('log', $report)
+                    ->param('rewards', $rewards)
+                    ->send();
+
+                $dialog = new ReportDialog($type);
+                $dialog->with('reason', $this->reasonBlue)
+                    ->with('rewards', $rewards)
+                    ->with('log', $report);
+
+                $character->pushEvent($dialog);
 
                 $character->healthLock = false;
                 $character->save();

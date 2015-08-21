@@ -10,6 +10,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 
+use HempEmpire\Events\Deal as DealEvent;
+use Event;
+
 use HempEmpire\Player;
 use DB;
 use TransText;
@@ -58,7 +61,12 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        try{
         echo __METHOD__ . PHP_EOL;
+
+
+        foreach($this->player->quests as $quest)
+            $quest->init();
 
         if($this->player->jobName == 'dealing' && $this->player->jobEnd > time())
         {
@@ -94,7 +102,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                     $totalPrice += $price;
                     $avgQuality += $stuff->quality * $count;
 
-                    $this->player->dealerExperience += $count;
+                    $this->player->dealerExperience += round($count * ($stuff->quality / 5));
 
                     $this->player->money += $price;
                     if(!$this->player->takeItem($stuff, $count))
@@ -113,33 +121,40 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                     if($sell <= 0)
                         break;
                 }
-                $avgQuality /= $totalSell;
-                $this->player->experience += ceil($totalSell / 10);
+
+                if($totalSell > 0)
+                    $avgQuality /= $totalSell;
 
 
                 $now = time();
 
-                if($this->player->roll(0, 100) < $this->burnChance)
+
+                $roll = mt_rand(0, 100);    
+                if($roll < $this->burnChance)
                 {
                     $text = new TransText('dealing.burn');
                     $array->push($text);
                     $this->player->wantedUpdate = $now;
                     $this->player->wanted++;
                 }
-                $roll = $this->player->roll(floor($avgQuality) * 5, 100);
+                echo 'Burn' . PHP_EOL;
+                echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
+                echo $roll . ' < ' . $this->burnChance . PHP_EOL;
 
-                if($roll < ($this->beatChance / $this->priceFactor))
+
+                $roll = mt_rand(0, 100) + floor($avgQuality) * 7;
+                if($roll < round($this->beatChance / $this->priceFactor))
                 {
                     $job = new Battle();
                     $job->joinBlue($this->player);
                     $job->reason('blue', new TransText('dealing.beat'));
                     $job->generateRed($this->player->level);
 
-                    if($this->player->level % 20 >= 10)
-                        $job->generateRed($this->player->level);
-
                     $this->dispatch($job);
                 }
+                echo 'Beat' . PHP_EOL;
+                echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
+                echo $roll . ' < ' . round($this->beatChance / $this->priceFactor) . PHP_EOL;
 
 
 
@@ -150,10 +165,6 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 $maxInterval = $now + round($this->maxInterval / $this->priceFactor);
 
                 $nextCustomer = $this->player->jobName == 'dealing' && $this->player->jobEnd >= $maxInterval && $haveStuff > 0;
-
-                echo 'Roll: ' . $roll . ' treshold: ' . ($this->beatChance / $this->priceFactor) . PHP_EOL;
-                echo 'Min: ' . time_to_duration($minInterval - $now) . ' Max: ' . time_to_duration($maxInterval - $now) . PHP_EOL;
-                
 
                 if($nextCustomer)
                 {
@@ -178,6 +189,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 {
                     if($this->player->jobName == 'dealing')
                     {
+
                         return $this->player->newReport('deal')->param('text', $array)->param('sell', $totalSell)->param('price', $totalPrice)->send()
                             && $this->player->save();
                     }
@@ -188,13 +200,21 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 });
 
                 if($success)
-                    $this->player->completeQuest('first-deal');
+                {
+                    Event::fire(new DealEvent($this->player, $totalSell, $totalPrice));
+                }
 
                 return $success;
             });
 
         }
 
+        foreach($this->player->quests as $quest)
+            $quest->finit();
 
+        } catch(\ErrorException $e)
+        {
+            echo '(' . $e->getLine() . ')' . $e->getMessage() . PHP_EOL;
+        }
     }
 }

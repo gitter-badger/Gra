@@ -57,6 +57,12 @@ return [
 		'cost' => 'Koszta',
 		'capacity' => 'Pojemność',
 		'boostable' => 'Przyśpiesza',
+
+		'types' => [
+
+			'bike' => 'Jednoślad',
+			'car' => 'Samochód',
+		],
 	],
 
 	'seed' => [

@@ -16,11 +16,14 @@ class Money implements Reward
 			if(is_null($player))
 				$player = Player::getActive();
 
-			return $player->level;
+			return (1 + $player->level / 10) * $player->moneyModifier;
 		}
 		else
 		{
-			return 1;
+			if(is_null($player))
+				$player = Player::getActive();
+
+			return $player->moneyModifier;
 		}
 	}
 
@@ -32,15 +35,18 @@ class Money implements Reward
 
 	public function give(Player $player)
 	{
-		$player->money += $this->money * $this->getFactor($player);
+		$player->money += round($this->money * $this->getFactor($player));
 	}
 
 	public function getText()
 	{
-		$value = $this->money;
+		$value = '<span data-ng-bind="round(' . $this->money . ' * player.moneyModifier';
 
 		if($this->perLevel)
-			$value .= ' * ' . trans('statistic.level');
+			$value .= ' * (player.level / 10 + 1)';
+
+
+		$value .= ')"></span>';
 		
 		return trans('reward.money', ['value' => $value]);
 	}

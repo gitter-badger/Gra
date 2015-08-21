@@ -17,11 +17,15 @@ class Experience implements Reward
 			if(is_null($player))
 				$player = Player::getActive();
 
-			return $player->level;
+			return (1 + $player->level / 10) * $player->experienceModifier;
 		}
 		else
 		{
-			return 1;
+			if(is_null($player))
+				$player = Player::getActive();
+
+
+			return $player->experienceModifier;
 		}
 	}
 
@@ -34,16 +38,19 @@ class Experience implements Reward
 
 	public function give(Player $player)
 	{
-		$player->experience += $this->experience * $this->getFactor($player);
+		$player->experience += round($this->experience * $this->getFactor($player));
 	}
 
 	public function getText()
 	{
-		$value = $this->experience;
+		$value = '<span data-ng-bind="round(' . $this->experience . ' * player.experienceModifier';
 
 		if($this->perLevel)
-			$value .= ' * ' . trans('statistic.level');
-		
+			$value .= ' * (player.level / 10 + 1)';
+
+
+		$value .= ')"></span>';
+
 		return trans('reward.experience', ['value' => $value]);
 	}
 

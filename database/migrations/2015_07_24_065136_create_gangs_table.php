@@ -17,10 +17,17 @@ class CreateGangsTable extends Migration
             $table->increments('id');
             $table->integer('world_id')->unsigned();
             $table->string('name');
-            $table->integer('level')->unsigned();
+            $table->enum('action', ['attack', 'defend'])->nullable();
+            $table->integer('startAttack');
+            $table->integer('endAttack');
+            $table->integer('attackLevel')->unsigned();
+            $table->integer('defenseLevel')->unsigned();
+            $table->integer('accomodationLevel')->unsigned();
             $table->integer('money')->unsigned();
             $table->integer('respect')->unsigned();
             $table->timestamps();
+
+            $table->foreign('world_id')->references('id')->on('worlds');
         });
     }
 

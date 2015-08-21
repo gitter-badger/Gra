@@ -22,7 +22,7 @@ class SelectWorld
         }
         else
         {
-            return redirect(route('world.list'));
+            return (redirect()->route('world.list'));
         }
     }
 }
