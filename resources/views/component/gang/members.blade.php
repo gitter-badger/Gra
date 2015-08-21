@@ -14,19 +14,23 @@
 						<thead>
 							<tr>
 								<th>@lang('player.name')</th>
-								<th>@lang('gang.role')</th>
 								<th>@lang('statistic.level')</th>
+								<th>@lang('gang.role')</th>
+								<th>@lang('player.active')</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 
-							@foreach($gang->members as $member)
+							<?php $members = $gang->members()->with('player')->get(); ?>
+
+							@foreach($members as $member)
 
 							<tr>
 								<td>{{ $member->player->name }}</td>
-								<td>@lang('gang.roles.' . $member->role)</td>
 								<td>{{ $member->player->level }}</td>
+								<td>@lang('gang.roles.' . $member->role)</td>
+								<td>{{ $member->player->updated_at }}</td>
 								<td>
 
 									@if($player->member->canModify($member))

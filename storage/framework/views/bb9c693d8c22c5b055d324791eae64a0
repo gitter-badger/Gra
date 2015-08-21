@@ -1,17 +1,4 @@
-<?php echo BootForm::open()->post()->action(route('user.register')); ?>
-
-<?php echo BootForm::token(); ?>
-
-
-<?php echo BootForm::email(trans('user.email'), 'r_email')->required(); ?>
-
-<?php echo BootForm::password(trans('user.password'), 'r_password')->required(); ?>
-
-<?php echo BootForm::password(trans('user.passwordConfirmation'), 'r_password_confirmation')->required(); ?>
-
-
-
-<?php 
+<?php echo BootForm::open()->post()->action(route('user.register')); ?> <?php echo BootForm::token(); ?> <?php echo BootForm::email(trans('user.email'), 'r_email')->required(); ?> <?php echo BootForm::password(trans('user.password'), 'r_password')->required(); ?> <?php echo BootForm::password(trans('user.passwordConfirmation'), 'r_password_confirmation')->required(); ?><?php 
 
 $select = BootForm::select(trans('user.language'), 'r_language')->addClass('language-select');
 
@@ -23,19 +10,4 @@ $select->defaultValue(App::getLocale());
 
 echo $select;
 ?>
-
-<div class="center-block">
-<?php echo Recaptcha::render(); ?>
-
-</div>
-
-<?php echo BootForm::checkbox(trans('user.rules'), 'r_rules')->required(); ?>
-
-<?php echo BootForm::checkbox(trans('user.news'), 'r_news')->checked(); ?>
-
-
-
-
-<?php echo BootForm::submit(trans('action.register'), 'btn-primary')->addClass('center-block'); ?>
-
-<?php echo BootForm::close(); ?>
+ <div class="center-block"> <?php echo Recaptcha::render(); ?> </div> <?php echo BootForm::checkbox(trans('user.rules'), 'r_rules')->required(); ?> <?php echo BootForm::checkbox(trans('user.news'), 'r_news')->checked(); ?> <?php echo BootForm::submit(trans('action.register'), 'btn-primary')->addClass('center-block'); ?> <?php echo BootForm::close(); ?>

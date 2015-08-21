@@ -18,7 +18,8 @@
         "leafo/scssphp-compass": "dev-master",
         "patchwork/jsqueeze": "^2.0@dev",
         "iron-io/iron_mq": "~2.0",
-        "greggilbert/recaptcha": "dev-master"
+        "greggilbert/recaptcha": "dev-master",
+        "graham-campbell/htmlmin": "~4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

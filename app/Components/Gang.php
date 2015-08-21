@@ -124,6 +124,8 @@ class Gang extends Component
 					$gang->money = 0;
 					$gang->respect = 0;
 					$gang->startAttack = $gang->endAttack = time();
+					$gang->publicText = '';
+					$gang->privateText = '';
 
 
 
@@ -653,7 +655,7 @@ class Gang extends Component
 		}
 		elseif($this->player->gang->money < $this->player->gang->$upgradeCost)
 		{
-			$this->danger('notEnoughMoney')
+			$this->danger('gangNotEnoughMoney')
 				->with('value', $this->player->gang->$upgradeCost);
 		}
 		else
@@ -667,10 +669,94 @@ class Gang extends Component
 				$this->player->gang->newLog($type . 'Upgraded')
 					->subject($this->player)
 					->param('price', $cost)
+					->param('level', $this->player->gang->$level)
 					->save();
 
 
 				$this->success('gangUpgrated');
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+
+	public function actionChange($request)
+	{
+		$rules = [
+
+			'public' => 'max:512',
+			'private' => 'max:512',
+		];
+
+		$validator = Validator::make($request->all(), $rules);
+
+
+		if($validator->fails())
+		{
+			redirect()->withErrors($validator)->withInput()->send();
+			return;
+		}
+
+
+		if(is_null($this->player->gang))
+		{
+			$this->danger('youDontHaveGang');
+		}
+		else
+		{
+			$gang = $this->player->gang;
+			$msgs = [];
+
+			if($request->has('public'))
+			{
+				if($this->player->member->can(MemberModel::PERMISSION_CHANGE_PUBLIC))
+				{
+					$gang->publicText = $request->input('public');
+					$msgs[] = 'gangPublicTextChanged';
+				}
+				else
+				{
+					$this->danger('actionDained');
+				}
+			}
+
+			if($request->has('private'))
+			{
+				if($this->player->member->can(MemberModel::PERMISSION_CHANGE_PRIVATE))
+				{
+					$gang->privateText = $request->input('private');
+					$msgs[] = 'gangPrivateTextChanged';
+				}
+				else
+				{
+					$this->danger('actionDained');
+				}
+			}
+
+			if($request->hasFile('avatar') && $request->file('avatar')->isValid())
+			{
+				if($this->player->member->can(MemberModel::PERMISSION_CHANGE_AVATAR))
+				{
+					$file = $request->file('avatar');
+					$file->move(public_path() . '/images/gangs/' . $gang->id, $file->getClientOriginalName());
+					$gang->avatar = $file->getClientOriginalName();
+					$msgs[] = 'gangAvatarChanged';
+
+				}
+				else
+				{
+					$this->danger('actionDained');
+				}
+			}
+
+
+			if($gang->save())
+			{
+				foreach($msgs as $msg)
+					$this->success($msg);
 			}
 			else
 			{

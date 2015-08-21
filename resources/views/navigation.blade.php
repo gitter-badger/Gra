@@ -29,7 +29,12 @@
 
 					<li class="dropdown{{ isCurrentRoute('player.index') ? ' active' : '' }}">
 
-						<a href="" class="dropdown-toggle" data-toggle="dropdown">{{ $player->name }} <span class="caret"></span></a>
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						
+							<span class="glyphicon glyphicon-user"></span>
+							{{ $player->name }}
+							<span class="caret"></span>
+						</a>
 
 						<ul class="dropdown-menu">
 
@@ -105,6 +110,14 @@
 
 					@endif
 					
+					<li{!! isCurrentRoute('user.index') ? ' class="active"' : '' !!}>
+
+						<a href="{{ route('user.index') }}">
+
+							<span class="glyphicon glyphicon-cog"></span>
+							@lang('navigation.user')
+						</a>
+					</li>
 
 
 					<li{!! isCurrentRoute('user.logout') ? ' class="active"' : '' !!}>

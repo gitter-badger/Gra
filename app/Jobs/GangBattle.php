@@ -134,7 +134,7 @@ class GangBattle extends Job implements SelfHandling, ShouldQueue
 
         if($winner == 'red')
         {
-            $redGangRespect = min(round($this->blue->respect / 10), 100);
+            $redGangRespect = max(round($this->blue->respect / 10), 100);
             $blueGangRespect = 0;
             $money = round($this->blue->money / 10);
 
@@ -166,7 +166,7 @@ class GangBattle extends Job implements SelfHandling, ShouldQueue
         else
         {
             $redGangRespect = 0;
-            $blueGangRespect = min(round($this->red->respect / 5), 100);
+            $blueGangRespect = max(round($this->red->respect / 5), 100);
             $money = round($this->blue->money / 15);
 
 

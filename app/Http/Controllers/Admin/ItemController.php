@@ -179,7 +179,7 @@ class ItemController extends Controller
         if(Request::hasFile('image') && Request::file('image')->isValid())
         {
             $file = Request::file('image');
-            $file->move(public_path() . '/images/locations', $file->getClientOriginalName());
+            $file->move(public_path() . '/images/items', $file->getClientOriginalName());
             $item->image = $file->getClientOriginalName();
         }
 

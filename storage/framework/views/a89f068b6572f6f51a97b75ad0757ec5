@@ -1,14 +1,4 @@
-<?php echo BootForm::open()->post()->action(route('user.login')); ?>
-
-<?php echo BootForm::token(); ?>
-
-
-<?php echo BootForm::email(trans('user.email'), 'l_email'); ?>
-
-<?php echo BootForm::password(trans('user.password'), 'l_password'); ?>
-
-
-<?php $select = BootForm::select(trans('user.world'), 'world');
+<?php echo BootForm::open()->post()->action(route('user.login')); ?> <?php echo BootForm::token(); ?> <?php echo BootForm::email(trans('user.email'), 'l_email'); ?> <?php echo BootForm::password(trans('user.password'), 'l_password'); ?><?php $select = BootForm::select(trans('user.world'), 'world');
 
 foreach(\HempEmpire\World::all() as $world)
 {
@@ -21,16 +11,4 @@ foreach(\HempEmpire\World::all() as $world)
 
 echo $select; 
 ?>
-
-<?php echo BootForm::checkbox(trans('user.remember'), 'l_remember'); ?>
-
-
-<div class="btn-group">
-	<?php echo BootForm::submit(trans('action.login'), 'btn-primary'); ?>
-
-	<a href="<?php echo e(url('auth/facebook')); ?>" class="btn btn-default"><?php echo \Illuminate\Support\Facades\Lang::get('action.loginFacebook'); ?></a>
-</div>
-<a href="<?php echo e(url('auth/password/email')); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('action.forgetPassword'); ?></a>
-
-
-<?php echo BootForm::close(); ?>
+ <?php echo BootForm::checkbox(trans('user.remember'), 'l_remember'); ?> <div class="btn-group"> <?php echo BootForm::submit(trans('action.login'), 'btn-primary'); ?> <a href="<?php echo e(url('auth/facebook')); ?>" class="btn btn-default"><?php echo app('translator')->get('action.loginFacebook'); ?></a> </div> <a href="<?php echo e(url('auth/password/email')); ?>"><?php echo app('translator')->get('action.forgetPassword'); ?></a> <?php echo BootForm::close(); ?>

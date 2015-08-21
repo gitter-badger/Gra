@@ -9,6 +9,15 @@
 			->now(time())
 			->reversed(time()) !!}
 
+		<?php $members = $gang->members()->with('player')->get(); ?>
+
+		<ul class="list-group">
+		@foreach($members as $member)
+
+			<li class="list-group-item list-group-item-{{ $member->joins ? 'succss' : 'danger' }}">{{ $member->player->name }}</li>
+		@endforeach
+		</ul>
+
 
 		@if($player->member->joins)
 

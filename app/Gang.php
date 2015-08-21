@@ -7,7 +7,9 @@ use Config;
 
 class Gang extends Model
 {
-    protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack', 'action'];
+    protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack', 'action',
+        'avatar', 'premium', 'publicText', 'privateText'];
+
     public $timestamps = true;
 
 
@@ -105,6 +107,11 @@ class Gang extends Model
     public function getDefenseMaxLevelAttribute()
     {
         return Config::get('gang.upgrade.defense.maxLevel');
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return asset('/images/gangs/' . $this->id . '/' . $value);
     }
 
 

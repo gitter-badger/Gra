@@ -78,7 +78,7 @@ class GangBank extends Component
 
 			if($success)
 			{
-				$this->player->gang->newReport('moneyDeposited')
+				$this->player->gang->newLog('moneyDeposited')
 					->subject($this->player)
 					->param('money', $money)
 					->save();
@@ -123,7 +123,7 @@ class GangBank extends Component
 
 			if($success)
 			{
-				$this->player->gang->newReport('moneyWithdrawed')
+				$this->player->gang->newLog('moneyWithdrawed')
 					->subject($this->player)
 					->param('money', $money)
 					->save();

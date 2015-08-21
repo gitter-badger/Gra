@@ -148,6 +148,7 @@ return [
 		Laravel\Socialite\SocialiteServiceProvider::class ,
 		Barryvdh\Debugbar\ServiceProvider::class ,
 		Greggilbert\Recaptcha\RecaptchaServiceProvider::class ,
+		GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class ,
 
 		HempEmpire\Providers\ComponentServiceProvider::class ,
 		HempEmpire\Providers\UrlGeneratorProvider::class ,

@@ -36,7 +36,7 @@ class Player extends Model {
 	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
 		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
 
-	public $timestamps = false;
+	public $timestamps = true;
 	private static $active;
 	public $battleId;
 	public $healthLock = false;

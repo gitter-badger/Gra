@@ -122,43 +122,43 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                         break;
                 }
 
-                if($totalSell > 0)
-                    $avgQuality /= $totalSell;
-
-
                 $now = time();
 
-
-                $roll = mt_rand(0, 100);    
-                if($roll < $this->burnChance)
+                if($totalSell > 0)
                 {
-                    $text = new TransText('dealing.burn');
-                    $array->push($text);
-                    $this->player->wantedUpdate = $now;
-                    $this->player->wanted++;
+                    $avgQuality /= $totalSell;
+
+                    $roll = mt_rand(0, 100);    
+                    if($roll < $this->burnChance)
+                    {
+                        $text = new TransText('dealing.burn');
+                        $array->push($text);
+                        $this->player->wantedUpdate = $now;
+                        $this->player->wanted++;
+                    }
+                    echo 'Burn' . PHP_EOL;
+                    echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
+                    echo $roll . ' < ' . $this->burnChance . PHP_EOL;
+
+
+                    $roll = mt_rand(0, 100) + floor($avgQuality) * 7;
+                    if($roll < round($this->beatChance / $this->priceFactor))
+                    {
+                        $job = new Battle();
+                        $job->joinBlue($this->player);
+                        $job->reason('blue', new TransText('dealing.beat'));
+                        $job->generateRed($this->player->level);
+
+                        $this->dispatch($job);
+                    }
+                    echo 'Beat' . PHP_EOL;
+                    echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
+                    echo $roll . ' < ' . round($this->beatChance / $this->priceFactor) . PHP_EOL;
                 }
-                echo 'Burn' . PHP_EOL;
-                echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
-                echo $roll . ' < ' . $this->burnChance . PHP_EOL;
-
-
-                $roll = mt_rand(0, 100) + floor($avgQuality) * 7;
-                if($roll < round($this->beatChance / $this->priceFactor))
+                else
                 {
-                    $job = new Battle();
-                    $job->joinBlue($this->player);
-                    $job->reason('blue', new TransText('dealing.beat'));
-                    $job->generateRed($this->player->level);
-
-                    $this->dispatch($job);
+                    echo 'Sold nothing' . PHP_EOL;
                 }
-                echo 'Beat' . PHP_EOL;
-                echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
-                echo $roll . ' < ' . round($this->beatChance / $this->priceFactor) . PHP_EOL;
-
-
-
-
 
 
                 $minInterval = $now + round($this->minInterval / $this->priceFactor);

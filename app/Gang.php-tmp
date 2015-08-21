@@ -6,8 +6,10 @@ use Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Gang extends Model {
-	protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack', 'action'];
-	public $timestamps  = true;
+	protected $fillable = ['world_id', 'name', 'attackLevel', 'defenseLevel', 'accomodationLevel', 'money', 'respect', 'startAttack', 'endAttack', 'action',
+		'avatar', 'premium', 'publicText', 'privateText'];
+
+	public $timestamps = true;
 
 	public function world() {
 		return $this->belongsTo(World::class );
@@ -71,6 +73,10 @@ class Gang extends Model {
 
 	public function getDefenseMaxLevelAttribute() {
 		return Config::get('gang.upgrade.defense.maxLevel');
+	}
+
+	public function getAvatarAttribute($value) {
+		return asset('/images/gangs/'.$this->id.'/'.$value);
 	}
 
 	public function getMembersLimitAttribute() {
