@@ -153,6 +153,7 @@ Route::group(['domain' => '{server}.gra.pl', 'before' => 'worldSelect', 'middlew
 		Route::group(['prefix' => '/api', 'middleware' => 'player'], function() 
 		{
 			Route::controller('/character', 'Api\PlayerController');
+			//Route::controller('/location', 'Api\LocationController');
 		});
 
 		Route::controller('/character', 'Player\PlayerController', [
@@ -168,6 +169,12 @@ Route::group(['domain' => '{server}.gra.pl', 'before' => 'worldSelect', 'middlew
 			'postInvitations' => 'player.accept',
 			'getReference' => 'player.reference',
 			'getQuests' => 'player.quests',
+		]);
+
+		Route::controller('/chat', 'ChatController', [
+
+			'getIndex' => 'chat.index',
+			'getMessage' => 'chat.message',
 		]);
 
 

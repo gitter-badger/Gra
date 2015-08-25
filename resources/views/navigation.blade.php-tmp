@@ -70,6 +70,15 @@
 						</a>
 					</li>
 
+					<li{!! isCurrentRoute('chat.index') ? ' class="active"' : '' !!}>
+
+						<a href="{{ route('chat.index') }}">
+
+							<span class="glyphicon glyphicon-comment"></span>
+							@lang('navigation.chat')
+						</a>
+					</li>
+
 					<li{!! isCurrentRoute('premiumShop') ? ' class="active"' : '' !!}>
 
 						<a href="{{ route('premiumShop') }}">
@@ -159,3 +168,5 @@
 
 
 @endif
+
+

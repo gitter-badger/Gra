@@ -26,7 +26,7 @@
 		@endif
 
 			<td>{{ $mail->sender->name }}</td>
-			<td>{{ $mail->title }}</td>
+			<td data-emoticons="true">>{{ $mail->title }}</td>
 			<td>{{ date('Y-m-d H:i:s', $mail->date) }}</td>
 			<td>
 				<div class="btn-group">

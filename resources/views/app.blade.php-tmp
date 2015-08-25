@@ -1,7 +1,6 @@
 @section('scripts')
 
 
-	<script type="text/javascript" src="{{ asset('/js/app.js') }}"></script>
 @endsection
 
 @section('footer')
@@ -162,160 +161,80 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en" data-ng-app="game" data-ng-controller="GameController">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	@yield('meta')
+		@yield('meta')
 
-	<title>HempEmpire - Alpha</title>
-
-	<!--link href="{{ asset('/css/app.css') }}" rel="stylesheet"-->
-
-
-	<!-- Fonts -->
-	<link href="{{ asset('/css/fonts/roboto.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/css/fonts/flaticon.css') }}" rel="stylesheet" type="text/css">
+		<title>HempEmpire - Alpha</title>
 
 
 
-	@if(Config::get('app.debug'))
+		@if(Config::get('app.debug'))
 
-		<!-- Bootstrap -->
-		<link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
+			<!-- Bootstrap -->
+			<link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+			<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
 
-		<script src="{{ asset('/js/jquery.js') }}"></script>
-		<script src="{{ asset('/js/bootstrap.js') }}"></script>
-		<script src="{{ asset('/js/angular.js') }}"></script>
-		<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
-		<script src="{{ asset('/js/bootstrap-notify.js') }}"></script>
-		<script src="{{ asset('/js/app.js') }}"></script>
-	@else
+			<script src="{{ asset('/js/jquery.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap.js') }}"></script>
+			<script src="{{ asset('/js/angular.js') }}"></script>
+			<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap-notify.js') }}"></script>
+			<script src="{{ asset('/js/app.js') }}"></script>
+		@else
 
 
-		<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
+			<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+			<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
 
-		<script src="{{ asset('/js/jquery.min.js') }}"></script>
-		<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-		<script src="{{ asset('/js/angular.min.js') }}"></script>
-		<script src="{{ asset('/js/jquery.mousewheel.min.js') }}"></script>
-		<script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
-		<script src="{{ asset('/js/app.min.js') }}"></script>
-	@endif
+			<script src="{{ asset('/js/jquery.min.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+			<script src="{{ asset('/js/angular.min.js') }}"></script>
+			<script src="{{ asset('/js/jquery.mousewheel.min.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
+			<script src="{{ asset('/js/app.min.js') }}"></script>
+		@endif
 
 
 
 
 
 
-</head>
+		@yield('styles')
+		@yield('scripts')
+	</head>
 
 
-<body data-ng-app="game" data-ng-controller="player">
-	<script type="text/javascript">
-
-	(function() {
-
-		var app = angular.module('game', []);
-
-	})();
-
-	</script>
+	<body data-ng-controller="PlayerController as player">
 
 
-
-	@include('navigation')
+		@include('navigation')
 
 
 
 
 
-	<div class="container">
+		<div class="container">
 
-		<div class="fluid-container">
+			<div class="fluid-container">
 
-			@yield('topbar')
+				@yield('topbar')
+			</div>
+
+			<div class="fluid-container">
+
+				{!! Message::renderAll() !!}
+				@yield('content')
+			</div>
+
+			<div class="fluid-container">
+
+				@yield('footer')
+			</div>
 		</div>
-
-		<div class="fluid-container">
-
-			{!! Message::renderAll() !!}
-			@yield('content')
-		</div>
-
-		<div class="fluid-container">
-
-			@yield('footer')
-		</div>
-	</div>
-
-
-	<script type="text/javascript">
-
-		(function() {
-
-			var app = angular.module('game');
-
-			app.controller('player', function($scope) {
-
-				@if(isset($player))
-				$scope.player = {
-
-					level: {{ $player->level }},
-					plantatorLevel: {{ $player->plantatorLevel }},
-					smugglerLevel: {{ $player->smugglerLevel }},
-					dealerLevel: {{ $player->dealerLevel }},
-					strength: {{ $player->strength }},
-					perception: {{ $player->perception }},
-					endurance: {{ $player->endurance }},
-					charisma: {{ $player->charisma }},
-					intelligence: {{ $player->intelligence }},
-					agility: {{ $player->agility }},
-					luck: {{ $player->luck }},
-					money: {{ $player->money }},
-					premiumPoints: {{ $player->premiumPoints }},
-					reports: {{ $player->reportsCount }},
-					messages: {{ $player->messagesCount }},
-					respect: {{ $player->respect }},
-					weight: {{ $player->weight }},
-					capacity: {{ $player->capacity }},
-					experienceModifier: {{ $player->experienceModifier }},
-					moneyModifier: {{ $player->moneyModifier }},
-				};
-				@else
-				$scope.player = null;
-
-				@endif
-
-
-				$scope.round = function(value, precision) {
-
-					var n, v, r;
-
-					if(precision === null || typeof precision == 'undefined')
-						precision = 0;
-
-					n = Math.pow(10, precision);
-					v = value * n;
-					r = Math.round(v)
-					v = r / n;
-
-					return v;
-				};
-			});
-
-		})();
-
-	</script>
-
-
-	@yield('styles')
-	@yield('scripts')
-
-
-</body>
+	</body>
 </html>

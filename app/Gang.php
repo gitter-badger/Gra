@@ -33,6 +33,12 @@ class Gang extends Model
         return $this->hasMany(GangLog::class);
     }
 
+    public function channel()
+    {
+        return $this->morphOne(Channel::class, 'gang');
+    }
+
+
 
 
 

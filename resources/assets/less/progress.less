@@ -1,0 +1,111 @@
+
+.progress {
+  position: relative;
+}
+
+//Label of progress
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  color: @progress-bar-color;
+  text-align: center;
+  -webkit-transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+//Group of progress
+.progress-group {
+  position: relative;
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  .progress-row {
+    display: table-row;
+  }
+  .progress,
+  .progress-addon,
+  .progress-btn {
+    position: relative;
+    display: table-cell;
+    border-radius: @progress-border-radius;
+  }
+  .progress {
+    float: left;
+    width: 100%;
+    min-width: 100px;
+    margin-bottom: 0;
+  }
+  .progress-addon {
+    padding: 0 @padding-base-horizontal;
+    font-size: @font-size-base;
+    font-weight: normal;
+    line-height: 1;
+    color: @input-color;
+    text-align: center;
+    background-color: @input-group-addon-bg;
+    border: 1px solid @input-group-addon-border-color;
+    border-radius: @border-radius-base;
+
+  }
+  .progress-addon,
+  .progress-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .progress-btn > .btn {
+    position: relative;
+    height: 20px;
+    padding: 0 12px;
+    margin-top: -2px;
+  }
+  .progress:not(:first-child),
+  .progress-addon:not(:first-child),
+  .progress-btn:not(:first-child) {
+    .border-left-radius(0);
+  }
+  .progress:not(:last-child),
+  .progress-addon:not(:last-child),
+  .progress-btn:not(:last-child) {
+    .border-right-radius(0);
+  }
+  .progress-btn:first-child > .btn {
+    .border-right-radius(0);
+  }
+  .progress-btn:last-child > .btn {
+    .border-left-radius(0);
+  }
+  .progress-row:not(:first-child) .progress,
+  .progress-row:not(:first-child) .progress-addon,
+  .progress-row:not(:first-child) .progress-btn {
+    border-top-color: transparent;
+    .border-top-radius(0);
+  }
+  .progress-row:not(:last-child) .progress,
+  .progress-row:not(:last-child) .progress-addon,
+  .progress-row:not(:last-child) .progress-btn {
+    border-bottom-color: transparent;
+    .border-bottom-radius(0);
+  }
+
+
+
+  &:after {
+    clear: both;
+    content: '';
+  }
+}
+
+.progress-xs {
+  height: 4px !important;
+}
+
+.progress-md {
+  height: 24px !important;
+}
+

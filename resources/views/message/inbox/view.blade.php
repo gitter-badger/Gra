@@ -12,10 +12,10 @@
 	->value(date('Y-m-d H:i:s', $mail->date)) !!}
 
 {!! BootForm::staticInput(trans('mail.title'))
-	->value($mail->title) !!}
+	->value($mail->title)->data('emoticons', 'true') !!}
 
 {!! BootForm::staticInput(trans('mail.content'))
-	->value($mail->content) !!}
+	->value($mail->content)->data('emoticons', 'true') !!}
 
 
 {!! BootForm::close() !!}

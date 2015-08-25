@@ -604,3 +604,49 @@ body {
 .navbar-text * {
   cursor: default;
 }
+.chat .output .chat-message:nth-child(odd) {
+  background-color: #e6e6e6;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content {
+  border-color: #f2f2f2;
+  background-color: #ffffff;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content:before {
+  border-color: transparent #f2f2f2;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content:after {
+  border-color: transparent #ffffff;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content p {
+  background-color: #ffffff;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content p:not(:first-child) {
+  border-color: #f2f2f2;
+}
+.chat .output .chat-message:nth-child(odd) .chat-content .chat-time {
+  background-color: #e6e6e6;
+  border-color: #f2f2f2;
+}
+.chat .output .chat-message:nth-child(even) {
+  background-color: #ffffff;
+}
+.chat .output .chat-message:nth-child(even) .chat-content {
+  border-color: #d9d9d9;
+  background-color: #e6e6e6;
+}
+.chat .output .chat-message:nth-child(even) .chat-content:before {
+  border-color: transparent #d9d9d9;
+}
+.chat .output .chat-message:nth-child(even) .chat-content:after {
+  border-color: transparent #e6e6e6;
+}
+.chat .output .chat-message:nth-child(even) .chat-content p {
+  background-color: #e6e6e6;
+}
+.chat .output .chat-message:nth-child(even) .chat-content p:not(:first-child) {
+  border-color: #d9d9d9;
+}
+.chat .output .chat-message:nth-child(even) .chat-content .chat-time {
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+}

@@ -133,3 +133,88 @@ body {
 .navbar-text * {
 	cursor: default;
 }
+
+
+
+
+.chat {
+
+	.output {
+
+		.chat-message:nth-child(odd) {
+
+			background-color: @chat-message-odd-bg;
+
+
+			.chat-content {
+
+				border-color: @chat-bubble-odd-border;
+				background-color: @chat-bubble-odd-bg;
+
+				&:before {
+
+					border-color: transparent @chat-bubble-odd-border;
+				}
+
+				&:after {
+
+					border-color: transparent @chat-bubble-odd-bg;
+				}
+
+				p {
+					
+					background-color: @chat-bubble-odd-bg;
+				}
+
+				p:not(:first-child) {
+
+					border-color: @chat-bubble-odd-border;
+				}
+
+				.chat-time {
+
+					background-color: @chat-bubble-even-bg;
+					border-color: @chat-bubble-odd-border;
+				}
+			}
+		}
+
+		.chat-message:nth-child(even) {
+
+			background-color: @chat-message-even-bg;
+
+
+			.chat-content {
+
+				border-color: @chat-bubble-even-border;
+				background-color: @chat-bubble-even-bg;
+
+				&:before {
+
+					border-color: transparent @chat-bubble-even-border;
+				}
+
+				&:after {
+
+					border-color: transparent @chat-bubble-even-bg;
+				}
+
+				p {
+
+					background-color: @chat-bubble-even-bg;
+				}
+
+				p:not(:first-child) {
+
+					border-color: @chat-bubble-even-border;
+				}
+
+				.chat-time {
+
+					background-color: @chat-bubble-odd-bg;
+					border-color: @chat-bubble-even-border;
+				}
+			}
+		}
+	}
+}

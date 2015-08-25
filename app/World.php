@@ -106,6 +106,20 @@ class World extends Model
 		return $this->hasMany(Gang::class);
 	}
 
+	public function channel()
+	{
+		return $this->morphOne(Channel::class, 'owner');
+	}
+
+
+
+
+
+
+
+
+
+
 
 
 

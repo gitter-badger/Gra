@@ -52,6 +52,7 @@ timeFormat = (text, value, format) ->
 
 
 window.timeFormat or= (value) ->
+	
 	text = ''
 	date = new Date(value * 1000)
 	d = date.getUTCDate() - 1
@@ -59,12 +60,31 @@ window.timeFormat or= (value) ->
 	m = date.getUTCMinutes()
 	s = date.getUTCSeconds()
 
+
 	text += d + format.time.day if d > 0
 	text = timeFormat(text, h, format.time.hour) if h > 0
 	text = timeFormat(text, m, format.time.minute) if h > 0 or m > 0
 	text = timeFormat(text, s, format.time.second) if h > 0 or m > 0 or s > 0
 
 	text
+
+window.timeFormatShort or= (value) ->
+
+	text = ''
+	date = new Date(value * 1000)
+	d = date.getUTCDate() - 1
+	h = date.getUTCHours()
+	m = date.getUTCMinutes()
+	s = date.getUTCSeconds()
+
+
+	return d + format.time.day if d > 0
+	return timeFormat(text, h, format.time.hour) if h > 0
+	return timeFormat(text, m, format.time.minute) if m > 0
+	return timeFormat(text, s, format.time.second) if s > 0
+
+
+
 
 refreshing = false
 

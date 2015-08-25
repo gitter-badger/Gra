@@ -15,7 +15,7 @@
 	</thead>
 
 	<tbody>
-		
+
 	@forelse($mails as $mail)
 
 
@@ -34,9 +34,9 @@
 					<a href="{{ route('message.outbox.delete', ['mail' => $mail->id]) }}" class="btn btn-danger">@lang('mail.delete')</a>
 				</div>
 			</td>
-		</tr>	
+		</tr>
 	@empty
-	
+
 	<tr>
 		<td colspan="4">
 			<h4 class="text-center">@lang('mail.empty')</h4>
@@ -46,7 +46,7 @@
 
 	@endforelse
 	</tbody>
-	
+
 	<tfoot>
 		<tr>
 			<td colspan="5">
