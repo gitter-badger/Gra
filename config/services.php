@@ -40,7 +40,7 @@ return [
 
         'client_id' => '1047120088637523',
         'client_secret' => '15595b71fe99fb60437ad56e02e2deba',
-        'redirect' => 'http://gra.pl/auth/facebook/callback',
+        'redirect' => 'http://' . env('APP_DOMAIN') . '/auth/facebook/callback',
     ],
 
 ];

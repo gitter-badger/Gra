@@ -14,7 +14,7 @@ use HempEmpire\World;
 use HempEmpire\Player;
 
 
-Route::group(['domain' => Config::get('app.url')], function()
+Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'middleware' => 'guest', function()
 	{
@@ -59,7 +59,7 @@ Route::group(['domain' => Config::get('app.url')], function()
 
 		if(array_search($lang, Config::get('app.languages')) !== false)
 		{
-			$redirect->withCookie('lang', $lang, 10 * 365 * 24 * 60, '/', 'gra.pl', false, true);
+			$redirect->withCookie('lang', $lang, 10 * 365 * 24 * 60, '/', Config::get('app.domain'), false, true);
 		}
 
 		return $redirect;
@@ -68,7 +68,7 @@ Route::group(['domain' => Config::get('app.url')], function()
 
 
 
-Route::group(['domain' => '{server}.' . Config::get('app.url'), 'before' => 'worldSelect', 'middleware' => 'world'], function()
+Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => 'worldSelect', 'middleware' => 'world'], function()
 {
 	Route::get('/player/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
 
@@ -279,7 +279,7 @@ Route::group(['domain' => '{server}.' . Config::get('app.url'), 'before' => 'wor
 				Route::get('/outbox/{mail}', ['as' => 'message.outbox.view', 'uses' => 'MailController@outboxView']);
 
 				Route::get('/inbox/delete/{mail}', ['as' => 'message.inbox.delete', 'uses' => 'MailController@inboxDelete']);
-				Route::get('/outbox/delete/{mail}', ['as'w => 'message.outbox.delete', 'uses' => 'MailController@outboxDelete']);
+				Route::get('/outbox/delete/{mail}', ['as' => 'message.outbox.delete', 'uses' => 'MailController@outboxDelete']);
 
 				Route::get('/create/reply/{mail}', ['as' => 'message.reply', 'uses' => 'MailController@reply']);
 				Route::get('/create/resend/{mail}', ['as' => 'message.resend', 'uses' => 'MailController@resend']);
