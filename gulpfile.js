@@ -86,7 +86,9 @@ gulp.task('coffee', function() {
 });
 
 
+gulp.task('clean', function() {
 
+});
 
 
 

@@ -14,7 +14,7 @@ use HempEmpire\World;
 use HempEmpire\Player;
 
 
-Route::group(['domain' => 'gra.pl'], function()
+Route::group(['domain' => Config::get('app.url')], function()
 {
 	Route::get('/', ['as' => 'home', 'middleware' => 'guest', function()
 	{
@@ -68,7 +68,7 @@ Route::group(['domain' => 'gra.pl'], function()
 
 
 
-Route::group(['domain' => '{server}.gra.pl', 'before' => 'worldSelect', 'middleware' => 'world'], function()
+Route::group(['domain' => '{server}.' . Config::get('app.url'), 'before' => 'worldSelect', 'middleware' => 'world'], function()
 {
 	Route::get('/player/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
 
@@ -279,7 +279,7 @@ Route::group(['domain' => '{server}.gra.pl', 'before' => 'worldSelect', 'middlew
 				Route::get('/outbox/{mail}', ['as' => 'message.outbox.view', 'uses' => 'MailController@outboxView']);
 
 				Route::get('/inbox/delete/{mail}', ['as' => 'message.inbox.delete', 'uses' => 'MailController@inboxDelete']);
-				Route::get('/outbox/delete/{mail}', ['as' => 'message.outbox.delete', 'uses' => 'MailController@outboxDelete']);
+				Route::get('/outbox/delete/{mail}', ['as'w => 'message.outbox.delete', 'uses' => 'MailController@outboxDelete']);
 
 				Route::get('/create/reply/{mail}', ['as' => 'message.reply', 'uses' => 'MailController@reply']);
 				Route::get('/create/resend/{mail}', ['as' => 'message.resend', 'uses' => 'MailController@resend']);

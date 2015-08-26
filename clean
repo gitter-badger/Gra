@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+find . -name "*;" -type f -delete
+find . -name "*-tmp" -type f -delete
