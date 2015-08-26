@@ -5,6 +5,7 @@ use HempEmpire\Gang as GangModel;
 use HempEmpire\GangMember as MemberModel;
 use HempEmpire\PlayerInvitation as InvitationModel;
 use HempEmpire\Jobs\GangBattle;
+use HempEmpire\Chat;
 use TransText;
 use Validator;
 use Request;
@@ -14,6 +15,38 @@ use DB;
 
 class Gang extends Component
 {
+	use Chat {
+
+		Chat::view as chatRender;
+		Chat::send as chatSend;
+		Chat::receive as chatReceive;
+		Chat::extend as chatExtend;
+	}
+
+
+    protected function getChannel()
+    {
+        if(!is_null($this->player->gang))
+        {
+        	return $this->player->gang->channel()->firstOrCreate([]);
+        }
+        else
+        {
+        	return null;
+        }
+    }
+
+    protected function getPlayer()
+    {
+    	return $this->player;
+    }
+
+    protected function getHistory()
+    {
+        return Config::get('gang.chatHistory', 24 * 3600);
+    }
+
+
 
 	public function view()
 	{
@@ -49,10 +82,15 @@ class Gang extends Component
 			$view = 'general';
 		}
 
+		if($view === 'chat' && !$this->player->member->can(MemberModel::PERMISSION_CHAT_READ))
+		{
+			$view = 'general';
+		}
 
 
 
-		if($view !== 'general' && $view !== 'members' && $view !== 'attack' && $view !== 'upgrade' && $view !== 'log' && $view !== 'battle')
+
+		if($view !== 'general' && $view !== 'members' && $view !== 'attack' && $view !== 'upgrade' && $view !== 'log' && $view !== 'battle' && $view !== 'chat')
 		{
 			$view = 'general';
 		}
@@ -75,10 +113,10 @@ class Gang extends Component
 			}
 		}
 
-		return view('component.gang')
+		return $this->chatExtend(view('component.gang')
 			->with('view', $view)
 			->with('gang', $this->player->gang)
-			->with('gangs', $gangs);
+			->with('gangs', $gangs));
 	}
 
 
@@ -432,6 +470,62 @@ class Gang extends Component
 		}
 	}
 
+
+	public function actionMute()
+	{
+		if(is_null($this->player->gang))
+		{
+			$this->danger('youDontHaveGang');
+		}
+		elseif(!$this->player->member->can(MemberModel::PERMISSION_CHAT_MUTE))
+		{
+			$this->danger('actionDained');
+		}
+		else
+		{		
+			$member = $this->player->gang->members()->whereId(Request::input('member'))->first();
+
+			if(is_null($member))
+			{
+				$this->danger('memberDoesNotExists');
+			}
+			elseif(!$this->player->member->canModify($member))
+			{
+				$this->danger('actionDained');
+			}
+			else
+			{
+				$member->muted = !$member->muted;
+
+
+				$success = DB::transaction(function() use($member)
+				{
+					return $member->save();
+				});
+
+				if($success)
+				{
+					$name = $member->muted ? 'muted' : 'unmuted';
+
+					$member->player->newReport($name)
+						->param('by', $this->player->name)
+						->send();
+
+					$this->player->gang->newLog($name)
+						->subject($this->player)
+						->param('name', $member->player->name)
+						->save();
+
+					$this->success('player' . ucfirst($name));
+				}
+				else
+				{
+					$this->danger('saveError');
+				}
+			}
+		}
+	}
+
 	public function actionCancel()
 	{
 		if(is_null($this->player->gang))
@@ -765,4 +859,36 @@ class Gang extends Component
 		}
 	}
 
+
+	public function actionSend($request)
+	{
+		if($this->player->member->muted)
+		{
+			response()->json(['status' => 'error', 'reason' => 'muted'])->send();
+		}
+		elseif($this->player->member->can(MemberModel::PERMISSION_CHAT_WRITE))
+		{
+			response($this->chatSend($request->input('message')))->send();
+		}
+		else
+		{
+			response()->json(['status' => 'error', 'reason' => 'dained'])->send();
+		}
+
+		die();
+	}
+
+	public function actionReceive($request)
+	{
+		if($this->player->member->can(MemberModel::PERMISSION_CHAT_READ))
+		{
+			response($this->chatReceive($request->input('time')))->send();
+		}
+		else
+		{
+			response()->json(['status' => 'error', 'reason' => 'dained'])->send();
+		}
+
+		die();
+	}
 }

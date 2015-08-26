@@ -13,6 +13,13 @@ class @Chat
 		maxLength: 512,
 		cooldown: 60,
 		join: 120,
+
+		allowSend: true,
+		allowReceive: true,
+		sendExtra: {},
+		receiveExtra: {},
+		sendMethod: 'POST',
+		receiveMethod: 'GET',
 	}
 
 	commands = {
@@ -25,6 +32,8 @@ class @Chat
 
 	constructor: (element, options) ->
 
+		#alert('welcome')
+
 		opt = $.extend({}, defaults, options)
 
 		@messageUrl = opt.messageUrl
@@ -32,13 +41,27 @@ class @Chat
 		@emoticons = new Emoticons()
 
 
+		@allowSend = opt.allowSend
+		@allowReceive = opt.allowReceive
+		@receiveExtra = opt.receiveExtra
+		@sendExtra = opt.sendExtra
+		@receiveMethod = opt.receiveMethod
+		@sendMethod = opt.sendMethod
+
+
 
 		@input = $(element).find('.input')
 		@output = $(element).find('.output')
 		@sendBtn = $(element).find('.send')
 		@clearBtn = $(element).find('.clear')
+		@emoticonsBtn = $(element).find('.emoticons')
 
 
+		@emoticons.popover(@emoticonsBtn, @input)
+
+		@output[0].scrollTop = @output[0].scrollHeight
+
+		$(@input).keydown((event) => @onKey(event))
 
 
 		$(@sendBtn).click( =>
@@ -52,6 +75,8 @@ class @Chat
 			@clearOutput()
 		)
 
+
+
 		@interval = opt.interval
 
 
@@ -64,7 +89,8 @@ class @Chat
 		@time = Math.max(@time - opt.history, 0)
 
 
-		@update()
+		@receive()
+		
 
 
 
@@ -73,7 +99,7 @@ class @Chat
 
 	getErrorText: (name, args) ->
 
-		text = i18l.chat.errors[name] ? i18l.chat.errors.unknown
+		text = i18n.chat.errors[name] ? i18n.chat.errors.unknown
 
 		if args? and typeof(args) == 'object'
 
@@ -114,7 +140,7 @@ class @Chat
 
 
 
-		if matches? matches[1]?
+		if matches? and matches[1]?
 			command = matches[1]
 
 			for k, v of commands
@@ -131,48 +157,60 @@ class @Chat
 			return
 
 
+		if @allowSend
+
+			if message.length < @minLength
+				@alert('tooShort', {'min': @minLength})
+				return 
+
+			if message.length > @maxLength
+				alert('tooLong', {'max': @maxLength})
+				return
+
+			if @sent + @cooldown > now
+				@alert('cooldown')
+				return
 
 
+			data = $.extend({}, @sendExtra, {message: $(@input).val()})
 
-		if message.length < @minLength
-			@alert('tooShort', {'min': @minLength})
-			return 
+			$.ajax({
 
-		if message.length > @maxLength
-			alert('tooLong', {'max': @maxLength})
-			return
+				url: @messageUrl,
+				success: (data) => @onSent(data),
+				data: data,
+				dataType: 'json',
+				method: @sendMethod,	
+			})
 
-		if @sent + @cooldown > now
-			@alert('cooldown')
-			return
+			@sent = now
+			$(@sendBtn).data('time', @sent + @cooldown)
 
+		else
 
-
-		$.ajax({
-
-			url: @messageUrl,
-			success: (data) => @onSent(data),
-			data: {message: $(@input).val()},
-			dataType: 'json',
-			method: 'POST',	
-		})
-
-		@sent = now
-		$(@sendBtn).data('time', @sent + @cooldown)
+			@error('cannotSend')
 
 
 	receive: ->
 
-		$.ajax({
+		if @allowReceive
 
-			url: @messageUrl,
-			data: {time: @time},
-			success: (data) => @onReceived(data),
-			dataType: 'json',
-			method: 'GET',
-		})
+			data = $.extend({}, @receiveExtra, {time: @time})
 
-		@touch()
+			$.ajax({
+
+				url: @messageUrl,
+				data: data,
+				complete: => @onComplete(),
+				success: (data) => @onReceived(data),
+				dataType: 'json',
+				method: @receiveMethod,
+			})
+
+			@touch()
+		else
+
+			@error('cannotReceive')
 
 
 
@@ -267,9 +305,13 @@ class @Chat
 
 	addMessage: (data)->
 
-		message = $(@output).find('.chat-message').last()
 
-		if message.length == 0
+		scroll = (@output[0].scrollHeight - @output[0].scrollTop - @output[0].clientHeight) <= 1
+		message = $(@output).children().last()
+
+
+
+		if message.length == 0 or !$(message).is('.chat-message')
 			
 			@newMessage(data)
 		else
@@ -285,9 +327,9 @@ class @Chat
 				@newMessage(data)
 
 
-		message = $(@output).find('.chat-message').last()
 
-		message.scrollTop(message[0].scrollHeight - message.height())
+		if scroll
+			@output[0].scrollTop = @output[0].scrollHeight - 1
 
 
 
@@ -302,13 +344,21 @@ class @Chat
 		for message in data
 			@addMessage(message)
 
-	update: ->
+	onComplete: ->
 
-		callback = () =>
-			@update()
+		setTimeout(=>
 
-		@receive()
-		setTimeout(callback, @interval * 1000)
+			@receive()
+		, @interval * 1000)
+
+
+	onKey: (event) ->
+
+		if event.which == 13
+			@send()
+			@clearInput()
+
+
 
 
 	getPlayerUrl: (name) ->
@@ -343,30 +393,36 @@ $(->
 			interval = now - time
 
 
+
 			if interval < 60
-				
-				$(this).text('few seconds ago')
+
+				text = i18n.chat.fewSecs
 			else
 
-				$(this).text(window.timeFormatShort(interval) + ' ago')
+				text = window.timeFormatShort(interval)
+
+			$(this).text(text + ' ' + i18n.chat.ago)
 		)
 
 		$('.chat .send').each(->
 
-			time = parseInt($(this).data('time'))
-			text = $(this).data('text')
-			interval = time - now
+			if $(this).data('disabled') != 'true'
 
-			if interval > 0
+				time = parseInt($(this).data('time'))
+				text = $(this).data('text')
+				interval = time - now
 
-				$(this)
-					.text(window.timeFormat(interval))
-					.addClass('disabled')
-			else
 
-				$(this)
-					.text(text)
-					.removeClass('disabled')
+				if interval > 0
+
+					$(this)
+						.text(window.timeFormat(interval))
+						.addClass('disabled')
+				else
+
+					$(this)
+						.text(text)
+						.removeClass('disabled')
 
 		)
 

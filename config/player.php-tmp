@@ -88,6 +88,8 @@ return [
 		'a9.png',
 		'a10.png',
 		'a11.png',
+		'a12.png',
+		'a13.png',
 	],
 
 	'reference' => [

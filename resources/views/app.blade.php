@@ -199,6 +199,7 @@
 			<script src="{{ asset('/js/app.min.js') }}"></script>
 		@endif
 
+		<script type="text/javascript">var i18n = {!! json_encode(trans('script')) !!};</script>
 
 
 

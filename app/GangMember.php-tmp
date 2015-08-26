@@ -20,14 +20,17 @@ class GangMember extends Model {
 	const PERMISSION_CHANGE_PUBLIC  = 1 << 12;
 	const PERMISSION_CHANGE_PRIVATE = 1 << 13;
 	const PERMISSION_CHANGE_AVATAR  = 1 << 14;
+	const PERMISSION_CHAT_READ      = 1 << 15;
+	const PERMISSION_CHAT_WRITE     = 1 << 16;
+	const PERMISSION_CHAT_MUTE      = 1 << 17;
 
-	const PERMISSIONS_NEWBIE  = self::PERMISSION_DEPOSIT_MONEY|self::PERMISSION_PUT_ITEM;
-	const PERMISSIONS_MEMBER  = self::PERMISSIONS_NEWBIE|self::PERMISSION_TAKE_ITEM;
+	const PERMISSIONS_NEWBIE  = self::PERMISSION_DEPOSIT_MONEY|self::PERMISSION_PUT_ITEM|self::PERMISSION_CHAT_READ;
+	const PERMISSIONS_MEMBER  = self::PERMISSIONS_NEWBIE|self::PERMISSION_TAKE_ITEM|self::PERMISSION_CHAT_WRITE;
 	const PERMISSIONS_OFFICER = self::PERMISSIONS_MEMBER|self::PERMISSION_INVITE|self::PERMISSION_KICK|self::PERMISSION_WITHDRAW_MONEY|self::PERMISSION_UPGRADE|
-	self::PERMISSION_ATTACK|self::PERMISSION_CONTRIBUTION|self::PERMISSION_LOG|self::PERMISSION_CHANGE_PRIVATE;
+	self::PERMISSION_ATTACK|self::PERMISSION_CONTRIBUTION|self::PERMISSION_LOG|self::PERMISSION_CHANGE_PRIVATE|self::PERMISSION_CHAT_MUTE;
 	const PERMISSIONS_BOSS = self::PERMISSIONS_OFFICER|self::PERMISSION_PROMOTE|self::PERMISSION_DEMOTE|self::PERMISSION_CHANGE_PUBLIC|self::PERMISSION_CHANGE_AVATAR;
 
-	protected $fillable = ['gang_id', 'player_id', 'role', 'joins', 'paid'];
+	protected $fillable = ['gang_id', 'player_id', 'role', 'joins', 'paid', 'muted'];
 	public $timestamps  = false;
 
 	public function gang() {
@@ -52,6 +55,8 @@ class GangMember extends Model {
 
 	public function getPermissionsAttribute() {
 		switch ($this->role) {
+			case 'newbie':
+				return self::PERMISSIONS_NEWBIE;
 			case 'member':
 				return self::PERMISSIONS_MEMBER;
 			case 'officer':

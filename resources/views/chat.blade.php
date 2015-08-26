@@ -13,7 +13,7 @@
 		
 
 
-		<div class="input-group">
+		<div class="input-group input-bar">
 
 			<span class="input-group-addon">
 
@@ -21,6 +21,11 @@
 			</span>
 
 			<input type="text" class="form-control input"/>
+
+			<span class="input-group-btn">
+
+				<button type="button" class="btn btn-default emoticons">:)</button>
+			</span>
 
 			<span class="input-group-btn">
 

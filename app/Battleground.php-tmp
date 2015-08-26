@@ -214,9 +214,30 @@ class Battleground {
 		];
 	}
 
-	public function report() {
-		return '<script type="text/javascript">var battleLog = '.json_encode($this->report).';</script>';
+	public function report($character) {
+		if (is_null($character)) {
+			unset($this->report['win']);
+		} else {
+			$this->report['win'] = $this->findTeam($character) == $this->winner();
+		}
 
+		return '<div class="battle-log">'.json_encode($this->report).'</div>';
+	}
+
+	protected function findTeam($character) {
+		foreach ($this->red as $red) {
+			if ($red[1]->battleId == $character->battleId) {
+				return 'red';
+			}
+		}
+
+		foreach ($this->blue as $blue) {
+			if ($blue[1]->battleId == $character->battleId) {
+				return 'blue';
+			}
+		}
+
+		return null;
 	}
 
 	public function winner() {

@@ -35,7 +35,7 @@ class Gang extends Model
 
     public function channel()
     {
-        return $this->morphOne(Channel::class, 'gang');
+        return $this->morphOne(Channel::class, 'owner');
     }
 
 

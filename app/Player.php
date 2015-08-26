@@ -1612,7 +1612,7 @@ class Player extends Model
 
 			if($event->done())
 			{
-				$event->delete();
+				//$event->delete();
 			}
 		}
 

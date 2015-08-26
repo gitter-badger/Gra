@@ -3,6 +3,7 @@ config =
 	barFontSize: 20
 	nameFontSize: 30
 	margin: 5
+	interval: 1000 / 60
 
 
 
@@ -79,43 +80,49 @@ class Battle
 
 
 
-	construct: ->
+	constructor: (element) ->
+
+		@canvas = $(element).children('canvas')[0]
+		@context = @canvas.getContext('2d')
+
+		@battleLog = $.parseJSON($(element).children('.battle-log').first().text())
+
+
+
 
 
 
 	load: ->
 
-		if battleLog?
-			@canvas = $('#battleView')[0]
-			@context = @canvas.getContext('2d')
-			@index = 0
-			@characters = []
-			@state = 'view'
-			@offset = 0
-			@pause = false
+		@index = 0
+		@characters = []
+		@state = 'view'
+		@offset = 0
+		@pause = false
 
-			$(@canvas).click((event) => @click(event))
-			$(document).keydown((event) => @key(event))
+		$(@canvas).click((event) => @click(event))
+		$(document).keydown((event) => @key(event))
 
-			for data in battleLog['teams']['red']
-				character = new Character('red', data)
-				@characters[character.id] = character
+		for data in @battleLog['teams']['red']
+			character = new Character('red', data)
+			@characters[character.id] = character
 
 
-			for data in battleLog['teams']['blue']
-				character = new Character('blue', data)
-				@characters[character.id] = character
+		for data in @battleLog['teams']['blue']
+			character = new Character('blue', data)
+			@characters[character.id] = character
 
-			@context.font = config.fontSize + 'px Roboto'
+		@context.font = config.fontSize + 'px Roboto'
 
 
-			@action = battleLog['log'][@index]
-			@attacker = @characters[@action.attacker]
-			@defender = @characters[@action.defender]
+		@action = @battleLog['log'][@index]
+		@attacker = @characters[@action.attacker]
+		@defender = @characters[@action.defender]
 
-			true
-		else
-			false
+		true
+
+
+
 
 	drawCharacters: (attacker, defender) ->
 
@@ -196,7 +203,15 @@ class Battle
 		@context.closePath()
 		
 
+	getEndText: ->
 
+		if @battleLog['win']
+
+			i18n.battle.win
+
+		else
+
+			i18n.battle.lose
 
 
 	draw: (delta)->
@@ -207,7 +222,7 @@ class Battle
 		animate = true
 
 		if @state == 'view' and animate
-			action = battleLog['log'][@index]
+			action = @battleLog['log'][@index]
 			attacker = @characters[action.attacker]
 			defender = @characters[action.defender]
 
@@ -230,7 +245,7 @@ class Battle
 			animate = false
 
 		if @state == 'info' and animate
-			action = battleLog['log'][@index]
+			action = @battleLog['log'][@index]
 			attacker = @characters[action.attacker]
 			defender = @characters[action.defender]
 
@@ -261,7 +276,7 @@ class Battle
 					text += '!'
 
 			else
-				text = 'dodge'
+				text = i18n.battle.dodge
 
 
 
@@ -273,8 +288,8 @@ class Battle
 
 		if @state == 'next' and animate
 
-			prevAction = battleLog['log'][@index]
-			nextAction = battleLog['log'][@index + 1]
+			prevAction = @battleLog['log'][@index]
+			nextAction = @battleLog['log'][@index + 1]
 
 
 			prevAttacker = @characters[prevAction.attacker]
@@ -302,7 +317,7 @@ class Battle
 				@drawCharacters(nextAttacker, nextDefender)
 
 			else
-				text = 'End'
+				text = @getEndText()
 				@context.fillStyle = '#000000'
 				measure = @context.measureText(text)
 				@context.fillText(text, (@canvas.width - measure.width) / 2, (@canvas.height - 15) / 2)
@@ -321,7 +336,7 @@ class Battle
 
 
 		if @state == 'end' and animate
-			text = 'End'
+			text = @getEndText()
 			@offset = 0.0
 			@context.fillStyle = '#000000'
 			measure = @context.measureText(text)
@@ -341,15 +356,15 @@ class Battle
 		@context.strokeRect(2, height - 20, width, 20)
 
 		@context.fillStyle = '#5BC0DE'
-		@context.fillRect(2, height - 20, width * (Math.min(@index / (battleLog['log'].length - 1), 1)), 20)
+		@context.fillRect(2, height - 20, width * (Math.min(@index / (@battleLog['log'].length - 1), 1)), 20)
 		@context.lineWidth = 5
 
-		for mark in battleLog['marks']
+		for mark in @battleLog['marks']
 
 			if mark.type == 'fainted'
 				@context.strokeStyle = '#D9534F'
 
-			at = (mark.at / (battleLog['log'].length - 1)) * width
+			at = (mark.at / (@battleLog['log'].length - 1)) * width
 
 			@context.beginPath()
 			@context.moveTo(at - @context.lineWidth / 2 + 2, height - 20)
@@ -373,7 +388,7 @@ class Battle
 
 
 		if x >= l and x <= r and y >= t and y <= b
-			@index = Math.round((x - l) / (r - l) * (battleLog['log'].length - 1))
+			@index = Math.round((x - l) / (r - l) * (@battleLog['log'].length - 1))
 			@state = 'view'
 			@offset = 0.0
 
@@ -389,44 +404,43 @@ class Battle
 			@state = 'view'
 
 		if event.which == 39
-			@index = Math.min(@index + 1, battleLog['log'].length - 1)
+			@index = Math.min(@index + 1, @battleLog['log'].length - 1)
 			@offset = 1.0
 			@state = 'view'
 
 
+	requestFrame: (time) ->
+
+		delta = Math.max(time - @lastTime, 0)
+		@lastTime = time
+		@accumulator += delta
+
+		while @accumulator >= config.interval
+
+			@accumulator -= config.interval
+			@draw(config.interval / 1000)
+
+		window.requestAnimationFrame((time) => @requestFrame(time))
+
+
+	start: ->
+
+		if @load()
+
+			@lastTime = new Date().getTime()
+			@accumulator = 0.0
+			@requestFrame(@lastTime)
 
 
 
 
+$(->
 
+	$('.battle').bind('show', ->
 
+		battle = new Battle(this)
+		battle.start()
+	
+	).filter(':visible').trigger('show')
 
-battle = new Battle;
-
-lastTime = new Date().getTime()
-interval = 1000 / 60
-accumulator = 0.0
-
-
-requestFrame = (time)->
-
-	delta = Math.max(time - lastTime, 0)
-	lastTime = time 
-	accumulator += delta
-
-	while accumulator >= interval
-		accumulator -= interval
-		battle.draw(interval / 1000)
-
-	window.requestAnimationFrame(requestFrame)
-
-
-
-
-
-
-
-
-$ ->
-	if battle.load()
-		window.requestAnimationFrame(requestFrame)
+)

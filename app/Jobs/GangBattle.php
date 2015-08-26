@@ -125,7 +125,6 @@ class GangBattle extends Job implements SelfHandling, ShouldQueue
 
         $this->battleground->battle();
         $winner = $this->battleground->winner();
-        $report = $this->battleground->report();
 
         $redGangRespect = 0;
         $blueGangRespect = 0;
@@ -205,6 +204,7 @@ class GangBattle extends Job implements SelfHandling, ShouldQueue
             $character = $member->player;
             if($character instanceof Player)
             {
+                $report = $this->battleground->report($character);
                 $type = 'gang-battle-' . ($winner == 'red' ? 'win' : 'lose');
 
                 $rewards = new TextArray;
@@ -306,6 +306,7 @@ class GangBattle extends Job implements SelfHandling, ShouldQueue
             $character = $member->player;
             if($character instanceof Player)
             {
+                $report = $this->battleground->report($character);
                 $type = 'gang-battle-' . ($winner == 'blue' ? 'win' : 'lose');
 
                 $rewards = new TextArray;

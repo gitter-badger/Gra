@@ -62,6 +62,16 @@
 			</a>
 		</li>
 		@endif
+
+
+		@if($player->member->can(\HempEmpire\GangMember::PERMISSION_CHAT_READ))
+		
+		<li{!! $view === 'chat' ? ' class="active"' : ''!!}>
+			<a href="{{ $url }}?view=chat">
+				@lang('gang.chat')
+			</a>
+		</li>
+		@endif
 	</ul>
 
 
@@ -97,6 +107,11 @@
 			@if($view === 'battle')
 
 				@include('component.gang.battle')
+			@endif
+
+			@if($view === 'chat')
+
+				@include('component.gang.chat')
 			@endif
 
 		</div>

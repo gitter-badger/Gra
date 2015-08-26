@@ -166,12 +166,12 @@ class Battle extends Job implements SelfHandling, ShouldQueue
 
         $this->battleground->battle();
         $winner = $this->battleground->winner();
-        $report = $this->battleground->report();
 
         foreach($this->red as $character)
         {
             if($character instanceof Player)
             {
+                $report = $this->battleground->report($character);
                 $type = 'battle-' . ($winner == 'red' ? 'win' : 'lose');
 
                 $rewards = new TextArray;
@@ -278,6 +278,7 @@ class Battle extends Job implements SelfHandling, ShouldQueue
         {
             if($character instanceof Player)
             {
+                $report = $this->battleground->report($character);
                 $type = 'battle-' . ($winner == 'blue' ? 'win' : 'lose');
 
                 $rewards = new TextArray;

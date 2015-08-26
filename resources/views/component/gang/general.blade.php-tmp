@@ -11,7 +11,7 @@
 						{!! BootForm::token() !!}
 						{!! BootForm::hidden('action')->value('change') !!}
 
-						{!! BootForm::image(null, 'avatar')->defaultValue($gang->avatar) !!}
+						{!! BootForm::image(null, 'avatar')->defaultValue($gang->avatar)->addClass('center-block') !!}
 						{!! BootForm::submit(trans('action.save'), 'btn-primary')->addClass('center-block') !!}
 
 						{!! BootForm::close() !!}
@@ -40,7 +40,7 @@
 						{!! BootForm::token() !!}
 						{!! BootForm::hidden('action')->value('change') !!}
 
-						{!! BootForm::textarea(null, 'public') !!}
+						{!! BootForm::textarea(null, 'public')->placeholder(trans('gang.defaultPublic')) !!}
 						{!! BootForm::submit(trans('action.save'), 'btn-primary')->addClass('center-block') !!}
 
 						{!! BootForm::close() !!}
@@ -70,7 +70,7 @@
 						{!! BootForm::token() !!}
 						{!! BootForm::hidden('action')->value('change') !!}
 
-						{!! BootForm::textarea(null, 'private') !!}
+						{!! BootForm::textarea(null, 'private')->placeholder(trans('gang.defaultPrivate')) !!}
 						{!! BootForm::submit(trans('action.save'), 'btn-primary')->addClass('center-block') !!}
 
 						{!! BootForm::close() !!}

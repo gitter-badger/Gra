@@ -3,20 +3,22 @@
 <div class="panel panel-default">
 	<div class="panel-body text-center">
 
+
+		<?php $members = $gang->members()->with('player')->get(); ?>
+		<ul class="list-group">
+		@foreach($members as $member)
+
+			<li class="list-group-item list-group-item-{{ $member->joins ? 'success' : 'danger' }}">{{ $member->player->name }}</li>
+		@endforeach
+		</ul>
+
+
 		{!! entity('timer')
 			->min($gang->startAttack)
 			->max($gang->endAttack)
 			->now(time())
 			->reversed(time()) !!}
 
-		<?php $members = $gang->members()->with('player')->get(); ?>
-
-		<ul class="list-group">
-		@foreach($members as $member)
-
-			<li class="list-group-item list-group-item-{{ $member->joins ? 'succss' : 'danger' }}">{{ $member->player->name }}</li>
-		@endforeach
-		</ul>
 
 
 		@if($player->member->joins)

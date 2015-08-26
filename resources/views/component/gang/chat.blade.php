@@ -1,16 +1,10 @@
-@extends('app')
-
-
-
-@section('content')
-
 <div class="panel panel-default">
 	<div class="panel-body">
 
 	<div class="chat">
 
 		<div class="form-control output"></div>
-
+		
 
 
 		<div class="input-group input-bar">
@@ -42,21 +36,14 @@
 </div>
 
 
-
-@endsection
-
-
-@section('scripts')
-@parent
-
 <script type="text/javascript">
-
+	
 	$(function() {
 
 		var element = $('.chat');
 		var options = {
 
-			messageUrl: '{{ route('chat.message') }}',
+			messageUrl: '',
 			playerUrl: '{{ urldecode(route('player.doReference')) }}',
 
 			interval: {{ $interval }},
@@ -65,6 +52,15 @@
 			minLength: {{ $minLength }},
 			maxLength: {{ $maxLength }},
 			join: {{ $join }},
+
+			allowSend: {{ $player->member->can(\HempEmpire\GangMember::PERMISSION_CHAT_WRITE) ? 'true' : 'false' }}, 
+			allowReceive: {{ $player->member->can(\HempEmpire\GangMember::PERMISSION_CHAT_READ) ? 'true' : 'false' }}, 
+
+			sendMethod: 'POST',
+			receiveMethod: 'POST',
+
+			sendExtra: {action: 'send'},
+			receiveExtra: {action: 'receive'},
 		};
 
 
@@ -72,6 +68,3 @@
 		var chat = new Chat(element, options);
 	});
 </script>
-
-
-@endsection

@@ -64,8 +64,8 @@ $ ->
 			title = $('<h4></h4>').addClass('modal-title')
 
 			group = $('<div></div>').addClass('btn-group')
-			btn1 = $('<div></div>').addClass('btn btn-success').attr('value', 'yes').text('yes')
-			btn2 = $('<div></div>').addClass('btn btn-danger').attr('value', 'no').text('no')
+			btn1 = $('<div></div>').addClass('btn btn-success').attr('value', 'yes').text(i18n.yes)
+			btn2 = $('<div></div>').addClass('btn btn-danger').attr('value', 'no').text(i18n.no)
 
 			$(btn1).click(->
 

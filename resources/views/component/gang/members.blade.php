@@ -54,7 +54,7 @@
 											{!! BootForm::hidden('action')->value('promote') !!}
 											{!! BootForm::hidden('member')->value($member->id) !!}
 															
-											{!! BootForm::submit(trans('action.promote'), 'btn-info') !!}
+											{!! BootForm::submit(trans('action.promote'), 'btn-success') !!}
 
 											{!! BootForm::close() !!}
 										@endif
@@ -66,7 +66,25 @@
 											{!! BootForm::hidden('action')->value('demote') !!}
 											{!! BootForm::hidden('member')->value($member->id) !!}
 															
-											{!! BootForm::submit(trans('action.demote'), 'btn-info') !!}
+											{!! BootForm::submit(trans('action.demote'), 'btn-danger') !!}
+
+											{!! BootForm::close() !!}
+										@endif
+
+										@if($player->member->can(HempEmpire\GangMember::PERMISSION_CHAT_MUTE))
+
+											{!! BootForm::open()->post()->addClass('form-inline') !!}
+											{!! BootForm::token() !!}
+											{!! BootForm::hidden('action')->value('mute') !!}
+											{!! BootForm::hidden('member')->value($member->id) !!}
+											
+											@if($member->muted)
+
+												{!! BootForm::submit(trans('action.unmute'), 'btn-success') !!}
+											@else
+
+												{!! BootForm::submit(trans('action.mute'), 'btn-danger') !!}
+											@endif
 
 											{!! BootForm::close() !!}
 										@endif

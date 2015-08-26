@@ -6,7 +6,13 @@ dialogs = []
 show = (dialog) ->
 
 	dismissible = ($(dialog).data('dismissible')) ? true
-	console.log(dismissible)
+
+
+
+	$(dialog).bind('shown.bs.modal', (event) ->
+
+		$(this).find('.battle').trigger('show')
+	)
 
 
 	if dismissible

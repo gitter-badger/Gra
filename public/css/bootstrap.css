@@ -6554,8 +6554,10 @@ button.close {
   overflow-x: hidden;
   word-wrap: normal;
   resize: vertical;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
 }
 .chat .output .chat-author {
   text-align: center;
@@ -6611,6 +6613,13 @@ button.close {
   border-radius: 4px;
   padding: 1px 5px;
   z-index: 1;
+}
+.chat .input-bar * {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.chat .alert {
+  margin-bottom: 0;
 }
 .progress {
   position: relative;
@@ -6716,6 +6725,20 @@ button.close {
 }
 .progress-md {
   height: 24px !important;
+}
+.emoticon-container {
+  min-width: 250px;
+  max-height: 100px;
+  overflow-y: scroll;
+}
+.battle canvas {
+  display: block;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.battle-log {
+  display: none;
 }
 .disabled * {
   color: #666666;

@@ -238,3 +238,55 @@ relMouseCoords = `function (event){
 }`
 
 HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
+
+
+
+
+
+
+
+
+
+
+
+(->
+
+	oldShow = $.fn.show
+
+	###
+
+
+	$.fn.show = (speed, oldCallback) ->
+
+		console.log('show', this)
+
+		newCallback = ->
+
+			oldCallback.apply(this) if $.isFunction(oldCallback)
+			$(this).trigger('afterShow')
+
+		$(this).trigger('beforeShow')
+
+		deep = $(this).find('[data-deepshow]')
+
+		if deep.length
+			deep.show()
+
+		oldShow.apply(this, [speed, newCallback])
+	###
+)()
+
+
+
+
+
+
+
+
+String.prototype.escape or= ->
+	this.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")
+
+
+
+String.prototype.replaceAll or= (search, replace) ->
+	this.replace(new RegExp(search.escape(), 'gi'), replace)
