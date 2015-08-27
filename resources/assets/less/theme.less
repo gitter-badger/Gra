@@ -4,7 +4,67 @@
 @import 'variables.less';
 @import 'mixins.less';
 @import 'place.less';
+@import 'chat.less';
+@import 'progress.less';
+@import 'emoticons.less';
 
+
+
+.battle canvas {
+  display: block;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.battle-log {
+  display: none;
+}
+
+.disabled *{
+  color: @gray;
+}
+
+.disabled img,
+img.disabled {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+  filter: @gray;
+  -webkit-filter: grayscale(100%); 
+}
+
+.vseparator {
+  display: inline-block;
+  margin: 0 0.25em;
+}
+
+.item-icon {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.tooltip-inner {
+  min-width: 256px;
+}
+
+.no-padding {
+  padding: 0;
+}
+.no-margin {
+  margin: 0;
+}
+
+.unreaded {
+  font-weight: bold;
+}
+
+.img-full {
+  min-width: 100%;
+  height: auto;
+}
+
+textarea {
+  max-width: 100%;
+}
 
 body {
 	padding-top: @navbar-height + @padding-base-vertical;

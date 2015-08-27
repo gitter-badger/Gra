@@ -21,6 +21,12 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	    return view('home');
 	}]);
 
+	Route::get('/js/language.js', function()
+	{
+		Debugbar::disable();
+		return response('var i18n=' . json_encode(trans('script')));
+	});
+
 
 	Route::controller('/auth/password', 'Auth\PasswordController');
 	Route::controller('/auth/facebook', 'Auth\FacebookController');
@@ -70,6 +76,14 @@ Route::group(['domain' => Config::get('app.domain')], function()
 
 Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => 'worldSelect', 'middleware' => 'world'], function()
 {
+	Route::get('/js/language.js', function()
+	{
+		Debugbar::disable();
+		return response('var i18n=' . json_encode(trans('script')));
+	});
+
+
+
 	Route::get('/player/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
 
 	Route::group(['middleware' => ['auth', 'verified']], function()

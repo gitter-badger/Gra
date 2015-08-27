@@ -1,8 +1,3 @@
-@section('scripts')
-
-
-@endsection
-
 @section('footer')
 
 
@@ -158,6 +153,91 @@
 	
 @endsection
 
+@section('scripts')
+
+
+
+	@if(Config::get('app.cdn'))
+
+
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://code.angularjs.org/1.4.4/angular.min.js"></script>
+	@else
+
+		@if(Config::get('app.minified'))
+
+
+			<script src="{{ asset('/js/jquery.min.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+			<script src="{{ asset('/js/angular.min.js') }}"></script>
+		@else
+
+			<script src="{{ asset('/js/jquery.js') }}"></script>
+			<script src="{{ asset('/js/bootstrap.js') }}"></script>
+			<script src="{{ asset('/js/angular.js') }}"></script>
+		@endif
+	@endif
+
+
+	<script type="text/javascript" src="{{ asset('/js/language.js') }}"></script>
+
+	
+	@if(Config::get('app.minified'))
+
+		<script src="{{ asset('/js/jquery.mousewheel.min.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
+		<script src="{{ asset('/js/app.min.js') }}"></script>
+	@else
+
+		<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap-notify.js') }}"></script>
+		<script src="{{ asset('/js/app.js') }}"></script>
+	@endif
+
+
+@endsection
+
+@section('styles')
+
+
+
+	@if(Config::get('app.cdn'))
+
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	@else
+
+		@if(Config::get('app.minified'))
+
+
+			<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+		@else
+
+			<link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+		@endif
+
+
+	@endif
+
+	
+	@if(Config::get('app.minified'))
+
+		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
+	@else
+
+		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
+	@endif
+
+
+@endsection
+
+
+
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -170,39 +250,6 @@
 		@yield('meta')
 
 		<title>HempEmpire - Alpha</title>
-
-
-
-		@if(Config::get('app.debug'))
-
-			<!-- Bootstrap -->
-			<link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-			<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
-
-			<script src="{{ asset('/js/jquery.js') }}"></script>
-			<script src="{{ asset('/js/bootstrap.js') }}"></script>
-			<script src="{{ asset('/js/angular.js') }}"></script>
-			<script src="{{ asset('/js/jquery.mousewheel.js') }}"></script>
-			<script src="{{ asset('/js/bootstrap-notify.js') }}"></script>
-			<script src="{{ asset('/js/app.js') }}"></script>
-		@else
-
-
-			<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-			<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
-
-			<script src="{{ asset('/js/jquery.min.js') }}"></script>
-			<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
-			<script src="{{ asset('/js/angular.min.js') }}"></script>
-			<script src="{{ asset('/js/jquery.mousewheel.min.js') }}"></script>
-			<script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
-			<script src="{{ asset('/js/app.min.js') }}"></script>
-		@endif
-
-		<script type="text/javascript">var i18n = {!! json_encode(trans('script')) !!};</script>
-
-
-
 
 
 		@yield('styles')
