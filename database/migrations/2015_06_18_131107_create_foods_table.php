@@ -21,7 +21,7 @@ class CreateFoodsTable extends Migration
             $table->integer('count')->unsigned();
 
 
-            $table->foreign('template_id')->references('id')->on('template_foods');
+            $table->foreign('template_id')->references('id')->on('template_foods')->onDelete('cascade');
         });
     }
 

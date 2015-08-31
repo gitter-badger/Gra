@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-6">
 			
-			<img class="img-responsive center-block" src="{{ $player->avatar }}"/>
+			<img class="img-full center-block" src="{{ $player->avatar }}"/>
 		</div>
 		<div class="col-xs-12 col-sm-6">
 			

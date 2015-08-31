@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Place extends Model
 {
 
-    protected $fillable = ['name', 'image', 'visible', 'components', 'properties', 'requires'];
+    protected $fillable = ['name', 'image', 'visible', 'dangerous', 'components', 'properties', 'requires'];
     public $timestamps = false;
     private $_components;
     private $_properties;
@@ -87,4 +87,9 @@ class Place extends Model
 	{
 		return $this->attributes['visible'];
 	}
+
+    public function isDangerous()
+    {
+        return $this->dangerous;
+    }
 }

@@ -26,7 +26,7 @@
 	
 			@foreach($places as $place)
 
-				<tr>
+				<tr{!! $place->dangerous ? ' class="danger"' : '' !!}>
 					<td>{{ $place->id }}</td>
 					<td>{{ $place->getName() }}</td>
 					<td>{{ $place->getTitle() }}</td>

@@ -123,6 +123,15 @@ class PlaceController extends Controller
             $place->visible = false;
         }
 
+        if(Request::has('dangerous'))
+        {
+            $place->dangerous = true;
+        }
+        else
+        {
+            $place->dangerous = false;
+        }
+
 
         if(Request::hasFile('image') && Request::file('image')->isValid())
         {
@@ -175,6 +184,7 @@ class PlaceController extends Controller
             $output .= "\t\t'name' => '" . $place->name . '\',' . PHP_EOL;
             $output .= "\t\t'image' => '" . $place->image . '\',' . PHP_EOL;
             $output .= "\t\t'visible' => " . ($place->visible ? 'true' : 'false') . ',' . PHP_EOL;
+            $output .= "\t\t'dangerous' => " . ($place->dangerous ? 'true' : 'false') . ',' . PHP_EOL;
             $output .= "\t\t'components' => " . \Formatter::stringify($place->components, true, false) . ',' . PHP_EOL;
             $output .= "\t\t'properties' => " . \Formatter::stringify($place->properties, true, true) . ',' . PHP_EOL;
             $output .= "\t\t'requires' => " . \Formatter::stringify($place->requires, true, false) . PHP_EOL;

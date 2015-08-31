@@ -51,7 +51,7 @@ return [
 		['name' => 'maroc-seed', 'image' => 'seed.png', 'price' => 50, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:50']], 'growth' => 604800, 'watering' => 64800, 'harvest' => [200, 350], 'quality' => 4],
 		['name' => 'skunk-seed', 'image' => 'seed.png', 'price' => 100, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:75']], 'growth' => 604800, 'watering' => 28800, 'harvest' => [200, 350], 'quality' => 5],
 		['name' => 'golden-seed', 'image' => 'golden-seed.png', 'price' => 10, 'weight' => 1, 'premium' => 1, 'properties' => [], 'growth' => 432000, 'watering' => 86400, 'harvest' => [250, 500], 'quality' => 5],
-		['name' => 'tutorial-seed', 'image' => 'seed.png', 'price' => 20, 'weight' => 1, 'premium' => 0, 'properties' => [], 'growth' => 1200, 'watering' => 600, 'harvest' => [50, 50], 'quality' => 3],
+		['name' => 'tutorial-seed', 'image' => 'seed.png', 'price' => 20, 'weight' => 1, 'premium' => 0, 'properties' => [], 'growth' => 300, 'watering' => 150, 'harvest' => [25, 50], 'quality' => 3],
 	],
 	'stuffs' => [
 		['name' => 'critical-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],

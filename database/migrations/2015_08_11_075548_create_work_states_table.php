@@ -23,8 +23,8 @@ class CreateWorkStatesTable extends Migration
             $table->integer('order')->unsigned();
 
 
-            $table->foreign('manager_id')->references('id')->on('work_managers');
-            $table->foreign('work_id')->references('id')->on('works');
+            $table->foreign('manager_id')->references('id')->on('work_managers')->onDelete('cascade');
+            $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');
         });
     }
 

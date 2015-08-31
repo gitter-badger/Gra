@@ -57,7 +57,7 @@
 		var options = {
 
 			messageUrl: '{{ route('chat.message') }}',
-			playerUrl: '{{ urldecode(route('player.doReference')) }}',
+			playerUrl: '{{ urldecode(route('player.profile')) }}',
 
 			interval: {{ $interval }},
 			history: {{ $history }},

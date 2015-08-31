@@ -31,8 +31,8 @@ class CreateMailsTable extends Migration
             $table->integer('date')->unsigned();
 
 
-            $table->foreign('receiver_id')->references('id')->on('players');
-            $table->foreign('sender_id')->references('id')->on('players');
+            $table->foreign('receiver_id')->references('id')->on('players')->onDelete('restrict');
+            $table->foreign('sender_id')->references('id')->on('players')->onDelete('restrict');
         });
     }
 

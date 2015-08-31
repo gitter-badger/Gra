@@ -22,6 +22,7 @@ class PlaceSeeder extends Seeder
     			'name' => $place['name'],
                 'image' => $place['image'],
                 'visible' => $place['visible'],
+                'dangerous' => $place['dangerous'],
     			'components' => isset($place['components']) ? json_encode($place['components']) : json_encode([]),
     			'properties' => isset($place['properties']) ? json_encode($place['properties']) : json_encode([]),
                 'requires' => isset($place['requires']) ? json_encode($place['requires']) : json_encode([]),

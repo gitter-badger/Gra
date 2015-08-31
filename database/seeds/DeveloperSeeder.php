@@ -31,7 +31,10 @@ class DeveloperSeeder extends Seeder
             'language' => 'pl',
         ]);
 
-        for($i = 0; $i < 1000; ++$i)
+        $j = 1000;
+        $l = 50;
+
+        for($i = 0; $i < $j; ++$i)
         {
             $user = User::create([
 
@@ -80,7 +83,23 @@ class DeveloperSeeder extends Seeder
                 'token' => $token,
             ]);
 
-            echo "$i / 1000 \r";
+
+            $p = (float) ($i + 1) / (float) $j;
+            $n = round($p * $l);
+
+            echo '[' . round($p * 100) . '%][';
+
+            for($k = 0; $k < $l; ++$k)
+            {
+                if($k < $n)
+                    echo '=';
+                else
+                    echo ' ';
+            }
+
+            echo '][' . ($i + 1) . '/' . $j . "]\r";
         }
+
+        echo PHP_EOL;
     }
 }

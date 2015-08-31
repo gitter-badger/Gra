@@ -51,6 +51,15 @@
 	echo $checkbox;
 	?>
 
+	<?php 
+
+	$checkbox = BootForm::checkbox('<strong>Możliwe zwrócenie uwagi policji na wejściu</strong>', 'dangerous');
+
+	if(empty($place) || $place->dangerous)
+		$checkbox->check();
+
+	echo $checkbox;
+	?>
 
 	{!! BootForm::staticInput('<strong>Wymagania - przykład</strong>')
 		->value(\HempEmpire\Requirements::getConfig()) !!}

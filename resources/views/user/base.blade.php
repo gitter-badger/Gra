@@ -15,11 +15,7 @@
 					<li {!! isCurrentRoute('user.tutorial') ? ' class="active"' : '' !!}><a href="{{ route('user.tutorial') }}">@lang('user.tutorial')</a></li>
 					<li {!! isCurrentRoute('user.change') ? ' class="active"' : '' !!}><a href="{{ route('user.change') }}">@lang('user.change')</a></li>
 					<li {!! isCurrentRoute('user.language') ? ' class="active"' : '' !!}><a href="{{ route('user.language') }}">@lang('user.language')</a></li>
-
-					@if(is_null(Auth::user()->fb_id))
-
-						<li {!! isCurrentRoute('user.facebook') ? ' class="active"' : '' !!}><a href="{{ route('user.facebook') }}">@lang('user.facebook')</a></li>
-					@endif
+					<li {!! isCurrentRoute('user.facebook') ? ' class="active"' : '' !!}><a href="{{ route('user.facebook') }}">@lang('user.facebook')</a></li>
 
 				</ul>
 			</div>

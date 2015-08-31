@@ -27,6 +27,9 @@
 	{!! BootForm::staticInput('<strong>Widoczna jeśli wymagania nie spełnione</strong>')
 		->value($place->visible ? 'Tak' : 'Nie') !!}
 
+	{!! BootForm::staticInput('<strong>Możliwe zwrócenie uwagi policji na wejściu</strong>')
+		->value($place->dangerous ? 'Tak' : 'Nie') !!}
+
 	{!! BootForm::staticInput('<strong>Wymagania</strong>')->value($place->getRequirements()->rawRender()) !!}
 
 

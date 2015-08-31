@@ -103,6 +103,12 @@ return [
 		'experience' => 1,
 		'money' => 1,
 	],
+
+	'premium' => [
+
+		'dailyPoints' => 5,
+		'chance' => 10,
+	],
 ];
 
 ?>

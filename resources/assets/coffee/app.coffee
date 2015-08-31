@@ -8,7 +8,7 @@
 
 
 
-@app.controller('GameController', ($scope) ->
+@app.controller('GameController', ['$scope', ($scope) ->
 
 
 	$scope.round = (value, precision) ->
@@ -18,12 +18,12 @@
 
 		Math.round(value * n) / n
 
-)
+])
 
 
 
-@app.controller('PlayerController', ($scope) ->
+@app.controller('PlayerController', ['$scope', ($scope) ->
 
 
-)
+])
 

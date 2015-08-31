@@ -21,7 +21,7 @@ class CreateUserTutorialsTable extends Migration
             $table->boolean('active');
 
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -21,7 +21,7 @@ class CreateWeaponsTable extends Migration
             $table->integer('count')->unsigned();
 
 
-            $table->foreign('template_id')->references('id')->on('template_weapons');
+            $table->foreign('template_id')->references('id')->on('template_weapons')->onDelete('cascade');
         });
     }
 

@@ -17,12 +17,23 @@
 						<div class="text-center">
 
 							<p><strong>@lang('dealing.energy')</strong>: <span data-ng-bind="energy()"></span></p>
+							<p><strong>@lang('dealing.have')</strong>: {{ $count }}</p>
 
 							{!! BootForm::range('<strong>' . trans('dealing.price') . '</strong>:', 'price')
 								->min($minPrice)->max($maxPrice)->value(round(($minPrice + $maxPrice) / 2))->before('$') !!}
 
-							{!! BootForm::range('<strong>' . trans('dealing.duration') . '</strong>:', 'duration')
-								->min($minDuration)->max($maxDuration)->value($minDuration)->after('0m')->data('ng-model', 'duration') !!}
+							@if($minDuration == $maxDuration)
+
+								{!! BootForm::hidden('duration')->value($minDuration)->data('ng-model', 'duration') !!}
+								{!! BootForm::staticInput('<strong>' . trans('dealing.duration') . '</strong>')->value($minDuration . '0m') !!}
+
+
+							@else
+
+								{!! BootForm::range('<strong>' . trans('dealing.duration') . '</strong>:', 'duration')
+									->min($minDuration)->max($maxDuration)->value($minDuration)->after('0m')->data('ng-model', 'duration') !!}
+
+							@endif
 
 
 							{!! BootForm::submit(trans('action.dealing'), 'btn-primary')

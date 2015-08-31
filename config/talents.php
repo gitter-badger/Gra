@@ -4,6 +4,14 @@ return [
 
 	'plantator' => [
 
+		'plantator-points' => [
+
+			'image' => '',
+			'requires' => [
+
+				'plantator:10',
+			],
+		],
 
 		'watering-energy' => [
 
@@ -80,6 +88,15 @@ return [
 
 	'smuggler' => [
 
+		'smuggler-points' => [
+
+			'image' => '',
+			'requires' => [
+
+				'smuggler:10',
+			],
+		],
+
 		'travel-bike' => [
 
 			'image' => '',
@@ -131,5 +148,26 @@ return [
 	'dealer' => [
 
 
+		'dealer-points' => [
+
+			'image' => '',
+			'requires' => [
+
+				'dealer:10',
+			],
+		],
+	],
+
+
+	'general' => [
+
+		'work-points' => [
+
+			'image' => '',
+			'requires' => [
+
+				'level:10',
+			],
+		],
 	],
 ];

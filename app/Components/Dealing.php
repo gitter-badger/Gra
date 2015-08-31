@@ -11,7 +11,9 @@ class Dealing extends Component
 {
 	public function view()
 	{
+
 		return view('component.dealing')
+			->with('count', $this->player->getStuffsCount())
 			->with('energy', $this->getProperty('energy'))
 			->with('minDuration', $this->getProperty('durationMin'))
 			->with('maxDuration', $this->getProperty('durationMax'))

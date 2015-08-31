@@ -290,3 +290,4 @@ String.prototype.escape or= ->
 
 String.prototype.replaceAll or= (search, replace) ->
 	this.replace(new RegExp(search.escape(), 'gi'), replace)
+

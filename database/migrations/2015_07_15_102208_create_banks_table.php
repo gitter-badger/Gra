@@ -20,8 +20,8 @@ class CreateBanksTable extends Migration
             $table->integer('money')->unsigned();
 
 
-            $table->foreign('location_place_id')->references('id')->on('location_places');
-            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
     }
 

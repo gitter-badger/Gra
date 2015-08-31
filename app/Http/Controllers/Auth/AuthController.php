@@ -138,7 +138,7 @@ class AuthController extends Controller
             'premiumStart' => null,
             'premiumEnd' => null,
             'admin' => false,
-            'verified' => true,
+            'verified' => Config::get('app.debug'),
             'token' => str_random(64),
             'fb_id' => Session::has('facebook.id') ? Session::get('facebook.id') : null,
             'language' => array_search($data['r_language'], Config::get('app.languages')) !== false ? $data['r_language'] : Config::get('app.fallback_locale'),

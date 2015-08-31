@@ -59,6 +59,9 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 		$success = DB::transaction(function() use($stuff, $count)
 		{
+            if($this->player->hasTalent('plantator-points'))
+                $this->player->givePremiumPoint();
+
 			if($this->player->jobName == 'harvesting')
 			{
 				return $this->player->newReport('harvest')

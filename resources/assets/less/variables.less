@@ -13,7 +13,10 @@
 
 
 
-@import 'spacelab.less';
+//@import 'spacelab.less';
+//@import 'cyborg.less';
+//@import 'cosmo.less';
+@import 'paper.less';
 
 
 @chat-min-height: (@line-height-computed * 25);
@@ -21,10 +24,13 @@
 
 
 @chat-message-bg: @body-bg;
-@chat-message-odd-bg: darken(@chat-message-bg, 10%);
-@chat-message-even-bg: lighten(@chat-message-bg, 10%);
+@chat-message-odd-bg: @body-bg;
+@chat-message-even-bg: @body-bg;
 
-@chat-bubble-odd-bg: @chat-message-even-bg;
-@chat-bubble-even-bg: @chat-message-odd-bg;
+@chat-bubble-odd-bg: @brand-info;
+@chat-bubble-even-bg: @brand-warning;
 @chat-bubble-odd-border: darken(@chat-bubble-odd-bg, 5%);
 @chat-bubble-even-border: darken(@chat-bubble-even-bg, 5%);
+
+@progress-group-addon-bg: transparent;
+@progress-group-addon-border: rgba(0, 0, 0, 0.3);

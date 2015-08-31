@@ -55,6 +55,9 @@ class WorkEnds extends Job implements SelfHandling, ShouldQueue
                 $this->work->done = true;
                 $this->work->counter++;
 
+                if($this->player->hasTalent('work-points'))
+                    $this->player->givePremiumPoint();
+
 
                 return $this->work->save() &&
                     $rewards->give($this->player);

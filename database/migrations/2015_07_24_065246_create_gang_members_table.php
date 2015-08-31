@@ -22,8 +22,8 @@ class CreateGangMembersTable extends Migration
             $table->enum('role', ['newbie', 'member', 'officer', 'boss']);
 
 
-            $table->foreign('gang_id')->references('id')->on('gangs');
-            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('gang_id')->references('id')->on('gangs')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('restrict');
         });
     }
 

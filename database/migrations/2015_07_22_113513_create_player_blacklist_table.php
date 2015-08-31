@@ -20,8 +20,8 @@ class CreatePlayerBlacklistTable extends Migration
 
 
 
-            $table->foreign('player_id')->references('id')->on('players');
-            $table->foreign('blocked_id')->references('id')->on('players');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('blocked_id')->references('id')->on('players')->onDelete('restrict');
         });
     }
 

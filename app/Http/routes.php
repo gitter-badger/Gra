@@ -84,9 +84,18 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 
 
 
-	Route::get('/player/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
+	Route::get('/character/ref/{name}', ['as' =>'player.doReference', 'uses' => 'Player\PlayerController@doReference', 'middleware' => 'world']);
+	Route::get('/character/profile/{name}', ['as' => 'player.profile', 'uses' => 'Player\PlayerController@viewProfile', 'middleware' => 'world']);
 
-	Route::group(['middleware' => ['auth', 'verified']], function()
+
+
+	Route::get('/banned', ['middleware' => ['auth', 'verified', 'isBanned'], 'as' => 'user.banned', function()
+	{
+		return view('user.banned');
+	}]);
+
+
+	Route::group(['middleware' => ['auth', 'verified', 'notBanned']], function()
 	{		
 		Route::controller('/user', 'UserController', [
 
@@ -103,6 +112,14 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 			{
 				return view('admin.main');
 			}]);
+
+			Route::resource('/user', 'Admin\UserController', ['only' => 'index']);
+			Route::post('/user/login', ['as' => 'admin.user.login', 'uses' => 'Admin\UserController@login']);
+			Route::post('/user/ban', ['as' => 'admin.user.ban', 'uses' => 'Admin\UserController@ban']);
+
+
+
+			Route::resource('/player', 'Admin\PlayerController', ['only' => 'index']);
 
 			Route::resource('/world', 'Admin\WorldController', ['except' => ['store']]);
 

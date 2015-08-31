@@ -19,7 +19,7 @@ class CreatePlayerReferencesTable extends Migration
             $table->timestamps();
 
 
-            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
         DB::statement('ALTER TABLE `player_references` ADD `request_ip` VARBINARY(16)');
     }

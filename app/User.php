@@ -24,7 +24,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['email', 'password', 'registration_ip', 'premiumPoints', 'premiumStart', 'premiumEnd', 'admin', 'token', 'verified', 'fb_id', 'language'];
+    protected $fillable = ['email', 'password', 'registration_ip', 'premiumPoints', 'premiumStart', 'premiumEnd', 'admin', 'token', 'verified', 'fb_id', 'language', 
+        'banStart', 'banEnd', 'banReason'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -68,5 +69,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $this->admin || (!is_null($this->premiumStart) && !is_null($this->premiumEnd) && 
                     $this->premiumStart < $now && $this->premiumEnd >= $now);
+    }
+
+    public function getIsBannedAttribute()
+    {
+        return !is_null($this->banEnd) && $this->banEnd > time();
     }
 }

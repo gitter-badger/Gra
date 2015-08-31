@@ -26,7 +26,7 @@ class Player extends Model
 		'health', 'maxHealth', 'healthUpdate', 'endHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
 		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money', 'respect',
-		'weight', 'capacity'];
+		'weight', 'capacity', 'fbAvatar', 'todayPoints', 'lastDailyReset'];
 
 
 
@@ -35,12 +35,12 @@ class Player extends Model
 		'dealerExperience', 'dealerMaxExperience', 'health', 'maxHealth', 'healthUpdate',
 		'nextHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'nextEnergyUpdate', 'wanted', 'wantedUpdate',
 		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'endurance', 'charisma', 'intelligence', 'agility', 'luck',
-		'luckUpdate', 'statisticPoints', 'talentPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload',
+		'luckUpdate', 'statisticPoints', 'talentPoints', 'premiumPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload',
 		'experienceModifier', 'moneyModifier', 'respect', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
 
 
 	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
-		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
+		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed', 'premiumPoints'];
 
 	public $timestamps = true;
 	private static $active;
@@ -101,6 +101,8 @@ class Player extends Model
 
 			$player->money = Config::get('player.start.money');
 			$player->reload = false;
+
+			$player->lastDailyReset = strtotime('today midnight');
 		});
 
 		static::created(function(Player $player)
@@ -310,6 +312,15 @@ class Player extends Model
 			if(!is_null($user) && !is_null($world))
 			{
 				static::$active = $user->players()->where('world_id', '=', $world->id)->first();
+
+				if(!is_null(static::$active))
+				{
+					static::$active->updateHealth(false);
+					static::$active->updateEnergy(false);
+					static::$active->updateWanted(false);
+					static::$active->updateLuck(false);
+					static::$active->dailyReset();
+				}
 			}
 		}
 	}
@@ -327,21 +338,6 @@ class Player extends Model
 		static::loadActive();
 
 		return !is_null(static::$active);
-	}
-
-
-	public function __construct(array $attributes = [])
-	{
-		parent::__construct($attributes);
-
-		if($this->exists)
-		{
-			$this->updateHealth(false);
-			$this->updateEnergy(false);
-			$this->updateWanted(false);
-			$this->updateLuck(flase);
-			$this->save();
-		}
 	}
 
 
@@ -801,7 +797,7 @@ class Player extends Model
 		}
 		else
 		{
-			$updates[] = $now + 30;
+			$updates[] = $now + 10;
 		}
 
 		if(!is_null($value) && $value > $now)
@@ -827,7 +823,7 @@ class Player extends Model
 
 	public function getAvatarAttribute($value)
 	{
-		if(!is_null($this->user->fb_id))
+		if(!is_null($this->user->fb_id) && $this->fbAvatar)
 		{
 			return '//graph.facebook.com/' . $this->user->fb_id . '/picture?type=large';
 		}
@@ -1612,7 +1608,7 @@ class Player extends Model
 
 			if($event->done())
 			{
-				//$event->delete();
+				$event->delete();
 			}
 		}
 
@@ -1638,5 +1634,40 @@ class Player extends Model
 	}
 
 
+	public function givePremiumPoint()
+	{
+		if($this->todayPoints < Config::get('player.premium.dailyPoints'))
+		{
+			if(mt_rand(0, 100) < Config::get('player.premium.chance'))
+			{
+				$this->user->premiumPoints++;
+				$this->todayPoints++;
+
+				return $this->user->save() && $this->save();
+			}
+		}
+
+		return true;
+	}
+
+	public function dailyReset()
+	{
+		\DB::transaction(function() 
+		{
+			$tick = 24 * 3600;
+			$interval = time() - $this->lastDailyReset;
+			$ticks = floor($interval / $tick);
+			$event = new \HempEmpire\Events\DailyReset($this);
+
+			for($i = 0; $i < $ticks; ++$i)
+			{
+				$this->lastDailyReset += $tick;
+				\Event::fire($event);
+			}
+
+			return $this->save();
+		});
+
+	}
 
 }

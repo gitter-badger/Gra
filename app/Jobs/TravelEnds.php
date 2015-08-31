@@ -64,6 +64,12 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
                 $this->player->wanted = max($this->player->wanted - 1, 0);
                 $this->player->wantedUpdate = time();
 
+                if($count > 0)
+                {
+                    if($this->player->hasTalent('smuggler-points'))
+                        $this->player->givePremiumPoint();
+                }
+
 
                 return $this->player->save();
             }

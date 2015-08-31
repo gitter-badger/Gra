@@ -24,8 +24,8 @@ class CreatePlayerQuestsTable extends Migration
 
 
 
-            $table->foreign('player_id')->references('id')->on('players');
-            $table->foreign('quest_id')->references('id')->on('quests');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('quest_id')->references('id')->on('quests')->onDelete('cascade');
         });
     }
 

@@ -50,6 +50,7 @@ class @Chat
 
 
 
+
 		@input = $(element).find('.input')
 		@output = $(element).find('.output')
 		@sendBtn = $(element).find('.send')

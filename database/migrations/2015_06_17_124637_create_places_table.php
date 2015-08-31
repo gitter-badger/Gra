@@ -18,6 +18,7 @@ class CreatePlacesTable extends Migration
             $table->string('name')->unique();
             $table->string('image');
             $table->boolean('visible');
+            $table->boolean('dangerous');
             $table->json('components');
             $table->json('properties');
             $table->json('requires');

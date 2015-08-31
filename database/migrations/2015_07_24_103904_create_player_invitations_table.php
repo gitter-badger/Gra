@@ -20,8 +20,8 @@ class CreatePlayerInvitationsTable extends Migration
             $table->timestamps();
 
 
-            $table->foreign('player_id')->references('id')->on('players');
-            $table->foreign('gang_id')->references('id')->on('gangs');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('restrict');
+            $table->foreign('gang_id')->references('id')->on('gangs')->onDelete('cascade');
         });
     }
 

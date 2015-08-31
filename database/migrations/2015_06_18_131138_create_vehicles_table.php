@@ -26,7 +26,7 @@ class CreateVehiclesTable extends Migration
 
 
 
-            $table->foreign('template_id')->references('id')->on('template_vehicles');
+            $table->foreign('template_id')->references('id')->on('template_vehicles')->onDelete('cascade');
         });
     }
 

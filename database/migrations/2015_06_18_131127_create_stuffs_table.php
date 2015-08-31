@@ -25,7 +25,7 @@ class CreateStuffsTable extends Migration
 
 
 
-            $table->foreign('template_id')->references('id')->on('template_stuffs');
+            $table->foreign('template_id')->references('id')->on('template_stuffs')->onDelete('cascade');
         });
     }
 

@@ -30,7 +30,7 @@ class CreateSeedsTable extends Migration
 
 
 
-            $table->foreign('template_id')->references('id')->on('template_seeds');
+            $table->foreign('template_id')->references('id')->on('template_seeds')->onDelete('cascade');
         });
     }
 

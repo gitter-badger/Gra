@@ -40,12 +40,39 @@ update = (timer) ->
 
 	refresh() if time > max and reload
 
-	setTimeout -> update timer, 1000 #if time <= max
+	setTimeout(-> 
+
+		update(timer)
+
+	, 1000) #if time <= max
+
+
+updateNav = (timer) ->
+
+	time = Math.round (new Date).getTime() / 1000.0
+	min = $(timer).data 'min'
+	max = $(timer).data 'max'
+	now = Math.clamp(time, min, max)
+
+	percent = 1 - (now - min) / (max - min)
+
+	$(timer).css('width', (percent * 100) + '%')
+
+	setTimeout(-> 
+
+		updateNav(timer)
+
+	, 1000)
+
+
 
 
 $ ->
 	$('.progress-time').each ->
 		update this
+
+	$('.nav-timer > .nav-timer-bar').each ->
+		updateNav this
 
 
 

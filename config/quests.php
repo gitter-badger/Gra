@@ -38,7 +38,7 @@ return [
 		'repeatable' => false,
 		'auto' => true,
 		'rewards' => ['money:500,0'],
-		'objectives' => ['travel:'],
+		'objectives' => ['travelTo:capital'],
 		'requires' => []
 	],
 	'work' => [
@@ -64,6 +64,43 @@ return [
 		'rewards' => ['experience:500'],
 		'objectives' => ['dealCount:1000'],
 		'requires' => ['dealer:10']
+	],
+
+
+	'daily-work' => [
+		'breakable' => true,
+		'repeatable' => true,
+		'auto' => false,
+		'rewards' => ['experience:250'],
+		'objectives' => ['work:3'],
+		'requires' => []
+	],
+
+	'daily-harvest' => [
+		'breakable' => true,
+		'repeatable' => true,
+		'auto' => false,
+		'rewards' => ['experience:500'],
+		'objectives' => ['harvestPlant:3'],
+		'requires' => []
+	],
+
+	'daily-deal' => [
+		'breakable' => true,
+		'repeatable' => true,
+		'auto' => false,
+		'rewards' => ['experience:500'],
+		'objectives' => ['dealCount:10'],
+		'requires' => []
+	],
+
+	'dailyTravel' => [
+		'breakable' => true,
+		'repeatable' => true,
+		'auto' => false,
+		'rewards' => ['experience:500'],
+		'objectives' => ['travelDistance:100'],
+		'requires' => []
 	],
 ];
 ?>

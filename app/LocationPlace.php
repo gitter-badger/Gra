@@ -178,6 +178,11 @@ class LocationPlace extends Model
         return $this->place->isVisible() || $this->isAvailable();
     }
 
+    public function isDangerous()
+    {
+        return $this->place->isDangerous();
+    }
+
     public function call($name, $command, $args = [])
     {
         foreach($this->_components as $component)

@@ -17,7 +17,8 @@
 						{!! BootForm::hidden('treat')->value('normal') !!}
 
 						{!! BootForm::range('<strong>' . trans('hospital.health') . '</strong>', 'health')
-							->min(1)->max($player->maxHealth - $player->health)->data('ng-model', 'normalHealth')->defaultValue($player->maxHealth - $player->health) !!}
+							->min(1)->max('@{{ player.maxHealth - player.health }}')->data('ng-model', 'normalHealth')->defaultValue($player->maxHealth - $player->health)
+							->data('ng-disabled', '!available()') !!}
 
 						{!! BootForm::staticInput('<strong>' . trans('hospital.price') . '</strong>')
 							->data('ng-bind', 'normalPrice()') !!}
@@ -30,7 +31,8 @@
 							->addClass('tutorial-step')
 							->data('tutorial-index', 0)
 							->attribute('title', trans('tutorial.hospital.heal.title'))
-							->data('content', trans('tutorial.hospital.heal.content')) !!}
+							->data('content', trans('tutorial.hospital.heal.content'))
+							->data('ng-show', 'hospital.normalHealth > 0') !!}
 
 						{!! BootForm::close() !!}
 					</div>
@@ -51,7 +53,8 @@
 						{!! BootForm::hidden('treat')->value('fast') !!}
 
 						{!! BootForm::range('<strong>' . trans('hospital.health') . '</strong>', 'health')
-							->min(1)->max($player->maxHealth - $player->health)->data('ng-model', 'fastHealth')->defaultValue($player->maxHealth - $player->health) !!}
+							->min(1)->max('@{{ player.maxHealth - player.health }}')->data('ng-model', 'fastHealth')->defaultValue($player->maxHealth - $player->health)
+							->data('ng-disabled', '!available()') !!}
 
 						{!! BootForm::staticInput('<strong>' . trans('hospital.price') . '</strong>')
 							->data('ng-bind', 'fastPrice()') !!}
@@ -64,7 +67,8 @@
 							->addClass('tutorial-step')
 							->data('tutorial-index', 0)
 							->attribute('title', trans('tutorial.hospital.heal.title'))
-							->data('content', trans('tutorial.hospital.heal.content')) !!}
+							->data('content', trans('tutorial.hospital.heal.content'))
+							->data('ng-show', 'hospital.fasthealth > 0') !!}
 
 						{!! BootForm::close() !!}
 					</div>
@@ -109,6 +113,11 @@
 		$scope.fastDuration = function() {
 
 			return window.timeFormat($scope.fastHealth * {{ $fastSpeed }});
+		};
+
+		$scope.available = function() {
+
+			return $scope.player.health < $scope.player.maxHealth;
 		};
 	});
 

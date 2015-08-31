@@ -31,7 +31,7 @@ class CreateGangsTable extends Migration
             $table->text('privateText');
             $table->timestamps();
 
-            $table->foreign('world_id')->references('id')->on('worlds');
+            $table->foreign('world_id')->references('id')->on('worlds')->onDelete('cascade');
         });
     }
 

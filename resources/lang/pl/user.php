@@ -13,10 +13,17 @@ return [
 
 	'tutorial' => 'Samouczki',
 	'change' => 'Zmień hasło',
-	'facebook' => 'Połącz z Facebook',
+	'facebook' => 'Facebook',
 
 	'currentPassword' => 'Obecne hasło',
 	'newPassword' => 'Nowe hasło',
 	'newPasswordConfirmation' => 'Powtórz hasło',
+
+
+	'ban' => [
+
+		'cheater' => 'Oszustwa',
+		'spamer' => 'Spam',
+	],
 
 ];

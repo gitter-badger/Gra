@@ -19,7 +19,7 @@ class CreatePlayerTalentsTable extends Migration
             $table->string('name');
 
 
-            $table->foreign('player_id')->references('id')->on('players');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
     }
 

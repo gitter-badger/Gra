@@ -126,6 +126,9 @@ class Deal extends Job implements SelfHandling, ShouldQueue
 
                 if($totalSell > 0)
                 {
+                    if($this->player->hasTalent('dealer-points'))
+                        $this->player->givePremiumPoint();
+
                     $avgQuality /= $totalSell;
 
                     $roll = mt_rand(0, 100);    

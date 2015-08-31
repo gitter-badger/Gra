@@ -3,3 +3,91 @@
 @import '../bower_vendor/bootstrap/less/bootstrap.less';
 @import 'variables.less';
 
+.transition(args) {
+
+	-webkit-transition: args;
+	   -moz-transition: args;
+	    -ms-transition: args;
+	     -o-transition: args;
+	        transition: args;
+}
+
+
+.form-inline {
+	display: inline-block;
+}
+
+.overlay {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+
+	background: rgba(0, 0, 0, 0.8);
+}
+
+
+
+.overlay > * {
+
+	opacity: 0.4;
+	.transition(opacity 0.5s);
+}
+
+.overlay > *:hover {
+
+	opacity: 1;
+}
+
+#navOverlay {
+
+	.nav();
+	.navbar-nav();
+
+	li {
+		display: inline-block;
+		float: left;
+
+		a {
+
+			max-width: 150px;
+			white-space: nowrap;
+			//text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	}
+
+	span {
+
+		margin-top: -4px;
+	}
+}
+
+
+
+
+
+
+
+.nav-timer {
+	position: relative;
+}
+
+.nav-timer-bar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+
+	.progress-bar();
+	z-index: 1;
+}
+
+.nav-timer-label {
+	position: relative;
+	z-index: 2;
+}

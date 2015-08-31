@@ -19,6 +19,15 @@ class EventServiceProvider extends ServiceProvider
             'HempEmpire\Listeners\Search',
             'HempEmpire\Listeners\Beat',
         ],
+
+        'HempEmpire\Events\PlaceEnter' => [
+            'HempEmpire\Listeners\DangerousPlace',
+        ],
+
+        'HempEmpire\Events\DailyReset' => [
+            'HempEmpire\Listeners\DailyPointsReset',
+            'HempEmpire\Listeners\DailyQuests',
+        ],
     ];
 
     /**

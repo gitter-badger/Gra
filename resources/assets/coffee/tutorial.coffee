@@ -15,7 +15,7 @@ $ ->
 				.popover('show')
 
 
-	clicked = () ->
+	clicked = (event) ->
 
 		next = tutorials[this.step.name].shift()
 
@@ -48,6 +48,9 @@ $ ->
 		$(this.step.elements).unbind('click', clicked)
 			.removeClass('tutorial-active')
 			.popover('hide')
+
+		#event.preventDefault()
+		#event.stopPropagation()
 
 
 	receive = (object, name, data) ->
@@ -138,14 +141,18 @@ $ ->
 
 	load = (object, name, data) ->
 
+
 		tutorial = []
+		depth = $(object).parents('[data-tutorial=true]').length + 1
+
 
 		$(object).find('.tutorial-step').each(->
+
 
 			step = null
 			index = $(this).data('tutorial-index')
 
-			return if index < data.stage
+			return if index < data.stage or $(this).parents('[data-tutorial=true]').length != depth
 
 
 

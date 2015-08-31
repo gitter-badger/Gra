@@ -456,4 +456,13 @@ class PlayerController extends Controller
 		return view('player.quests')
 			->with('quests', $player->quests()->where(['active' => true])->paginate(25));
 	}
+
+
+	public function viewProfile($name)
+	{
+		$player = World::getSelected()->players()->whereName($name)->firstOrFail();
+
+		return view('player.profile')
+			->with('target', $player);
+	}
 }

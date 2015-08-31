@@ -21,8 +21,8 @@ class CreateMarketItemsTable extends Migration
             $table->morphs('item');
 
 
-            $table->foreign('player_id')->references('id')->on('players');
-            $table->foreign('market_id')->references('id')->on('markets');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('market_id')->references('id')->on('markets')->onDelete('cascade');
         });
     }
 

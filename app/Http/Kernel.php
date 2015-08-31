@@ -37,5 +37,7 @@ class Kernel extends HttpKernel
         'noplayer' => \HempEmpire\Http\Middleware\WithoutCharacter::class,
         'admin' => \HempEmpire\Http\Middleware\AdminOnly::class,
         'verified' => \HempEmpire\Http\Middleware\Verification::class,
+        'isBanned' => \HempEmpire\Http\Middleware\IsBanned::class,
+        'notBanned' => \HempEmpire\Http\Middleware\NotBanned::class,
     ];
 }

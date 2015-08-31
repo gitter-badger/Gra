@@ -1,7 +1,13 @@
+
 @section('footer')
 
+	@if(isset($player))
 
-	<p class="text-right current-time">{{ date('Y-m-d H:i:s') }}</p>
+		<button type="button" id="helpBtn" class="btn btn-default pull-left">?</button>
+	@endif
+
+
+	<p class="pull-right current-time">{{ date('Y-m-d H:i:s') }}</p>
 @endsection
 
 
@@ -19,7 +25,7 @@
 
 					<div class="progress-group" title="@lang('statistic.health')">
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.health.bar')">
 
 							{!! entity('progress')
 								->addClass('health-bar')
@@ -30,7 +36,7 @@
 							!!}
 						</div>
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.health.timer')">
 
 							{!! entity('timer') 
 								->addClass('health-timer')
@@ -52,7 +58,7 @@
 
 					<div class="progress-group" title="@lang('statistic.energy')">
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.energy.bar')">
 							
 							{!! entity('progress')
 								->addClass('energy-bar')
@@ -63,7 +69,7 @@
 							!!}
 						</div>
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.energy.timer')">
 							
 							{!! entity('timer') 
 								->addClass('energy-timer')
@@ -85,7 +91,7 @@
 
 					<div class="progress-group" title="@lang('statistic.experience')">
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.experience.bar')">
 						
 							{!! entity('progress')
 								->addClass('experience-bar')
@@ -107,7 +113,7 @@
 					<div class="progress-group" title="@lang('statistic.wanted')">
 
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.wanted.bar')">
 							
 							{!! entity('progress')
 								->addClass('wanted-bar')
@@ -119,7 +125,7 @@
 						</div>
 
 
-						<div class="progress-row">
+						<div class="progress-row" data-help="@lang('help.wanted.timer')">
 							
 							{!! entity('timer') 
 								->addClass('wanted-timer')
@@ -202,7 +208,7 @@
 
 
 
-	@if(Config::get('app.cdn'))
+	@if(Config::get('app.cdn') && Config::get('app.bootstrapCdn'))
 
 
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -233,7 +239,10 @@
 @endsection
 
 
+@section('navigation')
 
+	@include('navigation')
+@endsection
 
 
 
@@ -257,16 +266,16 @@
 	</head>
 
 
-	<body data-ng-controller="PlayerController as player">
+	<body data-ng-controller="PlayerController as player" data-tutorial="true" data-tutorial-name="general">
 
+		
 
-		@include('navigation')
-
+		@yield('navigation')
 
 		
 
 
-		<div class="container">
+		<div id="mainContent" class="container">
 
 			<div class="fluid-container">
 

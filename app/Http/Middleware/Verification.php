@@ -39,7 +39,7 @@ class Verification
             Session::flush();
             Message::danger('notVerified');
             
-            return dd(redirect()->guest(route('home')));
+            return redirect()->guest(route('home'));
         }
     }
 }

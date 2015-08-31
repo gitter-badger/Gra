@@ -30,6 +30,10 @@ class CreateUsersTable extends Migration
             $table->string('token')->unique();
             $table->string('fb_id')->nullable()->unique();
 
+            $table->integer('banStart')->unsigned()->nullable();
+            $table->integer('banEnd')->unsigned()->nullable();
+            $table->string('banReason')->nullable();
+
 
             $table->timestamps();
         });

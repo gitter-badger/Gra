@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Http\Controllers;
 use Illuminate\Http\Request;
+use HempEmpire\Player;
 use Socialite;
 use Session;
 use Config;
@@ -125,28 +126,43 @@ class UserController extends Controller
 
 	public function getFacebook()
 	{
-		if(!is_null($this->user->fb_id))
-		{
-			$this->danger('facebookAlreadyConnected');
-			return redirect()->back();
-		}
-		else
-		{
-			return view('user.facebook');
-		}
+		return view('user.facebook');
 	}
 
-	public function postFacebook()
+	public function postFacebook(Request $request)
 	{
-		if(!is_null($this->user->fb_id))
+		$action = $request->input('action');
+
+		if($action == 'connect')
 		{
-			$this->danger('facebookAlreadyConnected');
-			return redirect()->back();
+			if(!is_null($this->user->fb_id))
+			{
+				$this->danger('facebookAlreadyConnected');
+				return redirect()->back();
+			}
+			else
+			{
+				Session::set('facebook.connect', true);
+				return Socialite::driver('facebook')->redirect();
+			}
 		}
-		else
+		elseif($action == 'modify')
 		{
-			Session::set('facebook.connect', true);
-			return Socialite::driver('facebook')->redirect();
+			$player = Player::getActive();
+
+			$player->fbAvatar = $request->has('avatar');
+			$player->save();
+
+			if($player->fbAvatar)
+			{
+				$this->success('enabledFacebookAvatar');
+			}
+			else
+			{
+				$this->success('disabledFacebookAvatar');
+			}
+
+			return redirect()->route('user.facebook');
 		}
 	}
 

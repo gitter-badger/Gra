@@ -33,6 +33,7 @@ var livereload = require('gulp-livereload');
 
 gulp.task('bootstrap', function() {
 
+	livereload.listen();
 	return gulp.src('./resources/assets/less/bootstrap.less')
 		.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
 		.pipe(less())
@@ -51,6 +52,7 @@ gulp.task('bootstrap', function() {
 
 gulp.task('theme', function() {
 
+	livereload.listen();
 	return gulp.src('./resources/assets/less/theme.less')
 		.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
 		.pipe(less())
@@ -69,6 +71,7 @@ gulp.task('theme', function() {
 
 gulp.task('coffee', function() {
 
+	livereload.listen();
 	return gulp.src('./resources/assets/coffee/**/*.coffee')
 		.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
 		.pipe(sourcemaps.init())

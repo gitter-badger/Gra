@@ -24,10 +24,10 @@ class CreatePlayerNpcsTable extends Migration
 
 
 
-            $table->foreign('npc_id')->references('id')->on('npcs');
-            $table->foreign('player_id')->references('id')->on('players');
-            $table->foreign('location_place_id')->references('id')->on('location_places');
-            $table->foreign('quest_id')->references('id')->on('quests');
+            $table->foreign('npc_id')->references('id')->on('npcs')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade');
+            $table->foreign('quest_id')->references('id')->on('quests')->onDelete('cascade');
         });
     }
 

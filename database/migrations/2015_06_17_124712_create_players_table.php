@@ -23,6 +23,7 @@ class CreatePlayersTable extends Migration
 
             $table->string('name');
             $table->string('avatar');
+            $table->boolean('fbAvatar');
 
             $table->integer('level')->unsigned();
             $table->integer('experience')->unsigned();
@@ -82,13 +83,15 @@ class CreatePlayersTable extends Migration
             $table->integer('respect')->unsigned();
 
             $table->string('token')->unique();
+            $table->integer('todayPoints')->unsigned();
+            $table->integer('lastDailyReset')->unsigned();
             $table->timestamps();
 
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('world_id')->references('id')->on('worlds');
-            $table->foreign('location_id')->references('id')->on('locations');
-            $table->foreign('location_place_id')->references('id')->on('location_places');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('world_id')->references('id')->on('worlds')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('set null');
         });
     }
 

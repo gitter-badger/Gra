@@ -20,8 +20,8 @@ class CreateMarketsTable extends Migration
 
 
 
-            $table->foreign('location_place_id')->references('id')->on('location_places');
-            $table->foreign('world_id')->references('id')->on('worlds');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade');
+            $table->foreign('world_id')->references('id')->on('worlds')->onDelete('cascade');
         });
     }
 

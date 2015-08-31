@@ -26,7 +26,7 @@ class CreateWorksTable extends Migration
 
 
 
-            $table->foreign('group_id')->references('id')->on('work_groups');
+            $table->foreign('group_id')->references('id')->on('work_groups')->onDelete('cascade');
         });
     }
 

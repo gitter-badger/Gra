@@ -143,4 +143,10 @@ return [
 		'title' => 'Zostałeś wezwany do broni',
 		'content' => 'Wrogi gang :gang planuje atak na Twój gang o :at',
 	],
+
+	'dangerous-place' => [
+
+		'title' => 'Przykułeś uwagę policji',
+		'content' => 'Wchodząc do :name zostałeś zauważony przez policję'
+	],
 ];

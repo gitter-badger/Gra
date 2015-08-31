@@ -13,13 +13,16 @@
 
 			<h4>@lang('job.' . $player->jobName)</h4>
 
-			{!! entity('timer')
-				->min($player->jobStart)
-				->max($player->jobEnd)
-				->now(time())
-				->reversed(true)
+			<div data-help="@lang('help.job.progress')">
+			
+				{!! entity('timer')
+					->min($player->jobStart)
+					->max($player->jobEnd)
+					->now(time())
+					->reversed(true)
 
-			!!}
+				!!}
+			</div>
 
 
 		</div>

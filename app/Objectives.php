@@ -15,7 +15,8 @@ class Objectives extends ClassContainer
 		'harvestStuff' => \HempEmpire\Objectives\HarvestStuff::class,
 		'dealMoney' => \HempEmpire\Objectives\DealMoney::class,
 		'dealCount' => \HempEmpire\Objectives\DealCount::class,
-		'travel' => \HempEmpire\Objectives\Travel::class,
+		'travelTo' => \HempEmpire\Objectives\TravelTo::class,
+		'travelDistance' => \HempEmpire\Objectives\TravelDistance::class,
 	];
 
 

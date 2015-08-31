@@ -26,31 +26,37 @@
 			<div class="col-xs-12 col-sm-6 col-md-4">
 
 
-				{!! BootForm::open()->post() !!}
+				{!! BootForm::open()->post()->data('help', trans('help.place.' . $place->getName())) !!}
 				{!! BootForm::token() !!}
 				{!! BootForm::hidden('place')->value($place->id) !!}
 
 				<?php $requirements = $place->getRequirements(); ?>
 				<?php $checked = $requirements->check(); ?>
 
-				<button type="submit" class="btn btn-default btn-block{{ $checked  ? '' : ' disabled' }}">
+
+				<?php 
+
+				$tutorialIndex = $place->isDangerous() ? 2 : 0; 
+				$tutorialTitle = $place->isDangerous() ? trans('tutorial.general.dangerous.title') : trans('tutorial.general.place.title');
+				$tutorialContent = $place->isDangerous() ? trans('tutorial.general.dangerous.content') : trans('tutorial.general.place.content');
+
+				?>
+
+				<button type="submit" class="btn btn-{{ $place->isDangerous() ? 'warning' : 'default' }} btn-block{{ $checked  ? '' : ' disabled' }} tutorial-step"
+					data-tutorial-index="{{ $tutorialIndex }}" title="{{ $tutorialTitle }}" data-content="{{ $tutorialContent }}">
 
 					<div>
-						<img class="img-responsive" src="{{ $place->getImage() }}">
+						<img class="img-full" src="{{ $place->getImage() }}">
 		
-						<div class="well">
-							
-							<div class=" text-wrap text-center">
+						<div class=" text-wrap text-center">
 
-								<h4>@lang('place.' . $place->name . '.name')</h4>
-								<p>@lang('place.' . $place->name . '.description')</p>
+							<h4>@lang('place.' . $place->name . '.name')</h4>
+							<p>@lang('place.' . $place->name . '.description')</p>
 
-								@unless($checked)
-								
-									{!! $requirements->render() !!}
-								@endunless
-							</div>
+							@unless($checked)
 							
+								{!! $requirements->render() !!}
+							@endunless
 						</div>
 					</div>
 				</button>

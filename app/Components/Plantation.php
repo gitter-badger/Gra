@@ -183,7 +183,7 @@ class Plantation extends Component
 				$this->player->energy -= $energy;
 				$overwatered = false;
 
-				if($slot->nextWatering > $now && !$this->hasTalent('watering-better'))
+				if($slot->nextWatering > $now && !$this->player->hasTalent('watering-better'))
 				{
 					$overwatered = true;
 					$slot->harvestMax *= 0.85;

@@ -17,7 +17,7 @@ return [
 
 
     'domain' => env('APP_DOMAIN'),
-    'minified' => true,
+    'minified' => false,
     'cdn' => true,
 
     

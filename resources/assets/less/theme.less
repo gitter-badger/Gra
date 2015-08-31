@@ -58,9 +58,14 @@ img.disabled {
 }
 
 .img-full {
-  min-width: 100%;
+  width: 100%;
   height: auto;
 }
+
+.text-wrap {
+	white-space: normal;
+}
+
 
 textarea {
   max-width: 100%;
@@ -111,18 +116,9 @@ body {
 	}
 }
 
-.tutorial-active
-{
+.tutorial-active {
 	animation: colorize 1s infinite;
 }
-
-#battleView {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 100%;
-}
-
 
 
 .plantation-pot {
@@ -195,85 +191,32 @@ body {
 
 
 
+ul.navbar-nav {
 
-.chat {
+	@media(max-width: @screen-xs-max) {
 
-	.output {
-
-		.chat-message:nth-child(odd) {
-
-			background-color: @chat-message-odd-bg;
-
-
-			.chat-content {
-
-				border-color: @chat-bubble-odd-border;
-				background-color: @chat-bubble-odd-bg;
-
-				&:before {
-
-					border-color: transparent @chat-bubble-odd-border;
-				}
-
-				&:after {
-
-					border-color: transparent @chat-bubble-odd-bg;
-				}
-
-				p {
-					
-					background-color: @chat-bubble-odd-bg;
-				}
-
-				p:not(:first-child) {
-
-					border-color: @chat-bubble-odd-border;
-				}
-
-				.chat-time {
-
-					background-color: @chat-bubble-even-bg;
-					border-color: @chat-bubble-odd-border;
-				}
-			}
+		.navbar-form {
+			float: left;
+			margin: 0;
+			padding: 3px 5px;
 		}
 
-		.chat-message:nth-child(even) {
+		.navbar-form.invisible {
 
-			background-color: @chat-message-even-bg;
+			display: none;
+		}
+	}
 
+	> li {
+		display: inline-block;
+		float: left;
 
-			.chat-content {
+		a {
 
-				border-color: @chat-bubble-even-border;
-				background-color: @chat-bubble-even-bg;
-
-				&:before {
-
-					border-color: transparent @chat-bubble-even-border;
-				}
-
-				&:after {
-
-					border-color: transparent @chat-bubble-even-bg;
-				}
-
-				p {
-
-					background-color: @chat-bubble-even-bg;
-				}
-
-				p:not(:first-child) {
-
-					border-color: @chat-bubble-even-border;
-				}
-
-				.chat-time {
-
-					background-color: @chat-bubble-odd-bg;
-					border-color: @chat-bubble-even-border;
-				}
-			}
+			max-width: 150px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 	}
 }

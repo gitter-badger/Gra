@@ -12,6 +12,7 @@
 		word-wrap: normal;
 		resize: vertical;
 		padding: 0;
+		padding-top: round(@padding-base-vertical * 1.5);
 		
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
@@ -33,35 +34,8 @@
 		.chat-content {
 
 			position: relative;
-			border-width: 3px;
-			border-style: solid;
-			border-radius: @border-radius-large;
-			margin: 0.5em 0;
 			min-height: @line-height-computed * 2;
-
-			&:before {
-
-				content: "";
-				position: absolute;
-				top: 10px;
-				left: -30px;
-				border-width: 15px 30px 15px 0;
-				border-style: solid;
-				width: 0;
-				display: block;
-			}
-
-			&:after {
-
-				content: "";
-				position: absolute;
-				display: block;
-				width: 0;
-				border-style: solid;
-				top: 15px;
-				left: -25px;
-				border-width: 10px 25px 10px 0;
-			}
+			.box-shadow(0 1px 4px rgba(0,0,0,.3));
 
 			p {
 				position: relative;
@@ -72,20 +46,18 @@
 
 			p:not(:first-child) {
 
-				border-top-width: 3px;
-				border-top-style: solid;
+				border-top: 1px solid rgba(0,0,0,0.1);
 			}
 
 			.chat-time {
 				position: absolute;
 				display: block;
-				bottom: -@line-height-computed;
-				right: @padding-xs-horizontal;
-				border-width: 3px;
-				border-style: solid;
-				border-radius: @border-radius-base;
+				top: -(@line-height-computed / 2);
+				right: -(@padding-xs-horizontal / 2);
 				padding: @padding-xs-vertical @padding-xs-horizontal;
 				z-index: 1;
+  				.box-shadow(0 1px 4px rgba(0,0,0,.3));
+  				background: @body-bg;
 			}
 
 		}

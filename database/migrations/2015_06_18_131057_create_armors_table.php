@@ -21,7 +21,7 @@ class CreateArmorsTable extends Migration
             $table->integer('count')->unsigned();
 
 
-            $table->foreign('template_id')->references('id')->on('template_armors');
+            $table->foreign('template_id')->references('id')->on('template_armors')->onDelete('cascade');
         });
     }
 

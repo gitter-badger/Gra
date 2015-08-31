@@ -14,7 +14,7 @@ class CreatePlayerGangForeign extends Migration
     {
         Schema::table('players', function (Blueprint $table)
         {
-            $table->foreign('gang_id')->references('id')->on('gangs');
+            $table->foreign('gang_id')->references('id')->on('gangs')->onDelete('set null');
         });
     }
 
@@ -25,5 +25,9 @@ class CreatePlayerGangForeign extends Migration
      */
     public function down()
     {
+        Schema::table('players', function (Blueprint $table)
+        {
+            $table->dropForeign(['gang_id']);
+        });
     }
 }

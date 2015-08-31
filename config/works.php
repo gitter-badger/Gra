@@ -116,12 +116,12 @@ return [
 			'duration' => 5400,
 			'costs' => ['energy:40'],
 			'rewards' => ['money:75', 'experience:60'],
-			'requires' => null
+			'requires' => []
 		],
 	],
 	'tutorial-works' => [
 		'tutorial-distributing-leaflets' => [
-			'duration' => 600,
+			'duration' => 300,
 			'costs' => ['energy:10'],
 			'rewards' => ['money:20,0', 'experience:5,0'],
 			'requires' => []

@@ -14,7 +14,7 @@ class CreatePlayerQuestPlayerNpcForeign extends Migration
     {
         Schema::table('player_quests', function (Blueprint $table)
         {
-            $table->foreign('player_npc_id')->references('id')->on('player_npcs');
+            $table->foreign('player_npc_id')->references('id')->on('player_npcs')->onDelete('cascade');
         });
     }
 
@@ -25,6 +25,9 @@ class CreatePlayerQuestPlayerNpcForeign extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('player_quests', function (Blueprint $table)
+        {
+            $table->dropForeign(['player_npc_id']);
+        });
     }
 }
