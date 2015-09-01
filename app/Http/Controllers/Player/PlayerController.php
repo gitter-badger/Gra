@@ -517,8 +517,6 @@ class PlayerController extends Controller
 				'message' => trans('player.reference.title'),
 			], $token);
 
-			dd($response);
-
 			$this->success('referencePosted');
 			return true;
 		}
