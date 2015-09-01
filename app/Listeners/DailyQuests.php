@@ -61,11 +61,12 @@ class DailyQuests
         $counter = 0;
         foreach($current as $quest)
         {
-            if($quest->active && $quest->done)
+            if($quest->active && $quest->check())
             {
                 $counter++;
             }
             $quest->active = false;
+            $quest->states = null;
             $quest->save();
         }
 

@@ -252,7 +252,54 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 
 				if($player->isBusy)
 				{
-					$response = view('job');
+					if($request->input('action') == 'break')
+					{
+
+						if($player->jobBreakable)
+						{
+							$cost = Config::get('player.breakCost');
+
+
+							if($player->premiumPoints < $cost)
+							{
+								Message::danger('notEnoughPremiumPoints')
+									->with('value', $cost);
+							}
+							else
+							{
+								if(starts_with($player->jobName, 'healing'))
+								{
+									$player->endHealthUpdate = time();
+								}
+
+								$player->jobEnd = time();
+								$player->user->premiumPoints -= $cost;
+
+								$success = DB::transaction(function() use($player)
+								{
+									return $player->user->save() && $player->save();
+								});
+
+								if($success)
+								{
+									Message::success('jobBreaked');
+									$response = redirect()->route('game');
+								}
+								else
+								{
+									Message::danger('saveError');
+								}
+							}
+						}
+						else
+						{
+							Message::danger('jobNotBreakable');
+						}
+					}
+
+					if(is_null($response))
+						$response = view('job');
+
 				}
 				else
 				{

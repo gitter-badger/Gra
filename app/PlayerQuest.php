@@ -19,11 +19,24 @@ class PlayerQuest extends Model
 
         static::updating(function(PlayerQuest $quest)
         {
-            if($quest->active && !$quest->done && $quest->quest->auto && $quest->check())
+            if($quest->active && !$quest->done && $quest->check())
             {
-                $quest->active = false;
                 $quest->done = true;
-                $quest->give();
+
+                if($quest->auto)
+                {
+                    $quest->active = false;
+                    $quest->give();
+                }
+                else
+                {
+                    $quest->active = true;
+                }
+
+                $quest->player->newReport('quest-completed')
+                    ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                    ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
+                    ->send();
             }
         });
     }

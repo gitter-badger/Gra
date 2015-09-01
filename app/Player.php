@@ -1197,6 +1197,7 @@ class Player extends Model
 		$this->jobName = $name;
 		$this->jobStart = $start;
 		$this->jobEnd = $end;
+		$this->jobBreakable = $breakable;
 
 
 		if($energyUpdate)
@@ -1228,7 +1229,7 @@ class Player extends Model
 
 	public function startDealing($duration, $save = true)
 	{
-		$this->startJob('dealing', $duration);
+		$this->startJob('dealing', $duration, null, false, true);
 
 		if($save)
 		{
@@ -1296,7 +1297,7 @@ class Player extends Model
 
 
 
-		$this->startJob('arrest', $duration, null, true);
+		$this->startJob('arrest', $duration, null, true, true);
 		$this->moveToArrest(false);
 		$this->wanted = 0;
 
@@ -1337,7 +1338,7 @@ class Player extends Model
 
 		$now = time();
 
-		$this->startJob('healing-' . $type, $duration);
+		$this->startJob('healing-' . $type, $duration, null, true, true);
 		$this->healthUpdate = $now;
 		$this->endHealthUpdate = $now + $duration;
 		$this->moveToHospital(false);

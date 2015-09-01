@@ -62,6 +62,7 @@ class CreatePlayersTable extends Migration
             $table->string('jobName')->nullable();
             $table->integer('jobStart')->nullable()->unsigned();
             $table->integer('jobEnd')->nullable()->unsigned();
+            $table->boolean('jobBreakable')->nullable();
 
 
             $table->integer('strength')->unsigned();
