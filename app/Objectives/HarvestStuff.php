@@ -24,7 +24,7 @@ class HarvestStuff extends Objective
 
 	public function render()
 	{
-		return $this->renderProgress(trans('objective.harvestPlant'), $this->state, $this->count);
+		return $this->renderProgress(trans('objective.harvestStuff', ['value' => $this->count]), $this->state, $this->count);
 	}
 
 	public function check()

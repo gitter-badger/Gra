@@ -24,7 +24,7 @@ class Watering extends Objective
 
 	public function render()
 	{
-		return $this->renderProgress(trans('objective.watering'), $this->state, $this->count);
+		return $this->renderProgress(trans('objective.watering', ['value' => $this->count]), $this->state, $this->count);
 	}
 
 	public function check()

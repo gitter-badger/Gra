@@ -9,4 +9,5 @@ return [
 	'ranking' => 'Ranking',
 	'logout' => 'Wyloguj',
 	'user' => 'Ustawienia',
+	'chat' => 'Chat',
 ];

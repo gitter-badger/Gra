@@ -22,7 +22,7 @@ class DealMoney extends Objective
 
 	public function render()
 	{
-		return $this->renderProgress(trans('objective.dealMoney'), $this->state, $this->count);
+		return $this->renderProgress(trans('objective.dealMoney', ['value' => $this->count]), $this->state, $this->count);
 	}
 
 	public function check()

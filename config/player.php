@@ -109,6 +109,19 @@ return [
 		'dailyPoints' => 5,
 		'chance' => 10,
 	],
+
+	'daily' => [
+
+		'quests' => 3,
+		'reset' => 7,
+
+		'rewards' => [
+
+			1 => ['money:100'],
+			7 => ['money:100', 'experience:100'],
+		],
+		
+	],
 ];
 
 ?>

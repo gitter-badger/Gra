@@ -23,7 +23,7 @@ return [
 		'name' => 'tutorial-plantation',
 		'image' => 'plantation.jpg',
 		'visible' => false,
-		'dangerous' => false,
+		'dangerous' => true,
 		'components' => ['plantation'],
 		'properties' => ['plantation' => ['light' => 1, 'ground' => 1, 'slots' => 1]],
 		'requires' => ['quest:first-seed']
@@ -32,7 +32,7 @@ return [
 		'name' => 'tutorial-street',
 		'image' => 'street.jpg',
 		'visible' => false,
-		'dangerous' => false,
+		'dangerous' => true,
 		'components' => ['dealing'],
 		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 1, 'energy' => 10, 'minPrice' => 5, 'maxPrice' => 20, 'minInterval' => 2000, 'maxInterval' => 2000, 'minStuff' => 15, 'maxStuff' => 15, 'beatChance' => 0, 'burnChance' => 100]],
 		'requires' => ['quest:first-plant']
@@ -43,7 +43,7 @@ return [
 		'visible' => false,
 		'dangerous' => false,
 		'components' => ['travel'],
-		'properties' => ['travel' => ['cost' => 0.1, 'speed' => 20, 'available' => 'capital']],
+		'properties' => ['travel' => ['cost' => 0.1, 'speed' => 35, 'available' => 'capital']],
 		'requires' => ['quest:first-deal']
 	],
 	[

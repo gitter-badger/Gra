@@ -27,6 +27,17 @@
 	{!! BootForm::staticInput('<strong>Tekst po zakończeniu</strong>')
 		->value($quest->getCompleted()) !!}
 
+	{!! BootForm::staticInput('<strong>Przynaj nagrodę odrazu po zakończeniu</strong>')
+		->value($quest->auto ? 'Tak' : 'Nie') !!}
+
+	{!! BootForm::staticInput('<strong>Daily</strong>')
+		->value($quest->daily ? 'Tak' : 'Nie') !!}
+
+	{!! BootForm::staticInput('<strong>Powtarzalny</strong>')
+		->value($quest->repeatable ? 'Tak' : 'Nie') !!}
+
+	{!! BootForm::staticInput('<strong>Przerywalny</strong>')
+		->value($quest->breakable ? 'Tak' : 'Nie') !!}
 
 	{!! BootForm::staticInput('<strong>Nagrody</strong>')
 		->value($quest->getRewards()->rawRender()) !!}

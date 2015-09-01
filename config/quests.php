@@ -5,6 +5,7 @@ return [
 		'breakable' => false,
 		'repeatable' => false,
 		'auto' => true,
+		'daily' => false,
 		'rewards' => ['start:first-seed'],
 		'objectives' => ['work:1'],
 		'requires' => []
@@ -13,6 +14,7 @@ return [
 		'breakable' => false,
 		'repeatable' => false,
 		'auto' => true,
+		'daily' => false,
 		'rewards' => ['start:first-plant'],
 		'objectives' => ['buy:1,seed'],
 		'requires' => []
@@ -21,6 +23,7 @@ return [
 		'breakable' => false,
 		'repeatable' => false,
 		'auto' => true,
+		'daily' => false,
 		'rewards' => ['start:first-deal'],
 		'objectives' => ['harvestPlant:1'],
 		'requires' => []
@@ -29,6 +32,7 @@ return [
 		'breakable' => false,
 		'repeatable' => false,
 		'auto' => true,
+		'daily' => false,
 		'rewards' => ['start:first-travel'],
 		'objectives' => ['dealCount:1'],
 		'requires' => []
@@ -37,6 +41,7 @@ return [
 		'breakable' => false,
 		'repeatable' => false,
 		'auto' => true,
+		'daily' => false,
 		'rewards' => ['money:500,0'],
 		'objectives' => ['travelTo:capital'],
 		'requires' => []
@@ -45,6 +50,7 @@ return [
 		'breakable' => true,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => false,
 		'rewards' => ['experience:250'],
 		'objectives' => ['work:10'],
 		'requires' => []
@@ -53,6 +59,7 @@ return [
 		'breakable' => true,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => false,
 		'rewards' => ['experience:500'],
 		'objectives' => ['harvestStuff:1000'],
 		'requires' => ['plantator:10']
@@ -61,6 +68,7 @@ return [
 		'breakable' => true,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => false,
 		'rewards' => ['experience:500'],
 		'objectives' => ['dealCount:1000'],
 		'requires' => ['dealer:10']
@@ -68,36 +76,40 @@ return [
 
 
 	'daily-work' => [
-		'breakable' => true,
+		'breakable' => false,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => true,
 		'rewards' => ['experience:250'],
 		'objectives' => ['work:3'],
 		'requires' => []
 	],
 
 	'daily-harvest' => [
-		'breakable' => true,
+		'breakable' => false,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => true,
 		'rewards' => ['experience:500'],
 		'objectives' => ['harvestPlant:3'],
 		'requires' => []
 	],
 
 	'daily-deal' => [
-		'breakable' => true,
+		'breakable' => false,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => true,
 		'rewards' => ['experience:500'],
 		'objectives' => ['dealCount:10'],
 		'requires' => []
 	],
 
-	'dailyTravel' => [
-		'breakable' => true,
+	'daily-travel' => [
+		'breakable' => false,
 		'repeatable' => true,
 		'auto' => false,
+		'daily' => true,
 		'rewards' => ['experience:500'],
 		'objectives' => ['travelDistance:100'],
 		'requires' => []

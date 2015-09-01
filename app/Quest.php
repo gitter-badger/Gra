@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quest extends Model
 {
-    protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable'];
+    protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable', 'daily'];
     public $timestamps = false;
     private $_requires;
     private $_rewards;

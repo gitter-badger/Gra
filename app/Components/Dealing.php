@@ -9,12 +9,27 @@ use Config;
 
 class Dealing extends Component
 {
+	protected function getEnergy()
+	{
+		$energy = $this->getProperty('energy');
+
+		if($this->player->hasTalent('dealing-energy'))
+		{
+			return round($energy / 2);
+		}
+		else
+		{
+			return $energy;
+		}
+	}
+
+
 	public function view()
 	{
 
 		return view('component.dealing')
 			->with('count', $this->player->getStuffsCount())
-			->with('energy', $this->getProperty('energy'))
+			->with('energy', $this->getEnergy())
 			->with('minDuration', $this->getProperty('durationMin'))
 			->with('maxDuration', $this->getProperty('durationMax'))
 			->with('minPrice', $this->getProperty('minPrice'))
@@ -27,7 +42,7 @@ class Dealing extends Component
 	{
 		$duration = Request::input('duration');
 		$price = round(Request::input('price'));
-		$energy = $duration * $this->getProperty('energy');
+		$energy = $duration * $this->getEnergy();
 		$minPrice = $this->getProperty('minPrice');
 		$maxPrice = $this->getProperty('maxPrice');
 

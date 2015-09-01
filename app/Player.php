@@ -26,7 +26,7 @@ class Player extends Model
 		'health', 'maxHealth', 'healthUpdate', 'endHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'reload', 'wanted',
 		'wantedUpdate', 'jobName', 'jobStart', 'jobEnd', 'strength', 'perception', 'endurance', 'charisma',
 		'intelligence', 'agility', 'luck', 'luckUpdate', 'nextUpdate', 'statisticPoints', 'talentPoints', 'money', 'respect',
-		'weight', 'capacity', 'fbAvatar', 'todayPoints', 'lastDailyReset'];
+		'weight', 'capacity', 'fbAvatar', 'todayPoints', 'lastDailyReset', 'dailyCombo'];
 
 
 
@@ -36,11 +36,12 @@ class Player extends Model
 		'nextHealthUpdate', 'energy', 'maxEnergy', 'energyUpdate', 'nextEnergyUpdate', 'wanted', 'wantedUpdate',
 		'nextWantedUpdate', 'nextLuckUpdate', 'strength', 'perception', 'endurance', 'charisma', 'intelligence', 'agility', 'luck',
 		'luckUpdate', 'statisticPoints', 'talentPoints', 'premiumPoints', 'money', 'nextUpdate', 'reportsCount', 'messagesCount', 'reload',
-		'experienceModifier', 'moneyModifier', 'respect', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed'];
+		'experienceModifier', 'moneyModifier', 'respect', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed',
+		'jobStart', 'jobEnd', 'isBusy'];
 
 
 	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
-		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed', 'premiumPoints'];
+		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed', 'premiumPoints', 'isBusy'];
 
 	public $timestamps = true;
 	private static $active;
@@ -1038,7 +1039,7 @@ class Player extends Model
 		}
 
 		
-		if(!$quest->active)
+		if(!$quest->active && ($quest->repeatable || !$quest->done))
 		{
 			$this->newReport('quest-started')
 				->param('name', new \TransText('quest.' . $name . '.name'))
@@ -1053,8 +1054,9 @@ class Player extends Model
 		}
 
 		$quest->init();
+		$quest->finit();
 
-		return $quest->finit();
+		return $quest->save();
 	}
 
 

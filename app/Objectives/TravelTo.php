@@ -26,7 +26,7 @@ class TravelTo extends Objective
 	{
 		if(is_null($this->name))
 		{
-			return $this->renderProgress(trans('objective.travel'), $this->state, $this->count);
+			return $this->renderProgress(trans('objective.travelAway'), $this->state, $this->count);
 		}
 		else
 		{

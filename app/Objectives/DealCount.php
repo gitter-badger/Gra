@@ -22,7 +22,7 @@ class DealCount extends Objective
 
 	public function render()
 	{
-		return $this->renderProgress(trans('objective.dealCount'), $this->state, $this->count);
+		return $this->renderProgress(trans('objective.dealCount', ['value' => $this->count]), $this->state, $this->count);
 	}
 
 	public function check()

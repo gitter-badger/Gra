@@ -26,11 +26,11 @@ class Buy extends Objective
 	{
 		if(is_null($this->type))
 		{
-			return $this->renderProgress(trans('objective.buy'), $this->state, $this->count);
+			return $this->renderProgress(trans('objective.buy', ['value' => $this->count]), $this->state, $this->count);
 		}
 		else
 		{
-			return $this->renderProgress(trans('objective.buyType', ['type' => trans('item.type.' . $this->type)]), $this->state, $this->count);
+			return $this->renderProgress(trans('objective.buyType', ['value' => $this->count, 'type' => trans('item.type.' . $this->type)]), $this->state, $this->count);
 		}
 	}
 

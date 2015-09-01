@@ -132,6 +132,15 @@ class QuestController extends Controller
             $quest->auto = false;
         }
 
+        if($request->has('daily'))
+        {
+            $quest->daily = true;
+        }
+        else
+        {
+            $quest->daily = false;
+        }
+
         if($request->has('rewards'))
         {
             $quest->rewards = json_encode(explode_trim(PHP_EOL, $request->input('rewards')));
@@ -156,9 +165,10 @@ class QuestController extends Controller
         {
             $output .= "\t'" . $quest->name . '\' => [' . PHP_EOL;
 
-            $output .= "\t\t'breakable' => " . Formatter::stringify(true) . ',' . PHP_EOL;
-            $output .= "\t\t'repeatable' => " . Formatter::stringify(true) . ',' . PHP_EOL;
-            $output .= "\t\t'auto' => " . Formatter::stringify(true) . ',' . PHP_EOL;
+            $output .= "\t\t'breakable' => " . Formatter::stringify($quest->breakable) . ',' . PHP_EOL;
+            $output .= "\t\t'repeatable' => " . Formatter::stringify($quest->repeatable) . ',' . PHP_EOL;
+            $output .= "\t\t'auto' => " . Formatter::stringify($quest->auto) . ',' . PHP_EOL;
+            $output .= "\t\t'daily' => " . Formatter::stringify($quest->daily) . ',' . PHP_EOL;
 
             $output .= "\t\t'rewards' => " . Formatter::stringify($quest->rewards, true, false) . ',' . PHP_EOL;
             $output .= "\t\t'objectives' => " . Formatter::stringify($quest->objectives, true, false) . ',' . PHP_EOL;

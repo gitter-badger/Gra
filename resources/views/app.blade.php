@@ -268,7 +268,6 @@
 
 	<body data-ng-controller="PlayerController as player" data-tutorial="true" data-tutorial-name="general">
 
-		
 
 		@yield('navigation')
 

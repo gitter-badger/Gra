@@ -25,5 +25,24 @@
 @app.controller('PlayerController', ['$scope', ($scope) ->
 
 
+
+
+
+	old = document.title
+	update = () =>
+
+		if @isBusy
+
+			now = Math.round((new Date()).getTime() / 1000)
+			left = Math.max(@jobEnd - now, 0)
+
+			document.title = window.timeFormat(left) + ' - ' + old
+
+		setTimeout(update, 1000)
+
+
+
+	update()
+
 ])
 

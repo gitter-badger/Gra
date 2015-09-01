@@ -30,7 +30,46 @@
 	{!! BootForm::text('<strong>Nazwa</strong>', 'name')
 		->value(isset($quest) ? $quest->getName() : null) !!}
 
+	
+	<?php 
 
+	$checkbox = BootForm::checkbox('<strong>Przynaj nagrodę odrazu po zakończeniu</strong>', 'auto');
+
+	if(empty($quest) || $quest->auto)
+		$checkbox->check();
+
+	echo $checkbox;
+	?>
+
+	<?php 
+
+	$checkbox = BootForm::checkbox('<strong>Przerywalny</strong>', 'breakable');
+
+	if(empty($quest) || $quest->breakable)
+		$checkbox->check();
+
+	echo $checkbox;
+	?>
+	
+	<?php 
+
+	$checkbox = BootForm::checkbox('<strong>Powtarzalny</strong>', 'repeatable');
+
+	if(empty($quest) || $quest->repeatable)
+		$checkbox->check();
+
+	echo $checkbox;
+	?>
+	
+	<?php 
+
+	$checkbox = BootForm::checkbox('<strong>Daily</strong>', 'daily');
+
+	if(empty($quest) || $quest->daily)
+		$checkbox->check();
+
+	echo $checkbox;
+	?>
 
 
 	{!! BootForm::staticInput('<strong>Nagrody - przykład</strong>')

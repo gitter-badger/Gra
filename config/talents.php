@@ -156,6 +156,15 @@ return [
 				'dealer:10',
 			],
 		],
+
+		'dealer-energy' => [
+
+			'image' => '',
+			'requires' => [
+
+				'dealer:10',
+			],
+		],
 	],
 
 

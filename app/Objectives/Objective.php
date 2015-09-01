@@ -17,7 +17,7 @@ abstract class Objective implements ObjectiveContract
 	{
 		$progress = entity('progress')
 			->min(0)
-			->now($state)
+			->now(min($state, $max))
 			->max($max);
 
 		return BootForm::staticInput('<strong>' . $label . '</strong>')->value($progress);

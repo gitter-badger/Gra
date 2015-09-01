@@ -84,6 +84,7 @@ class CreatePlayersTable extends Migration
 
             $table->string('token')->unique();
             $table->integer('todayPoints')->unsigned();
+            $table->integer('dailyCombo')->unsigned();
             $table->integer('lastDailyReset')->unsigned();
             $table->timestamps();
 
