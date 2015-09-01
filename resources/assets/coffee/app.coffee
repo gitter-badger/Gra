@@ -36,7 +36,12 @@
 			now = Math.round((new Date()).getTime() / 1000)
 			left = Math.max(@jobEnd - now, 0)
 
-			document.title = window.timeFormat(left) + ' - ' + old
+			if left > 0
+
+				document.title = window.timeFormat(left) + ' - ' + old
+			else
+
+				document.title = old
 
 		setTimeout(update, 1000)
 

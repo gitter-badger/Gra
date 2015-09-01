@@ -8,6 +8,7 @@ return [
 	'costs' => 'Koszta',
 	'requirements' => 'Wymagania',
 	'empty' => 'Brak prac do wykonania',
+	'reset' => 'Nowe oferty (:costpp)',
 
 
 	'tutorial-distributing-leaflets' => [
