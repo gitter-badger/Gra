@@ -9,6 +9,7 @@ return [
 	'capacityBonus' => 'Bonus do pojemności',
 	'upgradeCost' => 'Koszt ulepszenia',
 	'price' => 'Cena',
+	'works' => 'Prace potrzebne do odlokowania inwestycji',
 
 
 

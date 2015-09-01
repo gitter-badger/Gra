@@ -4,8 +4,9 @@ use HempEmpire\Http\Controllers\Controller;
 use HempEmpire\Player;
 use HempEmpire\World;
 use HempEmpire\Location;
-
+use Facebook\Facebook;
 use Illuminate\Http\Request;
+use Session;
 use Config;
 use Auth;
 use DB;
@@ -445,6 +446,92 @@ class PlayerController extends Controller
 		return view('player.refered')
 			->with('player', null)
 			->with('p', $player);
+	}
+
+	public function postReference()
+	{
+		session_start();
+		$player = Player::getActive();
+
+		if(is_null($player->user->fb_id))
+		{
+			$this->danger('facebookNotConnected');
+		}
+		else
+		{
+			$fb = new Facebook([
+
+				'app_id' => Config::get('services.facebook.client_id'),
+				'app_secret' => Config::get('services.facebook.client_secret'),
+			]);
+
+			$helper = $fb->getRedirectLoginHelper();
+
+			return redirect()->to($helper->getLoginUrl(route('player.publish'), ['email', 'publish_actions']));
+		}
+
+		return redirect()->back();
+	}
+
+	public function getPublish()
+	{
+		session_start();
+		$player = Player::getActive();
+
+		if(is_null($player->user->fb_id))
+		{
+			$this->danger('facebookNotConnected');
+		}
+		else
+		{
+			$fb = new Facebook([
+
+				'app_id' => Config::get('services.facebook.client_id'),
+				'app_secret' => Config::get('services.facebook.client_secret'),
+			]);
+
+			$helper = $fb->getRedirectLoginHelper();
+			$token = $helper->getAccessToken();
+
+			if(is_null($token))
+			{
+				$this->danger('wrongToken');
+			}
+			else
+			{
+				$this->publish($fb, $player, $token);
+			}
+
+		}
+
+		return redirect()->route('player.reference');
+	}
+
+	protected function publish(Facebook $fb, Player $player, $token)
+	{
+		try
+		{
+			$response = $fb->post('/' . $player->fb_id . '/feed', [
+
+				'link' => route('player.doReference', ['token' => $player->token]),
+				'message' => trans('player.reference.title'),
+			], $token);
+
+			dd($response);
+
+			$this->success('referencePosted');
+			return true;
+		}
+		catch(\Facebook\Exceptions\FacebookResponseException $e)
+		{
+			$this->danger($e->getMessage());
+			return false;
+		}
+		catch(\Facebook\Exceptions\FacebookSDKException $e)
+		{
+			$this->danger($e->getMessage());
+			return false;
+		}
 	}
 
 

@@ -200,6 +200,7 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 			'postInvitations' => 'player.accept',
 			'getReference' => 'player.reference',
 			'getQuests' => 'player.quests',
+			'getPublish' => 'player.publish',
 		]);
 
 		Route::controller('/chat', 'ChatController', [

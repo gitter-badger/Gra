@@ -23,7 +23,7 @@ class FacebookController extends Controller
 		}
 		else
 		{
-			return Socialite::driver('facebook')->scopes(['email'])->redirect();
+			return Socialite::driver('facebook')->scopes(['email', 'publish_actions'])->redirect();
 		}
 	}
 
@@ -74,6 +74,7 @@ class FacebookController extends Controller
 			else
 			{
 				Auth::login($user);
+				Session::set('facebook.token', $fbUser->token);
 
 
 				if(World::hasSelected())

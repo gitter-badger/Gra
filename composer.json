@@ -19,7 +19,8 @@
         "patchwork/jsqueeze": "^2.0@dev",
         "iron-io/iron_mq": "~2.0",
         "greggilbert/recaptcha": "dev-master",
-        "graham-campbell/htmlmin": "~4.0"
+        "graham-campbell/htmlmin": "~4.0",
+        "facebook/php-sdk-v4": "~5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
