@@ -53,18 +53,22 @@ class Npc extends Component
 				$quests = $quests->values();
 
 
-
-				$pquest = $this->player->quests()->firstOrCreate([
-
-					'player_npc_id' => $this->npc->id,
-					'quest_id' => $quest->id,
-
-				]);
-
-				if(!is_null($pquest) && !$pquest->active && ($pquest->repeatable || !$pquest->done))
+				if($quest->getRequirements()->check($this->player))
 				{
-					return $quest;
+					
+					$pquest = $this->player->quests()->firstOrCreate([
+
+						'player_npc_id' => $this->npc->id,
+						'quest_id' => $quest->id,
+
+					]);
+
+					if(!is_null($pquest) && !$pquest->active && ($pquest->repeatable || !$pquest->done))
+					{
+						return $quest;
+					}
 				}
+
 			}
 			else
 			{

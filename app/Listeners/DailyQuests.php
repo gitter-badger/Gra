@@ -106,9 +106,11 @@ class DailyQuests
             $quests->pull($index);
             $quests = $quests->values();
 
-            $event->player->startQuest($quest->name);
-
-            $counter++;
+            if($quest->getRequirements()->check($event->player))
+            {
+                $event->player->startQuest($quest->name);
+                $counter++;
+            }
 
             if($counter >= $dailyQuests)
                 break;
