@@ -110,7 +110,7 @@ class TemplateSeed extends Model implements SeedContract
 		return false;
 	}
 
-	public function onBuy(Player $player)
+	public function onEquip(Player $player)
 	{
 		return false;
 	}
