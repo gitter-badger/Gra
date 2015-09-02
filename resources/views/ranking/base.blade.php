@@ -10,7 +10,6 @@
 	<li {!! isCurrentUrl(url('/ranking/smuggler')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/smuggler') }}">@lang('ranking.smuggler')</a></li>
 	<li {!! isCurrentUrl(url('/ranking/dealer')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/dealer') }}">@lang('ranking.dealer')</a></li>
 	<li {!! isCurrentUrl(url('/ranking/respect')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/respect') }}">@lang('ranking.respect')</a></li>
-	<li {!! isCurrentUrl(url('/ranking/gang-level')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/gang-level') }}">@lang('ranking.gangLevel')</a></li>
 	<li {!! isCurrentUrl(url('/ranking/gang-respect')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/gang-respect') }}">@lang('ranking.gangRespect')</a></li>
 	<li {!! isCurrentUrl(url('/ranking/gang-money')) ? ' class="active"' : '' !!}><a href="{{ url('/ranking/gang-money') }}">@lang('ranking.gangMoney')</a></li>
 </ul>

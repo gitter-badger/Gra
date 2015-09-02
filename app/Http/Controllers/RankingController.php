@@ -116,15 +116,7 @@ class RankingController extends Controller
 		return view('ranking.respect')
 			->with('players', $this->paginate());
 	}
-
-	public function getGangLevel()
-	{
-		$this->selectGang('level');
-
-		return view('ranking.gang-level')
-			->with('gangs', $this->paginate());
-	}
-
+	
 	public function getGangRespect()
 	{
 		$this->selectGang('respect');
