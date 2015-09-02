@@ -97,10 +97,20 @@ class Vehicle extends Model implements VehicleContract
 
 	public function isUsable()
 	{
+		return false;
+	}
+
+	public function isEquipable()
+	{
 		return true;
 	}
 
 	public function onUse(Player $player)
+	{
+		return false;
+	}
+
+	public function onEquip(Player $player)
 	{
 		return DB::transaction(function() use($player)
 		{
@@ -118,11 +128,6 @@ class Vehicle extends Model implements VehicleContract
 
 			return $player->equipment->giveItem($this, 1);
 		});
-	}
-
-	public function onBuy(Player $player)
-	{
-		
 	}
 
     //HempEmpire\Contracts\Vehicle

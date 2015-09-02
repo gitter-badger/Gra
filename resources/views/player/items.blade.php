@@ -80,28 +80,90 @@
 
 		<div class="col-xs-6 col-sm-4 col-md-2">
 
-			@if($item->isUsable())
+			<div class="item panel panel-default">
+				<div class="item-popover">
 
-			{!! BootForm::open()->post() !!}
-			{!! BootForm::token() !!}
-			{!! BootForm::hidden('item')->value($item->getId()) !!}
-			{!! BootForm::hidden('type')->value($item->getType()) !!}
+					<?php $hr = false; ?>
 
-			<button type="submit">
-			@endif
+					@if($item->isUsable())
 
-			<div class="panel panel-default">
+						<?php $hr = true; ?>
+
+						{!! BootForm::open()->post() !!}
+						{!! BootForm::token() !!}
+
+						{!! BootForm::hidden('action')->value('use') !!}
+						{!! BootForm::hidden('item')->value($item->getId()) !!}
+						{!! BootForm::hidden('type')->value($item->getType()) !!}
+
+						{!! BootForm::submit(trans('action.use'), 'btn-success')->addClass('btn-block') !!}
+
+						{!! BootForm::close() !!}
+					@else
+
+						<?php $hr = false; ?>
+					@endif
+
+					@if($hr)
+
+						<hr/>
+					@endif
+
+					@if($item->isEquipable())
+
+						<?php $hr = true; ?>
+
+						{!! BootForm::open()->post() !!}
+						{!! BootForm::token() !!}
+
+						{!! BootForm::hidden('action')->value('equip') !!}
+						{!! BootForm::hidden('item')->value($item->getId()) !!}
+						{!! BootForm::hidden('type')->value($item->getType()) !!}
+
+						{!! BootForm::submit(trans('action.equip'), 'btn-success')->addClass('btn-block') !!}
+
+						{!! BootForm::close() !!}
+					@else
+
+						<?php $hr = false; ?>
+					@endif
+
+					@if($hr)
+					
+						<hr/>
+					@endif
+
+
+					{!! BootForm::open()->post() !!}
+					{!! BootForm::token() !!}
+
+					{!! BootForm::hidden('action')->value('drop') !!}
+					{!! BootForm::hidden('item')->value($item->getId()) !!}
+					{!! BootForm::hidden('type')->value($item->getType()) !!}
+
+					@if($item->getCount() > 1)
+
+
+						<input type="number" class="form-control" name="count"
+							value="1" min="1" max="{{ $item->getCount() }}">
+					@else
+
+						{!! BootForm::hidden('count')->value(1) !!}
+					@endif
+
+					{!! BootForm::submit(trans('action.drop'), 'btn-danger')->addClass('btn-block') !!}
+
+					{!! BootForm::close() !!}
+
+
+
+				</div>
+
 				<div class="panel-body" data-toggle="tooltip" title="@include('details.item', ['image' => false])">
 
 					<img class="img-responsive center-block" src="{{ $item->getImage() }}"/>
 				</div>
 			</div>
-
-			@if($item->isusable())
-			</button>
-			{!! BootForm::close() !!}
-
-			@endif
 		</div>
 
 
@@ -109,5 +171,32 @@
 	</div>
 
 </div>
+
+@endsection
+
+
+@section('scripts')
+@parent
+
+<script type="text/javascript">
+	
+$(function() {
+
+	$('.item').each(function() {
+
+		$(this).popover({
+
+			html: true,
+			placement: 'right auto',
+			title: '@lang('item.actions.title')',
+			content: $(this).find('.item-popover').html(),
+		});
+	});
+});
+
+
+
+</script>
+
 
 @endsection

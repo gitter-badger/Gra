@@ -97,14 +97,19 @@ class Stuff extends Model implements StuffContract
 		return false;
 	}
 
-	public function onUse(Player $player)
+	public function isEquipable()
 	{
-		
+		return false;
 	}
 
-	public function onBuy(Player $player)
+	public function onUse(Player $player)
 	{
-		
+		return false;
+	}
+
+	public function onEquip(Player $player)
+	{
+		return false;
 	}
 
     //HempEmpire\Contracts\Stuff

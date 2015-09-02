@@ -179,8 +179,47 @@ class PlayerController extends Controller
 		$player = Player::getActive();
 		$id = $request->input('item');
 		$type = $request->input('type');
+		$action = $request->input('action');
 
 		$item = $player->findItemById($type, $id);
+
+		if(is_null($item))
+		{
+			$this->danger('wrongItem');
+		}
+		elseif($player->isBusy)
+		{
+			$this->danger('youAreBusy');
+		}
+		elseif($item->getCount() < 1)
+		{
+			$this->danger('wrongItem');
+		}
+		else
+		{
+			switch($action)
+			{
+				case 'use':
+					$this->useItem($player, $item);
+					break;
+
+				case 'equip':
+					$this->equipItem($player, $item);
+					break;
+
+				case 'drop':
+					$this->dropItem($player, $item, $request->input('count', 1));
+					break;
+
+				default:
+					$this->danger('wrongAction');
+					break;
+			}
+		}
+
+		return redirect()->route('player.items');
+
+
 
 		if(!$item->isUsable())
 		{
@@ -213,6 +252,85 @@ class PlayerController extends Controller
 		}
 
 		return redirect(route('player.items'));
+	}
+
+	protected function useItem($player, $item)
+	{
+		if(!$item->isUsable())
+		{
+			$this->danger('itemIsNotUsable')
+				->with('name', $item->getTitle());
+		}
+		else
+		{
+			$success = DB::transaction(function() use($player, $item)
+			{
+				if(!$item->onUse($player))
+					return false;
+
+				return $player->takeItem($item, 1);
+			});
+
+			if($success)
+			{
+				$this->success('itemUsed')
+					->with('name', $item->getTitle());
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	protected function equipItem($player, $item)
+	{
+		if(!$item->isEquipable())
+		{
+			$this->danger('itemIsNotEquipable')
+				->with('name', $item->getTitle());
+		}
+		else
+		{
+			$success = DB::transaction(function() use($player, $item)
+			{
+				if(!$item->onEquip($player))
+					return false;
+
+				return $player->takeItem($item, 1);
+			});
+
+			if($success)
+			{
+				$this->success('itemEquiped')
+					->with('name', $item->getTitle());
+			}
+			else
+			{
+				$this->danger('saveError');
+			}
+		}
+	}
+
+	protected function dropItem($player, $item, $count)
+	{
+		$count = min($count, $item->getCount());
+
+		$success = DB::transaction(function() use($player, $item, $count)
+		{
+			return $player->takeItem($item, $count);
+		});
+
+		if($success)
+		{
+			$this->success('itemDropped')
+				->with('name', $item->getTitle())
+				->with('count', $count);
+		}
+		else
+		{
+			$this->danger('saveError');
+		}
 	}
 
 

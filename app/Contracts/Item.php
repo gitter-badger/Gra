@@ -20,6 +20,8 @@ interface Item
 	public function useRawValues($raw);
 
 	public function isUsable();
+	public function isEquipable();
+
 	public function onUse(PlayerModel $player);
-	public function onBuy(PlayerModel $player);
+	public function onEquip(PlayerModel $player);
 }

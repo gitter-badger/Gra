@@ -99,29 +99,19 @@ class TemplateFood extends Model implements FoodContract
 		return true;
 	}
 
-	public function onUse(Player $player)
+	public function isEquipable()
 	{
-		$health = $this->getHealth();
-
-		if(isset($health))
-			$player->health += $health;
-
-
-		$energy = $this->getHealth();
-
-		if(isset($energy))
-			$player->energy += $energy;
-
-
-		if(isset($health) || isset($energy))
-			return $player->save();
-
 		return false;
 	}
 
-	public function onBuy(Player $player)
+	public function onUse(Player $player)
 	{
-		
+		return false;
+	}
+
+	public function onEquip(Player $player)
+	{
+		return false;
 	}
 
 

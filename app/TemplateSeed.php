@@ -100,14 +100,19 @@ class TemplateSeed extends Model implements SeedContract
 		return false;
 	}
 
+	public function isEquipable()
+	{
+		return false;
+	}
+
 	public function onUse(Player $player)
 	{
-		
+		return false;
 	}
 
 	public function onBuy(Player $player)
 	{
-		$player->completeQuest('first-seed');
+		return false;
 	}
 
     //HempEmpire\Contracts\Seed

@@ -97,14 +97,19 @@ class Seed extends Model implements SeedContract
 		return false;
 	}
 
-	public function onUse(Player $player)
+	public function isEquipable()
 	{
-		
+		return false;
 	}
 
-	public function onBuy(Player $player)
+	public function onUse(Player $player)
 	{
-		$this->template->onBuy($player);
+		return false;
+	}
+
+	public function onEquip(Player $player)
+	{
+		return false;
 	}
 
     //HempEmpire\Contracts\Seed

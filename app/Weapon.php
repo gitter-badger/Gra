@@ -94,10 +94,20 @@ class Weapon extends Model implements WeaponContract
 
 	public function isUsable()
 	{
+		return false;
+	}
+
+	public function isEquipable()
+	{
 		return true;
 	}
 
 	public function onUse(Player $player)
+	{
+		return false;
+	}
+
+	public function onEquip(Player $player)
 	{
 		return DB::transaction(function() use($player)
 		{
@@ -117,11 +127,6 @@ class Weapon extends Model implements WeaponContract
 
 			return $player->equipment->giveItem($this, 1);
 		});
-	}
-
-	public function onBuy(Player $player)
-	{
-		
 	}
 
     //HempEmpire\Contracts\Weapon

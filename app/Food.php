@@ -28,6 +28,11 @@ class Food extends Model implements FoodContract
 		return true;
 	}
 
+	public function isEquipable()
+	{
+		return false;
+	}
+
 	public function onUse(Player $player)
 	{
 		$health = $this->getHealth();
@@ -45,6 +50,11 @@ class Food extends Model implements FoodContract
 		if(!is_null($health) || !is_null($energy))
 			return $player->save();
 
+		return false;
+	}
+
+	public function onEquip(Player $player)
+	{
 		return false;
 	}
 
