@@ -6,10 +6,8 @@
 		<button type="button" id="helpBtn" class="btn btn-default pull-left">?</button>
 	@endif
 
-
 	<p class="pull-right current-time">{{ date('Y-m-d H:i:s') }}</p>
 @endsection
-
 
 @section('topbar')
 
@@ -125,7 +123,6 @@
 								->style('wanted') 
 							!!}
 						</div>
-
 
 						<div class="progress-row" data-help="@lang('help.wanted.timer')">
 							

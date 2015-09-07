@@ -3,7 +3,6 @@
 	<nav id="mainNav" class="navF navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 
-
 			<ul class="col-md-12 nav navbar-nav">
 
 				<li>
@@ -21,9 +20,7 @@
 					{!! BootForm::close() !!}
 				</li>
 
-
 				@if(!isset($logoutOnly) || $logoutOnly == false)
-
 
 				@if($player->isBusy)
 					
@@ -299,12 +296,8 @@
 			</p>
 			@endif
 
-
-
 		</div>
 	</nav>
-
-
 
 @endif
 
