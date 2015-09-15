@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'daniel.haba@o2.pl', 'name' => 'Automat HempEmpire'],
+    'from' => ['address' => 'hempempire@hempempire.eu', 'name' => 'Automat HempEmpire'],
 
     /*
     |--------------------------------------------------------------------------

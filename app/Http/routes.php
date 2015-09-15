@@ -38,6 +38,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 		'postLogin' => 'user.login',
 		'postRegister' => 'user.register',
 		'getLogout' => 'user.logout',
+		'getResend' => 'user.resend',
 	]);
 
 

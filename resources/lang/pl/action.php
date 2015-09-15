@@ -35,4 +35,5 @@ return [
 	'complete' => 'Zakończ',
 	'accept' => 'Przyjmij',
 	'decline' => 'Odrzuć',
+	'resendVerification' => 'Wyślij',
 ];

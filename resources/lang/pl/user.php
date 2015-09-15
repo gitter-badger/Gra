@@ -18,6 +18,7 @@ return [
 	'currentPassword' => 'Obecne hasło',
 	'newPassword' => 'Nowe hasło',
 	'newPasswordConfirmation' => 'Powtórz hasło',
+	'emailNotFound' => 'Nie znaleziono użytkownika z podanym adresem email',
 
 
 	'ban' => [

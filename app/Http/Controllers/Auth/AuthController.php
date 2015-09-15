@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => ['getLogout', 'getResend', 'postResend']]);
     }
 
     public function getLogin()
@@ -176,4 +176,40 @@ class AuthController extends Controller
 
         return redirect(route('home'));
     }
+
+
+    public function getResend(Request $request) 
+    {
+        return view('auth.resend');
+    }
+
+
+    public function postResend(Request $request)
+    {
+        $email = $request->input('email');
+
+        $this->validate($request, [
+
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', '=', $email)->first();
+
+        if(is_null($user))
+        {
+            return redirect()->route('home')
+                ->withErrors(['email' => trans('user.emailNotFound')]);
+        }
+        else
+        {
+            $job = new SendVerification($user);
+            $this->dispatch($job);
+
+            $this->success('verificationSent');
+        }
+
+        return redirect()->route('home');
+    }
+
+
 }

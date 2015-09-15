@@ -8,7 +8,7 @@ return [
 	
 
 	'registrationDone' => 'Rejestracja zakończona, na podany adres email zostanie wysłany link aktywacyjny',
-	'notVerified' => 'Konto nie zostało jeszcze zweryfikowane',
+	'notVerified' => 'Konto nie zostało jeszcze zweryfikowane, kliknij <a href="/auth/resend">tutaj</a> aby wysłać ponownie',
 	'userVerified' => 'Konto zostało zatwierdzone, możesz już się zalogować',
 
 
@@ -68,4 +68,6 @@ return [
 	'questCanceled' => 'Zadanie :name anulowane',
 	'questDeclined' => 'Zadanie :name odrzucone',
 	'questTaken' => 'Zadanie :name przyjęte',
+
+	'verificationSent' => 'Link aktywacyjny został wysłany',
 ];
