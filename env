@@ -1,6 +1,6 @@
 APP_ENV=local
 APP_DOMAIN=hempempire.eu
-APP_DEBUG=false
+APP_DEBUG=true
 APP_KEY=tRJBqwtraakx1D5Doe1Ivn7NXNYi97Lb
 
 DB_HOST=localhost
