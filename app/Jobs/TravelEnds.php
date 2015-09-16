@@ -2,11 +2,7 @@
 
 namespace HempEmpire\Jobs;
 
-use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use HempEmpire\Jobs\PlayerJob;
 
 
 use HempEmpire\Player;
@@ -17,11 +13,8 @@ use HempEmpire\Events\LocationEnter;
 use HempEmpire\Events\Travel;
 
 
-class TravelEnds extends Job implements SelfHandling, ShouldQueue
+class TravelEnds extends PlayerJob
 {
-    use InteractsWithQueue, SerializesModels;
-
-    private $player;
     private $from;
     private $to;
     private $time;
@@ -36,7 +29,7 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
      */
     public function __construct(Player $player, Location $from, Location $to, $time, $cost)
     {
-        $this->player = $player;
+        parent::__construct($player);
         $this->from = $from;
         $this->to = $to;
         $this->time = $time;
@@ -48,12 +41,8 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function process()
     {
-        foreach($this->player->quests as $quest)
-            $quest->init();
-
-        echo __METHOD__ . PHP_EOL;
         $success = DB::transaction(function()
         {
             if($this->player->jobName == 'traveling')
@@ -84,9 +73,6 @@ class TravelEnds extends Job implements SelfHandling, ShouldQueue
             Event::fire(new Travel($this->player, $this->from, $this->to, $this->time, $this->cost));
             Event::fire(new LocationEnter($this->player, $this->to));
         }
-
-        foreach($this->player->quests as $quest)
-            $quest->finit();
 
         return $success;
     }

@@ -2,11 +2,7 @@
 
 namespace HempEmpire\Jobs;
 
-use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use HempEmpire\Jobs\PlayerJob;
 
 use HempEmpire\Events\Harvest as HarvestEvent;
 use Event;
@@ -18,11 +14,8 @@ use DB;
 
 use TransText;
 
-class Harvest extends Job implements SelfHandling, ShouldQueue
+class Harvest extends PlayerJob
 {
-    use InteractsWithQueue, SerializesModels;
-
-	private $player;
 	private $species;
 	private $quality;
 	private $countMin;
@@ -32,7 +25,7 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 
 	public function __construct(Player $player, $species, $quality, $countMin, $countMax)
 	{
-		$this->player = $player;
+		parent::__construct($player);
 		$this->species = $species;
 		$this->quality = $quality;
 		$this->countMin = $countMin;
@@ -40,12 +33,8 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 	}
 
 
-	public function handle()
+	public function process()
 	{
-	    foreach($this->player->quests as $quest)
-	        $quest->init();
-
-        echo __METHOD__ . PHP_EOL;
 		$count = $this->player->roll($this->countMin, $this->countMax);
 		$template = TemplateStuff::where('name', '=', $this->species . '-stuff')->first();
 		$stuff = new Stuff;
@@ -79,10 +68,6 @@ class Harvest extends Job implements SelfHandling, ShouldQueue
 		{
 			Event::fire(new HarvestEvent($this->player, $this->species, $count));
 		}
-		
-
-	    foreach($this->player->quests as $quest)
-	        $quest->finit();
 
 		return $success;
 	}

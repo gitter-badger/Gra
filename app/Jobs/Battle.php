@@ -3,11 +3,6 @@
 namespace HempEmpire\Jobs;
 
 use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 use HempEmpire\Battleground;
 use HempEmpire\Player;
@@ -19,11 +14,8 @@ use TransText;
 use Event;
 
 
-class Battle extends Job implements SelfHandling, ShouldQueue
+class Battle extends Job
 {
-    use InteractsWithQueue, SerializesModels;
-    use DispatchesJobs;
-
     protected $battleground;
     protected $red;
     protected $blue;
@@ -119,11 +111,8 @@ class Battle extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function process()
     {
-        echo __METHOD__ . PHP_EOL;
-
-
         $now = time();
         $redExp = 0;
         $blueExp = 0;

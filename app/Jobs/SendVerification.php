@@ -3,10 +3,6 @@
 namespace HempEmpire\Jobs;
 
 use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 
 use HempEmpire\User;
@@ -18,10 +14,8 @@ use App;
 
 
 
-class SendVerification extends Job implements SelfHandling, ShouldQueue
+class SendVerification extends Job
 {
-    use InteractsWithQueue, SerializesModels;
-
     private $user;
 
 
@@ -45,9 +39,8 @@ class SendVerification extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function process()
     {
-        echo __METHOD__ . PHP_EOL;
         $data = [
 
             'email' => $this->user->email,

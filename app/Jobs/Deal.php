@@ -2,14 +2,7 @@
 
 namespace HempEmpire\Jobs;
 
-use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-
-
+use HempEmpire\Jobs\PlayerJob;
 use HempEmpire\Events\Deal as DealEvent;
 use Event;
 
@@ -19,13 +12,8 @@ use TransText;
 use TextArray;
 
 
-class Deal extends Job implements SelfHandling, ShouldQueue
+class Deal extends PlayerJob
 {
-    use InteractsWithQueue, SerializesModels;
-    use DispatchesJobs;
-
-
-    protected $player;
     protected $maxInterval;
     protected $minInterval;
     protected $minStuff;
@@ -43,7 +31,7 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      */
     public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $priceFactor, $burnChance, $beatChance)
     {
-        $this->player = $player;
+        parent::__construct($player);
         $this->minInterval = $minInterval;
         $this->maxInterval = $maxInterval;
         $this->minStuff = $minStuff;
@@ -59,14 +47,8 @@ class Deal extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function process()
     {
-        try{
-        echo __METHOD__ . PHP_EOL;
-
-
-        foreach($this->player->quests as $quest)
-            $quest->init();
 
         if($this->player->jobName == 'dealing' && $this->player->jobEnd > time())
         {
@@ -210,14 +192,6 @@ class Deal extends Job implements SelfHandling, ShouldQueue
                 return $success;
             });
 
-        }
-
-        foreach($this->player->quests as $quest)
-            $quest->finit();
-
-        } catch(\ErrorException $e)
-        {
-            echo '(' . $e->getLine() . ')' . $e->getMessage() . PHP_EOL;
         }
     }
 }

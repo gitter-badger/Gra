@@ -197,7 +197,7 @@ class AuthController extends Controller
 
         if(is_null($user))
         {
-            return redirect()->route('home')
+            return \Redirect::back()
                 ->withErrors(['email' => trans('user.emailNotFound')]);
         }
         else

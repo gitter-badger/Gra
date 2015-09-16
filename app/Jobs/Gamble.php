@@ -2,21 +2,12 @@
 
 namespace HempEmpire\Jobs;
 
-use HempEmpire\Jobs\Job;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
-
-
+use HempEmpire\Jobs\PlayerJob;
 use HempEmpire\Player;
 
 
-class Gamble extends Job implements SelfHandling, ShouldQueue
+class Gamble extends PlayerJob
 {
-    use InteractsWithQueue, SerializesModels;
-    private $player;
     private $bet;
     private $exchange;
 
@@ -28,7 +19,7 @@ class Gamble extends Job implements SelfHandling, ShouldQueue
      */
     public function __construct(Player $player, $bet, $exchange)
     {
-        $this->player = $player;
+        parent::__construct($player);
         $this->bet = $bet;
         $this->exchange = $exchange;
     }
@@ -40,11 +31,6 @@ class Gamble extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-
-        foreach($this->player->quests as $quest)
-            $quest->init();
-
-        echo __METHOD__ . PHP_EOL;
         if($this->player->jobName == 'gambling')
         {
             $roll = mt_rand(0, 100);
@@ -66,11 +52,5 @@ class Gamble extends Job implements SelfHandling, ShouldQueue
                     ->param('money', $this->bet)->send();
             }
         }
-
-
-
-
-        foreach($this->player->quests as $quest)
-            $quest->finit();
     }
 }
