@@ -21,7 +21,6 @@ class Image extends File
     protected function setDefaultValue($value)
     {
     	$this->default = $value;
-        $this->setValue($value);
     	return $this;
     }
 

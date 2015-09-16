@@ -1,0 +1,1386 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"input",
+				"inputn	input - number"
+			],
+			[
+				"refe",
+				"reference"
+			],
+			[
+				"z-",
+				"z-index"
+			],
+			[
+				"po",
+				"position"
+			],
+			[
+				"tran",
+				"transition	CSS - transition: ;"
+			],
+			[
+				"premi",
+				"premiumShop"
+			],
+			[
+				"backg",
+				"background"
+			],
+			[
+				"padding-base",
+				"padding-base-vertical"
+			],
+			[
+				"lang",
+				"language"
+			],
+			[
+				"border-bot",
+				"border-bottom-right-radius"
+			],
+			[
+				"border-bo",
+				"border-bottom-left-radius"
+			],
+			[
+				"rece",
+				"receiveExtra"
+			],
+			[
+				"emoticons",
+				"emoticonsBtn"
+			],
+			[
+				"emoticon",
+				"emoticonUrl"
+			],
+			[
+				"border-rad",
+				"border-radius-base"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"chat-bu",
+				"chat-bubble-odd-border"
+			],
+			[
+				"chat-bubble-o",
+				"chat-bubble-odd-bg"
+			],
+			[
+				"rel",
+				"relative"
+			],
+			[
+				"abs",
+				"absolute"
+			],
+			[
+				"json_",
+				"json_encode〔function〕"
+			],
+			[
+				"text",
+				"textarea	<textarea>"
+			],
+			[
+				"PERMISSION_CHAN",
+				"PERMISSION_CHANGE_AVATAR〔constant〕"
+			],
+			[
+				"PERMISSION_CHANGE",
+				"PERMISSION_CHANGE_PRIVATE"
+			],
+			[
+				"PERMISSION_CHANCE",
+				"PERMISSION_CHANGE_PRIVATE〔constant〕"
+			],
+			[
+				"invitatino",
+				"$invitations〔variable〕"
+			],
+			[
+				"range",
+				"rangeChanged"
+			],
+			[
+				"mini",
+				"minify({keepSpecialComments"
+			],
+			[
+				"ex",
+				"experience"
+			],
+			[
+				"Member",
+				"MemberModel〔namespace〕"
+			],
+			[
+				"plantat",
+				"plantator-color"
+			],
+			[
+				"Player",
+				"PlayerUpdated"
+			],
+			[
+				"Play",
+				"PlayerUpdated〔namespace〕"
+			],
+			[
+				"player",
+				"player_id"
+			],
+			[
+				"mark",
+				"market_id"
+			],
+			[
+				"stat",
+				"statisticsPoints"
+			],
+			[
+				"req",
+				"$request〔variable〕"
+			],
+			[
+				"objec",
+				"objectives"
+			],
+			[
+				"bo",
+				"bought"
+			],
+			[
+				"_rese",
+				"_resetable"
+			],
+			[
+				"last",
+				"lastUpdated〔variable〕"
+			],
+			[
+				"lastRe",
+				"lastReseted"
+			],
+			[
+				"lastR",
+				"lastReseted"
+			],
+			[
+				"experienc",
+				"experienceModifier"
+			],
+			[
+				"par",
+				"parameters"
+			],
+			[
+				"extends",
+				"extendsParameters"
+			],
+			[
+				"replaceRo",
+				"replaceRoutableParameters"
+			],
+			[
+				"refer",
+				"$reference〔variable〕"
+			],
+			[
+				"inet_",
+				"inet_pton〔function〕"
+			],
+			[
+				"pieni",
+				"pieniędzy"
+			],
+			[
+				"plan",
+				"plant"
+			],
+			[
+				"PERMISSION_P",
+				"PERMISSION_PUT_ITEM〔constant〕"
+			],
+			[
+				"PERMISSION_DE",
+				"PERMISSION_DEPOSIT_MONEY〔constant〕"
+			],
+			[
+				"invi",
+				"$invitation〔variable〕"
+			],
+			[
+				"PlayerIn",
+				"PlayerInvitation〔class〕"
+			],
+			[
+				"PREMISSION_DE",
+				"PERMISSION_DEPOSIT_MONEY〔constant〕"
+			],
+			[
+				"bs3-table",
+				"bs3-table:responsive	bs3-table-responsive"
+			],
+			[
+				"func_get",
+				"func_get_args〔function〕"
+			],
+			[
+				"Reason",
+				"reasonRed〔variable〕"
+			],
+			[
+				"Opp",
+				"OpponentGenerator〔class〕"
+			],
+			[
+				"meas",
+				"measureText"
+			],
+			[
+				"nextA",
+				"nextAttacker"
+			],
+			[
+				"request",
+				"requestAnimationFrame"
+			],
+			[
+				"batt",
+				"battleground"
+			],
+			[
+				"bat",
+				"battleground"
+			],
+			[
+				"Op",
+				"OpponentGenerator〔class〕"
+			],
+			[
+				"Queue",
+				"QueueableJob〔class〕"
+			],
+			[
+				"invest",
+				"$investment	mixed"
+			],
+			[
+				"gamb",
+				"gambling"
+			],
+			[
+				"ech",
+				"exchange"
+			],
+			[
+				"Inves",
+				"PlayerInvestment〔class〕"
+			],
+			[
+				"lastU",
+				"lastUpdated"
+			],
+			[
+				"style",
+				"style	<style>"
+			],
+			[
+				"total",
+				"totalSell"
+			],
+			[
+				"mo",
+				"modify($questGroup, $request)	mixed"
+			],
+			[
+				"Requ",
+				"Request〔namespace〕"
+			],
+			[
+				"attri",
+				"attributes〔variable〕"
+			],
+			[
+				"notifi",
+				"notification"
+			],
+			[
+				"Current",
+				"CurrentWokrGroup	CurrentWokrGroup"
+			],
+			[
+				"Weapon",
+				"WeaponContract"
+			],
+			[
+				"Text",
+				"TransText	TransText"
+			],
+			[
+				"qu",
+				"qualityMax"
+			],
+			[
+				"stati",
+				"statistic"
+			],
+			[
+				"json",
+				"json_encode〔function〕"
+			],
+			[
+				"noti",
+				"$notifications〔variable〕"
+			],
+			[
+				"planto",
+				"plantatorMaxExperience"
+			],
+			[
+				"planta",
+				"plantatorMaxExperience"
+			],
+			[
+				"plant",
+				"plantatorExperience"
+			],
+			[
+				"maxE",
+				"$maxExperience〔variable〕"
+			],
+			[
+				"Dis",
+				"DispatchesMessages"
+			],
+			[
+				"_data",
+				"_dataChanged〔variable〕"
+			],
+			[
+				"i",
+				"important"
+			],
+			[
+				"isCurr",
+				"isCurrentUrl($url)	mixed"
+			],
+			[
+				"hi",
+				"hidden"
+			],
+			[
+				"template",
+				"template_id"
+			],
+			[
+				"collec",
+				"collection_paginate"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"renderAdd",
+				"renderAddonAttributes〔function〕"
+			],
+			[
+				"render",
+				"renderAttributes〔function〕"
+			],
+			[
+				"bs3-input",
+				"bs3-input-group	bs3-input-group"
+			],
+			[
+				"Mode",
+				"ModelNotFoundException〔class〕"
+			],
+			[
+				"conte",
+				"container"
+			],
+			[
+				"check",
+				"checkbox"
+			],
+			[
+				"defa",
+				"defaultValue"
+			],
+			[
+				"statistic",
+				"statisticPoints"
+			],
+			[
+				"next",
+				"nextUpdate"
+			],
+			[
+				"energy",
+				"energyUpdate"
+			],
+			[
+				"luck",
+				"luckUpdate"
+			],
+			[
+				"trans",
+				"transferuj"
+			],
+			[
+				"max",
+				"maxEnergy"
+			],
+			[
+				"talents",
+				"talentPoints"
+			],
+			[
+				"Class",
+				"ClassContainer〔class〕"
+			],
+			[
+				"premium",
+				"premiumPoints"
+			],
+			[
+				"experie",
+				"experience:25"
+			],
+			[
+				"has",
+				"hasMany〔function〕"
+			],
+			[
+				"is_nu",
+				"is_numeric〔function〕"
+			],
+			[
+				"exp",
+				"explode〔function〕"
+			],
+			[
+				"pr",
+				"protected"
+			],
+			[
+				"call_user",
+				"call_user_func_array"
+			],
+			[
+				"sep",
+				"$separator〔variable〕"
+			],
+			[
+				"array_key",
+				"array_key_exists〔function〕"
+			],
+			[
+				"new",
+				"newInstanceArgs〔function〕"
+			],
+			[
+				"array_ke",
+				"array_key_exists〔function〕"
+			],
+			[
+				"Re",
+				"Requirements〔namespace〕"
+			],
+			[
+				"templat",
+				"template_id"
+			],
+			[
+				"HempEMpi",
+				"HempEmpire\\World〔class〕"
+			],
+			[
+				"script",
+				"script	Tag"
+			],
+			[
+				"form",
+				"formStaticGroup($label, $name, $control)	mixed"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/xampp/htdocs/.config",
+			"settings":
+			{
+				"buffer_size": 257,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"last_filter": "html",
+		"selected_items":
+		[
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"emmet",
+				"Emmet: Expand Abbreviation"
+			],
+			[
+				"pick",
+				"Color Picker"
+			],
+			[
+				"php",
+				"PHP Coding Standards Fixer: Fix this file (PHP Code Beautifier)"
+			],
+			[
+				"color",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"css",
+				"Run CSScomb"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"lint",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"",
+				"HTMLBeautify"
+			],
+			[
+				"body",
+				"Snippet: <body>"
+			],
+			[
+				"bs3-button",
+				"Snippet: bs3-button-group"
+			],
+			[
+				"browser",
+				"File: Open In Browser - Production Server"
+			],
+			[
+				"foreach",
+				"Snippet: <?php foreach (…) … <?php endforeach ?>"
+			],
+			[
+				"makrdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"markdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mark",
+				"Build With: Markdown"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"intall",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"jsl",
+				"JSLint"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Packa",
+				"Package Control: Add Repository"
+			],
+			[
+				"sql",
+				"Set Syntax: SQL"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			]
+		],
+		"width": 536.0
+	},
+	"console":
+	{
+		"height": 147.0,
+		"history":
+		[
+			"# run_multiple_commands.py ",
+			"# run_multiple_commands.py",
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/Projects/HempEmpireGame"
+	],
+	"file_history":
+	[
+		"/C/xampp/htdocs/app/Jobs/Reward.php",
+		"/C/xampp/htdocs/app/Jobs/Battle.php",
+		"/C/xampp/htdocs/app/Jobs/SendVerification.php",
+		"/C/xampp/apache/conf/httpd.conf",
+		"/C/xampp/htdocs/public_html/.htaccess",
+		"/C/xampp/htdocs/app/Jobs/TravelEnds.php",
+		"/C/xampp/htdocs/app/Jobs/WorkEnds.php",
+		"/C/xampp/htdocs/app/Jobs/Harvest.php",
+		"/C/xampp/htdocs/app/Jobs/PlayerJob.php",
+		"/C/xampp/htdocs/env",
+		"/C/xampp/htdocs/resources/views/auth/resend.blade.php",
+		"/C/xampp/htdocs/app/Http/Controllers/Auth/AuthController.php",
+		"/C/xampp/htdocs/app/Jobs/GangBattle.php",
+		"/C/xampp/htdocs/app/Jobs/Gamble.php",
+		"/C/xampp/htdocs/app/Jobs/Deal.php",
+		"/C/xampp/htdocs/app/Jobs/Job.php",
+		"/C/xampp/htdocs/resources/lang/pl/user.php",
+		"/C/xampp/htdocs/resources/lang/pl/action.php",
+		"/C/xampp/htdocs/resources/lang/pl/message.php",
+		"/C/xampp/htdocs/app/Http/routes.php",
+		"/C/xampp/apache/conf/extra/httpd-vhosts.conf",
+		"/C/xampp/apache/logs/access.log",
+		"/C/xampp/apache/logs/error.log",
+		"/C/Users/Admin/.ssh/hempempiregame.ppk",
+		"/C/Users/Admin/.ssh/hempempiregame.pub",
+		"/C/xampp/htdocs/config/recaptcha.php",
+		"/C/xampp/htdocs/config/mail.php",
+		"/C/Users/Admin/Desktop/Zgoda.html",
+		"/C/xampp/htdocs/public_html/index.php",
+		"/C/xampp/htdocs/resources/assets/less/theme.less",
+		"/C/xampp/htdocs/resources/views/player/items.blade.php",
+		"/C/xampp/htdocs/app/Http/Controllers/Player/PlayerController.php",
+		"/C/xampp/htdocs/app/Weapon.php",
+		"/C/xampp/htdocs/app/Vehicle.php",
+		"/C/xampp/htdocs/app/TemplateWeapon.php",
+		"/C/xampp/htdocs/app/TemplateVehicle.php",
+		"/C/xampp/htdocs/app/TemplateStuff.php",
+		"/C/Users/Admin/AppData/Local/Android/sdk/extras/google/play_billing/samples/TrivialDrive/src/com/example/android/trivialdrivesample/util/IabHelper.java",
+		"/C/Users/Admin/AppData/Local/Android/sdk/extras/google/play_billing/samples/TrivialDrive/src/com/example/android/trivialdrivesample/MainActivity.java",
+		"/C/xampp/htdocs/app/Contracts/Item.php",
+		"/C/xampp/htdocs/app/Armor.php",
+		"/C/xampp/htdocs/app/Food.php",
+		"/C/xampp/htdocs/app/Seed.php",
+		"/C/xampp/htdocs/app/Stuff.php",
+		"/C/xampp/htdocs/app/TemplateArmor.php",
+		"/C/xampp/htdocs/app/TemplateFood.php",
+		"/C/xampp/htdocs/app/TemplateSeed.php",
+		"/C/Users/Admin/AppData/Local/Android/sdk/extras/google/play_billing/samples/TrivialDrive/src/com/android/vending/billing/IInAppBillingService.aidl",
+		"/C/Users/Admin/AppData/Local/Android/sdk/extras/google/play_billing/IInAppBillingService.aidl",
+		"/C/Users/Admin/AndroidStudioProjects/Wallpapers/app/src/main/IInAppBillingService.aidl",
+		"/C/Users/Admin/Desktop/GitTest/Example-repo/file.txt",
+		"/C/Users/Admin/Desktop/GitTest/Example-repo/text.txt",
+		"/C/xampp/htdocs/app/Listeners/DailyQuests.php",
+		"/C/xampp/htdocs/app/Components/Npc.php",
+		"/C/xampp/htdocs/app/Http/Controllers/RankingController.php",
+		"/C/xampp/htdocs/resources/views/ranking/base.blade.php",
+		"/C/xampp/htdocs/resources/views/player/base.blade.php",
+		"/C/xampp/htdocs/resources/views/navigation.blade.php",
+		"/C/xampp/htdocs/resources/views/player/reference.blade.php",
+		"/C/xampp/htdocs/.env",
+		"/C/xampp/htdocs/app/Http/Controllers/Auth/FacebookController.php",
+		"/C/xampp/htdocs/resources/views/job.blade.php",
+		"/C/xampp/htdocs/database/migrations/2015_06_17_124712_create_players_table.php",
+		"/C/xampp/htdocs/app/Player.php",
+		"/C/xampp/htdocs/resources/lang/pl/work.php",
+		"/C/xampp/htdocs/resources/assets/coffee/app.coffee",
+		"/C/xampp/htdocs/app/PlayerQuest.php",
+		"/C/xampp/htdocs/composer.json",
+		"/C/xampp/htdocs/app/Objectives/Plant.php",
+		"/C/xampp/htdocs/app/Objectives/TravelTo.php",
+		"/C/xampp/htdocs/app/Objectives/Watering.php",
+		"/C/xampp/htdocs/resources/lang/pl/objective.php",
+		"/C/xampp/htdocs/resources/lang/pl/navigation.php",
+		"/C/xampp/htdocs/resources/lang/pl/investment.php",
+		"/C/xampp/htdocs/app/Objectives/HarvestStuff.php",
+		"/C/xampp/htdocs/app/Objectives/HarvestPlant.php",
+		"/C/xampp/htdocs/app/Objectives/DealMoney.php",
+		"/C/xampp/htdocs/app/Objectives/DealCount.php",
+		"/C/xampp/htdocs/app/Objectives/Buy.php",
+		"/C/xampp/htdocs/resources/views/app.blade.php",
+		"/C/xampp/htdocs/app/Components/Dealing.php",
+		"/C/xampp/htdocs/config/talents.php",
+		"/C/xampp/htdocs/config/player.php",
+		"/C/xampp/htdocs/app/Objectives/Objective.php",
+		"/C/xampp/htdocs/config/quests.php",
+		"/C/xampp/htdocs/app/Providers/EventServiceProvider.php",
+		"/C/xampp/htdocs/app/Listeners/DailyPointsReset.php",
+		"/C/xampp/htdocs/resources/views/admin/quest/view.blade.php",
+		"/C/xampp/htdocs/resources/views/admin/quest/edit.blade.php",
+		"/C/xampp/htdocs/app/Quest.php",
+		"/C/xampp/htdocs/database/migrations/2015_07_09_080422_create_quests_table.php",
+		"/C/xampp/htdocs/app/Objectives.php",
+		"/C/xampp/htdocs/config/daily.php",
+		"/C/xampp/htdocs/app/Http/Controllers/Admin/QuestController.php",
+		"/C/xampp/htdocs/database/seeds/QuestSeeder.php",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/xampp/htdocs/database/migrations/2014_10_12_000000_create_users_table.php",
+		"/C/xampp/htdocs/resources/views/emails/template.blade.php",
+		"/C/xampp/htdocs/resources/views/user/base.blade.php",
+		"/C/xampp/htdocs/resources/views/user/facebook.blade.php",
+		"/C/xampp/htdocs/app/Http/Controllers/UserController.php",
+		"/C/xampp/htdocs/app/Events/DailyReset.php",
+		"/C/xampp/htdocs/resources/lang/pl/emails.php",
+		"/C/xampp/htdocs/resources/views/emails/verification.blade.php",
+		"/C/xampp/htdocs/resources/assets/less/variables.less",
+		"/C/xampp/htdocs/resources/assets/less/progress.less",
+		"/C/xampp/htdocs/resources/assets/less/bootstrap.less",
+		"/C/xampp/htdocs/resources/assets/coffee/chat.coffee",
+		"/C/xampp/htdocs/resources/views/chat.blade.php",
+		"/C/xampp/htdocs/resources/views/player/profile.blade.php",
+		"/C/xampp/htdocs/resources/views/location.blade.php",
+		"/C/xampp/htdocs/resources/assets/coffee/utils.coffee",
+		"/C/xampp/htdocs/resources/assets/coffee/helper.coffee",
+		"/C/xampp/htdocs/config/app.php",
+		"/C/xampp/htdocs/resources/assets/coffee/timer.coffee",
+		"/C/xampp/htdocs/resources/views/admin/place/view.blade.php",
+		"/C/xampp/htdocs/resources/views/admin/place/list.blade.php",
+		"/C/xampp/htdocs/resources/views/admin/place/edit.blade.php",
+		"/C/xampp/htdocs/app/LocationPlace.php",
+		"/C/xampp/htdocs/resources/lang/pl/dealing.php",
+		"/C/xampp/htdocs/resources/lang/pl/report.php",
+		"/C/xampp/htdocs/app/Listeners/DangerousPlace.php",
+		"/C/xampp/htdocs/resources/views/component/dealing.blade.php",
+		"/C/xampp/htdocs/database/migrations/2015_06_17_124637_create_places_table.php",
+		"/C/xampp/htdocs/app/Http/Controllers/Admin/PlaceController.php",
+		"/C/xampp/htdocs/database/seeds/PlaceSeeder.php",
+		"/C/xampp/htdocs/app/Place.php",
+		"/C/xampp/htdocs/resources/assets/coffee/tutorial.coffee"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 98.0,
+		"where_history":
+		[
+			"C:\\Users\\Admin\\Desktop\\Gra\\app",
+			"<project>",
+			"C:\\Users\\Admin\\Desktop\\Gra\\app\\Jobs",
+			"C:\\Users\\Admin\\Desktop\\Gra\\app",
+			"<project>",
+			"C:\\Users\\Admin\\Desktop\\Gra\\resources\\views\\details",
+			"C:\\Users\\Admin\\Desktop\\Gra\\vendor",
+			"C:\\Users\\Admin\\Desktop\\Gra",
+			"C:\\Users\\Admin\\Desktop\\Gra\\app",
+			"C:\\Users\\Admin\\Desktop\\Gra",
+			"C:\\Users\\Admin\\Desktop\\Gra\\app",
+			"C:\\xampp\\htdocs",
+			"<project>",
+			"C:\\xampp\\htdocs\\app\\Http",
+			"C:\\xampp\\htdocs\\app\\Models",
+			"C:\\xampp\\htdocs",
+			"C:\\xampp\\htdocs\\resources",
+			"C:\\xampp\\htdocs\\GraLaravel\\resources\\",
+			"C:\\xampp\\htdocs\\GraLaravel\\resources",
+			"C:\\xampp\\htdocs\\GraLaravel\\app",
+			"C:\\xampp\\htdocs\\workspace"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"padding",
+			"div",
+			"this",
+			"$this->",
+			"row",
+			"true",
+			"getProperty('energy')",
+			"public",
+			"startQuest",
+			"Quest",
+			"next",
+			"true",
+			"auto",
+			"daily",
+			"auto",
+			"place",
+			"visible",
+			"auto",
+			"localhost",
+			"$this",
+			"1000",
+			"tick",
+			"interval",
+			"connectFacebook",
+			"level",
+			"dealerLevel",
+			"level",
+			"smugglerLevel",
+			"level",
+			"plantatorLevel",
+			"level",
+			"false",
+			"input",
+			"job",
+			"^(.+)\\s*data-help=\"(.+)\"(.+)$",
+			"mainContent",
+			"game",
+			"this",
+			"overlay",
+			"#",
+			"bar",
+			"min",
+			"level",
+			"character",
+			"bar",
+			"title",
+			"danger",
+			"visible",
+			"$i",
+			"cascade",
+			"hidden-xs",
+			"{\n",
+			"$player->",
+			"date",
+			"email",
+			"login",
+			"$user->verified",
+			"newsletter",
+			"Światy",
+			"world",
+			"Player",
+			"players",
+			"player",
+			"fff",
+			"premiumPoints",
+			"Users/Admin/Desktop/Gra",
+			"mod_deflate",
+			"world",
+			"World",
+			"gra.pl",
+			"afterShow",
+			"children",
+			"red",
+			"battleLog",
+			"theme",
+			"die",
+			"disabled",
+			"'muted'",
+			"demoted",
+			"info",
+			"battle",
+			"log",
+			"i18l",
+			"this->",
+			"this",
+			"pow",
+			"insert",
+			"message",
+			"emoticon",
+			"min",
+			"function",
+			"emot",
+			"emoticon",
+			"element",
+			"odd",
+			"url",
+			"div",
+			"border",
+			"10",
+			"even",
+			"odd",
+			"bg",
+			"even",
+			"odd",
+			"message",
+			"even",
+			"bg",
+			"even",
+			"odd",
+			"white",
+			"col2",
+			"odd",
+			"timeFormat",
+			"strong",
+			"data",
+			"textarea",
+			"message",
+			"json_encode",
+			"receive",
+			"xhr = ",
+			"reports",
+			":",
+			"channel",
+			"getClientOrginalName",
+			"\\HempEmpire\\GangMember",
+			"public",
+			"PUBLIC",
+			"public"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"<span data-help=\"$2\">$1$3</span>",
+			"data-ng-bind",
+			"<div class=\"row\"><div class=\"col-xs-4 text-right\"><strong>@lang($1)</strong></div><div class=\"col-xs-6 text-left\">$2{{ $3 }}$4</div></div>",
+			"<div class=\"row\"><div class=\"col-xs-4 text-right\"><strong>@lang($1)</strong></div><div class=\"col-xs-6 text-left\">$2$3$4</div></div>",
+			"<div class=\"row\"><div class=\"col-xs-4 text-right\"><strong>$1</strong></div><div class=\"col-xs-6 text-left\">$2$3$4</div></div>",
+			"respect",
+			"function $1($2)\\n\\t{\\n\\t\\treturn $this->generator->$1($2);\\n\\t}",
+			"'$1',\\n",
+			"'",
+			"ddd",
+			"$1",
+			"col-xs-6",
+			"{{ $colWidth }}",
+			"<?php echo $colWidth; ?>",
+			"{{ $colWidth }}",
+			"'",
+			"'<span class=\"$1\">' . $player->$1 . '</span>'",
+			"'<strong class=\"$1\">' . $player->$1 . '</strong>'",
+			"if(!is_null($this->$1) && $this->$1 > $now)",
+			"danger",
+			"apt-cyg install $1\\n",
+			"isBoostable",
+			"findItemById",
+			"->type(0, '$1')",
+			"->type(0, $1)",
+			"r_",
+			"Config::get('app.debug', false)",
+			"'",
+			"darken",
+			"lighten",
+			"_l",
+			"_lighten",
+			"setCharacter",
+			"vehicle",
+			"",
+			"HempEmpire\\\\Models\\\\$1",
+			"HempEmpire\\Models\\$1",
+			"namespace HempEmpire\\Models;",
+			"HempEmpire\\Models\\Character",
+			"Characternnnnnnnnnnnnnnnnnnnnnn",
+			"Character",
+			"Player",
+			"Health",
+			"'$1' => [",
+			"$1 => [",
+			"flash",
+			"growshop",
+			"'/' . $this->name",
+			"$TEAM_$1",
+			"costs",
+			"cost",
+			"array(\\n\\t\\t'name' => '$1',\\n\\t\\t'description' => null\\n\\t),",
+			"array(\\n\\t\\t'title' => '$1',\\n\\t\\t'description' => null\\n\\t),",
+			"trainstation",
+			"{!! $1 !!}",
+			"",
+			"['store_id' => $1, 'item_id' => $2, 'count' => $3],",
+			"consumable",
+			"['id' => $6, 'name' => '$1', 'type' => '$2', 'price' => $3, 'premium' => $4, 'data' => $5],",
+			"['id' => $6, 'name' => $1, 'type' => $2, 'price' => $3, 'premium' => $4, 'data' => $5],",
+			"null",
+			"true",
+			"false",
+			"@lang('$1')",
+			"ITEM",
+			"bindValue",
+			" {\\n\\n",
+			"display($1);",
+			"display('<$1>', \\$$2, '</$1>')",
+			"\\U$1",
+			"\\U1",
+			"location",
+			"'$1'",
+			".region",
+			" %$1",
+			"if(isset(\\$$2)) echo \"<$1>\\$$2</$1>\";",
+			"$1 = \"\"",
+			"<tr><th>$1</th><td>$2</td></tr>",
+			"<h3></h3><p><?php echo \\$character->$1;?></p><br/>",
+			"<h3></h3><p><?php echo\\$character->$1; ?></p><br/>",
+			"<h3></h3><p>\\$character->$1</p><br/>",
+			"<h3></h3><p>$1</p><br/>",
+			"public \\$$1",
+			"fbSession",
+			"fbHelper",
+			"fbSession",
+			"Language::getText('$1')",
+			"this->language",
+			"SOURCE_PATH"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/xampp/htdocs/.config",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 257,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								128,
+								128
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_name": "",
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 86.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.markdown":
+	{
+		"height": 84.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 92.0
+	},
+	"output.xdebug":
+	{
+		"height": 250.0
+	},
+	"pinned_build_system": "",
+	"project": "HempEmpireGame.sublime-project",
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"questcontroller",
+				"app\\Http\\Controllers\\Admin\\QuestController.php"
+			],
+			[
+				"workcontroller",
+				"app\\Http\\Controllers\\Admin\\WorkController.php"
+			],
+			[
+				"works",
+				"config\\works.php"
+			],
+			[
+				"report",
+				"resources\\lang\\pl\\report.php"
+			],
+			[
+				"message.php",
+				"resources\\lang\\pl\\message.php"
+			],
+			[
+				"current",
+				"app\\CurrentWork.php"
+			],
+			[
+				"currentwork",
+				"app\\CurrentWokrGroup.php"
+			],
+			[
+				"currentworkgroup",
+				"app\\CurrentWokrGroup.php"
+			],
+			[
+				"locations",
+				"config\\locations.php"
+			],
+			[
+				"places",
+				"config\\places.php"
+			],
+			[
+				"routes",
+				"app\\Http\\routes.php"
+			],
+			[
+				"shopcontroller",
+				"app\\Http\\Controllers\\Admin\\ShopController.php"
+			],
+			[
+				"shops",
+				"config\\shops.php"
+			],
+			[
+				"items.php",
+				"config\\items.php"
+			],
+			[
+				"vehicle",
+				"app\\Vehicle.php"
+			],
+			[
+				"templatefood",
+				"app\\TemplateFood.php"
+			],
+			[
+				"formatter",
+				"app\\Helpers\\Formatter.php"
+			],
+			[
+				"tempal",
+				"app\\TemplateArmor.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"151":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"153":
+				{
+					"group": 0,
+					"index": 1
+				},
+				"155":
+				{
+					"group": 0,
+					"index": 2
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 491.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

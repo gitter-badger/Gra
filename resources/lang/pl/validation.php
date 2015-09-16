@@ -98,4 +98,6 @@ return [
     |
     */
     'attributes' => [],
+
+    'wrongLoginOrPassword' => 'Zły login lub hasło',
 ];

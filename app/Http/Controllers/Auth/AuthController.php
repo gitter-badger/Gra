@@ -78,7 +78,7 @@ class AuthController extends Controller
             ->route('home')
             ->withInput($request->only('l_email', 'l_remember'))
             ->withErrors([
-                'l_email' => trans('error.wrongLoginOrPassword'),
+                'l_email' => trans('validation.wrongLoginOrPassword'),
             ]);
     }
 

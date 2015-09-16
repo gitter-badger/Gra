@@ -23,6 +23,8 @@ abstract class Job extends QueueableJob
     use InteractsWithQueue, SerializesModels;
     use DispatchesJobs;
 
+    protected $transaction = true;
+
 
 
     public function delay($time)
@@ -35,10 +37,18 @@ abstract class Job extends QueueableJob
         try
         {
             $this->before();
-            DB::transaction(function()
+
+            if($this->transaction)
             {
-                return $this->process();
-            });
+                DB::transaction(function()
+                {
+                    return $this->process();
+                });
+            }
+            else
+            {
+                $this->process();
+            }
             $this->after();
         }
         catch(Exception $e)

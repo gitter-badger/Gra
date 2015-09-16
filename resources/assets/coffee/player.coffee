@@ -131,22 +131,6 @@ loaded = (data) ->
 	if data.reload
 
 		window.location.refresh()
-	else
-		$.ajax {
-
-			url: url + '/notifications',
-			dataType: 'json',
-			method: 'GET',
-			success: notify
-		}
-
-		$.ajax {
-
-			url: url + '/messages',
-			dataType: 'json',
-			method: 'GET',
-			success: message,
-		}
 
 	setTimeout load, data.nextUpdate * 1000
 
@@ -189,6 +173,22 @@ load = ->
 		success: loaded
 	}
 
+	$.ajax {
+
+		url: url + '/notifications',
+		dataType: 'json',
+		method: 'GET',
+		success: notify
+	}
+
+	$.ajax {
+
+		url: url + '/messages',
+		dataType: 'json',
+		method: 'GET',
+		success: message,
+	}
+
 
 
 	
@@ -197,4 +197,4 @@ $(window).focus ->
 
 
 $ ->
-	load()
+	setTimeout load, 2500
