@@ -37,11 +37,11 @@ gulp.task('bootstrap', function() {
 	return gulp.src('./resources/assets/less/bootstrap.less')
 		.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
 		.pipe(less())
-		.pipe(gulp.dest('./public/css/'))
+		.pipe(gulp.dest('./public_html/css/'))
 		.pipe(livereload())
 		.pipe(minify({keepSpecialComments: 0}))
 		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('./public/css/'))
+		.pipe(gulp.dest('./public_html/css/'))
 		.pipe(notify('Bootstrap compiled'))
 		.pipe(livereload());
 });
@@ -56,11 +56,11 @@ gulp.task('theme', function() {
 	return gulp.src('./resources/assets/less/theme.less')
 		.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
 		.pipe(less())
-		.pipe(gulp.dest('./public/css/'))
+		.pipe(gulp.dest('./public_html/css/'))
 		.pipe(livereload())
 		.pipe(minify({keepSpecialComments: 0}))
 		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('./public/css/'))
+		.pipe(gulp.dest('./public_html/css/'))
 		.pipe(notify('Theme compiled'))
 		.pipe(livereload());
 });
@@ -78,12 +78,12 @@ gulp.task('coffee', function() {
 		.pipe(coffee())
 		.pipe(concat('app.js'))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./public/js'))
+		.pipe(gulp.dest('./public_html/js'))
 		.pipe(livereload())
 		.pipe(uglify())
 		.pipe(rename({suffix: '.min'}))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./public/js/'))
+		.pipe(gulp.dest('./public_html/js/'))
 		.pipe(notify('Coffeescript compiled'))
 		.pipe(livereload());
 });
