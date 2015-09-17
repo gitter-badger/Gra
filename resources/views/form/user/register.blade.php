@@ -1,3 +1,4 @@
+
 {!! BootForm::open()->post()->action(route('user.register')) !!}
 {!! BootForm::token() !!}
 

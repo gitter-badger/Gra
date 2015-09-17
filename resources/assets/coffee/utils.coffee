@@ -8,7 +8,7 @@ window.format or=
 
 
 
-window.active ?= false
+window.active ?= true
 
 
 
