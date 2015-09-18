@@ -5,9 +5,9 @@
 <table class="rankingNavF__table table table-hover">
 	<thead class="rankingNavF__table__thead">
 		<tr class="rankingNavF__table__tr">
-			<th>@lang('ranking.place')</th>
-			<th>@lang('statistic.level')</th>
-			<th>@lang('player.name')</th>
+			<th class="rankingNavF__table__th">@lang('ranking.place')</th>
+			<th class="rankingNavF__table__th">@lang('statistic.level')</th>
+			<th class="rankingNavF__table__th">@lang('player.name')</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,17 +24,17 @@
 
 		@endif
 
-			<td>{{ $record['index'] }}</td>
-			<td>{{ $record['level'] }}</td>
-			<td>{{ $record['name'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['index'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['level'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['name'] }}</td>
 		</tr>
 
 		@endforeach
 
 	</tbody>
-	<tfoot>
+	<tfoot  class="rankingNavF__table__tfoot">
 		<tr class="rankingNavF__table__tr">
-			<td colspan="3">
+			<td class="rankingNavF__table__td" colspan="3">
 				
 				{!! $players->render() !!}
 

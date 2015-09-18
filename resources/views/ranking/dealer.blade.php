@@ -26,9 +26,9 @@
 
 		@endforeach
 	</tbody>
-	<tfoot>
+	<tfoot  class="rankingNavF__table__tfoot">
 		<tr>
-			<td colspan="3">
+			<td class="rankingNavF__table__td" colspan="3">
 				
 				{!! $players->render() !!}
 			</td>

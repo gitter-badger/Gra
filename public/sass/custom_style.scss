@@ -1,5 +1,4 @@
 /*COLORS***************************************************************************************/
-
 $mainColor : #9CCC36;
 $activeNavColor : #759E1E;
 
@@ -11,7 +10,6 @@ body{
 }
 
 /*EXTENDS -- CLASS*/
-
 .gradient{
 	background: #fce625; /* Old browsers */
 	background: -moz-linear-gradient(top, #fce625 0%, #f1da36 46%, #efd423 100%); /* FF3.6+ */
@@ -23,8 +21,8 @@ body{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fce625', endColorstr='#efd423',GradientType=0 ); /* IE6-9 */
 }
 
-/*NAVIGATION************************************************************************************/
 
+/*NAVIGATION************************************************************************************/
 .navF{
 	background: $mainColor;
 	min-height : 30px;
@@ -106,7 +104,6 @@ body{
 			}
 		}	
 	}
-
 	&__description{
 		background-color: #272727;
     	padding: 4px 16px;
@@ -114,7 +111,6 @@ body{
     	font-weight: 500;
     	margin: 0px 4px;
 		}
-
 	&__navbar{
 		padding-right: 1em;
 		background: #516b1a; /* Old browsers */
@@ -139,8 +135,8 @@ body{
 	}
 }
 
-/*PANEL STATS********************************************************************************************/
 
+/*PANEL STATS********************************************************************************************/
 .panelF{
 	background: rgba(255,255,255,0.08);
     margin: 50px 0px;
@@ -180,8 +176,8 @@ body{
     }
 }
 
-/*RANKING************************************************************************************/
 
+/*RANKING************************************************************************************/
 .rankingNavF{
 	height: 40px;
     background-color: #313131;
@@ -197,22 +193,21 @@ body{
 		font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		font-weight: bold;
     }
-
     &__table{
     	background-color: #F7F7F7;
     	&__thead{
-    		    background-color: #272727;
-    border-bottom: 5px solid #9CCC36;
+    		background-color: #272727;
+    		border-bottom: 5px solid #9CCC36;
     	}
     	&__tr{
     		height: 55px;
     	}
     	&__th{
-    			padding: 0;
-			    height: 55px;
-			    color: white;
-			    text-align: center;
-			  line-height: 55px;
+    		padding: 0;
+			height: 55px;
+			color: white;
+			text-align: center;
+			line-height: 55px;
     	}
     	&__td{
     		padding: 0px;
@@ -222,11 +217,15 @@ body{
 		    color: #5F5F5F;
 		    font-size: 13px;
     	}
+    	&__tfoot{
+			background-color: #9CCC36;
+    		border-top: 5px solid #83AB2E;
+		}
     }
 }
 
-/*RAPORTS************************************************************************************/
 
+/*RAPORTS************************************************************************************/
 .raportsTableF{
 	background-color: #F7F7F7;
 	&__thead{
@@ -239,12 +238,10 @@ body{
 		    line-height: 55px !important;
 		    padding: 0px !important;
 		}
-
 		&__tr{
 			height: 55px;
 		}
 	}
-
 	&__tbody{
 		&__td{
 			padding: 0px;
@@ -255,7 +252,6 @@ body{
 		    font-size: 13px;
 		}
 	}
-
 	&__tfoot{
 		background-color: #9CCC36;
     	border-top: 5px solid #83AB2E;
