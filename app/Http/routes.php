@@ -27,6 +27,12 @@ Route::group(['domain' => Config::get('app.domain')], function()
 		return response('var i18n=' . json_encode(trans('script')));
 	});
 
+	/*Route::get('/js/player.js', function()
+	{
+		return view('player.script');
+	});*/
+
+
 
 	Route::controller('/auth/password', 'Auth\PasswordController');
 	Route::controller('/auth/facebook', 'Auth\FacebookController');
@@ -213,6 +219,13 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 
 		Route::group(['middleware' => 'player'], function()
 		{
+			Route::get('/js/player.js', function()
+			{
+				Debugbar::disable();
+				return view('player.script');
+			});
+
+
 			Route::get('/game', ['as' => 'game', function()
 			{
 

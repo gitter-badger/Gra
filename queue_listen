@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+php artisan queue:listen& 1>./storage/app/queue.out.log 2>./storage/app/queue.err.log

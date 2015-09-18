@@ -1,4 +1,4 @@
-APP_ENV=remote
+APP_ENV=local
 APP_DOMAIN=hempempire.eu
 APP_DEBUG=true
 APP_KEY=tRJBqwtraakx1D5Doe1Ivn7NXNYi97Lb
@@ -9,7 +9,7 @@ DB_USERNAME=hempempi_root
 DB_PASSWORD=2T5aWeD0=-#7
 
 CACHE_DRIVER=file
-SESSION_DRIVER=file
+SESSION_DRIVER=database
 QUEUE_DRIVER=database
 
 MAIL_DRIVER=smtp

@@ -201,6 +201,12 @@
 		<script src="{{ asset('/js/app.js') }}"></script>
 	@endif
 
+	@if(isset($player))
+
+
+		<script src="{{ asset('/js/player.js') }}"></script>
+	@endif
+
 
 @endsection
 

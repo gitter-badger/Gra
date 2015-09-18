@@ -44,7 +44,7 @@
 										{!! BootForm::open()->post()->action(route('game', ['view' => $view])) !!}
 										{!! BootForm::token() !!}
 
-										{!! BootForm::hidden('action')->value('market' . $view) !!}
+										{!! BootForm::hidden('action')->value('market.' . $view) !!}
 										{!! BootForm::hidden('item')->value($item->getId()) !!}
 										{!! BootForm::hidden('type')->value($item->getType()) !!}
 

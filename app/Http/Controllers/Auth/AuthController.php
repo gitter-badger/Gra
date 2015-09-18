@@ -11,11 +11,14 @@ use HempEmpire\World;
 use Illuminate\Http\Request;
 use HempEmpire\Http\Controllers\Controller;
 use HempEmpire\Jobs\SendVerification;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Request as RequestFacade;
 
 class AuthController extends Controller
 {
+    use AuthorizesRequests;
+
 
     public function __construct()
     {

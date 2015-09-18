@@ -148,6 +148,7 @@ return [
          * Application Service Providers...
          */
         HempEmpire\Providers\AppServiceProvider::class,
+        HempEmpire\Providers\AuthServiceProvider::class,
         HempEmpire\Providers\EventServiceProvider::class,
         HempEmpire\Providers\RouteServiceProvider::class,
 
@@ -208,6 +209,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Gate'      => Illuminate\Support\Facades\Gate::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'BootForm' => AdamWathan\BootForms\Facades\BootForm::class,

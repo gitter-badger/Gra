@@ -108,13 +108,18 @@ class MarketItem extends Model implements ItemContract
 		return $this->item->isUsable();
 	}
 
-	public function onUse(Player $player)
+	public function isEquipable()
 	{
-		return $this->item->onUse($player);
+		return $this->item->isEquipable();
 	}
 
-	public function onBuy(Player $player)
+	public function onUse(Player $player)
 	{
-		return $this->item->onBuy($player);
+
+	}
+
+	public function onEquip(Player $player)
+	{
+
 	}
 }
