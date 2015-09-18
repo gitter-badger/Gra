@@ -1,12 +1,21 @@
 #!/bin/bash
 
+debug=0
 listen=1
 stop=0
 start=1
 async=1
-out="./storage/app/queue.out.log"
-err="./storage/app/queue.err.log"
+output=""
+directory=$PWD
+artisan="$directory/artisan"
 
+pids=$(/sbin/pidof php)
+running=0
+
+if [ "$pids" ]
+then
+	running=1
+fi
 
 
 while [[ $# > 0 ]]
@@ -22,22 +31,46 @@ do
 			listen=0
 		;;
 		-s|--silent)
-			out="/dev/null"
-			err="/dev/null"
+			output="&>/dev/null"
+		;;
+		-v|--verbose)
+			output=""
 		;;
 		-o|--output)
-			out="$2"
-			shift
-		;;
-		-e|--error)
-			err="$2"
-			shift
+			file="$directory/$2"
+
+			if [ ! -e "$file" ]
+			then
+				echo "File $file doesnt exists."
+				touch "$file"
+			fi
+
+			output="&>>$file"
 		;;
 		-a|--async)
 			async=1
 		;;
-		-S|--sync)
+		-y|--sync)
 			async=0
+		;;
+		-r|--artisan)
+			artisan="$directory/$2"
+			shift
+		;;
+		-g|--log)
+			file="$directory/storage/logs/queue.log"
+
+			if [ ! -e "$file" ]
+			then
+				echo "File $file doesnt exists."
+				touch "$file"
+			fi
+
+			output="&>>$file"
+		;;
+		-d|--dir)
+			directory="$2"
+			shift
 		;;
 		start)
 			start=1
@@ -60,7 +93,18 @@ do
 done
 
 
-cmd="queue"
+if [[ $debug > 0 ]]
+then
+
+	echo "PWD: $PWD"
+	echo "Artisan: $artisan"
+	echo "Directory: $directory"
+	echo "Output: $output"
+fi
+
+
+
+cmd="$artisan queue"
 
 if [[ $listen > 0 ]]
 then
@@ -69,21 +113,44 @@ else
 	cmd="$cmd:work"
 fi
 
-if [[ $async > 0 ]]
-then
-	cmd="$cmd&"
-fi
+
 
 if [[ $stop > 0 ]]
 then
-	pids=$(pidof ps)
-	kill $pids
-	echo "Queue stopped"
+	if [ "$pids" ]
+	then
+
+		echo "Stopping queue"
+		kill $pids
+		running=0
+	else
+
+		echo "Nothing to stop"
+	fi
 fi
 
 if [[ $start > 0 ]]
 then
-	echo "Queue started"
-	php artisan $cmd 1>"$out" 2>"$err"
+	if [[ $running == 0 ]]
+	then
+
+		if [[ $async > 0 ]]
+		then
+
+			echo "Starting async queue"
+			echo "php $cmd $output &"
+			php $cmd $output &
+		else
+
+
+			echo "Starting sync queue"
+			echo "php $cmd $output"
+			php $cmd $output
+		fi
+
+	else
+
+		echo "Already running"
+	fi
 fi
 

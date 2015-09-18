@@ -27,16 +27,16 @@ class PlayerQuest extends Model
                 {
                     $quest->active = false;
                     $quest->give();
+
+                    $quest->player->newReport('quest-completed')
+                        ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                        ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
+                        ->send();
                 }
                 else
                 {
                     $quest->active = true;
                 }
-
-                $quest->player->newReport('quest-completed')
-                    ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
-                    ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
-                    ->send();
             }
         });
     }

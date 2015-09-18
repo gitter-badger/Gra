@@ -177,9 +177,9 @@ class Npc extends Component
 		{
 			$this->danger('questInactive');
 		}
-		elseif($quest->done)
+		elseif(!$quest->done)
 		{
-			$this->danger('questDone');
+			$this->danger('questNotDone');
 		}
 		elseif(!$quest->check())
 		{
