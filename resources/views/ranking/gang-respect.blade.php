@@ -3,9 +3,9 @@
 
 @section('ranking-content')
 
-<table class="table table-hover">
-	<thead>
-		<tr>
+<table class=" rankingNavF__table table table-hover">
+	<thead class="rankingNavF__table__thead">
+		<tr class="rankingNavF__table__tr">
 			<th>@lang('ranking.place')</th>
 			<th>@lang('gang.respect')</th>
 			<th>@lang('gang.name')</th>
@@ -15,7 +15,7 @@
 		@foreach($gangs as $record)
 
 		@if(!is_null($player->gang) && $record['id'] == $player->gang->id)
-		<tr class="info">
+		<tr class="rankingNavF__table__tr info">
 		@else
 		</tr>
 		@endif

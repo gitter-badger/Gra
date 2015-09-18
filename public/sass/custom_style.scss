@@ -197,6 +197,32 @@ body{
 		font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		font-weight: bold;
     }
+
+    &__table{
+    	background-color: #F7F7F7;
+    	&__thead{
+    		    background-color: #272727;
+    border-bottom: 5px solid #9CCC36;
+    	}
+    	&__tr{
+    		height: 55px;
+    	}
+    	&__th{
+    			padding: 0;
+			    height: 55px;
+			    color: white;
+			    text-align: center;
+			  line-height: 55px;
+    	}
+    	&__td{
+    		padding: 0px;
+		    line-height: 50px;
+		    text-align: center;
+		    font-weight: bold;
+		    color: #5F5F5F;
+		    font-size: 13px;
+    	}
+    }
 }
 
 /*RAPORTS************************************************************************************/
@@ -208,11 +234,25 @@ body{
 		border-bottom: 5px solid #9CCC36;
 		&__th{
 			text-align: center;
-    		color: #F7F7F7;
+		    color: #F7F7F7;
+		    height: 55px;
+		    line-height: 55px !important;
+		    padding: 0px !important;
 		}
 
 		&__tr{
 			height: 55px;
+		}
+	}
+
+	&__tbody{
+		&__td{
+			padding: 0px;
+		    line-height: 50px;
+		    text-align: center;
+		    font-weight: bold;
+		    color: #5F5F5F;
+		    font-size: 13px;
 		}
 	}
 

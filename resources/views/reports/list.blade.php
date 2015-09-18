@@ -14,18 +14,18 @@
 					<th ></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="raportsTableF__tbody">
 				
 				@forelse($reports as $report)
 
 
 				<tr{!! $report->readed ? '' : ' class="unreaded"' !!}>
-					<td>
+					<td class="raportsTableF__tbody__td">
 
 						{!! $report->title !!}
 					</td>
-					<td>{{ date('Y-m-d H:i:s', $report->date) }}</td>
-					<td>
+					<td class="raportsTableF__tbody__td">{{ date('Y-m-d H:i:s', $report->date) }}</td>
+					<td class="raportsTableF__tbody__td">
 						
 						{!! BootForm::open()->get()->action(route('reports.show', ['id' => $report->id]))->addClass('form-inline') !!}
 						{!! BootForm::token() !!}

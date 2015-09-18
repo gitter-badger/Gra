@@ -2249,8 +2249,6 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 8px;
-  line-height: 1.846;
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
@@ -4532,15 +4530,17 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .pagination > li > a,
 .pagination > li > span {
-  position: relative;
-  float: left;
-  padding: 6px 16px;
-  line-height: 1.846;
-  text-decoration: none;
-  color: #2196f3;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  margin-left: -1px;
+    position: relative;
+    float: left;
+    padding: 6px 16px;
+    line-height: 1.846;
+    text-decoration: none;
+    color: #83AB2E;
+    background-color: #FFFFFF;
+}
+.pagination-fix{
+    text-align: left;
+    margin-left: 26px;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
@@ -4557,9 +4557,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
-  color: #0a6ebd;
-  background-color: #eeeeee;
-  border-color: #dddddd;
+  color: #FFFFFF;
+  background-color: #3C3C3C;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -4569,8 +4568,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > .active > span:focus {
   z-index: 2;
   color: #ffffff;
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #83AB2E;
+  border: none;
   cursor: default;
 }
 .pagination > .disabled > span,

@@ -1,28 +1,27 @@
-@extends('ranking.base')
-
+@extends('ranking.base') 
 
 @section('ranking-content')
 
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th>@lang('ranking.place')</th>
-			<th>@lang('statistic.dealerLevel')</th>
-			<th>@lang('player.name')</th>
+<table class="rankingNavF__table table table-hover">
+	<thead class="rankingNavF__table__thead">
+		<tr class="rankingNavF__table__tr">
+			<th class="rankingNavF__table__th">@lang('ranking.place')</th>
+			<th class="rankingNavF__table__th">@lang('statistic.dealerLevel')</th>
+			<th class="rankingNavF__table__th">@lang('player.name')</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach($players as $record)
 
 		@if($record['id'] == $player->id)
-		<tr class="info">
+		<tr class="rankingNavF__table__tr">
 		@else
 		</tr>
 		@endif
 
-			<td>{{ $record['index'] }}</td>
-			<td>{{ $record['dealerLevel'] }}</td>
-			<td>{{ $record['name'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['index'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['dealerLevel'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['name'] }}</td>
 		</tr>
 
 		@endforeach

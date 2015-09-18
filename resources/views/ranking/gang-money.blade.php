@@ -3,9 +3,9 @@
 
 @section('ranking-content')
 
-<table class="table table-hover">
-	<thead>
-		<tr>
+<table class="rankingNavF__table table table-hover">
+	<thead class="rankingNavF__table__thead">
+		<tr class="rankingNavF__table__tr">
 			<th>@lang('ranking.place')</th>
 			<th>@lang('gang.money')</th>
 			<th>@lang('gang.name')</th>

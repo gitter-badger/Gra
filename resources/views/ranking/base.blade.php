@@ -19,15 +19,12 @@
 		<div class="panel-body">
 				   
 			{!! Message::renderAll() !!}
-
 			
 			@yield('ranking-content')
 		</div>
 	</div>
 
 </div>
-
-
 
 
 @endsection
