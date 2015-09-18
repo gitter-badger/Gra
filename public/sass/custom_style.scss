@@ -11,6 +11,7 @@ body{
 }
 
 /*EXTENDS -- CLASS*/
+
 .gradient{
 	background: #fce625; /* Old browsers */
 	background: -moz-linear-gradient(top, #fce625 0%, #f1da36 46%, #efd423 100%); /* FF3.6+ */
@@ -138,8 +139,8 @@ body{
 	}
 }
 
-
 /*PANEL STATS********************************************************************************************/
+
 .panelF{
 	background: rgba(255,255,255,0.08);
     margin: 50px 0px;
@@ -177,4 +178,46 @@ body{
     		}
     	}
     }
+}
+
+/*RANKING************************************************************************************/
+
+.rankingNavF{
+	height: 40px;
+    background-color: #313131;
+    &__link{
+		background: #AADC40 !important;
+		height: 30px;
+		color: #3A4E0F;
+		line-height: 30px;
+		margin: 5px 2px 0px 2px;
+		padding: 0px 10px 0px 10px;
+		border-radius: 2px;
+		border-bottom: 1px solid #B6E84A;
+		font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: bold;
+    }
+}
+
+/*RAPORTS************************************************************************************/
+
+.raportsTableF{
+	background-color: #F7F7F7;
+	&__thead{
+		background-color: #272727;
+		border-bottom: 5px solid #9CCC36;
+		&__th{
+			text-align: center;
+    		color: #F7F7F7;
+		}
+
+		&__tr{
+			height: 55px;
+		}
+	}
+
+	&__tfoot{
+		background-color: #9CCC36;
+    	border-top: 5px solid #83AB2E;
+	}
 }

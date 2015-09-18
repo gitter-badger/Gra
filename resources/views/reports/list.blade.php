@@ -6,12 +6,12 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>@lang('report.title')</th>
-					<th>@lang('report.date')</th>
-					<th></th>
+		<table class="raportsTableF table table-hover">
+			<thead class="raportsTableF__thead">
+				<tr class="raportsTableF__thead__tr">
+					<th class="raportsTableF__thead__th">@lang('report.title')</th>
+					<th class="raportsTableF__thead__th">@lang('report.date')</th>
+					<th ></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,7 +53,7 @@
 
 			</tbody>
 
-			<tfoot>
+			<tfoot class="raportsTableF__tfoot">
 				<tr>
 					<td colspan="2" class="text-center">
 						
