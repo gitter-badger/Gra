@@ -1,0 +1,89 @@
+#!/bin/bash
+
+listen=1
+stop=0
+start=1
+async=1
+out="./storage/app/queue.out.log"
+err="./storage/app/queue.err.log"
+
+
+
+while [[ $# > 0 ]]
+do
+
+	key="$1"
+	
+	case $key in
+		-l|--listen)
+			listen=1
+		;;
+		-w|--work)
+			listen=0
+		;;
+		-s|--silent)
+			out="/dev/null"
+			err="/dev/null"
+		;;
+		-o|--output)
+			out="$2"
+			shift
+		;;
+		-e|--error)
+			err="$2"
+			shift
+		;;
+		-a|--async)
+			async=1
+		;;
+		-S|--sync)
+			async=0
+		;;
+		start)
+			start=1
+			stop=0
+		;;
+		stop)
+			start=0
+			stop=1
+		;;
+		restart)
+			start=1
+			stop=1
+		;;
+
+		*)
+		;;
+	esac
+
+	shift
+done
+
+
+cmd="queue"
+
+if [[ $listen > 0 ]]
+then
+	cmd="$cmd:listen"
+else
+	cmd="$cmd:work"
+fi
+
+if [[ $async > 0 ]]
+then
+	cmd="$cmd&"
+fi
+
+if [[ $stop > 0 ]]
+then
+	pids=$(pidof ps)
+	kill $pids
+	echo "Queue stopped"
+fi
+
+if [[ $start > 0 ]]
+then
+	echo "Queue started"
+	php artisan $cmd 1>"$out" 2>"$err"
+fi
+
