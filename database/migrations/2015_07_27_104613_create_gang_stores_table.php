@@ -25,7 +25,7 @@ class CreateGangStoresTable extends Migration
 
 
             $table->foreign('gang_id')->references('id')->on('gangs')->onDelete('cascade');
-            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

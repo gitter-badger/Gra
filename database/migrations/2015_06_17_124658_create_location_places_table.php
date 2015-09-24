@@ -17,9 +17,11 @@ class CreateLocationPlacesTable extends Migration
             $table->increments('id');
             $table->integer('place_id')->unsigned();
             $table->integer('location_id')->unsigned();
+            $table->float('x');
+            $table->float('y');
 
-            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

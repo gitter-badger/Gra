@@ -24,7 +24,7 @@ class CreatePlantationsTable extends Migration
 
 
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
-            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade');
+            $table->foreign('location_place_id')->references('id')->on('location_places')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

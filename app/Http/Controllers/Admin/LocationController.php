@@ -51,28 +51,11 @@ class LocationController extends Controller
             $location->x = Request::input('x');
             $location->y = Request::input('y');
 
-            $file = Request::file('image');
-            $file->move(public_path() . '/images/locations', $file->getClientOriginalName());
-            $location->image = $file->getClientOriginalName();
+            $file = Request::file('plan');
+            $file->move(public_path() . '/images/plans', $file->getClientOriginalName());
+            $location->plan = $file->getClientOriginalName();
 
             $location->save();
-
-
-            if(Request::has('places'))
-            {
-                $places = array_keys(Request::input('places'));
-
-                $location->places()->delete();
-
-
-                foreach($places as $place_id)
-                {
-                    $place = new LocationPlace;
-                    $place->location_id = $location->id;
-                    $place->place_id = $place_id;
-                    $place->save();
-                }
-            }
 
         });
 
@@ -88,10 +71,12 @@ class LocationController extends Controller
     public function show($id)
     {
         $location = Location::findOrFail($id);
+        $places = Place::all();
 
 
         return view('admin.location.view')
-        	->with('location', $location);
+        	->with('location', $location)
+            ->with('places', $places);
     }
 
     /**
@@ -103,12 +88,10 @@ class LocationController extends Controller
     public function edit($id)
     {
         $location = Location::findOrFail($id);
-        $places = Place::all();
 
 
         return view('admin.location.edit')
-            ->with('location', $location)
-            ->with('places', $places);
+            ->with('location', $location);
     }
 
     /**
@@ -129,11 +112,11 @@ class LocationController extends Controller
             }
 
 
-            if(Request::hasFile('image') && Request::file('image')->isValid())
+            if(Request::hasFile('plan') && Request::file('plan')->isValid())
             {
-                $file = Request::file('image');
-                $file->move(public_path() . '/images/locations', $file->getClientOriginalName());
-                $location->image = $file->getClientOriginalName();
+                $file = Request::file('plan');
+                $file->move(public_path() . '/images/plans', $file->getClientOriginalName());
+                $location->plan = $file->getClientOriginalName();
             }
 
             if(Request::has('x'))
@@ -152,23 +135,6 @@ class LocationController extends Controller
             }
 
             $location->save();
-
-
-            if(Request::has('places'))
-            {
-                $places = array_keys(Request::input('places'));
-
-                $location->places()->delete();
-
-
-                foreach($places as $place_id)
-                {
-                    $place = new LocationPlace;
-                    $place->location_id = $id;
-                    $place->place_id = $place_id;
-                    $place->save();
-                }
-            }
 
         });
 
@@ -206,7 +172,7 @@ class LocationController extends Controller
                 if(strlen($places) > 0)
                     $places .= ', ';
 
-                $places .= '\'' . $place->name . '\'';
+                $places .= "'{$place->name}' => ['x' => {$place->x}, 'y' => {$place->y}]";
             }
 
             foreach($location->groups as $group)
@@ -221,6 +187,7 @@ class LocationController extends Controller
             $output .= '[';
             $output .= '\'name\' => \'' . $location->name . '\', ';
             $output .= '\'image\' => \'' . $location->image . '\', ';
+            $output .= '\'plan\' => \'' . $location->plan . '\', ';
             $output .= '\'groups\' => [' . $groups . '], ';
             $output .= '\'x\' => ' . $location->x . ', ';
             $output .= '\'y\' => ' . $location->y . ', ';

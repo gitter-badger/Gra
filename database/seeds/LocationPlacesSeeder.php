@@ -28,7 +28,7 @@ class LocationPlacesSeeder extends Seeder
         		$places = $locationData['places'];
 
 
-        		foreach($places as $placeName)
+        		foreach($places as $placeName => $placeData)
         		{
         			$place = Place::whereName($placeName)->firstOrFail();
 
@@ -36,6 +36,8 @@ class LocationPlacesSeeder extends Seeder
 
         				'location_id' => $location->id,
         				'place_id' => $place->id,
+                        'x' => $placeData['x'],
+                        'y' => $placeData['y'],
         			];
         		}
         	}

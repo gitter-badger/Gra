@@ -31,6 +31,7 @@ class DeveloperSeeder extends Seeder
             'language' => 'pl',
         ]);
 
+        /*
         $j = 1000;
         $l = 50;
 
@@ -101,5 +102,6 @@ class DeveloperSeeder extends Seeder
         }
 
         echo PHP_EOL;
+        */
     }
 }

@@ -234,9 +234,11 @@
 
 		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
 	@else
 		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
 	@endif
 
 

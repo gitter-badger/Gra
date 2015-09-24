@@ -133,6 +133,7 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 
 			Route::get('/location/export', ['as' => 'admin.location.export', 'uses' => 'Admin\LocationController@export']);
 			Route::resource('/location', 'Admin\LocationController');
+			Route::resource('/location.place', 'Admin\LocationPlaceController', ['only' => ['store', 'update', 'destroy']]);
 
 			Route::get('/place/export', ['as' => 'admin.place.export', 'uses' => 'Admin\PlaceController@export']);
 			Route::resource('/place', 'Admin\PlaceController');
