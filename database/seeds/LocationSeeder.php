@@ -12,7 +12,7 @@ class LocationSeeder extends Seeder
     public function run()
     {
     	$records = [];
-    	$locations = Config::get('locations');
+    	$locations = Config::get('locations', []);
 
 
     	foreach ($locations as $location)
@@ -21,6 +21,7 @@ class LocationSeeder extends Seeder
 
     			'name' => $location['name'],
                 'image' => $location['image'],
+                'plan' => $location['plan'],
                 'groups' => json_encode($location['groups']),
     			'x' => $location['x'],
     			'y' => $location['y'],

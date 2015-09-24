@@ -47,7 +47,7 @@ class Deal extends PlayerJob
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
 
         if($this->player->jobName == 'dealing' && $this->player->jobEnd > time())

@@ -65,7 +65,7 @@ class GangBattle extends Job
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
 
         $now = time();

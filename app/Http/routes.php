@@ -113,6 +113,7 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 			'getLanguage' => 'user.language',
 		]);
 
+
 		Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function()
 		{
 			Route::get('/', ['as' => 'admin.index', function()
@@ -216,6 +217,11 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 			'getMessage' => 'chat.message',
 		]);
 
+		Route::get('/worlds', ['as' => 'world.listin', function()
+		{
+			return view('world')
+				->with('worlds', World::all());
+		}]);
 
 		Route::group(['middleware' => 'player'], function()
 		{

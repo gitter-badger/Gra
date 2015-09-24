@@ -33,7 +33,7 @@ class Harvest extends PlayerJob
 	}
 
 
-	public function process()
+	protected function process()
 	{
 		$count = $this->player->roll($this->countMin, $this->countMax);
 		$template = TemplateStuff::where('name', '=', $this->species . '-stuff')->first();
@@ -42,9 +42,12 @@ class Harvest extends PlayerJob
 		$stuff->quality = $this->quality;
 		$stuff->template()->associate($template);
 
+		$exp = round($count * ($this->quality / 5));
 
 
-		$this->player->plantatorExperience += round($count * ($this->quality / 5));
+		echo 'Player ' . $this->player->name . ' harvested ' . $count . ' of stuff gaining ' . $exp . ' plantator experience' . PHP_EOL;
+
+		$this->player->plantatorExperience += $exp;
 
 		$success = DB::transaction(function() use($stuff, $count)
 		{

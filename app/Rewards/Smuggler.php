@@ -36,9 +36,16 @@ class Smuggler implements Reward
 	}
 
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
-		$player->smugglerExperience += round($this->experience * $this->getFactor($player));
+		$experience = round($this->experience * $this->getFactor($player));
+
+		if($debug)
+		{
+			echo 'Giving ' . $experience . ' to ' . $player->name . PHP_EOL;
+		}
+
+		$player->smugglerExperience += $experience;
 	}
 
 	public function getText()

@@ -11,7 +11,7 @@ class ArmorSeeder extends Seeder
      */
     public function run()
     {
-        $armors = Config::get('items.armors');
+        $armors = Config::get('items.armors', []);
         $records = [];
 
 

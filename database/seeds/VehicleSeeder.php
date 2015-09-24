@@ -11,7 +11,7 @@ class VehicleSeeder extends Seeder
      */
     public function run()
     {
-        $vehicles = Config::get('items.vehicles');
+        $vehicles = Config::get('items.vehicles', []);
         $records = [];
 
 

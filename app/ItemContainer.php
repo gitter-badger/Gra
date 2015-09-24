@@ -204,8 +204,13 @@ trait ItemContainer
     {
         if(method_exists($this, 'getCapacity'))
         {
-            $space = $this->getCapacity() - $this->getWeight();
-            $count = min($count, $space / $item->getWeight());
+            $weight = $item->getWeight();
+
+            if($weight > 0)
+            {
+                $space = $this->getCapacity() - $this->getWeight();
+                $count = min($count, $space / $weight);
+            }
         }
 
         if(isset($this->_weight))

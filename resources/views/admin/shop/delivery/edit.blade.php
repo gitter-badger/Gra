@@ -127,25 +127,29 @@
 @parent
 
 <script type="text/javascript">
-	
-$('#item-type').change(function() {
 
-	var type = $(this).val();
-
-	$('.item').each(function() {
-
-		if($(this).data('type') == type) {
-
-			$(this).parents('.form-group').show();
-		}
-		else {
-
-			$(this).parents('.form-group').hide();
-		}
-	});
+$(function() {
 
 
-}).trigger('change');
+	$('#item-type').change(function() {
+
+		var type = $(this).val();
+
+		$('.item').each(function() {
+
+			if($(this).data('type') == type) {
+
+				$(this).parents('.form-group').show();
+			}
+			else {
+
+				$(this).parents('.form-group').hide();
+			}
+		});
+
+
+	}).trigger('change');
+});
 
 </script>
 

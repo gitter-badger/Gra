@@ -11,7 +11,7 @@ class WeaponSeeder extends Seeder
      */
     public function run()
     {
-        $weapons = Config::get('items.weapons');
+        $weapons = Config::get('items.weapons', []);
         $records = [];
 
 

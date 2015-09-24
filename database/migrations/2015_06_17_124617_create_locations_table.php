@@ -17,6 +17,7 @@ class CreateLocationsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('image');
+            $table->string('plan');
             $table->json('groups');
             $table->float('x');
             $table->float('y');

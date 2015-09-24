@@ -36,9 +36,16 @@ class Dealer implements Reward
 	}
 
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
-		$player->dealerExperience += round($this->experience * $this->getFactor($player));
+		$experience = round($this->experience * $this->getFactor($player));
+
+		if($debug)
+		{
+			echo 'Giving ' . $experience . ' dealer exp to ' . $player->name . PHP_EOL;
+		}
+
+		$player->dealerExperience += $experience;
 	}
 
 	public function getText()

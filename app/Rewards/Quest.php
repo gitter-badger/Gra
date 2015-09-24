@@ -16,8 +16,13 @@ class Quest implements Reward
 		$this->name = $name;
 	}
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
+		if($debug)
+		{
+			echo 'Player ' . $player->name . ' completed quest ' . $this->name . PHP_EOL;
+		}
+
 		return $player->completeQuest($this->name);
 	}
 

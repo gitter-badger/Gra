@@ -12,7 +12,7 @@ class PlaceSeeder extends Seeder
     public function run()
     {
     	$records = [];
-    	$places = Config::get('places');
+    	$places = Config::get('places', []);
 
 
     	foreach($places as $place)

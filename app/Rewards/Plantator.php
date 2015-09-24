@@ -36,9 +36,16 @@ class Plantator implements Reward
 	}
 
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
-		$player->plantatorExperience += round($this->experience * $this->getFactor($player));
+		$experience = round($this->experience * $this->getFactor($player));
+
+		if($debug)
+		{
+			echo 'Giving ' . $experience . ' plantator experience to ' . $player->name . PHP_EOL;
+		}
+
+		$player->plantatorExperience += $experience;
 	}
 
 	public function getText()

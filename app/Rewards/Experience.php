@@ -17,7 +17,7 @@ class Experience implements Reward
 			if(is_null($player))
 				$player = Player::getActive();
 
-			return (1 + $player->level / 10) * $player->experienceModifier;
+			return ($player->level / 10 + 1) * $player->experienceModifier;
 		}
 		else
 		{
@@ -36,9 +36,18 @@ class Experience implements Reward
 	}
 
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
-		$player->experience += round($this->experience * $this->getFactor($player));
+		$experience = round($this->experience * $this->getFactor($player));
+
+		if($debug)
+		{
+			echo 'Giving ' . $experience . ' exp to ' . $player->name . PHP_EOL;
+		}
+
+
+
+		$player->experience += $experience;
 	}
 
 	public function getText()

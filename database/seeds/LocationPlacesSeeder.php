@@ -15,7 +15,7 @@ class LocationPlacesSeeder extends Seeder
     public function run()
     {
         $records = [];
-        $locations = Config::get('locations');
+        $locations = Config::get('locations', []);
 
 
         foreach($locations as $locationData)

@@ -29,7 +29,7 @@ class Gamble extends PlayerJob
      *
      * @return void
      */
-    public function handle()
+    protected function handle()
     {
         if($this->player->jobName == 'gambling')
         {

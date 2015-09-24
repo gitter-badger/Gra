@@ -58,7 +58,7 @@ class ShopSeeder extends Seeder
      */
     public function run()
     {
-        $shops = Config::get('shops');
+        $shops = Config::get('shops', []);
 
 
         foreach($shops as $name => $items)
@@ -67,13 +67,20 @@ class ShopSeeder extends Seeder
 
             foreach($items as $name => $count)
             {
-                $item = $this->findItemByName($name);
+                try
+                {
+                    $item = $this->findItemByName($name);
 
-                $delivery = new TemplateShopDelivery;
-                $delivery->count = $count;
-                $delivery->item()->associate($item);
+                    $delivery = new TemplateShopDelivery;
+                    $delivery->count = $count;
+                    $delivery->item()->associate($item);
 
-                $shop->deliveries()->save($delivery);
+                    $shop->deliveries()->save($delivery);
+                }
+                catch(Exception $e)
+                {
+                    echo $e->getMessage() . PHP_EOL;
+                }
             }
         }
     }

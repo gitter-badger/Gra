@@ -39,7 +39,7 @@ class SendVerification extends Job
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
         $data = [
 
@@ -50,6 +50,8 @@ class SendVerification extends Job
         ];
         
         App::setLocale($this->user->language);
+
+        echo 'Sending verification to ' . $this->user->name . PHP_EOL;
 
 
         Mail::send('emails.verification', $data, function($message)

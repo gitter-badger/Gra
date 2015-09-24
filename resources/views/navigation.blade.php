@@ -167,9 +167,9 @@
 					</a>
 				</li>
 
-				<li{!! isCurrentRoute('world.list') ? ' class="active"' : '' !!} data-help="@lang('help.nav.world')">
+				<li{!! isCurrentRoute('world.listin') ? ' class="active"' : '' !!} data-help="@lang('help.nav.world')">
 
-					<a href="{{ route('world.list') }}" title="{{ $player->world->getTitle() }}">
+					<a href="{{ route('world.listin') }}" title="{{ $player->world->getTitle() }}">
 
 						<span class="glyphicon glyphicon-globe"></span>
 						<span class="hidden-xs hidden-sm">{{ $player->world->getTitle() }}</span>

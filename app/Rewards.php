@@ -16,7 +16,14 @@ class Rewards extends ClassContainer
 		'dealer' => \HempEmpire\Rewards\Dealer::class,
 	];
 
+	protected $debug = false;
 
+
+
+	public function enableDebug($enabled)
+	{
+		$this->debug = $enabled;
+	}
 
 
 	public function give(Player $player = null, $save = true)
@@ -24,11 +31,17 @@ class Rewards extends ClassContainer
 		if(is_null($player))
 			$player = static::getDefaultPlayer();
 
+		if($this->debug)
+		{
+			echo 'Giving rewards to ' . $player->name . PHP_EOL; 
+		}
+
+
 		return DB::transaction(function() use($player, $save)
 		{
 			foreach($this->objects as $object)
 			{
-				if($object->give($player) === false)
+				if($object->give($player, $this->debug) === false)
 					return false;
 			}
 

@@ -39,13 +39,14 @@ class WorkEnds extends PlayerJob
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
         $success = DB::transaction(function()
         {
             if($this->player->jobName == 'working')
             {
                 $rewards = $this->work->work->getRewards();
+                $rewards->enableDebug(true);
 
                 $this->work->done = true;
                 $this->work->counter++;

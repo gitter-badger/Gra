@@ -15,7 +15,7 @@ class NpcSeeder extends Seeder
     {
     	$records = [];
 
-        foreach(Config::get('npcs') as $name => $npc)
+        foreach(Config::get('npcs', []) as $name => $npc)
         {
         	$records[] = [
 

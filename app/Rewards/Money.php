@@ -16,7 +16,7 @@ class Money implements Reward
 			if(is_null($player))
 				$player = Player::getActive();
 
-			return (1 + $player->level / 10) * $player->moneyModifier;
+			return ($player->level / 10 + 1) * $player->moneyModifier;
 		}
 		else
 		{
@@ -33,9 +33,17 @@ class Money implements Reward
 		$this->perLevel = $perLevel;
 	}
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
-		$player->money += round($this->money * $this->getFactor($player));
+		$money = round($this->money * $this->getFactor($player));
+
+		if($debug)
+		{
+			echo 'Giving ' . $money . ' money to ' . $player->name . PHP_EOL;
+		}
+
+
+		$player->money += $money;
 	}
 
 	public function getText()

@@ -60,9 +60,22 @@ class Item implements Reward
 	}
 
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
 		$item = static::findItem($this->name);
+
+		if($debug)
+		{
+			if(isset($item))
+			{
+				echo 'Giving item: ' . $item->getName() . ' x ' . $this->count . ' to ' . $player->name . PHP_EOL;
+			}
+			else
+			{
+				echo 'Item not found' . PHP_EOL;
+			}
+		}
+
 
 		if(isset($item))
 			$player->giveItem($item, $this->count);

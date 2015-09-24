@@ -15,8 +15,12 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Nazwa surowa</th>
-				<th>Nazwa wyświetlana</th>
+				<th>Nazwa</th>
+				<th>Cena</th>
+				<th>Waga</th>
+				<th>Obrażenia</th>
+				<th>Szansa na kryt</th>
+				<th>Szybkość</th>
 				<th>Typ</th>
 				<th></th>
 			</tr>
@@ -28,11 +32,15 @@
 				<tr>
 					<td>{{ $item->id }}</td>
 					<td>{{ $item->getName() }}</td>
-					<td>{{ $item->getTitle() }}</td>
-					<td>{{ trans('item.types.' . $item->getType()) }}</td>
+					<td>{{ $item->isPremium() ? $item->getPrice() . 'pp' : '$' . $item->getPrice() }}</td>
+					<td>{{ $item->getWeight() }}</td>
+					<td>{{ $item->getDamage()[0] }} - {{ $item->getDamage()[1] }}</td>
+					<td>{{ Formatter::percent($item->getCritChance(), 2) }}</td>
+					<td>{{ Formatter::signedPercent($item->getSpeed() * 100, 2) }}</td>
+					<td>{{ $item->getSubType() }}</td>
 
 					<td>
-						
+
 						<a href="{{ route('admin.item.' . $type . '.show', [$type => $item->id]) }}" class="btn btn-info">
 
 							{!! entity('icon')->icon('eye-open') !!}

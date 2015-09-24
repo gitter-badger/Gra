@@ -1,5 +1,7 @@
 <?php namespace AdamWathan\Form\Elements;
 
+use Debugbar;
+
 class Number extends Input
 {
 
@@ -51,14 +53,25 @@ class Number extends Input
 
     public function render()
     {
-        $this->attributes['value'] = $this->getValue();
+        try
+        {
+            $this->attributes['value'] = $this->getValue();
 
-        $html = '<div class="input-group">';
-        $html .= $this->renderAddon('minus');
-        $html .= parent::render();
-        $html .= $this->renderAddon('plus');
-        $html .= '</div>';
+            $html = '<div class="input-group">';
+            $html .= $this->renderAddon('minus');
+            $html .= parent::render();
+            $html .= $this->renderAddon('plus');
+            $html .= '</div>';
 
-        return $html;
+            return $html;
+        }
+        catch(\Exception $e)
+        {
+            $str = '';
+
+            $str .= 'Has: ' . ($this->hasAttribute('min') ? 'true' : 'false') . '</br>';
+            $str .= $e->getMessage() . '<br/>' . $e->getTraceAsString();
+            return $str;
+        }
     }
 }

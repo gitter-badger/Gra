@@ -16,8 +16,13 @@ class StartQuest implements Reward
 		$this->name = $name;
 	}
 
-	public function give(Player $player)
+	public function give(Player $player, $debug = false)
 	{
+		if($debug)
+		{
+			echo 'Player ' . $player->name . ' started quest ' . $this->name . PHP_EOL;
+		}
+
 		return $player->startQuest($this->name);
 	}
 

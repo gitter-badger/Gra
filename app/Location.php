@@ -10,7 +10,7 @@ use Config;
 
 class Location extends Model
 {
-	protected $fillable = ['name', 'image', 'groups', 'x', 'y'];
+	protected $fillable = ['name', 'image', 'plan', 'groups', 'x', 'y'];
 	public $timestamps = false;
 
 
@@ -51,6 +51,11 @@ class Location extends Model
 	public function getImage()
 	{
 		return asset('/images/locations/' . $this->image);
+	}
+
+	public function getPlan()
+	{
+		return asset('/images/plans/' . $this->plan);
 	}
 
 	public function getGroupsAttribute($value)

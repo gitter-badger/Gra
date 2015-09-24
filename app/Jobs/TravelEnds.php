@@ -41,17 +41,20 @@ class TravelEnds extends PlayerJob
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
         $success = DB::transaction(function()
         {
             if($this->player->jobName == 'traveling')
             {
                 $count = $this->player->getStuffsCount();
+                $exp = round($count / 2);
 
-                $this->player->smugglerExperience += round($count / 2);
+                $this->player->smugglerExperience += $exp;
                 $this->player->wanted = max($this->player->wanted - 1, 0);
                 $this->player->wantedUpdate = time();
+
+                echo 'Giving ' . $exp . ' smuggler experience to ' . $this->player->name . PHP_EOL; 
 
                 if($count > 0)
                 {

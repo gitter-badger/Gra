@@ -13,6 +13,6 @@ class InvestmentSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('investments')->insert(Config::get('investments'));
+        DB::table('investments')->insert(Config::get('investments', []));
     }
 }

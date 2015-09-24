@@ -254,7 +254,7 @@ class ItemController extends Controller
             $weapon->damageMax = Request::input('damageMax');
         }
 
-        if(Request::has('cirtChance'))
+        if(Request::has('critChance'))
         {
             $weapon->critChance = Request::input('critChance') / 100;
         }
@@ -345,131 +345,139 @@ class ItemController extends Controller
         $stuffs = TemplateStuff::all();
         $vehicles = TemplateVehicle::all();
 
+        
         if($weapons->count() > 0)
         {
-            $output .= "\t'weapons' => [" . PHP_EOL;
+            $output .= "\t'weapons' => [\n";
             
             foreach($weapons as $weapon)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $weapon->name . '\', ';
-                $output .= '\'image\' => \'' . $weapon->image . '\', ';
-                $output .= '\'price\' => ' . $weapon->price . ', ';
-                $output .= '\'weight\' => ' . $weapon->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($weapon->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($weapon->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $weapon->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $weapon->image . "',\n";
+                $output .= "\t\t\t'price' => " . $weapon->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $weapon->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($weapon->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($weapon->properties) . ",\n";
 
-                $output .= '\'damage\' => [' . ($weapon->damageMin) . ', ' . ($weapon->damageMax) .  '], ';
-                $output .= '\'critChance\' => ' . Formatter::number($weapon->critChance, 2) . ', ';
-                $output .= '\'speed\' => ' . Formatter::signed(Formatter::number($weapon->speed, 2)) . ', ';
-                $output .= '\'type\' => \'' . $weapon->type . '\'],' . PHP_EOL;
+                $output .= "\t\t\t'damage' => [" . ($weapon->damageMin) . ', ' . ($weapon->damageMax) .  "],\n";
+                $output .= "\t\t\t'critChance' => " . Formatter::number($weapon->critChance, 2) . ",\n";
+                $output .= "\t\t\t'speed' => " . Formatter::signed(Formatter::number($weapon->speed, 2)) . ",\n";
+                $output .= "\t\t\t'type' => '" . $weapon->type . "',\n";
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
 
         if($armors->count() > 0)
         {
-            $output .= "\t'armors' => [" . PHP_EOL;
+            $output .= "\t'armors' => [\n";
             
             foreach($armors as $armor)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $armor->name . '\', ';
-                $output .= '\'image\' => \'' . $armor->image . '\', ';
-                $output .= '\'price\' => ' . $armor->price . ', ';
-                $output .= '\'weight\' => ' . $armor->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($armor->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($armor->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $armor->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $armor->image . "',\n";
+                $output .= "\t\t\t'price' => " . $armor->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $armor->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($armor->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($armor->properties) . ",\n";
 
-                $output .= '\'armor\' => ' . Formatter::number($armor->armor) . ', ';
-                $output .= '\'speed\' => ' . Formatter::signed(Formatter::number($armor->speed, 2)) . '],' . PHP_EOL;
+                $output .= "\t\t\t'armor' => " . Formatter::number($armor->armor) . ",\n";
+                $output .= "\t\t\t'speed' => " . Formatter::signed(Formatter::number($armor->speed, 2)) . ",\n";;
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
 
         if($foods->count() > 0)
         {
-            $output .= "\t'foods' => [" . PHP_EOL;
+            $output .= "\t'foods' => [\n";
             
             foreach($foods as $food)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $food->name . '\', ';
-                $output .= '\'image\' => \'' . $food->image . '\', ';
-                $output .= '\'price\' => ' . $food->price . ', ';
-                $output .= '\'weight\' => ' . $food->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($food->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($food->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $food->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $food->image . "',\n";
+                $output .= "\t\t\t'price' => " . $food->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $food->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($food->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($food->properties) . ",\n";
 
-                $output .= '\'health\' => ' . Formatter::stringify($food->health) .  ', ';
-                $output .= '\'energy\' => ' . Formatter::stringify($food->energy) . '],' . PHP_EOL;
+                $output .= "\t\t\t'health' => " . Formatter::stringify($food->health) .  ",\n";
+                $output .= "\t\t\t'energy' => " . Formatter::stringify($food->energy) . ",\n";
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
 
         if($seeds->count() > 0)
         {
-            $output .= "\t'seeds' => [" . PHP_EOL;
+            $output .= "\t'seeds' => [\n";
             
             foreach($seeds as $seed)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $seed->name . '\', ';
-                $output .= '\'image\' => \'' . $seed->image . '\', ';
-                $output .= '\'price\' => ' . $seed->price . ', ';
-                $output .= '\'weight\' => ' . $seed->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($seed->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($seed->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $seed->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $seed->image . "',\n";
+                $output .= "\t\t\t'price' => " . $seed->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $seed->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($seed->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($seed->properties) . ",\n";
 
-                $output .= '\'growth\' => ' . $seed->growth .  ', ';
-                $output .= '\'watering\' => ' . $seed->watering . ', ';
-                $output .= '\'harvest\' => [' . $seed->harvestMin . ', ' . $seed->harvestMax . '], ';
-                $output .= '\'quality\' => ' . $seed->quality . '],' . PHP_EOL;
+                $output .= "\t\t\t'growth' => " . $seed->growth .  ",\n";
+                $output .= "\t\t\t'watering' => " . $seed->watering . ",\n";
+                $output .= "\t\t\t'harvest' => [" . $seed->harvestMin . ', ' . $seed->harvestMax . "],\n";
+                $output .= "\t\t\t'quality' => " . $seed->quality . ",\n";
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
 
         if($stuffs->count() > 0)
         {
-            $output .= "\t'stuffs' => [" . PHP_EOL;
+            $output .= "\t'stuffs' => [\n";
             
             foreach($stuffs as $stuff)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $stuff->name . '\', ';
-                $output .= '\'image\' => \'' . $stuff->image . '\', ';
-                $output .= '\'price\' => ' . $stuff->price . ', ';
-                $output .= '\'weight\' => ' . $stuff->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($stuff->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($stuff->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $stuff->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $stuff->image . "',\n";
+                $output .= "\t\t\t'price' => " . $stuff->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $stuff->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($stuff->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($stuff->properties) . ",\n";
 
-                $output .= '\'quality\' => ' . $stuff->quality .  '],' . PHP_EOL;
+                $output .= "\t\t\t'quality' => " . $stuff->quality .  "],\n";
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
 
         if($vehicles->count() > 0)
         {
-            $output .= "\t'vehicles' => [" . PHP_EOL;
+            $output .= "\t'vehicles' => [\n";
             
             foreach($vehicles as $vehicle)
             {
-                $output .= "\t\t[";
-                $output .= '\'name\' => \'' . $vehicle->name . '\', ';
-                $output .= '\'image\' => \'' . $vehicle->image . '\', ';
-                $output .= '\'price\' => ' . $vehicle->price . ', ';
-                $output .= '\'weight\' => ' . $vehicle->weight . ', ';
-                $output .= '\'premium\' => ' . Formatter::stringify($vehicle->premium) . ', ';
-                $output .= '\'properties\' => ' . Formatter::stringify($vehicle->properties) . ', ';
+                $output .= "\t\t[\n";
+                $output .= "\t\t\t'name' => '" . $vehicle->name . "',\n";
+                $output .= "\t\t\t'image' => '" . $vehicle->image . "',\n";
+                $output .= "\t\t\t'price' => " . $vehicle->price . ",\n";
+                $output .= "\t\t\t'weight' => " . $vehicle->weight . ",\n";
+                $output .= "\t\t\t'premium' => " . Formatter::stringify($vehicle->premium) . ",\n";
+                $output .= "\t\t\t'properties' => " . Formatter::stringify($vehicle->properties) . ",\n";
 
-                $output .= '\'speed\' => ' . $vehicle->speed .  ', ';
-                $output .= '\'cost\' => ' . $vehicle->cost .  ', ';
-                $output .= '\'type\' => \'' . $vehicle->type . '\', ';
-                $output .= '\'capacity\' => ' . $vehicle->capacity .  '],' . PHP_EOL;
+                $output .= "\t\t\t'speed' => " . $vehicle->speed .  ",\n";
+                $output .= "\t\t\t'cost' => " . $vehicle->cost .  ",\n";
+                $output .= "\t\t\t'type' => '" . $vehicle->type . "',\n";
+                $output .= "\t\t\t'capacity' => " . $vehicle->capacity .  ",\n";
+                $output .= "\t\t],\n";
             }
-            $output .= "\t]," . PHP_EOL;
+            $output .= "\t],\n";
         }
         $output .= ']';
+
 
         $file = fopen(config_path() . '/items.php', 'w');
         fwrite($file, '<?php' . PHP_EOL . PHP_EOL . 'return ' . $output . ';' . PHP_EOL . '?>');

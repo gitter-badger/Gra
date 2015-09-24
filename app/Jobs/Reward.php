@@ -29,8 +29,9 @@ class Reward extends PlayerJob
      *
      * @return void
      */
-    public function process()
+    protected function process()
     {
+        $this->rewards->enableDebug(true);
         $this->rewards->give($this->player);
     }
 }

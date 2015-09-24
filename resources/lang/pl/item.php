@@ -79,7 +79,277 @@ return [
 	],
 
 
+	'foam-sword' => [
 
+		'name' => 'Miecz piankowy',
+		'description' => '',
+	],
+
+
+	'water-gun' => [
+
+		'name' => 'Pistolet na wodę',
+		'description' => '',
+	],
+
+
+	'stick' => [
+
+		'name' => 'Patyk',
+		'description' => '',
+	],
+
+
+	'pop-gun' => [
+
+		'name' => 'Pukawka',
+		'description' => '',
+	],
+
+
+	'staff' => [
+
+		'name' => 'Laska',
+		'description' => '',
+	],
+
+
+	'penknife' => [
+
+		'name' => 'Scyzoryk',
+		'description' => '',
+	],
+
+
+	'pepper-spray' => [
+
+		'name' => 'Gaz pieprzowy',
+		'description' => '',
+	],
+
+
+	'baseball-bat' => [
+
+		'name' => 'Kij baseballowy',
+		'description' => '',
+	],
+
+
+	'dagger' => [
+
+		'name' => 'Sztylet',
+		'description' => '',
+	],
+
+
+	'flintlock' => [
+
+		'name' => 'Pistolet skałkowy',
+		'description' => '',
+	],
+
+
+	'hunting-knife' => [
+
+		'name' => 'Nóż myśliwski',
+		'description' => '',
+	],
+
+
+	'shuriken' => [
+
+		'name' => 'Shuriken',
+		'description' => '',
+	],
+
+
+	'battle-staff' => [
+
+		'name' => 'Kij bojowy',
+		'description' => '',
+	],
+
+
+	'tomahawk' => [
+
+		'name' => 'Tomahawk',
+		'description' => '',
+	],
+
+
+	'hatchet' => [
+
+		'name' => 'Siekierka',
+		'description' => '',
+	],
+
+
+	'machete' => [
+
+		'name' => 'Maczeta',
+		'description' => '',
+	],
+
+
+	'musket' => [
+
+		'name' => 'Muszkiet',
+		'description' => '',
+	],
+
+
+	'taser' => [
+
+		'name' => 'Paralizator',
+		'description' => '',
+	],
+
+
+	'assault-knife' => [
+
+		'name' => 'Nóż szturmowy',
+		'description' => '',
+	],
+
+
+	'pistol' => [
+
+		'name' => 'Pistolet',
+		'description' => '',
+	],
+
+
+	'axe' => [
+
+		'name' => 'Topór',
+		'description' => '',
+	],
+
+
+	'pistol-silencer' => [
+
+		'name' => 'Pistolet z tłumikiem',
+		'description' => '',
+	],
+
+
+	'revolver' => [
+
+		'name' => 'Rewolwer',
+		'description' => '',
+	],
+
+
+	'battle-gun' => [
+
+		'name' => 'Pistolet bojowy',
+		'description' => '',
+	],
+
+
+	'anti-gun' => [
+
+		'name' => 'Pistolet przeciwpancerny',
+		'description' => '',
+	],
+
+
+	'uzi' => [
+
+		'name' => 'Uzi',
+		'description' => '',
+	],
+
+
+	'piston-rifle' => [
+
+		'name' => 'Strzelba tłokowa',
+		'description' => '',
+	],
+
+
+	'heavy-rifle' => [
+
+		'name' => 'Ciężka strzelba',
+		'description' => '',
+	],
+
+
+	'rifle' => [
+
+		'name' => 'Karabin',
+		'description' => '',
+	],
+
+
+	'katana' => [
+
+		'name' => 'Katana',
+		'description' => '',
+	],
+
+
+	'sawed' => [
+
+		'name' => 'Obrzyn',
+		'description' => '',
+	],
+
+
+	'assault-smg' => [
+
+		'name' => 'Szturmowy SMG',
+		'description' => '',
+	],
+
+
+	'assault-rifle' => [
+
+		'name' => 'Karabin szturmowy',
+		'description' => '',
+	],
+
+
+	'flamethrower' => [
+
+		'name' => 'Miotacz ognia',
+		'description' => '',
+	],
+
+
+	'machine-gun' => [
+
+		'name' => 'Karabin maszynowy',
+		'description' => '',
+	],
+
+
+	'sniper-rifle' => [
+
+		'name' => 'Karabin snajperski',
+		'description' => '',
+	],
+
+
+	'howitzer' => [
+
+		'name' => 'Granatnik',
+		'description' => '',
+	],
+
+
+	'rocket-launcher' => [
+
+		'name' => 'Wyrzutnia rakiet',
+		'description' => '',
+	],
+
+
+	'minigun' => [
+
+		'name' => 'Minigun',
+		'description' => '',
+	],
 
 
 

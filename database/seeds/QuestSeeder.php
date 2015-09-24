@@ -15,7 +15,7 @@ class QuestSeeder extends Seeder
     {
         $records = [];
 
-        $quests = Config::get('quests');
+        $quests = Config::get('quests', []);
 
 
         foreach($quests as $questName => $questData)

@@ -2,79 +2,742 @@
 
 return [
 	'weapons' => [
-		['name' => 'stick', 'image' => 'stick.jpg', 'price' => 0, 'weight' => 5, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [1, 3], 'critChance' => 0.01, 'speed' => -0.05, 'type' => 'melee'],
-		['name' => 'foam-sword', 'image' => 'foam-sword.jpg', 'price' => 15, 'weight' => 2, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [3, 6], 'critChance' => 0.02, 'speed' => -0.01, 'type' => 'melee'],
-		['name' => 'staff', 'image' => 'staff.jpg', 'price' => 25, 'weight' => 8, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [4, 8], 'critChance' => 0.02, 'speed' => -0.07, 'type' => 'melee'],
-		['name' => 'water-gun', 'image' => 'water-gun.jpg', 'price' => 25, 'weight' => 4, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [3, 8], 'critChance' => 0.01, 'speed' => +0.05, 'type' => 'ranged'],
-		['name' => 'knife', 'image' => 'knife.jpg', 'price' => 50, 'weight' => 5, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [7, 14], 'critChance' => 0.05, 'speed' => +0, 'type' => 'melee'],
-		['name' => 'paralizator', 'image' => 'paralizator.jpg', 'price' => 500, 'weight' => 6, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'damage' => [11, 20], 'critChance' => 0.1, 'speed' => +0, 'type' => 'melee'],
-		['name' => 'baseball-bat', 'image' => 'baseball-bat.jpg', 'price' => 200, 'weight' => 15, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'damage' => [13, 23], 'critChance' => 0.03, 'speed' => -0.09, 'type' => 'melee'],
-		['name' => 'peper-spray', 'image' => 'peper-spray.jpg', 'price' => 150, 'weight' => 8, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'damage' => [7, 14], 'critChance' => 0.03, 'speed' => +0, 'type' => 'ranged'],
-		['name' => 'knuckle-duster', 'image' => 'knuckle-duster.jpg', 'price' => 75, 'weight' => 5, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'damage' => [5, 11], 'critChance' => 0.02, 'speed' => +0, 'type' => 'melee'],
-		['name' => 'machete', 'image' => 'machete.jpg', 'price' => 250, 'weight' => 25, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'damage' => [17, 27], 'critChance' => 0.07, 'speed' => +0.02, 'type' => 'melee'],
-		['name' => 'sword', 'image' => 'sword.jpg', 'price' => 750, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:10']], 'damage' => [20, 30], 'critChance' => 0.1, 'speed' => +0.04, 'type' => 'melee'],
-		['name' => 'colt-1911', 'image' => 'colt-1911.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:10']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-		['name' => 'glock', 'image' => 'glock.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:10']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-		['name' => 'ak-47', 'image' => 'ak-47.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-		['name' => 'm4a1', 'image' => 'm4a1.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-		['name' => 'flare', 'image' => 'flare.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-		['name' => 'bazooka', 'image' => 'bazooka.jpg', 'price' => 1500, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'damage' => [27, 38], 'critChance' => 0.1, 'speed' => +0.06, 'type' => 'ranged'],
-	],
-	'armors' => [
-		['name' => 't-shirt', 'image' => 't-shirt.jpg', 'price' => 25, 'weight' => 2, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'armor' => 1, 'speed' => +0],
-		['name' => 'pan-colander', 'image' => 'pan-colander.jpg', 'price' => 50, 'weight' => 8, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'armor' => 2, 'speed' => -0.2],
-		['name' => 'sumo-costume', 'image' => 'sumo-costume.jpg', 'price' => 30, 'weight' => 6, 'premium' => 0, 'properties' => ['requires' => ['level:5']], 'armor' => 3, 'speed' => -0.5],
-		['name' => 'squire-armor', 'image' => 'squire-armor.jpg', 'price' => 100, 'weight' => 9, 'premium' => 0, 'properties' => ['requires' => ['level:10']], 'armor' => 4, 'speed' => -0.6],
-		['name' => 'bulletprof-vest', 'image' => 'bulletprof-vest.jpg', 'price' => 500, 'weight' => 13, 'premium' => 0, 'properties' => ['requires' => ['level:10']], 'armor' => 5, 'speed' => -0.6],
-		['name' => 'knight-armor', 'image' => 'knight-armor.jpg', 'price' => 1000, 'weight' => 25, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'armor' => 6, 'speed' => -0.8],
-		['name' => 'kevlar', 'image' => 'kevlar.jpg', 'price' => 2000, 'weight' => 15, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'armor' => 7, 'speed' => -0.5],
-		['name' => 'samurai-armor', 'image' => 'samurai-armor.jpg', 'price' => 5000, 'weight' => 35, 'premium' => 0, 'properties' => ['requires' => ['level:25']], 'armor' => 8, 'speed' => -0.4],
-	],
-	'foods' => [
-		['name' => 'loaf', 'image' => 'loaf.jpg', 'price' => 5, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'health' => 1, 'energy' => null],
-		['name' => 'doughnut', 'image' => 'doughnut.jpg', 'price' => 10, 'weight' => 2, 'premium' => 0, 'properties' => ['requires' => []], 'health' => 3, 'energy' => null],
-		['name' => 'dinner', 'image' => 'dinner.jpg', 'price' => 15, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => 5, 'energy' => null],
-		['name' => 'kebab', 'image' => 'kebab.jpg', 'price' => 20, 'weight' => 4, 'premium' => 0, 'properties' => ['requires' => []], 'health' => 7, 'energy' => null],
-		['name' => 'pizza', 'image' => 'pizza.jpg', 'price' => 25, 'weight' => 5, 'premium' => 0, 'properties' => ['requires' => []], 'health' => 10, 'energy' => null],
-		['name' => 'water', 'image' => 'water.jpg', 'price' => 5, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => null, 'energy' => 1],
-		['name' => 'juice', 'image' => 'juice.jpg', 'price' => 10, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => null, 'energy' => 3],
-		['name' => 'tea', 'image' => 'tea.jpg', 'price' => 15, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => null, 'energy' => 5],
-		['name' => 'coffee', 'image' => 'coffee.jpg', 'price' => 20, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => null, 'energy' => 7],
-		['name' => 'energy-drink', 'image' => 'energy-drink.jpg', 'price' => 25, 'weight' => 3, 'premium' => 0, 'properties' => ['requires' => []], 'health' => null, 'energy' => 10],
-	],
-	'seeds' => [
-		['name' => 'critical-seed', 'image' => 'seed.png', 'price' => 20, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['level:1']], 'growth' => 172800, 'watering' => 43200, 'harvest' => [50, 100], 'quality' => 2],
-		['name' => 'shaman-seed', 'image' => 'seed.png', 'price' => 20, 'weight' => 0, 'premium' => 0, 'properties' => ['requires' => ['plantator:5']], 'growth' => 345600, 'watering' => 43200, 'harvest' => [100, 200], 'quality' => 2],
-		['name' => 'grapefruit-seed', 'image' => 'seed.png', 'price' => 35, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:10']], 'growth' => 259200, 'watering' => 28800, 'harvest' => [50, 150], 'quality' => 3],
-		['name' => 'kush-seed', 'image' => 'seed.png', 'price' => 35, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:20']], 'growth' => 432000, 'watering' => 43200, 'harvest' => [125, 250], 'quality' => 3],
-		['name' => 'passion-seed', 'image' => 'seed.png', 'price' => 50, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:35']], 'growth' => 345600, 'watering' => 21600, 'harvest' => [150, 250], 'quality' => 4],
-		['name' => 'maroc-seed', 'image' => 'seed.png', 'price' => 50, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:50']], 'growth' => 604800, 'watering' => 64800, 'harvest' => [200, 350], 'quality' => 4],
-		['name' => 'skunk-seed', 'image' => 'seed.png', 'price' => 100, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => ['plantator:75']], 'growth' => 604800, 'watering' => 28800, 'harvest' => [200, 350], 'quality' => 5],
-		['name' => 'golden-seed', 'image' => 'golden-seed.png', 'price' => 10, 'weight' => 1, 'premium' => 1, 'properties' => [], 'growth' => 432000, 'watering' => 86400, 'harvest' => [250, 500], 'quality' => 5],
-		['name' => 'tutorial-seed', 'image' => 'seed.png', 'price' => 20, 'weight' => 1, 'premium' => 0, 'properties' => [], 'growth' => 300, 'watering' => 150, 'harvest' => [25, 50], 'quality' => 3],
-	],
-	'stuffs' => [
-		['name' => 'critical-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'shaman-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'grapefruit-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'kush-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'passion-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'maroc-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'skunk-stuff', 'image' => 'stuff.png', 'price' => 10, 'weight' => 1, 'premium' => 0, 'properties' => ['requires' => []], 'quality' => 0],
-		['name' => 'tutorial-stuff', 'image' => 'stuff.png', 'price' => 15, 'weight' => 1, 'premium' => 0, 'properties' => [], 'quality' => 0],
-		['name' => 'golden-stuff', 'image' => 'golden-stuff.png', 'price' => 50, 'weight' => 1, 'premium' => 0, 'properties' => [], 'quality' => 0],
-	],
-	'vehicles' => [
-		['name' => 'bicycle', 'image' => 'bicycle.jpg', 'price' => 100, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 12.5, 'cost' => 0, 'type' => 'bike', 'capacity' => 0],
-		['name' => 'scooter', 'image' => 'scooter.jpg', 'price' => 500, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 16.5, 'cost' => 1, 'type' => 'bike', 'capacity' => 100],
-		['name' => 'quad', 'image' => 'quad.jpg', 'price' => 1500, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 18, 'cost' => 1, 'type' => 'bike', 'capacity' => 150],
-		['name' => 'cross', 'image' => 'cross.jpg', 'price' => 3000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 16.5, 'cost' => 1, 'type' => 'bike', 'capacity' => 250],
-		['name' => 'motor', 'image' => 'motor.jpg', 'price' => 10000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 21, 'cost' => 2, 'type' => 'bike', 'capacity' => 250],
-		['name' => 'city-car', 'image' => 'city-car.jpg', 'price' => 25000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 22.5, 'cost' => 2.5, 'type' => 'bike', 'capacity' => 500],
-		['name' => 'chaser', 'image' => 'chaser.jpg', 'price' => 25000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 25, 'cost' => 5, 'type' => 'bike', 'capacity' => 250],
-		['name' => 'racing-car', 'image' => 'racing-car.jpg', 'price' => 100000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 25, 'cost' => 4, 'type' => 'bike', 'capacity' => 500],
-		['name' => 'limousine', 'image' => 'limousine.jpg', 'price' => 1000000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 25, 'cost' => 3, 'type' => 'bike', 'capacity' => 750],
-		['name' => 'helicopter', 'image' => 'helicopter.jpg', 'price' => 5000000, 'weight' => 100, 'premium' => 0, 'properties' => ['requires' => []], 'speed' => 250, 'cost' => 100, 'type' => 'bike', 'capacity' => 75],
+		[
+			'name' => 'foam-sword',
+			'image' => 'foam-sword.jpg',
+			'price' => 50,
+			'weight' => 2,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:1',
+				],
+			],
+			'damage' => [1, 2],
+			'critChance' => 0.01,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'water-gun',
+			'image' => 'water-gun.jpg',
+			'price' => 70,
+			'weight' => 2,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'perception:1',
+				],
+			],
+			'damage' => [2, 3],
+			'critChance' => 0.01,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'stick',
+			'image' => 'stick.jpg',
+			'price' => 40,
+			'weight' => 2,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:3',
+				],
+			],
+			'damage' => [3, 4],
+			'critChance' => 0.01,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'pop-gun',
+			'image' => 'pop-gun.jpg',
+			'price' => 100,
+			'weight' => 2,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'perception:3',
+				],
+			],
+			'damage' => [4, 5],
+			'critChance' => 0.01,
+			'speed' => +0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'staff',
+			'image' => 'staff.jpg',
+			'price' => 160,
+			'weight' => 5,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:5',
+				],
+			],
+			'damage' => [5, 6],
+			'critChance' => 0.02,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'penknife',
+			'image' => 'penknife.jpg',
+			'price' => 200,
+			'weight' => 3,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:2',
+					'agility:4',
+				],
+			],
+			'damage' => [6, 7],
+			'critChance' => 0.05,
+			'speed' => +0.1,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'pepper-spray',
+			'image' => 'pepper-spray.jpg',
+			'price' => 350,
+			'weight' => 2,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'perception:4',
+				],
+			],
+			'damage' => [7, 8],
+			'critChance' => 0.06,
+			'speed' => +0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'baseball-bat',
+			'image' => 'baseball-bat.jpg',
+			'price' => 300,
+			'weight' => 5,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:8',
+					'endurance:4',
+				],
+			],
+			'damage' => [8, 9],
+			'critChance' => 0.08,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'dagger',
+			'image' => 'dagger.jpg',
+			'price' => 500,
+			'weight' => 3,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:5',
+					'agility:10',
+				],
+			],
+			'damage' => [9, 10],
+			'critChance' => 0.15,
+			'speed' => +0.1,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'flintlock',
+			'image' => 'flintlock.jpg',
+			'price' => 720,
+			'weight' => 4,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:4',
+					'perception:7',
+				],
+			],
+			'damage' => [10, 11],
+			'critChance' => 0.02,
+			'speed' => -0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'hunting-knife',
+			'image' => 'hunting-knife.jpg',
+			'price' => 924,
+			'weight' => 3,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:3',
+					'agility:10',
+				],
+			],
+			'damage' => [11, 12],
+			'critChance' => 0.01,
+			'speed' => +0.2,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'shuriken',
+			'image' => 'shuriken.jpg',
+			'price' => 1220,
+			'weight' => 3,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'perception:10',
+					'agility:7',
+				],
+			],
+			'damage' => [12, 13],
+			'critChance' => 0.15,
+			'speed' => +0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'battle-staff',
+			'image' => 'battle-staff.jpg',
+			'price' => 1659,
+			'weight' => 6,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:12',
+					'endurance:4',
+				],
+			],
+			'damage' => [13, 16],
+			'critChance' => 0.06,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'tomahawk',
+			'image' => 'tomahawk.jpg',
+			'price' => 2439,
+			'weight' => 4,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:3',
+					'perception:13',
+					'agility:8',
+				],
+			],
+			'damage' => [14, 18],
+			'critChance' => 0.09,
+			'speed' => +0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'hatchet',
+			'image' => 'hatchet.jpg',
+			'price' => 3171,
+			'weight' => 9,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:15',
+					'endurance:6',
+				],
+			],
+			'damage' => [15, 20],
+			'critChance' => 0.18,
+			'speed' => -0.05,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'machete',
+			'image' => 'machete.jpg',
+			'price' => 4281,
+			'weight' => 8,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:20',
+					'agility:8',
+				],
+			],
+			'damage' => [16, 21],
+			'critChance' => 0.18,
+			'speed' => +0,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'musket',
+			'image' => 'musket.jpg',
+			'price' => 6293,
+			'weight' => 7,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:8',
+					'perception:17',
+				],
+			],
+			'damage' => [17, 22],
+			'critChance' => 0.08,
+			'speed' => -0.1,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'taser',
+			'image' => 'taser.jpg',
+			'price' => 8495,
+			'weight' => 3,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:6',
+					'agility:6',
+					'intelligence:12',
+				],
+			],
+			'damage' => [18, 27],
+			'critChance' => 0.09,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'assault-knife',
+			'image' => 'assault-knife.jpg',
+			'price' => 11468,
+			'weight' => 4,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:8',
+					'agility:20',
+				],
+			],
+			'damage' => [19, 32],
+			'critChance' => 0.06,
+			'speed' => +0.15,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'pistol',
+			'image' => 'pistol.jpg',
+			'price' => 15253,
+			'weight' => 6,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:4',
+					'perception:20',
+					'agility:6',
+				],
+			],
+			'damage' => [22, 35],
+			'critChance' => 0.15,
+			'speed' => +0.1,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'axe',
+			'image' => 'axe.jpg',
+			'price' => 19828,
+			'weight' => 15,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:25',
+					'endurance:10',
+				],
+			],
+			'damage' => [25, 40],
+			'critChance' => 0.2,
+			'speed' => -0.1,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'pistol-silencer',
+			'image' => 'pistol-silencer.jpg',
+			'price' => 25975,
+			'weight' => 8,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:5',
+					'perception:25',
+					'agility:15',
+				],
+			],
+			'damage' => [29, 45],
+			'critChance' => 0.12,
+			'speed' => +0.1,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'revolver',
+			'image' => 'revolver.jpg',
+			'price' => 38184,
+			'weight' => 7,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:10',
+					'perception:30',
+					'agility:15',
+				],
+			],
+			'damage' => [32, 50],
+			'critChance' => 0.15,
+			'speed' => +0.5,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'battle-gun',
+			'image' => 'battle-gun.jpg',
+			'price' => 51548,
+			'weight' => 10,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:15',
+					'perception:30',
+					'agility:15',
+				],
+			],
+			'damage' => [37, 55],
+			'critChance' => 0.06,
+			'speed' => -0.15,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'anti-gun',
+			'image' => 'anti-gun.jpg',
+			'price' => 67012,
+			'weight' => 13,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:25',
+					'perception:30',
+					'agility:15',
+				],
+			],
+			'damage' => [42, 60],
+			'critChance' => 0.13,
+			'speed' => -0.15,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'uzi',
+			'image' => 'uzi.jpg',
+			'price' => 89796,
+			'weight' => 7,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:17',
+					'perception:35',
+					'agility:25',
+				],
+			],
+			'damage' => [47, 65],
+			'critChance' => 0.15,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'saber',
+			'image' => 'saber.jpg',
+			'price' => 119429,
+			'weight' => 8,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:30',
+					'agility:25',
+					'endurance:10',
+				],
+			],
+			'damage' => [52, 70],
+			'critChance' => 0.1,
+			'speed' => +0.15,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'piston-rifle',
+			'image' => 'piston-rifle.jpg',
+			'price' => 162424,
+			'weight' => 10,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:35',
+					'perception:30',
+					'endurance:20',
+				],
+			],
+			'damage' => [54, 75],
+			'critChance' => 0.19,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'heavy-rifle',
+			'image' => 'heavy-rifle.jpg',
+			'price' => 217648,
+			'weight' => 20,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:40',
+					'perception:35',
+					'endurance:25',
+				],
+			],
+			'damage' => [59, 80],
+			'critChance' => 0.04,
+			'speed' => -0.2,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'rifle',
+			'image' => 'rifle.jpg',
+			'price' => 282942,
+			'weight' => 15,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:30',
+					'perception:50',
+					'agility:25',
+				],
+			],
+			'damage' => [64, 85],
+			'critChance' => 0.11,
+			'speed' => +0.1,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'katana',
+			'image' => 'katana.jpg',
+			'price' => 381972,
+			'weight' => 10,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:25',
+					'agility:50',
+				],
+			],
+			'damage' => [69, 90],
+			'critChance' => 0.11,
+			'speed' => +0.25,
+			'type' => 'melee',
+		],
+		[
+			'name' => 'sawed',
+			'image' => 'sawed.jpg',
+			'price' => 504203,
+			'weight' => 18,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:40',
+					'perception:40',
+					'endurance:20',
+				],
+			],
+			'damage' => [74, 95],
+			'critChance' => 0.16,
+			'speed' => -0.25,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'assault-smg',
+			'image' => 'assault-smg.jpg',
+			'price' => 660506,
+			'weight' => 13,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:35',
+					'perception:50',
+					'agility:30',
+				],
+			],
+			'damage' => [79, 100],
+			'critChance' => 0.05,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'assault-rifle',
+			'image' => 'assault-rifle.jpg',
+			'price' => 858658,
+			'weight' => 15,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:35',
+					'perception:50',
+					'agility:45',
+				],
+			],
+			'damage' => [84, 105],
+			'critChance' => 0.08,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'flamethrower',
+			'image' => 'flamethrower.jpg',
+			'price' => 1142016,
+			'weight' => 25,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:50',
+					'endurance:40',
+					'intelligence:40',
+				],
+			],
+			'damage' => [89, 110],
+			'critChance' => 0.18,
+			'speed' => -0.15,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'machine-gun',
+			'image' => 'machine-gun.jpg',
+			'price' => 1530301,
+			'weight' => 20,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:75',
+					'perception:50',
+				],
+			],
+			'damage' => [94, 115],
+			'critChance' => 0.13,
+			'speed' => +0.05,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'sniper-rifle',
+			'image' => 'sniper-rifle.jpg',
+			'price' => 2035300,
+			'weight' => 17,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:60',
+					'perception:90',
+					'agility:75',
+				],
+			],
+			'damage' => [99, 120],
+			'critChance' => 0.2,
+			'speed' => -0.6,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'howitzer',
+			'image' => 'howitzer.jpg',
+			'price' => 2645890,
+			'weight' => 10,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:80',
+					'endurance:60',
+				],
+			],
+			'damage' => [104, 125],
+			'critChance' => 0.12,
+			'speed' => +0,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'rocket-launcher',
+			'image' => 'rocket-launcher.jpg',
+			'price' => 3571952,
+			'weight' => 35,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:70',
+					'endurance:50',
+					'intelligence:65',
+				],
+			],
+			'damage' => [109, 130],
+			'critChance' => 0.12,
+			'speed' => -0.75,
+			'type' => 'ranged',
+		],
+		[
+			'name' => 'minigun',
+			'image' => 'minigun.jpg',
+			'price' => 4822135,
+			'weight' => 25,
+			'premium' => 0,
+			'properties' => [
+				'requires' => [
+
+					'strength:60',
+					'perception:100',
+					'endurance:50',
+				],
+			],
+			'damage' => [114, 135],
+			'critChance' => 0.07,
+			'speed' => +0.1,
+			'type' => 'ranged',
+		],
 	],
 ];
+
+
+
 ?>

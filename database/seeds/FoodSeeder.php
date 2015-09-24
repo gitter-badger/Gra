@@ -11,7 +11,7 @@ class FoodSeeder extends Seeder
      */
     public function run()
     {
-        $foods = Config::get('items.foods');
+        $foods = Config::get('items.foods', []);
         $records = [];
 
 

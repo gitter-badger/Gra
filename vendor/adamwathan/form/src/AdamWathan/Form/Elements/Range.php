@@ -40,11 +40,6 @@ class Range extends Input
         }
     }
 
-    protected function hasAttribute($name)
-    {
-        return isset($this->attributes[$name]);
-    }
-
     protected function setBefore($string)
     {
         $this->before = $string;

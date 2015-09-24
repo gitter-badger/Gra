@@ -15,7 +15,7 @@ class WorkSeeder extends Seeder
     {
         $records = [];
 
-        $groups = Config::get('works');
+        $groups = Config::get('works', []);
 
 
         foreach($groups as $groupName => $works)
