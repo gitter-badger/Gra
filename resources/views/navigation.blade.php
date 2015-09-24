@@ -162,7 +162,7 @@
 					</a>
 				</li>
 
-				<li{!! isCurrentRoute('world.list') ? ' class="navF__li navF__li--active"' : ' class="navF__li"' !!} data-help="@lang('help.nav.world')">
+				<li{!! isCurrentRoute('world.listin') ? ' class="navF__li navF__li--active"' : ' class="navF__li"' !!} data-help="@lang('help.nav.world')">
 
 					<a href="{{ route('world.listin') }}" title="{{ $player->world->getTitle() }}">
 
