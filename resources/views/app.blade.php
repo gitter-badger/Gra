@@ -6,21 +6,19 @@
 		<button type="button" id="helpBtn" class="btn btn-default pull-left">?</button>
 	@endif
 
-
 	<p class="pull-right current-time">{{ date('Y-m-d H:i:s') }}</p>
 @endsection
-
 
 @section('topbar')
 
 @if(isset($player))
 
-<div class="panel panel-default">
-	<div class="panel-body">
+<div>
+	<div class="panelF">
 
 		<div class="row text-center">
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				<p>
+				<p class="panelF__text">
 					<strong>@lang('statistic.health'):</strong><br/>
 
 					<div class="progress-group" title="@lang('statistic.health')">
@@ -28,7 +26,7 @@
 						<div class="progress-row" data-help="@lang('help.health.bar')">
 
 							{!! entity('progress')
-								->addClass('health-bar')
+								->addClass('health-bar panelF__progress')
 								->min(0)
 								->now($player->health)
 								->max($player->maxHealth)
@@ -41,6 +39,7 @@
 							{!! entity('timer') 
 								->addClass('health-timer')
 								->addClass('progress-xs')
+								->addClass('panelF__progress__timer')
 								->min($player->healthUpdate)
 								->max($player->nextHealthUpdate)
 								->reversed(false)
@@ -53,7 +52,7 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				<p>
+				<p class="panelF__text">
 					<strong>@lang('statistic.energy'):</strong><br/>
 
 					<div class="progress-group" title="@lang('statistic.energy')">
@@ -61,7 +60,7 @@
 						<div class="progress-row" data-help="@lang('help.energy.bar')">
 							
 							{!! entity('progress')
-								->addClass('energy-bar')
+								->addClass('energy-bar panelF__progress')
 								->min(0)
 								->now($player->energy)
 								->max($player->maxEnergy)
@@ -74,6 +73,7 @@
 							{!! entity('timer') 
 								->addClass('energy-timer')
 								->addClass('progress-xs')
+								->addClass('panelF__progress__timer')
 								->min($player->energyUpdate)
 								->max($player->nextEnergyUpdate)
 								->reversed(false)
@@ -86,7 +86,7 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				<p>
+				<p class="panelF__text">
 					<strong>@lang('statistic.experience'):</strong><br/>
 
 					<div class="progress-group" title="@lang('statistic.experience')">
@@ -94,7 +94,7 @@
 						<div class="progress-row" data-help="@lang('help.experience.bar')">
 						
 							{!! entity('progress')
-								->addClass('experience-bar')
+								->addClass('experience-bar panelF__progress')
 								->addClass('progress-md')
 								->min(0)
 								->now($player->experience)
@@ -107,7 +107,7 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				<p>
+				<p class="panelF__text">
 					<strong>@lang('statistic.wanted'):</strong><br/>
 
 					<div class="progress-group" title="@lang('statistic.wanted')">
@@ -116,7 +116,7 @@
 						<div class="progress-row" data-help="@lang('help.wanted.bar')">
 							
 							{!! entity('progress')
-								->addClass('wanted-bar')
+								->addClass('wanted-bar panelF__progress')
 								->min(0)
 								->now($player->wanted)
 								->max(6)
@@ -124,12 +124,12 @@
 							!!}
 						</div>
 
-
 						<div class="progress-row" data-help="@lang('help.wanted.timer')">
 							
 							{!! entity('timer') 
 								->addClass('wanted-timer')
 								->addClass('progress-xs')
+								->addClass('panelF__progress__timer')
 								->min($player->wantedUpdate)
 								->max($player->nextWantedUpdate)
 								->reversed(true)
@@ -153,14 +153,12 @@
 @endsection
 
 
-
 @section('meta')
 
 	
 @endsection
 
 @section('scripts')
-
 
 
 	@if(Config::get('app.cdn'))
@@ -222,7 +220,6 @@
 
 		@if(Config::get('app.minified'))
 
-
 			<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 		@else
 
@@ -236,9 +233,10 @@
 	@if(Config::get('app.minified'))
 
 		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
 	@else
-
 		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
 	@endif
 
 
@@ -249,8 +247,6 @@
 
 	@include('navigation')
 @endsection
-
-
 
 
 
@@ -266,9 +262,9 @@
 
 		<title>HempEmpire - Alpha</title>
 
-
-		@yield('styles')
 		@yield('scripts')
+		@yield('styles')
+		
 	</head>
 
 
@@ -276,8 +272,6 @@
 
 
 		@yield('navigation')
-
-		
 
 
 		<div id="mainContent" class="container">

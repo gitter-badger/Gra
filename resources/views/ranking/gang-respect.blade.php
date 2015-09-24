@@ -3,33 +3,33 @@
 
 @section('ranking-content')
 
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th>@lang('ranking.place')</th>
-			<th>@lang('gang.respect')</th>
-			<th>@lang('gang.name')</th>
+<table class=" rankingNavF__table table table-hover">
+	<thead class="rankingNavF__table__thead">
+		<tr class="rankingNavF__table__tr">
+			<th class="rankingNavF__table__th">@lang('ranking.place')</th>
+			<th class="rankingNavF__table__th">@lang('gang.respect')</th>
+			<th class="rankingNavF__table__th">@lang('gang.name')</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach($gangs as $record)
 
 		@if(!is_null($player->gang) && $record['id'] == $player->gang->id)
-		<tr class="info">
+		<tr class="rankingNavF__table__tr info">
 		@else
 		</tr>
 		@endif
 
-			<td>{{ $record['index'] }}</td>
-			<td>{{ $record['respect'] }}</td>
-			<td>{{ $record['name'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['index'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['respect'] }}</td>
+			<td class="rankingNavF__table__td">{{ $record['name'] }}</td>
 		</tr>
 
 		@endforeach
 	</tbody>
-	<tfoot>
+	<tfoot class="rankingNavF__table__tfoot">
 		<tr>
-			<td colspan="3">
+			<td class="rankingNavF__table__td" colspan="3">
 				
 				{!! $gangs->render() !!}
 			</td>
