@@ -36,10 +36,9 @@ class Gambling extends Component
 		}
 		else
 		{
-			$duration = $this->getProperty('duration');
+			$duration = round($this->getProperty('duration') * $this->player->world->timeScale);
 
-			if(Config::get('app.debug', false))
-				$duration /= 60;
+
 
 
 			$this->player->money -= $bet;

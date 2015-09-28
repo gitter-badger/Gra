@@ -51,13 +51,14 @@ class Church extends Component
 		else
 		{
 			$now = time();
+			$duration = round($this->getProperty('duration') * $this->player->world->timeScale);
 
 			$this->player->luckUpdate = $now;
 			$this->player->luck += $this->getProperty('bonus');
 			$this->player->money -= $price;
 
 			$this->timer->start = $now;
-			$this->timer->end = $now + $this->getProperty('duration');
+			$this->timer->end = $now + $duration;
 
 			$success = DB::transaction(function()
 			{

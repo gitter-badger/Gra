@@ -244,7 +244,7 @@ class Player extends Model
 					}
 				}
 
-				$duration = $place->getProperty('arrest.duration') * 6;
+				$duration = round($place->getProperty('arrest.duration') * 6 * $this->world->timeScale);
 				$player->startArrest($duration, false);
 				$player->reload = true;
 			}
@@ -278,10 +278,8 @@ class Player extends Model
 					}
 				}
 
-				$duration = $place->getProperty('hospital.normalSpeed') * $player->maxHealth;
+				$duration = round($place->getProperty('hospital.normalSpeed') * $player->maxHealth * $this->world->timeScale);
 
-				if(Config::get('app.debug', false))
-					$duration /= 60;
 
 				$now = time();
 
@@ -476,15 +474,13 @@ class Player extends Model
 		{
 			if($this->jobName == 'healing-normal')
 			{
-				$time = $this->place->getProperty('hospital.normalSpeed');
+				$time = round($this->place->getProperty('hospital.normalSpeed') * $this->world->timeScale);
 			}
 			elseif($this->jobName == 'healing-fast')
 			{
-				$time = $this->place->getProperty('hospital.fastSpeed');
+				$time = round($this->place->getProperty('hospital.fastSpeed') * $this->world->timeScale);
 			}
 
-			if(!is_null($time) && Config::get('app.debug', false))
-				$time /= 60;
 		}
 
 		return $time;
@@ -563,25 +559,11 @@ class Player extends Model
 	{
 		if($this->isPremium)
 		{
-			if(Config::get('app.debug', false))
-			{
-				return 0.1;
-			}
-			else
-			{
-				return Config::get('player.energy.restore.premium');
-			}
+			return round(Config::get('player.energy.restore.premium') * $this->world->timeScale);
 		}
 		else
 		{
-			if(Config::get('app.debug', false))
-			{
-				return 5;
-			}
-			else
-			{
-				return Config::get('player.energy.restore.normal');
-			}
+			return round(Config::get('player.energy.restore.normal') * $this->world->timeScale);
 		}
 	}
 
@@ -671,11 +653,7 @@ class Player extends Model
 
 	public function getWantedUpdateTimeAttribute()
 	{
-		$time = Config::get('player.wanted.update');
-
-		if(Config::get('app.debug', false))
-			$time /= 60;
-
+		$time = round(Config::get('player.wanted.update') * $this->world->timeScale);
 
 		return $time;
 	}
@@ -730,7 +708,7 @@ class Player extends Model
 
 	public function getLuckUpdateTimeAttribute()
 	{
-		return Config::get('player.luck.update');
+		return round(Config::get('player.luck.update') * $this->world->timeScale);
 	}
 
 	public function getNextLuckUpdateAttribute()
@@ -750,10 +728,6 @@ class Player extends Model
 			$min = Config::get('player.luck.min');
 			$change = Config::get('player.luck.change');
 			$value = $this->attributes['luck'];
-
-
-			if(Config::get('app.debug', false))
-				$time /= 60;
 
 
 			$interval = $now - $last;
@@ -790,16 +764,9 @@ class Player extends Model
 	public function getNextUpdateAttribute($value)
 	{
 		$now = time();
-		$updates = [];
+		$updates = [$now + 5];
 
-		if(Config::get('app.debug', false))
-		{
-			$updates[] = $now + 5;
-		}
-		else
-		{
-			$updates[] = $now + 10;
-		}
+
 
 		if(!is_null($value) && $value > $now)
 			$updates[] = $value;
@@ -1291,12 +1258,6 @@ class Player extends Model
 
 	public function startArrest($duration, $save = true)
 	{
-		if(Config::get('app.debug', false))
-			$duration /= 60;
-
-
-
-
 		$this->startJob('arrest', $duration, null, true, true);
 		$this->moveToArrest(false);
 		$this->wanted = 0;
@@ -1333,9 +1294,6 @@ class Player extends Model
 
 	public function startHealing($duration, $save = true, $type = 'normal')
 	{
-		if(Config::get('app.debug', false))
-			$duration /= 60;
-
 		$now = time();
 
 		$this->startJob('healing-' . $type, $duration, null, true, true);
@@ -1356,9 +1314,6 @@ class Player extends Model
 
 	public function startAttacking($duration, $save = true)
 	{
-		if(Config::get('app.debug', false))
-			$duration /= 60;
-
 		$now = time();
 
 		$this->startJob('attacking', $duration);

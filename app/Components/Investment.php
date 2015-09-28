@@ -272,7 +272,7 @@ class Investment extends Component
 			$this->player->money -= $manager['price'];
 
 			$this->investment->managerId = Request::input('manager');
-			$this->investment->managerExpires = time() + $manager['duration'];
+			$this->investment->managerExpires = time() + round($manager['duration'] * $this->player->world->timeScale);
 			$this->investment->managerMoney = 0;
 
 

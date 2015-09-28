@@ -60,14 +60,7 @@ class Travel extends Component
 
 	protected function getSpeed()
 	{
-		if(Config::get('app.debug', false))
-		{
-			return (1.0 / $this->getProperty('speed')) * 60;
-		}
-		else
-		{
-			return (1.0 / $this->getProperty('speed')) * 3600;
-		}
+		return (1.0 / $this->getProperty('speed')) * 3600 * $this->player->world->timeScale;
 	}
 
 	protected function getCost()

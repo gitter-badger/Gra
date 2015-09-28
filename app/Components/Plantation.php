@@ -81,10 +81,10 @@ class Plantation extends Component
 			$now = time();
 			$slot = $this->plantation->slots[$slot];
 			$energy = Config::get('player.planting.energy');
-			$duration = Config::get('player.planting.duration');
+			$duration = round(Config::get('player.planting.duration') * $this->player->world->timeScale);
 
-			$growth = $seed->getGrowth() * $this->plantation->light;
-			$watering = $seed->getWatering() * $this->plantation->ground;
+			$growth = round($seed->getGrowth() * $this->plantation->light * $this->player->world->timeScale);
+			$watering = round($seed->getWatering() * $this->plantation->ground * $this->player->world->timeScale);
 			$harvestIncrease = (100 + $this->player->plantatorLevel * 5) / 100;
 			$quality = $seed->getQuality();
 
@@ -99,14 +99,6 @@ class Plantation extends Component
 			if($this->player->hasTalent('planting-better'))
 				$growth *= 0.75;
 
-
-
-			if(Config::get('app.debug', false))
-			{
-				$duration = max($duration / 60, 1);
-				$growth = max($growth / 3600, 1);
-				$watering = max($watering / 3600, 1);
-			}
 
 
 			if(!$slot->isEmpty)
@@ -196,10 +188,6 @@ class Plantation extends Component
 				$slot->end += $dryFor;
 				$slot->lastWatered = $now;
 
-				if(Config::get('app.debug', false))
-				{
-					$slot->watering *= 2;
-				}
 
 
 				$success = DB::transaction(function() use($slot)
@@ -240,7 +228,7 @@ class Plantation extends Component
 			$now = time();
 			$slot = $this->plantation->slots[$slot];
 			$energy = Config::get('player.harvesting.energy');
-			$duration = Config::get('player.harvesting.duration');
+			$duration = round(Config::get('player.harvesting.duration') * $this->player->world->timeScale);
 
 			if($this->player->hasTalent('harvesting-energy'))
 				$energy /= 2;
@@ -248,12 +236,6 @@ class Plantation extends Component
 			if($this->player->hasTalent('harvesting-fast'))
 				$duration /= 2;
 
-
-
-			if(Config::get('app.debug', false))
-			{
-				$duration /= 60;
-			}
 
 
 			if($slot->isEmpty)

@@ -11,6 +11,6 @@ class WorldSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('worlds')->insert(['open' => true]);
+        DB::table('worlds')->insert(['open' => true, 'timeScale' => 0.1]);
     }
 }

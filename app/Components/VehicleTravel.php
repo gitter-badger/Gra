@@ -42,16 +42,8 @@ class VehicleTravel extends Travel
 	{
         $speedIncrease = (100 + $this->player->smugglerLevel * 5) / 100;
 		$speed = 1.0 / ($this->vehicle->getSpeed() * $speedIncrease);
+		return $speed * 3600 * $this->player->world->timeScale;
 
-
-		if(Config::get('app.debug', false))
-		{
-			return $speed * 60;
-		}
-		else
-		{
-			return $speed * 3600;
-		}
 	}
 
 	protected function getCost()

@@ -21,7 +21,7 @@ class Shop extends Component
 	public function init()
 	{
 		$name = $this->getProperty('name');
-		$delivery = $this->getProperty('delivery');
+		$delivery = round($this->getProperty('delivery') * $this->player->world->timeScale);
 
 		$template = TemplateModel::whereName($name)->select('id')->firstOrFail();
 
@@ -146,7 +146,7 @@ class Shop extends Component
 		if(!is_null($delivery))
 		{
 			$lastUpdate = $this->shop->lastVisited;
-			$nextUpdate = $lastUpdate + $delivery;
+			$nextUpdate = $lastUpdate + round($delivery * $this->player->world->timeScale);
 		}
 
 
@@ -168,7 +168,7 @@ class Shop extends Component
 			->with('resetable', $this->getProperty('resetable', false))
 			->with('resetCost', $this->getProperty('resetCost'))
 			->with('lastReset', $this->shop->lastReseted)
-			->with('nextReset', $this->shop->lastReseted + $this->getProperty('resetCooldown'));
+			->with('nextReset', $this->shop->lastReseted + round($this->getProperty('resetCooldown') * $this->player->world->timeScale));
 	}
 
 	public function actionBuy($request)
@@ -258,7 +258,7 @@ class Shop extends Component
 	public function actionReset()
 	{
 		$cost = $this->getProperty('resetCost');
-		$next = $this->shop->lastReseted + $this->getProperty('resetCooldown');
+		$next = $this->shop->lastReseted + round($this->getProperty('resetCooldown') * $this->player->world->timeScale);
 
 		//dd($this->shop, date('Y-m-d H:i:s', $next), date('Y-m-d H:i:s'));
 

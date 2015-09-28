@@ -124,10 +124,10 @@
 											<div class="row text-center">
 									
 												<div class="col-xs-6 col-sm-4 col-md-3">
-													<p><strong>@lang('item.seed.growth'): </strong><br/> {{ Formatter::time($seed->getGrowth()) }}</p>
+													<p><strong>@lang('item.seed.growth'): </strong><br/> {{ Formatter::time(round($seed->getGrowth() * $world->timeScale)) }}</p>
 												</div>
 												<div class="col-xs-6 col-sm-4 col-md-3">
-													<p><strong>@lang('item.seed.watering'): </strong><br/> {{ Formatter::time($seed->getWatering()) }}</p>
+													<p><strong>@lang('item.seed.watering'): </strong><br/> {{ Formatter::time(round($seed->getWatering() * $world->timeScale)) }}</p>
 												</div>
 												<div class="col-xs-6 col-sm-4 col-md-3">
 													<p><strong>@lang('item.seed.harvest'): </strong><br/> {{ $seed->getMinHarvest() }} - {{ $seed->getMaxHarvest() }}</p>

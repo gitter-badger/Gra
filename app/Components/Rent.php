@@ -41,7 +41,7 @@ class Rent extends Component
 
 	private function getRentDuration()
 	{
-		return $this->getProperty('duration', 7 * 24 * 3600);
+		return round($this->getProperty('duration', 7 * 24 * 3600) * $this->player->world->timeScale);
 	}
 
 	public function view()

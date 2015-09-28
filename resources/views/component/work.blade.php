@@ -20,7 +20,7 @@
 							<?php $requirements = $work->getRequirements(); ?>
 
 							<h5><strong>@lang('work.duration')</strong></h5>
-							<p>{{ Formatter::time($work->duration) }}</p>
+							<p>{{ Formatter::time(round($work->duration * $world->timeScale)) }}</p>
 
 							<h5><strong>@lang('work.costs')</strong></h5>
 							{!! $costs->render() !!}

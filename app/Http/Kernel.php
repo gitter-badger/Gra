@@ -17,7 +17,7 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        //\HempEmpire\Http\Middleware\VerifyCsrfToken::class,
+        \HempEmpire\Http\Middleware\VerifyCsrfToken::class,
         \HempEmpire\Http\Middleware\ShareData::class,
         \HempEmpire\Http\Middleware\SetLanguage::class,
         //\HempEmpire\Http\Middleware\MinifyHTML::class,

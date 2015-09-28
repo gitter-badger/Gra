@@ -23,23 +23,12 @@
 		
 
 
-		<?php 
-
-		$tutorialIndex = $place->isDangerous() ? 2 : 0; 
-		$tutorialTitle = $place->isDangerous() ? trans('tutorial.general.dangerous.title') : trans('tutorial.general.place.title');
-		$tutorialContent = $place->isDangerous() ? trans('tutorial.general.dangerous.content') : trans('tutorial.general.place.content');
-
-		?>
-
 		<button type="submit" class="{{ $checked ? '' : 'disabled' }}">
-			<img class="location-pin location-pin-hoverable tutorial-step
+			<img class="location-pin location-pin-hoverable
 				{{ $place->isDangerous() ? ' dangerous' : '' }}" src="{{ $place->getImage() }}"
 				style="left: {{ $place->x * 100 }}%; top: {{ $place->y * 100 }}%;"
 				data-name="{{ $place->getTitle() }}"
-				data-desc="{{ $place->getDescription() }}"
-				data-tutorial-index="{{ $tutorialIndex }}"
-				title="{{ $tutorialTitle }}"
-				data-content="{{ $tutorial-content }}"/>
+				data-desc="{{ $place->getDescription() }}"/>
 		</button>
 
 		{!! BootForm::close() !!}

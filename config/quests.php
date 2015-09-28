@@ -34,7 +34,7 @@ return [
 		'auto' => 1,
 		'daily' => 0,
 		'rewards' => ['start:tutorial-harvest'],
-		'objectives' => ['visit:small-plantation', 'watering:1'],
+		'objectives' => ['watering:1'],
 		'requires' => ['quest:tutorial-plant']
 	],
 	'tutorial-harvest' => [
@@ -43,8 +43,17 @@ return [
 		'auto' => 1,
 		'daily' => 0,
 		'rewards' => ['start:tutorial-dealing'],
-		'objectives' => ['visit:small-plantation', 'harvestPlant:1'],
+		'objectives' => ['harvestPlant:1'],
 		'requires' => ['quest:tutorial-watering']
+	],
+	'tutorial-dealing' => [
+		'breakable' => 0,
+		'repeatable' => 0,
+		'auto' => 1,
+		'daily' => 0,
+		'rewards' => null,
+		'objectives' => ['visit:small-square', 'dealCount:1'],
+		'requires' => ['quest:tutorial-harvest']
 	],
 ];
 ?>

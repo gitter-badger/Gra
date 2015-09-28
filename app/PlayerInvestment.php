@@ -30,14 +30,7 @@ class PlayerInvestment extends Model
 
     public function getTimeAttribute()
     {
-        if(Config::get('app.debug', false))
-        {
-            return floor($this->investment->time / 360);
-        }
-        else
-        {
-            return $this->investment->time;
-        }
+        return round($this->investment->time * $this->world->timeScale);
     }
 
 
@@ -165,7 +158,7 @@ class PlayerInvestment extends Model
         }
         else
         {
-            return $this->managerExpires - $manager['duration'];
+            return $this->managerExpires - round($manager['duration'] * $this->world->timeScale);
         }
     }
 

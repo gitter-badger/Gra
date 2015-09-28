@@ -12,6 +12,7 @@ return [
 			'tutorial-bulletin-board' => ['x' => 0.63, 'y' => 0.6],
 			'small-growshop' => ['x' => 0.42, 'y' => 0.5],
 			'small-plantation' => ['x' => 0.47, 'y' => 0.17],
+			'small-square' => ['x' => 0.53, 'y' => 0.77],
 		],
 	],
 ];

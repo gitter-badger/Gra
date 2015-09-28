@@ -646,11 +646,7 @@ class Gang extends Component
 					$battle->joinBlue($gang);
 					$battle->reason('blue', (new TransText('gang.defender'))->with('gang', $this->player->gang->name));
 
-					$after = Config::get('gang.battleAfter');
-
-					if(Config::get('app.debug', false))
-						$after /= 60;
-
+					$after = round(Config::get('gang.battleAfter') * $this->player->world->timeScale);
 
 					$now = time();
 					$at = $now + $after;

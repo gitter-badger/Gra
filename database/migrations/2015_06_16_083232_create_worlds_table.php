@@ -16,6 +16,7 @@ class CreateWorldsTable extends Migration
         {
             $table->increments('id');
             $table->boolean('open')->default(true);
+            $table->float('timeScale')->default(1.0);
             $table->timestamps();
         });
     }

@@ -12,9 +12,9 @@ class Hospital extends Component
 	public function view()
 	{
 		return view('component.hospital')
-			->with('normalSpeed', $this->getProperty('normalSpeed'))
+			->with('normalSpeed', round($this->getProperty('normalSpeed') * $this->player->world->timeScale))
 			->with('normalPrice', $this->getProperty('normalPrice') * $this->player->level)
-			->with('fastSpeed', $this->getProperty('fastSpeed'))
+			->with('fastSpeed', round($this->getProperty('fastSpeed') * $this->player->world->timeScale))
 			->with('fastPrice', $this->getProperty('fastPrice') * $this->player->level);
 	}
 
@@ -35,13 +35,13 @@ class Hospital extends Component
 		{
 			if($type == 'normal')
 			{
-				$speed = $this->getProperty('normalSpeed');
+				$speed = round($this->getProperty('normalSpeed') * $this->player->world->timeScale);
 				$price = $this->getProperty('normalPrice');
 
 			}
 			elseif($type == 'fast')
 			{
-				$speed = $this->getProperty('fastSpeed');
+				$speed = round($this->getProperty('fastSpeed') * $this->player->world->timeScale);
 				$price = $this->getProperty('fastPrice');
 			}
 			else
@@ -59,7 +59,7 @@ class Hospital extends Component
 		}
 		else
 		{
-			$duration = $speed * $health;
+			$duration = round($speed * $health * $this->player->world->timeScale);
 
 			$this->player->money -= $price;
 			$this->player->startHealing($duration, false, $type);

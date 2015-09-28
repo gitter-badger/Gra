@@ -11,7 +11,7 @@ use Auth;
 
 class World extends Model
 {
-	protected $fillable = ['open'];
+	protected $fillable = ['open', 'timeScale'];
 	private static $_selected;
 
 

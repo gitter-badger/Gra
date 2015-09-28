@@ -5,6 +5,7 @@ namespace HempEmpire\Http\Middleware;
 use Closure;
 use View;
 use HempEmpire\Player;
+use HempEmpire\World;
 
 
 class ShareData
@@ -20,6 +21,7 @@ class ShareData
     {
         //dd(Player::hasActive(), Player::getActive());
         View::share('player', Player::getActive());
+        View::share('world', World::getSelected());
         return $next($request);
     }
 }

@@ -29,16 +29,8 @@ class Work extends Component
 		]);
 
 
-		if(Config::get('app.debug', false))
-		{
-			$this->manager->setResetInterval(round($this->getProperty('reset') / 60));
-			$this->manager->setResetCooldown(round($this->getProperty('resetCooldown') / 60));
-		}
-		else
-		{
-			$this->manager->setResetInterval($this->getProperty('reset'));
-			$this->manager->setResetCooldown($this->getProperty('resetCooldown'));
-		}
+		$this->manager->setResetInterval($this->getProperty('reset') * $this->player->world->timeScale);
+		$this->manager->setResetCooldown($this->getProperty('resetCooldown') * $this->player->world->timeScale);
 		
 		$this->manager->setWorksAtOnce($this->getProperty('atOnce'));
 		$this->manager->setWorksPerGroup($this->getProperty('perGroup'));
@@ -97,10 +89,7 @@ class Work extends Component
 			}
 			else
 			{
-				$duration = $work->work->duration;
-
-				if(Config::get('app.debug', false))
-					$duration /= 60;
+				$duration = round($work->work->duration * $this->player->world->timeScale);
 
 
 				$this->player->startWorking($duration, false);

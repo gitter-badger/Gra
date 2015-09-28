@@ -62,12 +62,7 @@ class Dealing extends Component
 		}
 		else
 		{
-			$duration *= 600;
-
-			if(Config::get('app.debug', false))
-			{
-				$duration /= 60;
-			}
+			$duration = round($duration * 600 * $this->player->world->timeScale);
 
 			$this->player->energy -= $energy;
 
@@ -76,20 +71,14 @@ class Dealing extends Component
 
 			if($this->player->startDealing($duration))
 			{
-				$minInterval = $this->getProperty('minInterval');
-				$maxInterval = $this->getProperty('maxInterval');
+				$minInterval = round($this->getProperty('minInterval') * $this->player->world->timeScale);
+				$maxInterval = round($this->getProperty('maxInterval') * $this->player->world->timeScale);
 				$minStuff = $this->getProperty('minStuff');
 				$maxStuff = $this->getProperty('maxStuff');
 				$burnChance = $this->getProperty('burnChance');
 				$beatChance = $this->getProperty('beatChance');
 				$priceFactor = 1.5 - ($price - $minPrice) / ($maxPrice - $minPrice);
 				
-
-				if(Config::get('app.debug', false))
-				{
-					$minInterval /= 60;
-					$maxInterval /= 60;
-				}
 
 				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff,
 					$price, $priceFactor, $burnChance, $beatChance);

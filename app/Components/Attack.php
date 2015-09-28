@@ -66,11 +66,10 @@ class Attack extends Component
 		}
 		else
 		{
+			$duration = round($duration * $this->player->world->timeScale);
+
 			$this->player->energy -= $energy;
 			$this->player->startAttacking($duration, false);
-
-			if(Config::get('app.debug', false))
-				$duration /= 60;
 
 			$battle = new Battle;
 			$battle->joinRed($this->player);

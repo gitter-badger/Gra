@@ -11,6 +11,7 @@ use HempEmpire\Player;
 use HempEmpire\TemplateStuff;
 use HempEmpire\Stuff;
 use DB;
+use Config;
 
 use TransText;
 
