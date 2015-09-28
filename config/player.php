@@ -66,30 +66,28 @@ return [
 
 	'avatars' => [
 
-		/*
-		'0.png',
-		'1.png',
-		'2.png',
-		'3.png',
-		'4.png',
-		'5.png',
-		'6.png',
-		'7.png',
-		'8.png',
-		*/
-		'a1.png',
-		'a2.png',
-		'a3.png',
-		'a4.png',
-		'a5.png',
-		'a6.png',
-		'a7.png',
-		'a8.png',
-		'a9.png',
-		'a10.png',
-		'a11.png',
-		'a12.png',
-		'a13.png',
+
+
+		'male' => [
+
+			'a1.png',
+			'a2.png',
+			'a3.png',
+			'a4.png',
+			'a5.png',
+			'a6.png',
+			'a7.png',
+			'a9.png',
+			'a12.png',
+			'a13.png',
+		],
+
+		'famale' => [
+
+			'a8.png',
+			'a10.png',
+			'a11.png',
+		],
 	],
 
 	'plantator' => [

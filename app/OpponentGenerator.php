@@ -72,16 +72,16 @@ class OpponentGenerator
 		#}
 	}
 
-	protected function rollName()
+	protected function rollName($male)
 	{
-		$names = trans('name.data');
+		$names = trans('name.' . $male ? 'male' : 'famale');
 		$random = mt_rand(0, count($names) - 1);
 		return $names[$random];
 	}
 
-	protected function rollAvatar()
+	protected function rollAvatar($male)
 	{
-		$avatars = Config::get('player.avatars');
+		$avatars = Config::get('player.avatars' . $male ? 'male' : 'famale');
 		$random = mt_rand(0, count($avatars) - 1);
 		return asset('images/avatars/' . $avatars[$random]);
 	}
@@ -90,9 +90,11 @@ class OpponentGenerator
 
 	public function generate($level)
 	{
+		$male = mt_rand(0, 1) == 1;
+
 		$opponent = new Opponent;
-		$opponent->name = $this->rollName();
-		$opponent->avatar = $this->rollAvatar();
+		$opponent->name = $this->rollName($male);
+		$opponent->avatar = $this->rollAvatar($male);
 		$opponent->level = $level;
 		$opponent->health = $opponent->maxHealth = 100;
 		$opponent->strength = 0;

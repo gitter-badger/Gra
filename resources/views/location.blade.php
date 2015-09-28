@@ -23,7 +23,7 @@
 		
 
 
-		<button type="submit" class="{{ $checked ? '' : 'disabled' }}">
+		<button type="submit" class="place-button{{ $checked ? '' : ' disabled' }}">
 			<img class="location-pin location-pin-hoverable
 				{{ $place->isDangerous() ? ' dangerous' : '' }}" src="{{ $place->getImage() }}"
 				style="left: {{ $place->x * 100 }}%; top: {{ $place->y * 100 }}%;"

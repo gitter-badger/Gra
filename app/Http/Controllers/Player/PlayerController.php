@@ -27,9 +27,17 @@ class PlayerController extends Controller
 
 	public function getCreate()
 	{
+		$avatars = [];
+
+		foreach(Config::get('player.avatars.male') as $avatar)
+			$avatars[] = $avatar;
+
+		foreach(Config::get('player.avatars.famale') as $avatar)
+			$avatars[] = $avatar;
+
 		return view('player.create')
 			->with('points', Config::get('player.start.stats'))
-			->with('avatars', Config::get('player.avatars'));
+			->with('avatars', $avatars);
 	}
 
 	public function postCreate(Request $request)
