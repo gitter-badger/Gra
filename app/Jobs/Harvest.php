@@ -42,7 +42,7 @@ class Harvest extends PlayerJob
 		$stuff->quality = $this->quality;
 		$stuff->template()->associate($template);
 
-		$exp = round($count * ($this->quality / 5));
+		$exp = round($count * ($this->quality / 5) * Config::get('player.plantator.expPerStuff', 1.0));
 
 
 		echo 'Player ' . $this->player->name . ' harvested ' . $count . ' of stuff gaining ' . $exp . ' plantator experience' . PHP_EOL;

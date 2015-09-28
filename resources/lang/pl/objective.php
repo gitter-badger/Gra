@@ -14,6 +14,6 @@ return [
 	'travelAway' => 'Wyjedź z obecnej lokacji',
 	'travelTo' => 'Odwiedź :to',
 	'watering' => 'Podlej :value roślin',
-	
+	'visit' => 'Odwiedź :name',
 
 ];

@@ -17,8 +17,7 @@
 			<thead>
 				<tr>
 					<th>Id</th>
-					<th>Nazwa surowa</th>
-					<th>Nazwa wywietlana</th>
+					<th>Nazwa</th>
 					<th>Ilość miejsc</th>
 					<th></th>
 				</tr>
@@ -30,7 +29,6 @@
 			<tr>
 				<td>{{ $location->id }}</td>
 				<td>{{ $location->getName() }}</td>
-				<td>{{ $location->getTitle() }}</td>
 				<td>{{ $location->places()->count() }}</td>
 				<td>
 					<a href="{{ route('admin.location.show', ['location' => $location->id]) }}" class="btn btn-info">

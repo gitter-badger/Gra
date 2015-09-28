@@ -92,6 +92,11 @@ return [
 		'a13.png',
 	],
 
+	'plantator' => [
+
+		'expPerStuff' => 0.05,
+	],
+
 	'reference' => [
 
 		'interval' => 24 * 3600,

@@ -48,7 +48,7 @@ class SeedSeeder extends Seeder
             {
                 $records[] = [
 
-                    'name' => $seed['name'] ,
+                    'name' => $seed['name'],
                     'image' => $seed['image'],
                     'price' => $seed['price'],
                     'weight' => $seed['weight'],

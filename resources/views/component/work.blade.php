@@ -98,7 +98,7 @@
 	</div>
 
 
-	@if(!is_null($lastUpdate) && !is_null($nextUpdate))
+	@if(!is_null($lastUpdate) && !is_null($nextUpdate) && $lastUpdate != $nextUpdate)
 
 		<div class="progress-group btn-small">
 

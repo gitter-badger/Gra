@@ -17,6 +17,7 @@ class Objectives extends ClassContainer
 		'dealCount' => \HempEmpire\Objectives\DealCount::class,
 		'travelTo' => \HempEmpire\Objectives\TravelTo::class,
 		'travelDistance' => \HempEmpire\Objectives\TravelDistance::class,
+		'visit' => \HempEmpire\Objectives\Visit::class,
 	];
 
 

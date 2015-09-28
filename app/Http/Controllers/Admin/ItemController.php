@@ -448,7 +448,7 @@ class ItemController extends Controller
                 $output .= "\t\t\t'premium' => " . Formatter::stringify($stuff->premium) . ",\n";
                 $output .= "\t\t\t'properties' => " . Formatter::stringify($stuff->properties) . ",\n";
 
-                $output .= "\t\t\t'quality' => " . $stuff->quality .  "],\n";
+                $output .= "\t\t\t'quality' => " . $stuff->quality .  ",\n";
                 $output .= "\t\t],\n";
             }
             $output .= "\t],\n";

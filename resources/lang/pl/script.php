@@ -38,5 +38,10 @@ return [
 	'yes' => 'Tak',
 	'no' => 'Nie',
 
+	'place' => [
+
+		'dangerous' => 'Wejście tutaj może przyciągnąć uwagę policji',
+	],
+
 
 ];

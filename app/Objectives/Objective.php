@@ -23,6 +23,15 @@ abstract class Objective implements ObjectiveContract
 		return BootForm::staticInput('<strong>' . $label . '</strong>')->value($progress);
 	}
 
+	protected function renderCheckbox($label, $state)
+	{
+		$icon = entity('icon')
+			->icon($state ? 'ok' : 'remove')
+			->addClass($state ? 'success' : 'danger');
+
+		return BootForm::staticInput('<strong>' . $label . '</strong>')->value($icon);
+	}
+
 
 
 	public function changed()

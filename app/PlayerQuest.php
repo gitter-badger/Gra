@@ -170,7 +170,7 @@ class PlayerQuest extends Model
 
     public function render()
     {
-        $content = BootForm::open()->get();
+        $content = BootForm::openHorizontal(['xs' => [4, 8]])->get();
 
         foreach($this->states as $state)
             $content .= $state->render();

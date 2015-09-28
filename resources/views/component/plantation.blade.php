@@ -27,7 +27,7 @@
 
 					@if($slot->isEmpty)
 
-						<button type="button" class="btn btn-default btn-block no-padding square" data-square="height" 
+						<button type="button" class="btn btn-default btn-block no-padding"
 							data-toggle="modal" data-target="#seedsModal" data-slot="{{ $index }}">
 
 							<div class="plantation-pot"></div>
@@ -45,7 +45,7 @@
 							'" data-end="' . $slot->end . '" data-watering="' . $slot->nextWatering . '" src="' . asset('images/plants/plant-' . $frame . '.png') . '"/>'; ?>
 
 						<?php $submit = BootForm::submit($content)
-							->addClass('btn-block no-padding square')
+							->addClass('btn-block no-padding')
 							->data('square', 'height'); ?>
 
 

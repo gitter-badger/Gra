@@ -15,6 +15,8 @@ class Requirements extends ClassContainer
 		'smuggler' => \HempEmpire\Requirements\Smuggler::class,
 		'dealer' => \HempEmpire\Requirements\Dealer::class,
 
+		'~plantator' => \HempEmpire\Requirements\OtherPlantator::class,
+
 		'health' => \HempEmpire\Requirements\Health::class,
 		'energy' => \HempEmpire\Requirements\Energy::class,
 

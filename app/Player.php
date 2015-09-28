@@ -113,7 +113,7 @@ class Player extends Model
 			if($player->user->players()->count() == 1)
 				$player->sendReport('welcome');
 			
-			$player->startQuest('first-work');
+			$player->startQuest('tutorial-work');
 		});
 
 		static::updating(function(Player $player)

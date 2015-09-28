@@ -169,10 +169,7 @@ class LocationController extends Controller
 
             foreach($location->places as $place)
             {
-                if(strlen($places) > 0)
-                    $places .= ', ';
-
-                $places .= "'{$place->name}' => ['x' => {$place->x}, 'y' => {$place->y}]";
+                $places .= "\t\t\t'{$place->name}' => ['x' => {$place->x}, 'y' => {$place->y}],\n";
             }
 
             foreach($location->groups as $group)
@@ -180,19 +177,18 @@ class LocationController extends Controller
                 if(strlen($groups) > 0)
                     $groups .= ', ';
 
-                $groups .= '\'' . $group . '\'';
+                $groups .= "'$group'";
             }
 
-            $output .= "\t";
-            $output .= '[';
-            $output .= '\'name\' => \'' . $location->name . '\', ';
-            $output .= '\'image\' => \'' . $location->image . '\', ';
-            $output .= '\'plan\' => \'' . $location->plan . '\', ';
-            $output .= '\'groups\' => [' . $groups . '], ';
-            $output .= '\'x\' => ' . $location->x . ', ';
-            $output .= '\'y\' => ' . $location->y . ', ';
-            $output .= '\'places\' => [' . $places . ']';
-            $output .= '],' . PHP_EOL;
+            $output .= "\t[\n";
+            $output .= "\t\t'name' => '{$location->name}',\n";
+            $output .= "\t\t'image' => '{$location->image}',\n";
+            $output .= "\t\t'plan' => '{$location->plan}',\n";
+            $output .= "\t\t'groups' => [$groups],\n";
+            $output .= "\t\t'x' => {$location->x},\n";
+            $output .= "\t\t'y' => {$location->y},\n";
+            $output .= "\t\t'places' => [\n$places\t\t],\n";
+            $output .= "\t],\n";
         }
         $output .= ']';
 

@@ -4,5 +4,5 @@ navfix = ->
 
 
 $ ->
-	$(window).resize -> navfix()
-	navfix()
+	#$(window).resize -> navfix()
+	#navfix()

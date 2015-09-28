@@ -90,15 +90,17 @@
 
 	<div class="component-properties" data-component="{{ $component }}">
 
-		<h3 class="text-center">{{ trans('component.' . $component) }}</h3>
+		@if(count($properties))
+			<h3 class="text-center">{{ trans('component.' . $component) }}</h3>
 
-		@foreach($properties as $property)
+			@foreach($properties as $property)
 
-		{!! BootForm::text('<strong>' . trans('component.properties.' . $component . '.' . $property) . '</strong>', 'properties[' . $component . '][' . $property . ']')
-			->defaultValue(isset($place) ? $place->getProperty($component . '.' . $property) : null)->placeholder('null') !!}
+			{!! BootForm::text('<strong>' . trans('component.properties.' . $component . '.' . $property) . '</strong>', 'properties[' . $component . '][' . $property . ']')
+				->defaultValue(isset($place) ? $place->getProperty($component . '.' . $property) : null)->placeholder('null') !!}
 
 
-		@endforeach
+			@endforeach
+		@endif
 
 	</div>
 
@@ -141,26 +143,30 @@
 @parent
 
 <script type="text/javascript">
-	
-$('.component-checkbox').each(function() {
 
-	var component = $(this).data('component');
-	var checkbox = $(this).find('input[type=checkbox]');
-	var container = $('.component-properties[data-component=' + component + ']');
+$(function() {
 
-	$(checkbox).change(function() {
 
-		if($(this).is(':checked')) {
+	$('.component-checkbox').each(function() {
 
-			$(container).show();
-		}
-		else {
+		var component = $(this).data('component');
+		var checkbox = $(this).find('input[type=checkbox]');
+		var container = $('.component-properties[data-component=' + component + ']');
 
-			$(container).hide();
-		}
+		$(checkbox).change(function() {
 
-	}).trigger('change');
+			if($(this).is(':checked')) {
 
+				$(container).show();
+			}
+			else {
+
+				$(container).hide();
+			}
+
+		}).trigger('change');
+
+	});
 });
 
 
