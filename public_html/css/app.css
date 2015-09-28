@@ -28,6 +28,10 @@
 	border-radius: 100%;
 	position: absolute;
  	transform: translate(-50%, -50%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
 }
 
 .location-pin-hoverable {

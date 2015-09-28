@@ -23,12 +23,11 @@
 		
 
 
-		<button type="submit" class="place-button{{ $checked ? '' : ' disabled' }}">
-			<img class="location-pin location-pin-hoverable
-				{{ $place->isDangerous() ? ' dangerous' : '' }}" src="{{ $place->getImage() }}"
-				style="left: {{ $place->x * 100 }}%; top: {{ $place->y * 100 }}%;"
+		<button type="submit" class="location-pin location-pin-hoverable
+				{{ $place->isDangerous() ? ' dangerous' : '' }}"
 				data-name="{{ $place->getTitle() }}"
-				data-desc="{{ $place->getDescription() }}"/>
+				data-desc="{{ $place->getDescription() }}"
+				style="background-image: url({{ $place->getImage() }}); left: {{ $place->x * 100 }}%; top: {{ $place->y * 100 }}%;">
 		</button>
 
 		{!! BootForm::close() !!}
