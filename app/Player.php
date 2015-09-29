@@ -40,7 +40,7 @@ class Player extends Model
 		'jobStart', 'jobEnd', 'isBusy'];
 
 
-	protected $appends = ['nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
+	protected $appends = ['maxHealth', 'maxEnergy', 'nextHealthUpdate', 'nextEnergyUpdate', 'nextWantedUpdate', 'nextLuckUpdate', 'nextUpdate', 'reportsCount', 'messagesCount',
 		'experienceModifier', 'moneyModifier', 'weight', 'capacity', 'minDamage', 'maxDamage', 'defense', 'critChance', 'speed', 'premiumPoints', 'isBusy'];
 
 	public $timestamps = true;
@@ -538,6 +538,16 @@ class Player extends Model
 		return $this->attributes['health'];
 	}
 
+	public function getMaxHealthAttribute()
+	{
+		$bonus = 0;
+
+		for($i = 0; $i < 5; ++$i)
+			if($this->hasTalent('more-health-' . ($i + 1)))
+				$bonus += 10;
+
+		return $this->attributes['maxHealth'] + $bonus;
+	}
 
 
 
@@ -631,6 +641,17 @@ class Player extends Model
 			if($save)
 				$this->save();
 		}
+	}
+
+	public function getMaxEnergyAttribute()
+	{
+		$bonus = 0;
+
+		for($i = 0; $i < 5; ++$i)
+			if($this->hasTalent('more-energy-' . ($i + 1)))
+				$bonus += 10;
+
+		return $this->attributes['maxEnergy'] + $bonus;
 	}
 
 

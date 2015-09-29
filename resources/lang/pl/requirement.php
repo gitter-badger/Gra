@@ -20,4 +20,6 @@ return [
 
 	'quest' => '<strong>Wymagane ukończenie zadania</strong>: :value',
 	'equiped' => '<strong>Wymagany przedmiot</strong> :value',
+
+	'notalent' => '<strong>Brak talentu</strong> :name'
 ];

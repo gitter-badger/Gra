@@ -1,14 +1,7 @@
 <?php
 
 return [
-	'small-growshop' => [
-		
-		'auto-dwarf-seed' => 5,
-		'auto-bubblegum-seed' => 5,
-	],
-
 	'growshop' => [
-
 		'auto-dwarf-seed' => 50,
 		'auto-bubblegum-seed' => 50,
 		'auto-blueberry-seed' => 50,
@@ -31,6 +24,21 @@ return [
 		'ak-47-seed' => 50,
 		'auto-amnesia-haze-seed' => 50,
 		'amnesia-haze-seed' => 50,
+	],
+	'small-growshop' => [
+		'auto-dwarf-seed' => 10,
+		'auto-bubblegum-seed' => 10,
+		'auto-blueberry-seed' => 10,
+		'blueberry-seed' => 10,
+		'auto-passion-seed' => 10,
+	],
+	'tutorial-growshop' => [
+		'auto-dwarf-seed' => 5,
+		'auto-bubblegum-seed' => 5,
+	],
+	'tutorial-shop' => [
+		'water' => 10,
+		'juice' => 3,
 	],
 ];
 ?>

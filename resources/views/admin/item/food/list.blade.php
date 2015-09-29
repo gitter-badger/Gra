@@ -15,9 +15,10 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Nazwa surowa</th>
-				<th>Nazwa wyświetlana</th>
-				<th>Typ</th>
+				<th>Nazwa</th>
+				<th>Cena</th>
+				<th>Zdrowie</th>
+				<th>Energia</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -28,8 +29,9 @@
 				<tr>
 					<td>{{ $item->id }}</td>
 					<td>{{ $item->getName() }}</td>
-					<td>{{ $item->getTitle() }}</td>
-					<td>{{ trans('item.types.' . $item->getType()) }}</td>
+					<td>{{ $item->isPremium() ? $item->getPrice() . 'pp' : '$' . $item->getPrice() }}</td>
+					<td>{{ $item->getHealth() }}</td>
+					<td>{{ $item->getEnergy() }}</td>
 
 					<td>
 						

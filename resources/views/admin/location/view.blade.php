@@ -27,13 +27,17 @@
 
 
 
-<div class="trash">
+<div class="row trash">
 
 	@foreach($places as $place)
 
 		@if($location->places()->where('place_id', '=', $place->id)->count() == 0)
 		
-			<img class="location-pin" src="{{ $place->getImage() }}" data-id="{{ $place->id }}"/>
+			<div class="col-xs-2">
+
+				<img class="location-pin" src="{{ $place->getImage() }}" data-id="{{ $place->id }}"/>
+				<p style="margin-top: 50px">{{ $place->getName() }}</p>
+			</div>
 		@endif
 	@endforeach
 

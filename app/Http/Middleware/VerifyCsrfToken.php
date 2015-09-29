@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         
         'queue/receive',
         'api/*',
+        'admin/*',
         '_debugbar/*',
     ];
 }

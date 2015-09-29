@@ -16,7 +16,7 @@ return [
 		'auto' => 1,
 		'daily' => 0,
 		'rewards' => ['start:tutorial-plant'],
-		'objectives' => ['visit:small-growshop', 'buy:1,seed'],
+		'objectives' => ['visit:tutorial-growshop', 'buy:1,seed'],
 		'requires' => ['quest:tutorial-work']
 	],
 	'tutorial-plant' => [
@@ -25,7 +25,7 @@ return [
 		'auto' => 1,
 		'daily' => 0,
 		'rewards' => ['start:tutorial-watering'],
-		'objectives' => ['visit:small-plantation', 'plant:1'],
+		'objectives' => ['visit:tutorial-plantation', 'plant:1'],
 		'requires' => ['quest:tutorial-plant']
 	],
 	'tutorial-watering' => [
@@ -51,8 +51,8 @@ return [
 		'repeatable' => 0,
 		'auto' => 1,
 		'daily' => 0,
-		'rewards' => null,
-		'objectives' => ['visit:small-square', 'dealCount:1'],
+		'rewards' => [],
+		'objectives' => ['visit:tutorial-square', 'dealCount:1'],
 		'requires' => ['quest:tutorial-harvest']
 	],
 ];

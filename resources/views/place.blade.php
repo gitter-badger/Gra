@@ -13,9 +13,6 @@
 	</div>
 
 	<div class="panel-body">
-
-		<img class="img-responsive center-block" src="{{ $place->getImage() }}" style="width: 100%">
-		<br class="hidden-xs"/>
 	
 		{!! Message::renderAll() !!}
 

@@ -8,6 +8,7 @@ use Event;
 
 use HempEmpire\Player;
 use DB;
+use Formatter;
 use TransText;
 use TextArray;
 
@@ -72,6 +73,7 @@ class Deal extends PlayerJob
                 $totalSell = 0;
                 $totalPrice = 0;
                 $avgQuality = 0;
+                $totalExp = 0;
 
                 foreach($stuffs as $stuff)
                 {
@@ -84,7 +86,7 @@ class Deal extends PlayerJob
                     $totalPrice += $price;
                     $avgQuality += $stuff->quality * $count;
 
-                    $this->player->dealerExperience += round($count * ($stuff->quality / 5));
+                    $totalExp += round($count * ($stuff->quality / 5));
 
                     $this->player->money += $price;
                     if(!$this->player->takeItem($stuff, $count))
@@ -98,11 +100,16 @@ class Deal extends PlayerJob
 
                     $array->push($text);
 
+                    echo 'Player ' . $this->player->name . ' sold ' . $count . ' of ' . $stuff->getName() . PHP_EOL;
+
 
 
                     if($sell <= 0)
                         break;
                 }
+
+                $this->player->dealerExperience += $totalExp;
+                echo 'Player ' . $this->player->name . ' sold ' . $totalSell . ' earned $' . $totalPrice . ' and ' . $totalExp . 'exp' . PHP_EOL;
 
                 $now = time();
 
@@ -120,10 +127,8 @@ class Deal extends PlayerJob
                         $array->push($text);
                         $this->player->wantedUpdate = $now;
                         $this->player->wanted++;
+                        echo 'Player ' . $this->player->name . ' burned' . PHP_EOL;
                     }
-                    echo 'Burn' . PHP_EOL;
-                    echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
-                    echo $roll . ' < ' . $this->burnChance . PHP_EOL;
 
 
                     $roll = mt_rand(0, 100) + floor($avgQuality) * 7;
@@ -135,16 +140,13 @@ class Deal extends PlayerJob
                         $job->generateRed($this->player->level);
 
                         $this->dispatch($job);
+                        echo 'Player ' . $this->player->name . ' beated' . PHP_EOL;
                     }
-                    echo 'Beat' . PHP_EOL;
-                    echo 'rand(0, ' . 100 . ') = ' . $roll . PHP_EOL;
-                    echo $roll . ' < ' . round($this->beatChance / $this->priceFactor) . PHP_EOL;
                 }
                 else
                 {
                     echo 'Sold nothing' . PHP_EOL;
                 }
-
 
                 $minInterval = $now + round($this->minInterval / $this->priceFactor);
                 $maxInterval = $now + round($this->maxInterval / $this->priceFactor);
@@ -154,6 +156,7 @@ class Deal extends PlayerJob
                 if($nextCustomer)
                 {
                     $interval = mt_rand($this->minInterval, $this->maxInterval);
+                    echo 'Next client in ' . Formatter::time($interval) . PHP_EOL;
 
                     $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff,
                         $this->price, $this->priceFactor, $this->burnChance, $this->beatChance);
