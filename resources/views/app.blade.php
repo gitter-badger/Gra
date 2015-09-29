@@ -264,9 +264,8 @@
 
 		<title>HempEmpire - Alpha</title>
 
-		@yield('scripts')
 		@yield('styles')
-		
+		@yield('scripts')
 	</head>
 
 
@@ -294,5 +293,6 @@
 				@yield('footer')
 			</div>
 		</div>
+
 	</body>
 </html>

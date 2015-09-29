@@ -15,7 +15,7 @@ return [
 	'deal' => [
 
 		'title' => 'Sprzedałeś :sell sztuk towaru zarabiając $:price',
-		'content' => ':text',
+		'content' => 'Sprzedałeś :sell sztuk :name zarabiając $:price',
 	],
 
 	'harvest' => [

@@ -1,82 +1,105 @@
-<div data-tutorial="true" data-tutorial-name="dealing" data-ng-controller="dealing">
+<div data-tutorial="true" data-tutorial-name="dealing">
 
 	<h4><strong>@lang('dealing.title')</strong></h4>
-	<div class="well text-center">
-		
-		<div class="row">
 
-			<div class="col-xs-12 col-md-6 col-md-offset-3">
+	
+	<div class="row">
 
-				<div class="panel panel-default">
-					<div class="panel-body">
-					
-						{!! BootForm::open()->post() !!}
-						{!! BootForm::token() !!}
-						{!! BootForm::hidden('action')->value('deal') !!}
+		<div class="col-xs-6 col-xs-offset-3">
 
-						<div class="text-center">
+			{!! BootForm::open()->post() !!}
+			{!! BootForm::hidden('action')->value('deal') !!}
 
-							<p><strong>@lang('dealing.energy')</strong>: <span data-ng-bind="energy()"></span></p>
-							<p><strong>@lang('dealing.have')</strong>: {{ $count }}</p>
-
-							{!! BootForm::range('<strong>' . trans('dealing.price') . '</strong>:', 'price')
-								->min($minPrice)->max($maxPrice)->value(round(($minPrice + $maxPrice) / 2))->before('$') !!}
-
-							@if($minDuration == $maxDuration)
-
-								{!! BootForm::hidden('duration')->value($minDuration)->data('ng-model', 'duration') !!}
-								{!! BootForm::staticInput('<strong>' . trans('dealing.duration') . '</strong>')->value($minDuration . '0m') !!}
+			<div class="row text-center">
 
 
-							@else
+				@foreach($stuffs as $stuff)
+				<div class="col-xs-4">
 
-								{!! BootForm::range('<strong>' . trans('dealing.duration') . '</strong>:', 'duration')
-									->min($minDuration)->max($maxDuration)->value($minDuration)->after('0m')->data('ng-model', 'duration') !!}
-
-							@endif
+					<img class="img-responsive" src="{{ $stuff->getImage() }}"/>
 
 
-							{!! BootForm::submit(trans('action.dealing'), 'btn-primary')
-								->addClass('tutorial-step')
-								->data('tutorial-index', 0)
-								->attribute('title', trans('tutorial.dealing.deal.title'))
-								->data('content', trans('tutorial.dealing.deal.content')) !!}
-						</div>
+					{!! BootForm::checkbox($stuff->getTitle(), 'stuff[' . $stuff->getId() . '][sell]')
+						->addClass('dealing-stuff')->data('id', $stuff->getId()) !!}
 
-						{!! BootForm::close() !!}
+					<div id="dealing-stuff-{{ $stuff->getId() }}" class="dealing-stuff-data">
+						<p><strong>@lang('item.stuff.quality'): </strong><br/>
+
+
+							@for($i = 0; $i < 5; ++$i)
+
+								@if($i < $stuff->getQuality())
+
+									{!! entity('icon')->icon('star') !!}
+								@else
+
+									{!! entity('icon')->icon('star-empty') !!}
+								@endif
+
+
+							@endfor
+						</p>
+						{!! BootForm::range(trans('dealing.price'), 'stuff[' . $stuff->getId() . '][price]')
+							->min(floor($stuff->getPrice() * $minPrice))->max(ceil($stuff->getPrice() * $maxPrice))->value($stuff->getPrice()) !!}
+
+						{!! BootForm::range(trans('dealing.count'), 'stuff[' . $stuff->getId() . '][count]')
+							->min(0)->max($stuff->getCount()) !!}
+
 					</div>
+
+
 				</div>
+				@endforeach
 
+				<div class="col-xs-6 col-xs-offset-3">
 
+					<p><strong>@lang('dealing.energy'):</strong> {{ $energy }}</p>
+					<p><strong>@lang('dealing.duration'):</strong> {{ Formatter::time($duration) }}</p>
+					{!! BootForm::submit(trans('dealing.sell'), 'btn-primary')->addClass('center-block')->id('dealing-button') !!}
+
+				</div>
 
 			</div>
 
+
+			{!! BootForm::close() !!}
+
+
 		</div>
+
 	</div>
-
-
-
 </div>
 
+<script>
+	
+$(function() {
 
-<script type="text/javascript">
 
-(function() {
+	$('.dealing-stuff').change(function() {
 
-	var app = angular.module('game');
+		var id = $(this).data('id');
+		var data = $('#dealing-stuff-' + id);
+		var button = $('#dealing-button');
 
-	app.controller('dealing', function($scope) {
+		if($(this).is(':checked')) {
 
-		$scope.energyCost = {{ $energy }};
-		$scope.duration = {{ round(($minDuration + $maxDuration) / 2) }};
+			data.show();
+		}
+		else {
 
-		$scope.energy = function() {
+			data.hide();
+		}
 
-			return $scope.energyCost * $scope.duration;
-		};
-	});
+		if($('.dealing-stuff:checked').length > 0) {
 
-})();
+			button.removeAttr('disabled');
+		}
+		else {
 
+			button.attr('disabled', 'disabled');
+		}
+
+	}).trigger('change');
+});
 </script>
 

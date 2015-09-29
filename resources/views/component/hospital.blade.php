@@ -4,6 +4,7 @@
 
 		<div class="row" data-ng-controller="hospital">
 
+			@if($normalAvailable)
 			<div class="col-xs-6">
 			
 				<div class="panel panel-default">
@@ -39,7 +40,9 @@
 				</div>
 
 			</div>
+			@endif
 
+			@if($fastAvailable)
 			<div class="col-xs-6">
 
 				<div class="panel panel-default">
@@ -75,6 +78,7 @@
 				</div>
 
 			</div>
+			@endif
 
 
 		</div>

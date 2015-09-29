@@ -79,16 +79,12 @@ return [
 
 		'dealing' => [
 
-			'durationMin',
-			'durationMax',
 			'energy',
 			'minPrice',
 			'maxPrice',
-			'minInterval',
-			'maxInterval',
-			'minStuff',
-			'maxStuff',
-			'beatChance',
+			'minClients',
+			'maxClients',
+			'duration',
 			'burnChance',
 		],
 
@@ -125,6 +121,8 @@ return [
 			'normalPrice',
 			'fastSpeed',
 			'fastPrice',
+			'normalAvailable',
+			'fastAvailable',
 		],
 
 		'attack' => [

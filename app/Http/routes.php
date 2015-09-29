@@ -248,7 +248,7 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 					$place = $player->place;
 					
 
-					if(is_null($place) || !$place->isAvailable())
+					if(is_null($place))
 					{
 						return view('location')
 							->with('location', $player->location);

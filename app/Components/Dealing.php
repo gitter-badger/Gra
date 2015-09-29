@@ -23,68 +23,89 @@ class Dealing extends Component
 		}
 	}
 
+	protected function getStuffs()
+	{
+		return $this->player->getStuffs();
+	}
+
+	protected function getMinPrice()
+	{
+		return $this->getProperty('minPrice');
+	}
+
+	protected function getMaxPrice()
+	{
+		return $this->getProperty('maxPrice');
+	}
+
+	protected function getDuration()
+	{
+		return round(15 * 60 * $this->player->world->timeScale);
+	}
+
+	protected function getMinInterval()
+	{
+		return floor($this->getDuration() / $this->getProperty('maxClients'));
+	}
+
+	protected function getMaxInterval()
+	{
+		return ceil($this->getDuration() / $this->getProperty('minClients'));
+	}
+
+	protected function getBurnChance()
+	{
+		return $this->GetProperty('burnChance');
+	}
+
+
+
+
 
 	public function view()
 	{
 
 		return view('component.dealing')
-			->with('count', $this->player->getStuffsCount())
-			->with('energy', $this->getEnergy())
-			->with('minDuration', $this->getProperty('durationMin'))
-			->with('maxDuration', $this->getProperty('durationMax'))
-			->with('minPrice', $this->getProperty('minPrice'))
-			->with('maxPrice', $this->getProperty('maxPrice'));
+			->with('stuffs', $this->getStuffs())
+			->with('minPrice', $this->getMinPrice())
+			->with('maxPrice', $this->getMaxPrice())
+			->with('duration', $this->getDuration())
+			->with('energy', $this->getEnergy());
 	}
 
 
 
-	public function actionDeal()
+	public function actionDeal($request)
 	{
-		$duration = Request::input('duration');
-		$price = round(Request::input('price'));
-		$energy = $duration * $this->getEnergy();
-		$minPrice = $this->getProperty('minPrice');
-		$maxPrice = $this->getProperty('maxPrice');
+		$stuffs = $request->input('stuff');
+		$job = new Deal($this->player, $this->getMinInterval(), $this->getMaxInterval(),
+			$this->getMinPrice(), $this->getMaxPrice(), $this->getBurnChance());
 
-		if($duration < $this->getProperty('durationMin') ||
-			$duration > $this->getProperty('durationMax'))
-		{
-			$this->danger('wrongDuration');
-		}
-		elseif($price < $minPrice || $price > $maxPrice)
-		{
-			$this->danger('wrongPrice');
-		}
-		elseif($this->player->energy < $energy)
+		
+
+		if($this->player->energy < $this->getEnergy())
 		{
 			$this->danger('notEnoughEnergy')
-				->with('value', $energy);
+				->with('value', $this->getEnergy());
 		}
 		else
 		{
-			$duration = round($duration * 600 * $this->player->world->timeScale);
-
-			$this->player->energy -= $energy;
-
-			
-
-
-			if($this->player->startDealing($duration))
+			foreach($stuffs as $id => $data)
 			{
-				$minInterval = round($this->getProperty('minInterval') * $this->player->world->timeScale);
-				$maxInterval = round($this->getProperty('maxInterval') * $this->player->world->timeScale);
-				$minStuff = $this->getProperty('minStuff');
-				$maxStuff = $this->getProperty('maxStuff');
-				$burnChance = $this->getProperty('burnChance');
-				$beatChance = $this->getProperty('beatChance');
-				$priceFactor = 1.5 - ($price - $minPrice) / ($maxPrice - $minPrice);
-				
+				$stuff = $this->player->stuffs()->whereId($id)->first();
 
-				$deal = new Deal($this->player, $minInterval, $maxInterval, $minStuff, $maxStuff,
-					$price, $priceFactor, $burnChance, $beatChance);
+				if(!is_null($stuff) && $data['sell'])
+				{
+					$job->add($id, $data['price'], min($data['count'], $stuff->getCount()));
+				}
+			}
 
-				$this->dispatch($deal);
+			$this->player->energy -= $this->getEnergy();
 
+			if($this->player->startDealing($this->getDuration()))
+			{
+				$job->delay($this->getMinInterval());
+				$this->dispatch($job);
 				$this->success('dealingStarted');
 			}
 			else

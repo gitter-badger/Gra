@@ -33,6 +33,7 @@ class Requirements extends ClassContainer
 		'gang' => \HempEmpire\Requirements\Gang::class,
 
 		'notalent' => \HempEmpire\Requirements\NoTalent::class,
+		'blocked' => \HempEmpire\Requirements\Blocked::class,
 	];
 
 

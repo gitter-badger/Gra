@@ -15,14 +15,13 @@ use TextArray;
 
 class Deal extends PlayerJob
 {
-    protected $maxInterval;
+
+    protected $stuffs;
     protected $minInterval;
-    protected $minStuff;
-    protected $maxStuff;
-    protected $price;
-    protected $priceFactor;
+    protected $maxInterval;
+    protected $minPrice;
+    protected $maxPrice;
     protected $burnChance;
-    protected $beatChance;
 
 
     /**
@@ -30,18 +29,125 @@ class Deal extends PlayerJob
      *
      * @return void
      */
-    public function __construct(Player $player, $minInterval, $maxInterval, $minStuff, $maxStuff, $price, $priceFactor, $burnChance, $beatChance)
+    public function __construct(Player $player, $minInterval, $maxInterval, $minPrice, $maxPrice, $burnChance)
     {
         parent::__construct($player);
+        $this->stuffs = [];
         $this->minInterval = $minInterval;
         $this->maxInterval = $maxInterval;
-        $this->minStuff = $minStuff;
-        $this->maxStuff = $maxStuff;
-        $this->price = $price;
-        $this->priceFactor = $priceFactor;
+        $this->minPrice = $minPrice;
+        $this->maxPrice = $maxPrice;
         $this->burnChance = $burnChance;
-        $this->beatChance = $beatChance;
     }
+
+
+    public function add($stack, $price, $count)
+    {
+        $this->stuffs[] = [
+
+            'stack' => $stack,
+            'price' => $price,
+            'count' => $count,
+        ];
+    }
+
+    protected function remove($stack, $count)
+    {
+        for($i = 0; $i < count($this->stuffs); ++$i)
+        {
+            if($this->stuffs[$i]['stack'] == $stack)
+            {
+                $this->stuffs[$i]['count'] -= $count;
+
+                if($this->stuffs[$i]['count'] <= 0)
+                    unset($this->stuffs[$i]);
+
+                return;
+            }
+        }
+    }
+
+    protected function pass(Deal $deal)
+    {
+        foreach($this->stuffs as $stuff)
+        {
+            if($stuff['count'] > 0)
+            {
+                $deal->add($stuff['stack'], $stuff['price'], $stuff['count']);
+            }
+        }
+    }
+
+    protected function getNextInterval()
+    {
+        return mt_rand($this->minInterval, $this->maxInterval);
+    }
+
+    protected function getNextCustomer()
+    {
+        return $this->player->roll($this->player->dealerLevel, round($this->player->dealerLevel * 1.5));
+    }
+
+    private $_stuffs;
+    protected function loadStuffs()
+    {
+        if(!isset($this->_stuffs))
+        {
+            $ids = array_pluck($this->stuffs, 'stack');
+            $this->_stuffs = $this->player->stuffs()->whereIn('id', $ids)->get();
+        }
+        return $this->_stuffs;
+    }
+
+    protected function loadStuff($stack)
+    {
+        $stuffs = $this->loadStuffs();
+
+        foreach($stuffs as $stuff)
+        {
+            if($stuff->id == $stack)
+                return $stuff;
+        }
+        return null;
+    }
+
+    protected function getRecord($count)
+    {
+        $record = null;
+        $max = null;
+
+
+        foreach($this->stuffs as $stuff)
+        {
+            if(is_null($max) || ($stuff['count'] < $count && $stuff['count'] > $max))
+            {
+                $record = $stuff;
+                $max = $stuff['count'];
+            }
+        }
+
+        return $record;
+    }
+
+
+
+    protected function beat($originalPrice, $price, $quality)
+    {
+        $minPrice = floor($originalPrice * $this->minPrice);
+        $maxPrice = ceil($originalPrice * $this->maxPrice);
+
+        $qualityThreshold = ($price - $minPrice) / ($maxPrice - $minPrice) * 5;
+        return $quality < $qualityThreshold;
+    }
+
+    protected function burn()
+    {
+        return mt_rand(0, 100) < $this->burnChance;
+    }
+
+
+
+
 
     /**
      * Execute the job.
@@ -50,151 +156,86 @@ class Deal extends PlayerJob
      */
     protected function process()
     {
-
         if($this->player->jobName == 'dealing' && $this->player->jobEnd > time())
         {
-            DB::transaction(function()
+            $count = $this->getNextCustomer();
+            $record = $this->getRecord($count);
+            $interval = $this->getNextInterval();
+            $deal = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minPrice, $this->maxPrice, $this->burnChance + 1);
+
+            echo 'Client want ' . $count . ' from ' . $this->player->name . PHP_EOL;
+
+            if(is_null($record))
             {
-                $haveStuff = $this->player->getStuffsCount();
+                echo 'Player ' . $this->player->name . ' not have enought stuff (' . $count . ')' . PHP_EOL; 
+            }
+            else
+            {
+                $stuff = $this->loadStuff($record['stack']);
+                $count = min($count, $record['count'], $stuff->getCount());
+
+                $stuff->count -= $count;
+                $this->remove($record['stack'], $count);
+
+                $sold = $count;
+                $earn = $count * $record['price'];
+                $exp = $count;
+
+                $this->player->money += $earn;
+                $this->player->dealerExperience += $exp;
 
 
-
-                $maxStuff = min($haveStuff, $this->maxStuff * $this->player->dealerLevel);
-                $minStuff = min($this->minStuff * $this->player->dealerLevel, $maxStuff);
-
-
-                $sell = $this->player->roll($minStuff, $maxStuff);
-                $stuffs = $this->player->getStuffs();
-
-
-                $array = new TextArray;
-                $array->separator('<br/>');
-
-                $totalSell = 0;
-                $totalPrice = 0;
-                $avgQuality = 0;
-                $totalExp = 0;
-
-                foreach($stuffs as $stuff)
+                if($this->burn())
                 {
-                    $count = min($stuff->count, $sell);
-                    $haveStuff -= $count;
-                    $sell -= $count;
-                    $totalSell += $count;
+                    $this->player->wantedUpdate = time();
+                    $this->player->wanted++;
 
-                    $price = $this->price * $count;
-                    $totalPrice += $price;
-                    $avgQuality += $stuff->quality * $count;
+                    $this->player->newReport('burn')
+                        ->send();
 
-                    $totalExp += round($count * ($stuff->quality / 5));
-
-                    $this->player->money += $price;
-                    if(!$this->player->takeItem($stuff, $count))
-                        return false;
-
-
-                    $text = new TransText('dealing.deal');
-                    $text->with('name', new TransText($stuff->getTitle()))
-                        ->with('count', $count)
-                        ->with('price', $price);
-
-                    $array->push($text);
-
-                    echo 'Player ' . $this->player->name . ' sold ' . $count . ' of ' . $stuff->getName() . PHP_EOL;
-
-
-
-                    if($sell <= 0)
-                        break;
+                    echo 'Player ' . $this->player->name . ' burned' . PHP_EOL;
                 }
 
-                $this->player->dealerExperience += $totalExp;
-                echo 'Player ' . $this->player->name . ' sold ' . $totalSell . ' earned $' . $totalPrice . ' and ' . $totalExp . 'exp' . PHP_EOL;
+                if($this->beat($stuff->getPrice(), $record['price'], $stuff->getQuality()))
+                {
+                    $job = new Battle();
+                    $job->joinBlue($this->player);
+                    $job->reason('blue', new TransText('dealing.beat'));
+                    $job->generateRed($this->player->level);
+                    $this->dispatch($job);
+                    echo 'Player ' . $this->player->name . ' beated' . PHP_EOL;
+                }
 
-                $now = time();
 
-                if($totalSell > 0)
+
+                if($sold > 0)
                 {
                     if($this->player->hasTalent('dealer-points'))
                         $this->player->givePremiumPoint();
 
-                    $avgQuality /= $totalSell;
-
-                    $roll = mt_rand(0, 100);    
-                    if($roll < $this->burnChance)
-                    {
-                        $text = new TransText('dealing.burn');
-                        $array->push($text);
-                        $this->player->wantedUpdate = $now;
-                        $this->player->wanted++;
-                        echo 'Player ' . $this->player->name . ' burned' . PHP_EOL;
-                    }
-
-
-                    $roll = mt_rand(0, 100) + floor($avgQuality) * 7;
-                    if($roll < round($this->beatChance / $this->priceFactor))
-                    {
-                        $job = new Battle();
-                        $job->joinBlue($this->player);
-                        $job->reason('blue', new TransText('dealing.beat'));
-                        $job->generateRed($this->player->level);
-
-                        $this->dispatch($job);
-                        echo 'Player ' . $this->player->name . ' beated' . PHP_EOL;
-                    }
-                }
-                else
-                {
-                    echo 'Sold nothing' . PHP_EOL;
+                    $this->player->newReport('deal')
+                        ->param('name', new TransText('item.' . $stuff->getName() . '.name'))
+                        ->param('sell', $sold)
+                        ->param('price', $earn)
+                        ->send();
                 }
 
-                $minInterval = $now + round($this->minInterval / $this->priceFactor);
-                $maxInterval = $now + round($this->maxInterval / $this->priceFactor);
 
-                $nextCustomer = $this->player->jobName == 'dealing' && $this->player->jobEnd >= $maxInterval && $haveStuff > 0;
+                $this->player->save();
+                $stuff->save();
 
-                if($nextCustomer)
-                {
-                    $interval = mt_rand($this->minInterval, $this->maxInterval);
-                    echo 'Next client in ' . Formatter::time($interval) . PHP_EOL;
+                echo 'Player ' . $this->player->name . ' sold ' . $sold . ' earned $' . $earn . ' and ' . $exp . 'exp' . PHP_EOL; 
+            }
 
-                    $job = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minStuff, $this->maxStuff,
-                        $this->price, $this->priceFactor, $this->burnChance, $this->beatChance);
-                    $job->delay($interval);
 
-                    $this->player->nextUpdate = min($this->player->nextUpdate, $now + $interval);
-
-                    $this->dispatch($job);
-
-                }
-                elseif($haveStuff == 0)
-                {
-                    $this->player->reload = true;
-                    $this->player->jobEnd = $now;
-                }
-
-                $success = DB::transaction(function() use($array, $totalSell, $totalPrice)
-                {
-                    if($this->player->jobName == 'dealing')
-                    {
-
-                        return $this->player->newReport('deal')->param('text', $array)->param('sell', $totalSell)->param('price', $totalPrice)->send()
-                            && $this->player->save();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                });
-
-                if($success)
-                {
-                    Event::fire(new DealEvent($this->player, $totalSell, $totalPrice));
-                }
-
-                return $success;
-            });
-
+            echo 'Next client in ' . Formatter::time($interval) . PHP_EOL;
+            $deal->delay($interval);
+            $this->pass($deal);
+            $this->dispatch($deal);
+        }
+        else 
+        {
+            echo 'Player ' . $this->player->name . ' doesnt selling stuff' . PHP_EOL;
         }
     }
 }

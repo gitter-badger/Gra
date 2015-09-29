@@ -102,16 +102,12 @@ return [
 
 		'dealing' => [
 
-			'durationMin' => 'Minimalny czas sprzedaży [10m]',
-			'durationMax' => 'Maksymalny czas sprzedaży [10m]',
-			'energy' => 'Koszt energii na jednostkę czasu',
+			'duration' => 'Czas sprzedaży [s]',
+			'energy' => 'Koszt energii',
 			'minPrice' => 'Minimalna cena zioła',
 			'maxPrice' => 'Maksymalna cena zioła',
-			'minInterval' => 'Minimalny czas oczekiwania na klienta [s]',
-			'maxInterval' => 'Maksymalny czas oczekiwania na klienta [s]',
-			'minStuff' => 'Minimalna bazowa ilość sprzedanego towaru',
-			'maxStuff' => 'Maksymalna bazowa ilość sprzedanego towaru',
-			'beatChance' => 'Szansa na walkę [0-100]%',
+			'minClients' => 'Minimalna ilość klientów',
+			'maxClients' => 'Maksymalna ilość klientów',
 			'burnChance' => 'Szansa na dostanie gwiazdki [0-100]%',
 
 		],
@@ -145,6 +141,8 @@ return [
 			'normalPrice' => 'Koszt odnowienia 1 punktu zdrowia',
 			'fastSpeed' => 'Czas szybkiego odnowienia 1 punktu zdrowia [s]',
 			'fastPrice' => 'Koszt szybkiego odnowienia 1 punktu zdrowia',
+			'normalAvailable' => 'Normalna kuracja dostępna',
+			'fastAvailable' => 'Szybka kuracja dostępna',
 		],
 
 		'attack' => [

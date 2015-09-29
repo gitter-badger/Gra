@@ -244,7 +244,7 @@ class Player extends Model
 					}
 				}
 
-				$duration = round($place->getProperty('arrest.duration') * 6 * $this->world->timeScale);
+				$duration = round($place->getProperty('arrest.duration') * $this->world->timeScale) * 6;
 				$player->startArrest($duration, false);
 				$player->reload = true;
 			}
@@ -278,7 +278,7 @@ class Player extends Model
 					}
 				}
 
-				$duration = round($place->getProperty('hospital.normalSpeed') * $player->maxHealth * $this->world->timeScale);
+				$duration = round($place->getProperty('hospital.normalSpeed') * $player->world->timeScale) * $player->maxHealth;
 
 
 				$now = time();
@@ -512,7 +512,7 @@ class Player extends Model
 			$time = $this->healthUpdateTime;
 
 
-			if(!is_null($time) && !$this->healthLock)
+			if(!is_null($time) && $time > 0 && !$this->healthLock)
 			{
 				$interval = max($now - $last, 0);
 				$updates = floor($interval / $time);

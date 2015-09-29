@@ -74,14 +74,14 @@ class OpponentGenerator
 
 	protected function rollName($male)
 	{
-		$names = trans('name.' . $male ? 'male' : 'famale');
+		$names = trans('name.' . ($male ? 'male' : 'famale'));
 		$random = mt_rand(0, count($names) - 1);
 		return $names[$random];
 	}
 
 	protected function rollAvatar($male)
 	{
-		$avatars = Config::get('player.avatars' . $male ? 'male' : 'famale');
+		$avatars = Config::get('player.avatars.' . ($male ? 'male' : 'famale'), []);
 		$random = mt_rand(0, count($avatars) - 1);
 		return asset('images/avatars/' . $avatars[$random]);
 	}

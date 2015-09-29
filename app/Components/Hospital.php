@@ -7,15 +7,48 @@ use Config;
 
 class Hospital extends Component
 {
+	protected function getNormalSpeed()
+	{
+		return round($this->getProperty('normalSpeed') * $this->player->world->timeScale);
+	}
+
+	protected function getNormalPrice()
+	{
+		return $this->getProperty('normalPrice') * $this->player->level;
+	}
+
+	protected function getNormalAvailable()
+	{
+		return $this->getProperty('normalAvailable');
+	}
+
+	protected function getFastSpeed()
+	{
+		return round($this->getProperty('fastSpeed') * $this->player->world->timeScale);
+	}
+
+	protected function getFastPrice()
+	{
+		return $this->getProperty('fastPrice') * $this->player->level;
+	}
+
+	protected function getFastAvailable()
+	{
+		return $this->getProperty('fastAvailable');
+	}
+
+
 
 
 	public function view()
 	{
 		return view('component.hospital')
-			->with('normalSpeed', round($this->getProperty('normalSpeed') * $this->player->world->timeScale))
-			->with('normalPrice', $this->getProperty('normalPrice') * $this->player->level)
-			->with('fastSpeed', round($this->getProperty('fastSpeed') * $this->player->world->timeScale))
-			->with('fastPrice', $this->getProperty('fastPrice') * $this->player->level);
+			->with('normalSpeed', $this->getNormalSpeed())
+			->with('normalPrice', $this->getNormalPrice())
+			->with('normalAvailable', $this->getNormalAvailable())
+			->with('fastSpeed', $this->getFastSpeed())
+			->with('fastPrice', $this->getFastPrice())
+			->with('fastAvailable', $this->getFastAvailable());
 	}
 
 	public function actionTreat()
@@ -33,23 +66,21 @@ class Hospital extends Component
 		}
 		else
 		{
-			if($type == 'normal')
+			if($type == 'normal' && $this->getNormalAvailable())
 			{
-				$speed = round($this->getProperty('normalSpeed') * $this->player->world->timeScale);
-				$price = $this->getProperty('normalPrice');
+				$speed = $this->getNormalSpeed();
+				$price = $this->getNormalPrice();
 
 			}
-			elseif($type == 'fast')
+			elseif($type == 'fast' && $this->getFastAvailable())
 			{
-				$speed = round($this->getProperty('fastSpeed') * $this->player->world->timeScale);
-				$price = $this->getProperty('fastPrice');
+				$speed = $this->getFastSpeed();
+				$price = $this->getFastPrice();
 			}
 			else
 			{
 				return;
 			}
-
-			$price *= $this->player->level;
 		}
 
 		if($this->player->money < $price)

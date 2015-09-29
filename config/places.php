@@ -34,7 +34,7 @@ return [
 		'visible' => true,
 		'dangerous' => true,
 		'components' => ['dealing'],
-		'properties' => ['dealing' => ['durationMin' => 1, 'durationMax' => 4, 'energy' => 5, 'minPrice' => 4, 'maxPrice' => 8, 'minInterval' => 600, 'maxInterval' => 1200, 'minStuff' => 1, 'maxStuff' => 5, 'beatChance' => 0, 'burnChance' => 10]],
+		'properties' => ['dealing' => ['energy' => 5, 'minPrice' => 0.25, 'maxPrice' => 1.75, 'minClients' => 3, 'maxClients' => 5, 'duration' => 600, 'burnChance' => 10]],
 		'requires' => ['quest:tutorial-harvest']
 	],
 	[
@@ -72,6 +72,24 @@ return [
 		'components' => ['shop'],
 		'properties' => ['shop' => ['name' => 'growshop', 'delivery' => 43200, 'items' => 10, 'resetable' => 1, 'resetCost' => 5, 'resetCooldown' => 86400]],
 		'requires' => []
+	],
+	[
+		'name' => 'tutorial-clinic',
+		'image' => 'clinic.jpg',
+		'visible' => true,
+		'dangerous' => false,
+		'components' => ['hospital'],
+		'properties' => ['hospital' => ['normalSpeed' => 6, 'normalPrice' => 1, 'fastSpeed' => 3, 'fastPrice' => 3, 'normalAvailable' => 0, 'fastAvailable' => 0]],
+		'requires' => ['blocked:']
+	],
+	[
+		'name' => 'tutorial-arrest',
+		'image' => 'arrest.jpg',
+		'visible' => true,
+		'dangerous' => false,
+		'components' => ['arrest'],
+		'properties' => ['arrest' => ['duration' => 100]],
+		'requires' => ['blocked:']
 	],
 ];
 ?>
