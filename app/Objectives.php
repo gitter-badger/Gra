@@ -18,6 +18,7 @@ class Objectives extends ClassContainer
 		'travelTo' => \HempEmpire\Objectives\TravelTo::class,
 		'travelDistance' => \HempEmpire\Objectives\TravelDistance::class,
 		'visit' => \HempEmpire\Objectives\Visit::class,
+		'money' => \HempEmpire\Objectives\Money::class,
 	];
 
 

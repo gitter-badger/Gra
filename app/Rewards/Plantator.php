@@ -1,11 +1,10 @@
 <?php
 
 namespace HempEmpire\Rewards;
-use HempEmpire\Contracts\Reward;
 use HempEmpire\Player;
 
 
-class Plantator implements Reward
+class Plantator extends Reward
 {
 	private $experience;
 	private $perLevel;
@@ -36,14 +35,11 @@ class Plantator implements Reward
 	}
 
 
-	public function give(Player $player, $debug = false)
+	public function give(Player $player)
 	{
 		$experience = round($this->experience * $this->getFactor($player));
 
-		if($debug)
-		{
-			echo 'Giving ' . $experience . ' plantator experience to ' . $player->name . PHP_EOL;
-		}
+		$this->log('Giving ' . $experience . ' plantator experience to ' . $player->name);
 
 		$player->plantatorExperience += $experience;
 	}

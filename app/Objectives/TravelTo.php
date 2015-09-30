@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\LocationEnter;
+use HempEmpire\Player;
 use Event;
 
 class TravelTo extends Objective
@@ -41,7 +42,7 @@ class TravelTo extends Objective
 
 	public function init()
 	{
-		Event::listen(LocationEnter::class, [$this, 'onEnter']);
+		$this->listen(LocationEnter::class, 'onEnter');
 	}
 
 

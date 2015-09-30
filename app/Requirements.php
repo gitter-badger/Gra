@@ -29,11 +29,14 @@ class Requirements extends ClassContainer
 		'luck' => \HempEmpire\Requirements\Luck::class,
 
 		'quest' => \HempEmpire\Requirements\Quest::class,
+		'during' => \HempEmpire\Requirements\QuestDuring::class,
 		'equiped' => \HempEmpire\Requirements\Equiped::class,
 		'gang' => \HempEmpire\Requirements\Gang::class,
 
 		'notalent' => \HempEmpire\Requirements\NoTalent::class,
 		'blocked' => \HempEmpire\Requirements\Blocked::class,
+		'cartel' => \HempEmpire\Requirements\Cartel::class,
+		'space' => \HempEmpire\Requirements\Space::class,
 	];
 
 

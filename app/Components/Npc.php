@@ -27,7 +27,7 @@ class Npc extends Component
 
 
 
-		if(is_null($this->npc->quest))
+		if(is_null($this->npc->quest) || $this->npc->quest->done)
 		{
 			$this->npc->quest()->associate($this->rollQuest());
 			$this->npc->save();
@@ -86,14 +86,17 @@ class Npc extends Component
 	{
 		//$this->player->pushEvent(new \HempEmpire\DecideDialog);
 
-
+		$quest = null;
 		
-		$quest = $this->player->quests()->where([
+		if(!is_null($this->npc->quest))
+		{
+			$quest = $this->player->quests()->where([
 
-			'player_npc_id' => $this->npc->id,
-			'quest_id' => $this->npc->quest->id,
+				'player_npc_id' => $this->npc->id,
+				'quest_id' => $this->npc->quest->id,
 
-		])->first();
+			])->first();
+		}
 
 		return view('component.npc')
 			->with('npc', $this->npc)
@@ -125,6 +128,7 @@ class Npc extends Component
 			}
 			else
 			{
+				$quest->starting = true;
 				$quest->active = true;
 				$quest->done = false;
 				$quest->states = null;
@@ -177,9 +181,9 @@ class Npc extends Component
 		{
 			$this->danger('questInactive');
 		}
-		elseif(!$quest->done)
+		elseif($quest->done)
 		{
-			$this->danger('questNotDone');
+			$this->danger('questAlreadyDone');
 		}
 		elseif(!$quest->check())
 		{
@@ -192,7 +196,7 @@ class Npc extends Component
 
 			$success = DB::transaction(function() use($quest)
 			{
-				return $quest->give() && $quest->save();
+				return $this->npc->quest()->associate(null)->save() && $quest->give() && $quest->save();
 			});
 
 

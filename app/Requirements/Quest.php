@@ -9,13 +9,14 @@ use HempEmpire\Quest as QuestModel;
 
 class Quest implements Requirement
 {
-	private $id;
-	private $name;
+	protected $id;
+	protected $name;
 
 
 	public function __construct($name)
 	{
 		$quest = QuestModel::whereName($name)->first();
+
 
 		if(isset($quest))
 		{

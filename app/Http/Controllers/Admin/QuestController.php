@@ -153,6 +153,11 @@ class QuestController extends Controller
         {
             $quest->objectives = json_encode(explode_trim(PHP_EOL, $request->input('objectives')));
         }
+
+        if($request->has('accept'))
+        {
+            $quest->accept = json_encode(explode_trim(PHP_EOL, $request->input('accept')));
+        }
     }
 
     public function export()
@@ -172,6 +177,7 @@ class QuestController extends Controller
 
             $output .= "\t\t'rewards' => " . Formatter::stringify($quest->rewards, true, false) . ',' . PHP_EOL;
             $output .= "\t\t'objectives' => " . Formatter::stringify($quest->objectives, true, false) . ',' . PHP_EOL;
+            $output .= "\t\t'accept' => " . Formatter::stringify($quest->accept, true, false) . ',' . PHP_EOL;
             $output .= "\t\t'requires' => " . Formatter::stringify($quest->requires, true, false) . PHP_EOL . "\t]," . PHP_EOL;
         }
         $output .= ']';

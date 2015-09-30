@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\Plant as PlantEvent;
+use HempEmpire\Player;
 use Event;
 
 class Plant extends Objective
@@ -34,7 +35,7 @@ class Plant extends Objective
 
 	public function init()
 	{
-		Event::listen(PlantEvent::class, [$this, 'onPlant']);
+		$this->listen(PlantEvent::class, 'onPlant');
 	}
 
 

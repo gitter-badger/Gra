@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\ItemBought;
+use HempEmpire\Player;
 use Event;
 
 class Buy extends Objective
@@ -41,7 +42,7 @@ class Buy extends Objective
 
 	public function init()
 	{
-		Event::listen(ItemBought::class, [$this, 'onBuy']);
+		$this->listen(ItemBought::class, 'onBuy');
 	}
 
 

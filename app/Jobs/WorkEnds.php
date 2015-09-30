@@ -46,8 +46,7 @@ class WorkEnds extends PlayerJob
             if($this->player->jobName == 'working')
             {
                 $rewards = $this->work->work->getRewards();
-                $rewards->enableDebug(true);
-
+                
                 $this->work->done = true;
                 $this->work->counter++;
 

@@ -111,9 +111,10 @@ class Player extends Model
 			$player->equipment()->create([]);
 
 			if($player->user->players()->count() == 1)
-				$player->sendReport('welcome');
-			
-			$player->startQuest('tutorial-work');
+			{
+				$dialog = new ReportDialog('welcome');
+				$player->pushEvent($dialog);
+			}
 		});
 
 		static::updating(function(Player $player)
@@ -429,6 +430,11 @@ class Player extends Model
 	public function references()
 	{
 		return $this->hasMany(PlayerReference::class);
+	}
+
+	public function cartels()
+	{
+		return $this->hasMany(PlayerCartel::class);
 	}
 
 
@@ -849,6 +855,11 @@ class Player extends Model
 		return $this->getCapacity();
 	}
 
+	public function getSpaceAttribute()
+	{
+		return $this->capacity - $this->weight;
+	}
+
 
 
 
@@ -1035,6 +1046,7 @@ class Player extends Model
 				->send();
 
 			$quest->active = true;
+			$quest->starting = true;
 		}
 		else
 		{
@@ -1648,5 +1660,88 @@ class Player extends Model
 		});
 
 	}
+
+
+	public function meetCartel($name)
+	{
+		$cartel = Cartel::whereName($name)->first();
+
+		if(!is_null($cartel))
+		{
+			$cartel = PlayerCartel::firstOrNew([
+
+				'player_id' => $this->id,
+				'cartel_id' => $cartel->id,
+			]);
+
+			if(!$cartel->exists)
+			{
+				$cartel->respect = 0;
+				$cartel->save();
+			}
+		}
+	}
+
+	public function giveRespectToCartel($name, $respect)
+	{
+		$cartel = Cartel::whereName($name)->first();
+
+		if(!is_null($cartel))
+		{
+			$cartel = PlayerCartel::firstOrNew([
+
+				'player_id' => $this->id,
+				'cartel_id' => $cartel->id,
+			]);
+
+			if(!$cartel->exists)
+			{
+				$cartel->respect = 0;
+			}
+
+			$cartel->respect += $respect;
+			$cartel->save();
+		}
+	}
+
+	public function getCartelRespect($name)
+	{
+		$cartel = Cartel::whereName($name)->first();
+
+		if(!is_null($cartel))
+		{
+			$cartel = PlayerCartel::first([
+
+				'player_id' => $this->id,
+				'cartel_id' => $cartel->id,
+			]);
+
+			return $cartel->respect;
+		}
+
+		return null;
+	}
+
+	public function getCartelReputation($name)
+	{
+		$cartel = Cartel::whereName($name)->first();
+
+		if(!is_null($cartel))
+		{
+			$cartel = PlayerCartel::first([
+
+				'player_id' => $this->id,
+				'cartel_id' => $cartel->id,
+			]);
+
+			return $cartel->reputation;
+		}
+
+		return null;
+	}
+
+
+
+
 
 }

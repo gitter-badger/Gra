@@ -51,7 +51,7 @@ class SendVerification extends Job
         
         App::setLocale($this->user->language);
 
-        echo 'Sending verification to ' . $this->user->name . PHP_EOL;
+        $this->log('Sending verification to ' . $this->user->name);
 
 
         Mail::send('emails.verification', $data, function($message)

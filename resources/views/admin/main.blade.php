@@ -22,6 +22,7 @@
 			<li class="list-group-item"><a href="{{ route('admin.quest.index') }}">Zadania</a></li>
 			<li class="list-group-item"><a href="{{ route('admin.investment.index') }}">Inwestycje</a></li>
 			<li class="list-group-item"><a href="{{ route('admin.npc.index') }}">Npc</a></li>
+			<li class="list-group-item"><a href="{{ route('admin.cartel.index') }}">Kartele</a></li>
 		</ul>
 
 

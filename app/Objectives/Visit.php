@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\PlaceEnter;
+use HempEmpire\Player;
 use Event;
 
 class Visit extends Objective
@@ -33,7 +34,7 @@ class Visit extends Objective
 
 	public function init()
 	{
-		Event::listen(PlaceEnter::class, [$this, 'onEnter']);
+		$this->listen(PlaceEnter::class, 'onEnter');
 	}
 
 

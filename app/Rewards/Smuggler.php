@@ -1,11 +1,10 @@
 <?php
 
 namespace HempEmpire\Rewards;
-use HempEmpire\Contracts\Reward;
 use HempEmpire\Player;
 
 
-class Smuggler implements Reward
+class Smuggler extends Reward
 {
 	private $experience;
 	private $perLevel;
@@ -36,14 +35,11 @@ class Smuggler implements Reward
 	}
 
 
-	public function give(Player $player, $debug = false)
+	public function give(Player $player)
 	{
 		$experience = round($this->experience * $this->getFactor($player));
 
-		if($debug)
-		{
-			echo 'Giving ' . $experience . ' to ' . $player->name . PHP_EOL;
-		}
+		$this->log('Giving ' . $experience . ' to ' . $player->name);
 
 		$player->smugglerExperience += $experience;
 	}

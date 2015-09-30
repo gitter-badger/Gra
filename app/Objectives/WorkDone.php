@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\WorkEnd;
+use HempEmpire\Player;
 use Event;
 
 class WorkDone extends Objective
@@ -32,13 +33,13 @@ class WorkDone extends Objective
 
 	public function init()
 	{
-		Event::listen(WorkEnd::class, [$this, 'onEnd']);
+		$this->listen(WorkEnd::class, 'onEnd');
 	}
 
 
-	public function onEnd(WorkEnd $end)
+	public function onEnd(WorkEnd $event)
 	{
-		if((is_null($this->group) || $end->work->group->name == $this->group))
+		if(is_null($this->group) || $event->work->group->name == $this->group)
 		{
 			$this->state++;
 			$this->change();

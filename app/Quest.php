@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quest extends Model
 {
-    protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable', 'daily'];
+    protected $fillable = ['name', 'requires', 'rewards', 'objectives', 'repeatable', 'auto', 'breakable', 'daily', 'accept'];
     public $timestamps = false;
     private $_requires;
     private $_rewards;
+    private $_accept;
     private $_objectives;
 
 
@@ -33,6 +34,15 @@ class Quest extends Model
     	return $this->_rewards;
     }
 
+    public function getAcceptAttribute($value)
+    {
+        if(empty($this->_accept))
+        {
+            $this->_accept = json_decode($value);
+        }
+        return $this->_accept;
+    }
+
     public function getObjectivesAttribute($value)
     {
         if(empty($this->_objectives))
@@ -51,6 +61,12 @@ class Quest extends Model
     public function getRequirements()
     {
     	return new Requirements($this->requires);
+    }
+
+    public function getAccept()
+    {
+        //dd($this->accept);
+        return new Rewards($this->accept);
     }
 
     public function getObjectives()

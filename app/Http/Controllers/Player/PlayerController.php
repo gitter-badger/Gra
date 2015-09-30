@@ -40,6 +40,19 @@ class PlayerController extends Controller
 			->with('avatars', $avatars);
 	}
 
+	private function getAvatar($index, $default = null)
+	{
+		$avatars = [];
+
+		foreach(Config::get('player.avatars.male', []) as $avatar)
+			$avatars[] = $avatar;
+
+		foreach(Config::get('player.avatars.famale', []) as $avatar)
+			$avatars[] = $avatar;
+
+		return isset($avatars[$index]) ? $avatars[$index] : $default;
+	}
+
 	public function postCreate(Request $request)
 	{
 		$user = Auth::user();
@@ -90,7 +103,7 @@ class PlayerController extends Controller
 			$player->world_id = $world->id;
 			$player->location_id = Location::getStartLocation()->id;
 
-			$player->avatar = Config::get('player.avatars.' . $request->input('avatar'), '0.png');
+			$player->avatar = $this->getAvatar($request->input('avatar'), '0.png');
 
 
 			$player->name = $request->input('name');

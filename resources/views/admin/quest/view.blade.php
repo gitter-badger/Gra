@@ -42,6 +42,9 @@
 	{!! BootForm::staticInput('<strong>Nagrody</strong>')
 		->value($quest->getRewards()->rawRender()) !!}
 
+	{!! BootForm::staticInput('<strong>Po rozpoczęciu</strong>')
+		->value($quest->getAccept()->rawRender()) !!}
+
 	{!! BootForm::staticInput('<strong>Wymagania</strong>')
 		->value($quest->getRequirements()->rawRender()) !!}
 

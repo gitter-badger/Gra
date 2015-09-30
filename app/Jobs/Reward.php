@@ -31,7 +31,6 @@ class Reward extends PlayerJob
      */
     protected function process()
     {
-        $this->rewards->enableDebug(true);
         $this->rewards->give($this->player);
     }
 }

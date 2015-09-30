@@ -22,6 +22,7 @@ class CreateQuestsTable extends Migration
             $table->boolean('daily');
             $table->json('requires');
             $table->json('rewards');
+            $table->json('accept');
             $table->json('objectives');
         });
     }

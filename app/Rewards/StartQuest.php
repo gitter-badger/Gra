@@ -2,12 +2,11 @@
 
 
 namespace HempEmpire\Rewards;
-use HempEmpire\Contracts\Reward;
 use HempEmpire\Player;
 use HempEmpire\Quest as QuestModel;
 
 
-class StartQuest implements Reward
+class StartQuest extends Reward
 {
 	private $name;
 
@@ -18,11 +17,7 @@ class StartQuest implements Reward
 
 	public function give(Player $player, $debug = false)
 	{
-		if($debug)
-		{
-			echo 'Player ' . $player->name . ' started quest ' . $this->name . PHP_EOL;
-		}
-
+		$this->log('Player ' . $player->name . ' started quest ' . $this->name);
 		return $player->startQuest($this->name);
 	}
 

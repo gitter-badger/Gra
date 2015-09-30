@@ -33,7 +33,7 @@
 	
 	<?php 
 
-	$checkbox = BootForm::checkbox('<strong>Przynaj nagrodę odrazu po zakończeniu</strong>', 'auto');
+	$checkbox = BootForm::checkbox('<strong>Przynaj nagrodę od razu po zakończeniu</strong>', 'auto');
 
 	if(empty($quest) || $quest->auto)
 		$checkbox->check();
@@ -77,6 +77,12 @@
 
 	{!! BootForm::textarea('<strong>Nagrody</strong>', 'rewards')
 		->value(isset($quest) ? Formatter::stringify($quest->rewards, false, false, PHP_EOL) : null) !!}
+
+	{!! BootForm::staticInput('<strong>Po rozpoczęciu - przykład</strong>')
+		->value(\HempEmpire\Rewards::getConfig()) !!}
+
+	{!! BootForm::textarea('<strong>Po rozpoczęciu</strong>', 'accept')
+		->value(isset($quest) ? Formatter::stringify($quest->accept, false, false, PHP_EOL) : null) !!}
 
 
 	{!! BootForm::staticInput('<strong>Wymagania - przykład</strong>')

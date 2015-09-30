@@ -15,6 +15,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body text-center">
 
+						<?php $quest->init(); ?>
 						<h4><strong>{{ $quest->getTitle() }}</strong></h4>
 						<p>{!! $quest->render() !!}</p>
 

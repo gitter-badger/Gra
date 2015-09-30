@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\Deal;
+use HempEmpire\Player;
 use Event;
 
 class DealMoney extends Objective
@@ -32,7 +33,7 @@ class DealMoney extends Objective
 
 	public function init()
 	{
-		Event::listen(Deal::class, [$this, 'onDeal']);
+		$this->listen(Deal::class, 'onDeal');
 	}
 
 

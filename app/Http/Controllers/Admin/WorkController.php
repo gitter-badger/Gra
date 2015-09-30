@@ -118,6 +118,5 @@ class WorkController extends Controller
         {
             $work->requires = json_encode(explode_trim(PHP_EOL, $request->input('requires')));
         }
-
     }
 }

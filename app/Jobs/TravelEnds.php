@@ -54,7 +54,7 @@ class TravelEnds extends PlayerJob
                 $this->player->wanted = max($this->player->wanted - 1, 0);
                 $this->player->wantedUpdate = time();
 
-                echo 'Giving ' . $exp . ' smuggler experience to ' . $this->player->name . PHP_EOL; 
+                $this->log('Giving ' . $exp . ' smuggler experience to ' . $this->player->name); 
 
                 if($count > 0)
                 {

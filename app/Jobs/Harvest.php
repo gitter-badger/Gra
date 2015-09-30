@@ -46,7 +46,7 @@ class Harvest extends PlayerJob
 		$exp = round($count * Config::get('player.plantator.expPerStuff', 1.0));
 
 
-		echo 'Player ' . $this->player->name . ' harvested ' . $count . ' of stuff gaining ' . $exp . ' plantator experience' . PHP_EOL;
+		$this->log('Player ' . $this->player->name . ' harvested ' . $count . ' of stuff gaining ' . $exp . ' plantator experience');
 
 		$this->player->plantatorExperience += $exp;
 

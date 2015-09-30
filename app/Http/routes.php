@@ -184,6 +184,10 @@ Route::group(['domain' => '{server}.' . Config::get('app.domain'), 'before' => '
 			Route::get('/npc/export', ['as' => 'admin.npc.export', 'uses' => 'Admin\NpcController@export']);
 			Route::resource('/npc', 'Admin\NpcController');
 
+
+			Route::get('/cartel/export', ['as' => 'admin.cartel.export', 'uses' => 'Admin\CartelController@export']);
+			Route::resource('/cartel', 'Admin\CartelController');
+
 		});
 
 		//Player

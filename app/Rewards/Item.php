@@ -1,7 +1,6 @@
 <?php
 
 namespace HempEmpire\Rewards;
-use HempEmpire\Contracts\Reward;
 use HempEmpire\Player;
 
 use HempEmpire\TemplateArmor;
@@ -12,12 +11,12 @@ use HempEmpire\TemplateVehicle;
 use HempEmpire\TemplateWeapon;
 
 
-class Item implements Reward
+class Item extends Reward
 {
 	private $name;
 	private $count;
 
-	private static function findItem($name)
+	protected function findItem($name)
 	{
 		$item = TemplateArmor::whereName($name)->first();
 
@@ -60,20 +59,18 @@ class Item implements Reward
 	}
 
 
-	public function give(Player $player, $debug = false)
+	public function give(Player $player)
 	{
-		$item = static::findItem($this->name);
+		$item = $this->findItem($this->name);
 
-		if($debug)
+		
+		if(isset($item))
 		{
-			if(isset($item))
-			{
-				echo 'Giving item: ' . $item->getName() . ' x ' . $this->count . ' to ' . $player->name . PHP_EOL;
-			}
-			else
-			{
-				echo 'Item not found' . PHP_EOL;
-			}
+			$this->log('Giving item: ' . $item->getName() . ' x ' . $this->count . ' to ' . $player->name);
+		}
+		else
+		{
+			$this->log('Item not found');
 		}
 
 

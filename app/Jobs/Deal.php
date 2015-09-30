@@ -163,11 +163,11 @@ class Deal extends PlayerJob
             $interval = $this->getNextInterval();
             $deal = new Deal($this->player, $this->minInterval, $this->maxInterval, $this->minPrice, $this->maxPrice, $this->burnChance + 1);
 
-            echo 'Client want ' . $count . ' from ' . $this->player->name . PHP_EOL;
+            $this->log('Client want ' . $count . ' from ' . $this->player->name);
 
             if(is_null($record))
             {
-                echo 'Player ' . $this->player->name . ' not have enought stuff (' . $count . ')' . PHP_EOL; 
+                $this->log('Player ' . $this->player->name . ' not have enought stuff (' . $count . ')'); 
             }
             else
             {
@@ -193,7 +193,7 @@ class Deal extends PlayerJob
                     $this->player->newReport('burn')
                         ->send();
 
-                    echo 'Player ' . $this->player->name . ' burned' . PHP_EOL;
+                    $this->log('Player ' . $this->player->name . ' burned');
                 }
 
                 if($this->beat($stuff->getPrice(), $record['price'], $stuff->getQuality()))
@@ -203,7 +203,7 @@ class Deal extends PlayerJob
                     $job->reason('blue', new TransText('dealing.beat'));
                     $job->generateRed($this->player->level);
                     $this->dispatch($job);
-                    echo 'Player ' . $this->player->name . ' beated' . PHP_EOL;
+                    $this->log('Player ' . $this->player->name . ' beated');
                 }
 
 
@@ -218,24 +218,26 @@ class Deal extends PlayerJob
                         ->param('sell', $sold)
                         ->param('price', $earn)
                         ->send();
+
+                    Event::fire(new DealEvent($this->player, $sold, $earn));
                 }
 
 
                 $this->player->save();
                 $stuff->save();
 
-                echo 'Player ' . $this->player->name . ' sold ' . $sold . ' earned $' . $earn . ' and ' . $exp . 'exp' . PHP_EOL; 
+                $this->log('Player ' . $this->player->name . ' sold ' . $sold . ' earned $' . $earn . ' and ' . $exp . 'exp'); 
             }
 
 
-            echo 'Next client in ' . Formatter::time($interval) . PHP_EOL;
+            $this->log('Next client in ' . Formatter::time($interval));
             $deal->delay($interval);
             $this->pass($deal);
             $this->dispatch($deal);
         }
         else 
         {
-            echo 'Player ' . $this->player->name . ' doesnt selling stuff' . PHP_EOL;
+            $this->log('Player ' . $this->player->name . ' doesnt selling stuff');
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\Watering as WateringEvent;
+use HempEmpire\Player;
 use Event;
 
 class Watering extends Objective
@@ -34,7 +35,7 @@ class Watering extends Objective
 
 	public function init()
 	{
-		Event::listen(WateringEvent::class, [$this, 'onWatering']);
+		$this->listen(WateringEvent::class, 'onWatering');
 	}
 
 

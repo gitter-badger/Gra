@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use HempEmpire\Debug;
 use DB;
 use Exception;
 
@@ -32,6 +33,11 @@ abstract class Job extends QueueableJob
         return parent::delay($time - 1);
     }
 
+    protected final function log($string)
+    {
+        Debug::log($string);
+    }
+
     public final function handle()
     {
         try
@@ -53,23 +59,26 @@ abstract class Job extends QueueableJob
         }
         catch(Exception $e)
         {
-            echo 'Error: ' . $e->getMessage() . PHP_EOL;
-            echo $e->getTraceAsString() . PHP_EOL;
+            $this->log('Error: ' . $e->getMessage());
+            $this->log($e->getTraceAsString());
         }
     }
 
     protected function before()
     {
+        Debug::set(true);
         $class = get_called_class();
 
-        echo 'Starting: ' . $class . PHP_EOL;
+        $this->log('Starting: ' . $class);
     }
 
     protected function after()
     {
         $class = get_called_class();
 
-        echo 'Done: ' . $class . PHP_EOL;
+        $this->log('Done: ' . $class);
+
+        //Debug::set(false);
     }
 
     protected abstract function process();

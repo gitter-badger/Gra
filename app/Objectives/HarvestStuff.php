@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\Harvest as HarvestEvent;
+use HempEmpire\Player;
 use Event;
 
 class HarvestStuff extends Objective
@@ -34,7 +35,7 @@ class HarvestStuff extends Objective
 
 	public function init()
 	{
-		Event::listen(HarvestEvent::class, [$this, 'onHarvest']);
+		$this->listen(HarvestEvent::class, 'onHarvest');
 	}
 
 

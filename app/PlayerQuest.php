@@ -7,7 +7,7 @@ use BootForm;
 
 class PlayerQuest extends Model
 {
-    protected $fillable = ['quest_id', 'player_id', 'player_npc_id', 'active', 'done', 'states'];
+    protected $fillable = ['quest_id', 'player_id', 'player_npc_id', 'active', 'done', 'states', 'starting'];
     public $timestamps = false;
     private $_states;
     private $_changed = false;
@@ -19,19 +19,41 @@ class PlayerQuest extends Model
 
         static::updating(function(PlayerQuest $quest)
         {
+            $quest->init();
+
+            if($quest->active && $quest->starting)
+            {
+                $quest->starting = false;
+                if(!$quest->start())
+                    return false;
+            }
+
+
             if($quest->active && !$quest->done && $quest->check())
             {
-                $quest->done = true;
-
                 if($quest->auto)
                 {
+                    $quest->done = true;
                     $quest->active = false;
-                    $quest->give();
+                    if($quest->give())
+                    {
 
-                    $quest->player->newReport('quest-completed')
-                        ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
-                        ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
-                        ->send();
+                        $quest->player->newReport('quest-completed')
+                            ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                            ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
+                            ->send();
+
+                        $dialog = (new ReportDialog('quest-completed'))
+                            ->with('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                            ->with('text', new \TransText('quest.' . $quest->quest->name . '.completed'));
+
+                        $quest->player->pushEvent($dialog);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
                 else
                 {
@@ -136,7 +158,9 @@ class PlayerQuest extends Model
         if(!$this->_init)
         {
             foreach($this->states as $state)
-                $state->init();
+            {
+                $state->setup($this->player);
+            }
 
             $this->_init = true;
         }
@@ -157,6 +181,8 @@ class PlayerQuest extends Model
 
     public function check()
     {
+        $this->init();
+
         if(count($this->states) == 0)
             return true;
 
@@ -170,6 +196,7 @@ class PlayerQuest extends Model
 
     public function render()
     {
+        $this->init();
         $content = BootForm::openHorizontal(['xs' => [4, 8]])->get();
 
         foreach($this->states as $state)
@@ -193,6 +220,10 @@ class PlayerQuest extends Model
         }
     }
 
+    public function start($save = true)
+    {
+        return $this->quest->getAccept()->give($this->player, $save);
+    }
 
 
 

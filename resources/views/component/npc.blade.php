@@ -13,106 +13,101 @@
 			<div class="panel panel-default">
 				<div class="panel-body text-center">
 
-					<h4><strong>{{ $npc->quest->getTitle() }}</strong></h4>
-					<p>{{ $npc->quest->getDescription() }}</p>
+					@if(isset($npc->quest))
+						<h4><strong>{{ $npc->quest->getTitle() }}</strong></h4>
+						<p>{{ $npc->quest->getDescription() }}</p>
 
-					<?php $rewards = $npc->quest->getRewards(); ?>
+						@if(isset($quest) && $quest->active)
 
-					<h5><strong>@lang('quest.rewards')</strong></h5>
-					{!! $rewards->render() !!}
 
-					@if(isset($quest) && $quest->active)
+							<div class="center-block">
+								@if($quest->check())
 
-						{!! $quest->render() !!}
+									{!! BootForm::open()->post()->addClass('form-inline') !!}
+									{!! BootForm::token() !!}
 
-						<div class="center-block">
-							@if($quest->check())
+									{!! BootForm::hidden('action')->value('complete') !!}
+									{!! BootForm::submit(trans('action.complete'), 'btn-primary') !!}
+
+									{!! BootForm::close() !!}
+
+								@else
+
+									{!! BootForm::open()->addClass('form-inline') !!}
+
+									{!! BootForm::submit(trans('action.complete'), 'btn-primary')->addClass('disabled') !!}
+
+									{!! BootForm::close() !!}
+
+
+								@endif
+
+
+								@if($quest->breakable)
+
 
 								{!! BootForm::open()->post()->addClass('form-inline') !!}
 								{!! BootForm::token() !!}
 
-								{!! BootForm::hidden('action')->value('complete') !!}
-								{!! BootForm::submit(trans('action.complete'), 'btn-primary') !!}
-
-								{!! BootForm::close() !!}
-
-							@else
-
-								{!! BootForm::open()->addClass('form-inline') !!}
-
-								{!! BootForm::submit(trans('action.complete'), 'btn-primary')->addClass('disabled') !!}
+								{!! BootForm::hidden('action')->value('cancel') !!}
+								{!! BootForm::hidden('quest')->value($quest->id) !!}
+								{!! BootForm::submit(trans('action.cancel'), 'btn-danger') !!}
 
 								{!! BootForm::close() !!}
 
 
-							@endif
+								@endif
+							</div>
 
 
-							@if($quest->breakable)
+						@else
+							<?php $requirements = $npc->quest->getRequirements(); ?>
 
 
-							{!! BootForm::open()->post()->addClass('form-inline') !!}
-							{!! BootForm::token() !!}
+							@if(!$requirements->check())
 
-							{!! BootForm::hidden('action')->value('cancel') !!}
-							{!! BootForm::hidden('quest')->value($quest->id) !!}
-							{!! BootForm::submit(trans('action.cancel'), 'btn-danger') !!}
-
-							{!! BootForm::close() !!}
-
+							<h5><strong>@lang('quest.requirements')</strong></h5>
+							{!! $requirements->render() !!}
 
 							@endif
-						</div>
+
+							<br/>
 
 
-					@else
-						<?php $requirements = $npc->quest->getRequirements(); ?>
+							<div class="center-block">
+							
+								@if($requirements->check())
+
+								{!! BootForm::open()->post()->addClass('form-inline') !!}
+								{!! BootForm::token() !!}
+
+								{!! BootForm::hidden('action')->value('accept') !!}
+								{!! BootForm::submit(trans('action.accept'), 'btn-success') !!}
+
+								{!! BootForm::close() !!}
+
+								@else
+
+								<span class="btn btn-success disabled">@lang('action.accept')</span>
+
+								@endif
+							
+								{!! BootForm::open()->post()->addClass('form-inline') !!}
+								{!! BootForm::token() !!}
+
+								{!! BootForm::hidden('action')->value('decline') !!}
+								{!! BootForm::submit(trans('action.decline'), 'btn-danger') !!}
+
+								{!! BootForm::close() !!}
 
 
-						@if(!$requirements->check())
 
-						<h5><strong>@lang('quest.requirements')</strong></h5>
-						{!! $requirements->render() !!}
+
+							</div>
+
+							@endif
 
 						@endif
-
-						<br/>
-
-
-						<div class="center-block">
-						
-							@if($requirements->check())
-
-							{!! BootForm::open()->post()->addClass('form-inline') !!}
-							{!! BootForm::token() !!}
-
-							{!! BootForm::hidden('action')->value('accept') !!}
-							{!! BootForm::submit(trans('action.accept'), 'btn-success') !!}
-
-							{!! BootForm::close() !!}
-
-							@else
-
-							<span class="btn btn-success disabled">@lang('action.accept')</span>
-
-							@endif
-						
-							{!! BootForm::open()->post()->addClass('form-inline') !!}
-							{!! BootForm::token() !!}
-
-							{!! BootForm::hidden('action')->value('decline') !!}
-							{!! BootForm::submit(trans('action.decline'), 'btn-danger') !!}
-
-							{!! BootForm::close() !!}
-
-
-
-
-						</div>
-
-						@endif
-
-
 
 				</div>
 			</div>

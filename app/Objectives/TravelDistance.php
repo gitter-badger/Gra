@@ -2,6 +2,7 @@
 
 namespace HempEmpire\Objectives;
 use HempEmpire\Events\Travel as TravelEvent;
+use HempEmpire\Player;
 use Event;
 
 class TravelDistance extends Objective
@@ -32,7 +33,7 @@ class TravelDistance extends Objective
 
 	public function init()
 	{
-		Event::listen(TravelEvent::class, [$this, 'onEnter']);
+		$this->listen(TravelEvent::class, 'onEnter');
 	}
 
 
