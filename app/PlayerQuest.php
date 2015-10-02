@@ -47,7 +47,9 @@ class PlayerQuest extends Model
                             ->with('name', new \TransText('quest.' . $quest->quest->name . '.name'))
                             ->with('text', new \TransText('quest.' . $quest->quest->name . '.completed'));
 
+                        $quest->player->reload = true;
                         $quest->player->pushEvent($dialog);
+                        $quest->player->save();
                     }
                     else
                     {
@@ -124,6 +126,9 @@ class PlayerQuest extends Model
         {
             if(is_null($value))
             {
+                $o = $this->quest->getObjectives();
+                //dd($o);
+
                 $this->_states = $this->quest->getObjectives()->get();
                 $this->_changed = true;
             }

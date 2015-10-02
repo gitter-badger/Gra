@@ -29,6 +29,7 @@ class QuestSeeder extends Seeder
                 'daily' => $questData['daily'],
                 'rewards' => json_encode(isset($questData['rewards']) ? $questData['rewards'] : []),
                 'requires' => json_encode(isset($questData['requires']) ? $questData['requires'] : []),
+                'accept' => json_encode(isset($questData['accept']) ? $questData['accept'] : []),
                 'objectives' => json_encode(isset($questData['objectives']) ? $questData['objectives'] : []),
             ];
 

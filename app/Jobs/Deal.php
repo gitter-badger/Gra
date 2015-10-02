@@ -130,11 +130,30 @@ class Deal extends PlayerJob
     }
 
 
+    protected function getMinPrice($price)
+    {
+        return floor($price * $this->minPrice);
+    }
+
+    protected function getMaxPrice($price)
+    {
+        return ceil($price * $this->maxPrice);
+    }
+
+    protected function getTimeScale($price, $originalPrice)
+    {
+        $minPrice = $this->getMinPrice($originalPrice);
+        $maxPrice = $this->getMaxPrice($originalPrice);
+
+        return ($price - $minPrice) / ($maxPrice - $minPrice) + 0.5;
+    }
+
+
 
     protected function beat($originalPrice, $price, $quality)
     {
-        $minPrice = floor($originalPrice * $this->minPrice);
-        $maxPrice = ceil($originalPrice * $this->maxPrice);
+        $minPrice = $this->getMinPrice($originalPrice);
+        $maxPrice = $this->getMaxPrice($originalPrice);
 
         $qualityThreshold = ($price - $minPrice) / ($maxPrice - $minPrice) * 5;
         return $quality < $qualityThreshold;
@@ -180,6 +199,9 @@ class Deal extends PlayerJob
                 $sold = $count;
                 $earn = $count * $record['price'];
                 $exp = $count;
+
+                $interval = round($interval * $this->getTimeScale($record['price'], $stuff->getPrice()));
+
 
                 $this->player->money += $earn;
                 $this->player->dealerExperience += $exp;

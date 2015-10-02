@@ -7,11 +7,11 @@ use HempEmpire\Stuff as StuffModel;
 use HempEmpire\TemplateStuff;
 
 
-class Stuff extends Item
+class Stuff extends GiveItem
 {
 	private $quality;
 
-	protected function findItem($name)
+	protected function findItemByName($name)
 	{
 		$item = TemplateStuff::whereName($name)->first();
 

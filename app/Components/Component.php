@@ -6,6 +6,7 @@ use HempEmpire\DispatchesMessages;
 use HempEmpire\Contracts\Component as ComponentContract;
 use HempEmpire\Player;
 use HempEmpire\LocationPlace;
+use HempEmpire\Requirements;
 use Message;
 
 
@@ -96,6 +97,12 @@ abstract class Component implements ComponentContract
 		{
 			return $namespace == $this->getName();
 		}
+	}
+
+	public function available()
+	{
+		return (new Requirements($this->getProperty('requires', [])))
+			->check();
 	}
 
 

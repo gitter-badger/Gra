@@ -4,7 +4,7 @@ namespace HempEmpire\Components;
 use HempEmpire\Plantation as PlantationModel;
 use HempEmpire\PlantationSlot as SlotModel;
 use HempEmpire\Jobs\Harvest as HarvestJob;
-use HempEmpire\Events\Plant as PlantEvent;
+use HempEmpire\Jobs\Plant as PlantJob;
 use HempEmpire\Events\Watering as WateringEvent;
 use HempEmpire\Events\Harvest as HarvestEvent;
 use Request;
@@ -85,7 +85,6 @@ class Plantation extends Component
 
 			$growth = round($seed->getGrowth() * $this->plantation->light * $this->player->world->timeScale);
 			$watering = round($seed->getWatering() * $this->plantation->ground * $this->player->world->timeScale);
-			$harvestIncrease = (100 + $this->player->plantatorLevel * 5) / 100;
 			$quality = $seed->getQuality();
 
 
@@ -118,8 +117,8 @@ class Plantation extends Component
 				$slot->isEmpty = false;
 				$slot->species = $seed->getSpecies();
 				$slot->watering = $watering;
-				$slot->harvestMin = $seed->getMinHarvest() * $harvestIncrease;
-				$slot->harvestMax = $seed->getMaxHarvest() * $harvestIncrease;
+				$slot->harvestMin = $seed->getMinHarvest();
+				$slot->harvestMax = $seed->getMaxHarvest();
 				$slot->quality = $quality;
 				$slot->start = $now + $duration;
 				$slot->end = $now + $growth + $duration;
@@ -132,7 +131,10 @@ class Plantation extends Component
 
 				if($success)
 				{
-					Event::fire(new PlantEvent($this->player, $slot));
+					$job = new PlantJob($this->player, $slot);
+					$job->delay($duration);
+
+					$this->dispatch($job);
 
 					$this->success('seedPlanted')
 						->with('name', $seed->getTitle())
@@ -253,9 +255,12 @@ class Plantation extends Component
 			}
 			else
 			{
+				$harvestIncrease = (100 + $this->player->plantatorLevel * 5) / 100;
 				$quality = $slot->quality;
 				$this->player->energy -= $energy;
 				$this->player->startHarvesting($duration, false);
+				$harvestMin = floor($slot->harvestMin * $harvestIncrease);
+				$harvestMax = ceil($slot->harvestMax * $harvestIncrease);
 				
 				$slot->isEmpty = true;
 
@@ -265,7 +270,7 @@ class Plantation extends Component
 
 
 
-				$job = new HarvestJob($this->player, $slot->species, $slot->quality, $slot->harvestMin, $slot->harvestMax);
+				$job = new HarvestJob($this->player, $slot->species, $quality, $slot->harvestMin, $slot->harvestMax);
 				$job->delay($duration);
 
 

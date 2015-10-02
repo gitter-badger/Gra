@@ -7,22 +7,12 @@ use Config;
 
 class Debug
 {
-	private static $enabled = false;
+	private static $enabled = true;
 
-
-
-	private static function checkForDebug()
-	{
-		if(empty(self::$enabled))
-		{
-			self::$enabled = Config::get('app.debug', false);
-		}
-	}
 
 
 	public static function check()
 	{
-		self::checkForDebug();
 		return self::$enabled;
 	}
 

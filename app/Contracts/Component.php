@@ -12,4 +12,5 @@ interface Component
 	public function before();
 	public function after();
 	public function index();
+	public function available();
 }

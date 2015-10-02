@@ -93,6 +93,9 @@
 		@if(count($properties))
 			<h3 class="text-center">{{ trans('component.' . $component) }}</h3>
 
+			{!! BootForm::textarea('<strong>Wymagania</strong>', 'properties[' . $component . '][requires]')
+				->defaultValue(isset($place) ? $place->getProperty($component . '.requires') : null)->placeholder('null')  !!}
+
 			@foreach($properties as $property)
 
 			{!! BootForm::text('<strong>' . trans('component.properties.' . $component . '.' . $property) . '</strong>', 'properties[' . $component . '][' . $property . ']')

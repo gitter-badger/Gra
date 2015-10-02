@@ -6,6 +6,8 @@ use HempEmpire\World;
 use HempEmpire\Location;
 use Facebook\Facebook;
 use Illuminate\Http\Request;
+use HempEmpire\Events\Equip as EquipEvent;
+use Event;
 use Session;
 use Config;
 use Auth;
@@ -323,6 +325,8 @@ class PlayerController extends Controller
 
 			if($success)
 			{
+				Event::fire(new EquipEvent($player, $item));
+
 				$this->success('itemEquiped')
 					->with('name', $item->getTitle());
 			}

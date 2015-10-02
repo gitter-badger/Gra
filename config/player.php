@@ -5,7 +5,7 @@ return [
 	'start' => [
 
 		'stats' => 25,
-		'location' => 'tutorial',
+		'location' => 'tutorial-city',
 		'money' => 0,
 		'luck' => 50,
 	],

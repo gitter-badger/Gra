@@ -145,6 +145,7 @@ class PlaceController extends Controller
         {
             $components = array_keys(Request::input('components'));
             $properties = array_only(Request::input('properties'), $components);
+            
 
             foreach($properties as &$array)
             {

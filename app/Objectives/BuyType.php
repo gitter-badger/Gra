@@ -5,7 +5,7 @@ use HempEmpire\Events\ItemBought;
 use HempEmpire\Player;
 use Event;
 
-class Buy extends Objective
+class BuyType extends Objective
 {
 	protected $state;
 	protected $count;
@@ -14,7 +14,7 @@ class Buy extends Objective
 
 
 
-	public function __construct($count, $type = null)
+	public function __construct($type, $count = 1)
 	{
 		$this->count = $count;
 		$this->type = $type;
@@ -25,14 +25,7 @@ class Buy extends Objective
 
 	public function render()
 	{
-		if(is_null($this->type))
-		{
-			return $this->renderProgress(trans('objective.buy', ['value' => $this->count]), $this->state, $this->count);
-		}
-		else
-		{
-			return $this->renderProgress(trans('objective.buyType', ['value' => $this->count, 'type' => trans('item.types.' . $this->type)]), $this->state, $this->count);
-		}
+		return $this->renderProgress(trans('objective.buyType', ['value' => $this->count, 'type' => trans('item.types.' . $this->type)]), $this->state, $this->count);
 	}
 
 	public function check()

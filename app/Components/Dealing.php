@@ -88,6 +88,10 @@ class Dealing extends Component
 			$this->danger('notEnoughEnergy')
 				->with('value', $this->getEnergy());
 		}
+		elseif(count($stuffs) == 0)
+		{
+			$this->danger('youHaveNoStuff');
+		}
 		else
 		{
 			foreach($stuffs as $id => $data)

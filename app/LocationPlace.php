@@ -79,9 +79,12 @@ class LocationPlace extends Model
     	foreach($this->place->components as $name)
     	{
     		$component = App::make('component.' . $name);
-            $this->_components[] = $component;
-
             $component->loaded($this);
+
+            if($component->available())
+            {
+                $this->_components[] = $component;
+            }
     	}
 
         $this->_components = array_sort($this->_components, function($component)

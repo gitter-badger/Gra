@@ -15,6 +15,9 @@ class Rewards extends ClassContainer
 		'smuggler' => \HempEmpire\Rewards\Smuggler::class,
 		'dealer' => \HempEmpire\Rewards\Dealer::class,
 		'stuff' => \HempEmpire\Rewards\Stuff::class,
+		'takeItem' => \HempEmpire\Rewards\TakeItem::class,
+		'giveItem' => \HempEmpire\Rewards\GiveItem::class,
+		'takeItemType' => \HempEmpire\Rewards\TakeItemType::class,
 	];
 
 

@@ -1,9 +1,13 @@
 <?php
 
 return [
-	'tutorial-dude' => [
+	'mike' => [
 		'image' => 'a9.png',
-		'quests' => ['work-hard', 'lets-start']
+		'quests' => ['comming-with-help', 'money-on-streets', 'trip', 'streets-in-green', 'shopping', 'new-image', 'great-escape']
+	],
+	'bobby' => [
+		'image' => 'a1.png',
+		'quests' => ['more-water', 'from-seeds', 'back-to-mike']
 	],
 ];
 ?>

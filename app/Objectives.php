@@ -7,7 +7,8 @@ class Objectives extends ClassContainer
 {
 	protected static $classes = [
 
-		'buy' => \HempEmpire\Objectives\Buy::class,
+		'buyType' => \HempEmpire\Objectives\BuyType::class,
+		'buySpecific' => \HempEmpire\Objectives\BuySpecific::class,
 		'work' => \HempEmpire\Objectives\WorkDone::class,
 		'plant' => \HempEmpire\Objectives\Plant::class,
 		'watering' => \HempEmpire\Objectives\Watering::class,
