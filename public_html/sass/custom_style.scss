@@ -257,3 +257,19 @@ body{
     	border-top: 5px solid #83AB2E;
 	}
 }
+
+/*FOOTER************************************************************************************/
+
+.footerF{
+	background: $mainColor;
+	height: 40px;
+
+	&__time{
+		height: 40px;
+		line-height: 40px;
+		padding: 0 20px;
+		background: #75A215;
+		color: white;
+		font-weight: bold;
+	}
+}

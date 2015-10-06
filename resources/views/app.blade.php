@@ -6,8 +6,10 @@
 		<button type="button" id="helpBtn" class="btn btn-default pull-left">?</button>
 	@endif
 
-	<p class="pull-right current-time">{{ date('Y-m-d H:i:s') }}</p>
+	<p class="pull-right footerF__time current-time">{{ date('Y-m-d H:i:s') }}</p>
 @endsection
+
+
 
 @section('topbar')
 
@@ -288,7 +290,7 @@
 				@yield('content')
 			</div>
 
-			<div class="fluid-container">
+			<div class="footerF navbar-fixed-bottom fluid-container">
 
 				@yield('footer')
 			</div>
