@@ -91,5 +91,23 @@ return [
 		'properties' => ['hospital' => ['normalSpeed' => 10, 'normalPrice' => 1, 'normalAvailable' => 0, 'fastAvailable' => 0]],
 		'requires' => ['blocked:']
 	],
+	[
+		'name' => 'tutorial-gun-store',
+		'image' => 'gun-shop.jpg',
+		'visible' => false,
+		'dangerous' => true,
+		'components' => ['shop'],
+		'properties' => ['shop' => ['name' => 'tutorial-guns', 'delivery' => 3600, 'items' => 3]],
+		'requires' => ['during:shopping']
+	],
+	[
+		'name' => 'tutorial-clothing-store',
+		'image' => 'clothing-store.jpg',
+		'visible' => false,
+		'dangerous' => false,
+		'components' => ['shop'],
+		'properties' => ['shop' => ['name' => 'tutorial-clothing', 'delivery' => 3600, 'items' => 3]],
+		'requires' => ['during:shopping']
+	],
 ];
 ?>

@@ -14,7 +14,12 @@ return [
     */
 
     'files' => [
-        //
+        
+        HempEmpire\Player::class,
+        HempEmpire\User::class,
+        HempEmpire\Location::class,
+        HempEmpire\Place::class,
+        HempEmpire\LocationPlace::class,
     ],
 
     /*

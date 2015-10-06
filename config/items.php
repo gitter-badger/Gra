@@ -483,6 +483,18 @@ return [
 			'type' => 'ranged',
 		],
 	],
+	'armors' => [
+		[
+			'name' => 't-shirt',
+			'image' => 't-shirt.jpg',
+			'price' => 50,
+			'weight' => 1,
+			'premium' => 0,
+			'properties' => null,
+			'armor' => 1,
+			'speed' => +0,
+		],
+	],
 	'foods' => [
 		[
 			'name' => 'water',

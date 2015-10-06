@@ -32,9 +32,16 @@ return [
 		'blueberry-seed' => 10,
 		'auto-passion-seed' => 10,
 	],
+	'tutorial-clothing' => [
+		't-shirt' => 5,
+	],
 	'tutorial-growshop' => [
 		'auto-dwarf-seed' => 5,
 		'auto-bubblegum-seed' => 5,
+	],
+	'tutorial-guns' => [
+		'water-gun' => 3,
+		'foam-sword' => 3,
 	],
 	'tutorial-shop' => [
 		'water' => 10,

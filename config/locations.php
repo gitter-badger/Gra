@@ -16,6 +16,8 @@ return [
 			'tutorial-train-station' => ['x' => 0.43, 'y' => 0.97],
 			'tutorial-arrest' => ['x' => 0.55, 'y' => 0.92],
 			'tutorial-clinic' => ['x' => 0.11, 'y' => 0.27],
+			'tutorial-gun-store' => ['x' => 0.32, 'y' => 0.54],
+			'tutorial-clothing-store' => ['x' => 0.57, 'y' => 0.44],
 		],
 	],
 	[

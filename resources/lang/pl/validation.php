@@ -97,7 +97,17 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-    'attributes' => [],
+    'attributes' => [
+
+        'l_email' => 'E-mail',
+        'l_password' => 'Hasło',
+        'world' => 'Świat',
+        'l_remember' => 'Zapamiętaj mnie',
+
+        'r_email' => 'E-mail',
+        'r_password' => 'Hasło',
+        'r_language' => 'Język',
+    ],
 
     'wrongLoginOrPassword' => 'Zły login lub hasło',
 ];
