@@ -3,7 +3,7 @@
 namespace HempEmpire\Jobs;
 
 use HempEmpire\Jobs\PlayerJob;
-
+use HempEmpire\PlantationSlot;
 use HempEmpire\Events\Plant as PlantEvent;
 use Event;
 

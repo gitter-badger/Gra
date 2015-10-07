@@ -35,27 +35,21 @@ class PlayerQuest extends Model
                 {
                     $quest->done = true;
                     $quest->active = false;
-                    if($quest->give())
-                    {
 
-                        $quest->player->newReport('quest-completed')
-                            ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
-                            ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
-                            ->send();
+                    $quest->player->newReport('quest-completed')
+                        ->param('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                        ->param('text', new \TransText('quest.' . $quest->quest->name . '.completed'))
+                        ->send();
 
-                        $dialog = (new ReportDialog('quest-completed'))
-                            ->with('name', new \TransText('quest.' . $quest->quest->name . '.name'))
-                            ->with('text', new \TransText('quest.' . $quest->quest->name . '.completed'));
+                    $dialog = (new ReportDialog('quest-completed'))
+                        ->with('name', new \TransText('quest.' . $quest->quest->name . '.name'))
+                        ->with('text', new \TransText('quest.' . $quest->quest->name . '.completed'));
 
-                        $quest->player->reload = true;
-                        $quest->player->pushEvent($dialog);
-                        $quest->player->save();
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    $quest->player->reload = true;
+                    $quest->player->pushEvent($dialog);
+                    $quest->player->save();
 
+                    return $quest->give();
                 }
                 else
                 {

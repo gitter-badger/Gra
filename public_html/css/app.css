@@ -19,6 +19,7 @@
     margin-left: auto;
     margin-right: auto;
 
+    width: 895px
 }
 
 .location-pin {
@@ -60,4 +61,9 @@
 .place-button {
     background: none;
     border: none;
+}
+
+.avatar-preview {
+    width: 100%;
+    height: auto;
 }
