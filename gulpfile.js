@@ -14,6 +14,7 @@ var htmlmin = require('gulp-htmlmin');
 var plumber = require('gulp-plumber');
 var sourcemaps = require('gulp-sourcemaps');
 var livereload = require('gulp-livereload');
+var rucksack = require('gulp-rucksack');
 //var elixir = require('laravel-elixir');
 
 
@@ -121,6 +122,13 @@ gulp.task('watch', function() {
 
 
 
+
+
+gulp.task('rucksack', function() {
+  return gulp.src('./public_html/sass/custom_style.css')
+    .pipe(rucksack())
+    .pipe(gulp.dest('./public_html/sass/'));
+});
 
 /*
 elixir(function(mix) {

@@ -1,5 +1,5 @@
 
-@section('footer')
+@section('footerF')
 	<div class="footerF col-md-12">
 	@if(isset($player))
 
@@ -13,33 +13,34 @@
 @section('footerFBox')
 
 <div class="footerFBox col-md-12">
-				<div class="footerFBox__info col-md-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus at, fugit assumenda laboriosam cupiditate tempora asperiores culpa ipsum temporibus eveniet, debitis corporis fuga modi provident labore, dolore. Veniam, fuga officiis!</div>
+				<div class="footerFBox__info col-md-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat adipisci ullam, expedita harum totam asperiores nesciunt dolorum modi aliquid molestiae et, repudiandae voluptatibus quae magnam vel eius labore maxime voluptas?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio id, iure dicta nesciunt sit illo quo modi hic numquam aut ea nihil, eaque a magni similique. Harum asperiores ab, soluta.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus at, fugit assumenda laboriosam cupiditate tempora asperiores culpa ipsum temporibus eveniet, debitis corporis fuga modi provident labore, dolore. Veniam, fuga officiis!</div>
 
 				<ul class="footerFBox__ul col-md-3">
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
+					<li class="footerFBox__ul__item footerFBox__ul__item--panel">Statystyki</li>
+					<li class="footerFBox__ul__item"><a href="">lorem ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">Dolor dd ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">lorem dfsdfs ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">Tekst lorem</a></li>
+					<li class="footerFBox__ul__item"><a href="">lorem ipsum</a></li>
 				</ul>
 
 				<ul class="footerFBox__ul col-md-3">
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
+					<li class="footerFBox__ul__item footerFBox__ul__item--panel">Statystyki</li>
+					<li class="footerFBox__ul__item"><a href="">lorem ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">Dolor dd ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">lorem dfsdfs ipsum</a></li>
+					<li class="footerFBox__ul__item"><a href="">Tekst lorem</a></li>
+					<li class="footerFBox__ul__item"><a href="">lorem ipsum</a></li>
 				</ul>
 
 				<ul class="footerFBox__ul col-md-2">
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
-					<li>olr h ghnh nfgn</li>
+					<li class="footerFBox__ul__item footerFBox__ul__item--stats">Statystyki</li>
+					<li class="footerFBox__ul__item">lorem ipsum</li>
+					<li class="footerFBox__ul__item">Dolor dd ipsum</li>
+					<li class="footerFBox__ul__item">lorem dfsdfs ipsum</li>
+					<li class="footerFBox__ul__item">lorem ipsum</li>
 				</ul>
 			</div>
-
 @endsection
 
 
@@ -327,7 +328,7 @@
 
 		<div class="fluid-container">
 			@yield('footerFBox')
-			@yield('footer')
+			@yield('footerF')
 		</div>
 
 	</body>
