@@ -50,7 +50,9 @@ roll = ->
 
 	$(rollable).trigger 'change'
 
+reset = ->
 
+	$('.statistic.resetable').val(0).trigger('change')
 
 
 
@@ -62,5 +64,8 @@ $ ->
 
 	$('.statRoller')
 		.click(roll)
+
+	$('.statReseter')
+		.click(reset)
 
 	roll()

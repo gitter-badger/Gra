@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"str",
+				"strtolower〔function〕"
+			],
+			[
+				"chil",
+				"children"
+			],
+			[
+				"chi",
+				"children"
+			],
+			[
 				"harvestIn",
 				"$harvestIncrease〔variable〕"
 			],
@@ -502,29 +514,17 @@
 			[
 				"render",
 				"renderAttributes〔function〕"
-			],
-			[
-				"bs3-input",
-				"bs3-input-group	bs3-input-group"
-			],
-			[
-				"Mode",
-				"ModelNotFoundException〔class〕"
-			],
-			[
-				"conte",
-				"container"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/D/Projects/ES6/gulpfile.js",
+			"contents": "<?php\n\n\n\nclass Properties\n{\n	private $map;\n\n\n	public function __construct()\n	{\n		$this->map = [];\n	}\n\n\n	public function set($name, $value)\n	{\n		$this->map[$name] = $value;\n	}\n\n	public function get($name, $default, $dump = false)\n	{\n		if($this->has($name))\n		{\n			return $this->map[$name];\n		}\n		else\n		{\n			if($dump)\n			{\n				$this->set($name, $default);\n			}\n\n			return $default;\n		}\n	}\n\n	public function has($name)\n	{\n		return isset($this->map[$name]);\n	}\n\n\n\n	public function add($name, $value)\n	{\n		$this->set($name, $this->get($name, 0) + $value);\n	}\n\n	public function sub($name, $value)\n	{\n		$this->set($name, $this->get($name, 0) - $value);\n	}\n\n	public function mul($name, $value)\n	{\n		$this->set($name, $this->get($name, 0) * $value);\n	}\n	\n	public function div($name, $value)\n	{\n		$this->set($name, $this->get($name, 0) / $value);\n	}\n\n}\n\n",
 			"settings":
 			{
-				"buffer_size": 1,
-				"line_ending": "Unix"
+				"buffer_size": 845,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -672,12 +672,22 @@
 	"expanded_folders":
 	[
 		"/D/Projects/HempEmpireGame",
-		"/D/Projects/HempEmpireGame/config",
-		"/D/Projects/HempEmpireGame/resources",
-		"/D/Projects/HempEmpireGame/resources/views"
+		"/D/Projects/HempEmpireGame/app",
+		"/D/Projects/HempEmpireGame/app/Components",
+		"/D/Projects/HempEmpireGame/app/Http",
+		"/D/Projects/HempEmpireGame/app/Jobs"
 	],
 	"file_history":
 	[
+		"/C/Users/Admin/Desktop/Tree.php",
+		"/C/wamp/php/php.ini",
+		"/D/Projects/HempEmpireGame/app/PlayerQuest.php",
+		"/D/Projects/HempEmpireGame/app/Jobs/Plant.php",
+		"/D/Projects/HempEmpireGame/config/compile.php",
+		"/C/wamp/use_wampstack.bat",
+		"/C/wamp/scripts/launch.bat",
+		"/C/wamp/scripts/setenv.bat",
+		"/D/Projects/ES6/gulpfile.js",
 		"/D/Projects/HempEmpireGame/resources/lang/pl/validation.php",
 		"/D/Projects/HempEmpireGame/config/items.php",
 		"/C/Users/Admin/Desktop/gartherproject/cgadmin/application/models/LGCampaignsModel.php",
@@ -707,14 +717,12 @@
 		"/D/Projects/HempEmpireGame/app/Debug.php",
 		"/D/Projects/HempEmpireGame/app/Rewards/TakeItem.php",
 		"/D/Projects/HempEmpireGame/app/ClassContainer.php",
-		"/D/Projects/HempEmpireGame/app/PlayerQuest.php",
 		"/D/Projects/HempEmpireGame/app/Rewards/Stuff.php",
 		"/D/Projects/HempEmpireGame/database/seeds/QuestSeeder.php",
 		"/D/Projects/HempEmpireGame/app/Jobs/Deal.php",
 		"/D/Projects/HempEmpireGame/app/Objectives/BuyType.php",
 		"/D/Projects/HempEmpireGame/app/Objectives/BuySpecific.php",
 		"/D/Projects/HempEmpireGame/app/Components/Plantation.php",
-		"/D/Projects/HempEmpireGame/app/Jobs/Plant.php",
 		"/D/Projects/HempEmpireGame/app/Jobs/Harvest.php",
 		"/D/Projects/HempEmpireGame/config/quests.php",
 		"/C/Users/Admin/Desktop/gartherproject/cgadmin/.htaccess",
@@ -798,14 +806,7 @@
 		"/D/Projects/HempEmpireGame/resources/views/component/hospital.blade.php",
 		"/D/Projects/HempEmpireGame/config/admin.php",
 		"/D/Projects/HempEmpireGame/app/Requirements/Blocked.php",
-		"/D/Projects/HempEmpireGame/resources/lang/pl/report.php",
-		"/D/Projects/HempEmpireGame/resources/lang/pl/dealing.php",
-		"/D/Projects/HempEmpireGame/resources/views/component/dealing.blade.php",
-		"/D/Projects/HempEmpireGame/resources/views/app.blade.php",
-		"/D/Projects/HempEmpireGame/public_html/js/dealing.js",
-		"/D/Projects/HempEmpireGame/app/World.php",
-		"/D/Projects/HempEmpireGame/app/PlayerInvestment.php",
-		"/D/Projects/HempEmpireGame/database/seeds/WorldSeeder.php"
+		"/D/Projects/HempEmpireGame/resources/lang/pl/report.php"
 	],
 	"find":
 	{
@@ -845,6 +846,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"wordTree",
+			"d",
 			"rewards",
 			"Returning specific player",
 			"name",
@@ -970,9 +973,7 @@
 			"this->getWeight(",
 			"listin",
 			"list",
-			"=\"\"\n",
-			"close",
-			"App"
+			"=\"\"\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1120,24 +1121,24 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/D/Projects/ES6/gulpfile.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1,
+						"buffer_size": 845,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								746,
+								746
 							]
 						],
 						"settings":
 						{
 							"BracketHighlighterBusy": false,
+							"auto_complete": false,
 							"bh_regions":
 							[
 								"bh_single_quote",
@@ -1196,7 +1197,9 @@
 								"bh_double_quote_close",
 								"bh_double_quote_content"
 							],
-							"syntax": "Packages/Theme - Afterglow/Prefs/Langs/Gulpfile JS.tmLanguage"
+							"color_scheme": "Packages/User/Color Highlighter/themes/Seahorse (SL).tmTheme",
+							"default_dir": "D:\\Projects\\HempEmpireGame",
+							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
