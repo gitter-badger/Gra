@@ -1,14 +1,46 @@
 
 @section('footer')
-
+	<div class="footerF col-md-12">
 	@if(isset($player))
 
 		<button type="button" id="helpBtn" class="btn btn-default pull-left">?</button>
 	@endif
-
+	
 	<p class="pull-right footerF__time current-time">{{ date('Y-m-d H:i:s') }}</p>
+	</div>
 @endsection
 
+@section('footerFBox')
+
+<div class="footerFBox col-md-12">
+				<div class="footerFBox__info col-md-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus at, fugit assumenda laboriosam cupiditate tempora asperiores culpa ipsum temporibus eveniet, debitis corporis fuga modi provident labore, dolore. Veniam, fuga officiis!</div>
+
+				<ul class="footerFBox__ul col-md-3">
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+				</ul>
+
+				<ul class="footerFBox__ul col-md-3">
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+				</ul>
+
+				<ul class="footerFBox__ul col-md-2">
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+					<li>olr h ghnh nfgn</li>
+				</ul>
+			</div>
+
+@endsection
 
 
 @section('topbar')
@@ -143,8 +175,6 @@
 				</p>
 			</div>
 		</div>
-
-
 	</div>
 </div>
 
@@ -237,10 +267,12 @@
 		<link href="{{ asset('/css/theme.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/sticky-footer.css') }}" rel="stylesheet" type="text/css">
 	@else
 		<link href="{{ asset('/css/theme.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/sass/custom_style.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/css/sticky-footer.css') }}" rel="stylesheet" type="text/css">
 	@endif
 
 
@@ -276,24 +308,26 @@
 
 		@yield('navigation')
 
+		<div id="wrap">
+			<div id="mainContent" class="container">
+				<div class="row">
+					<div class="col-md-12">
+						@yield('topbar')
+					</div>
+				</div>
 
-		<div id="mainContent" class="container">
-
-			<div class="fluid-container">
-
-				@yield('topbar')
+				<div class="row">
+					<div class="col-md-12">
+						{!! Message::renderAll() !!}
+						@yield('content')
+					</div>
+				</div>
 			</div>
+		</div>
 
-			<div class="fluid-container">
-
-				{!! Message::renderAll() !!}
-				@yield('content')
-			</div>
-
-			<div class="footerF navbar-fixed-bottom fluid-container">
-
-				@yield('footer')
-			</div>
+		<div class="fluid-container">
+			@yield('footerFBox')
+			@yield('footer')
 		</div>
 
 	</body>
