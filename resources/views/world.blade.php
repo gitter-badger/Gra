@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="panel panel-default">
+<div class="worldPanelF panel panel-default">
 	<div class="panel-body">
 
 	   <div class="row">
@@ -15,7 +15,7 @@
 					<a href="{{ route('game', ['server' => 's' . $world->id]) }}"
 						class="list-group-item btn btn-{{ $world->isSelected() ? 'primary active' : ($world->hasCharacter() ? 'success list-group-item-success' : 'default') }}{{ $world->isAvailable() ? '' : ' disabled' }}">
 
-						<p>@lang('world.' . $world->id) <span class="badge">{{ $world->population }}</span></p>
+						<p>@lang('world.' . $world->id) <span class="worldPanelF__badge">{{ $world->population }}</span></p>
 					</a>
 
 				@endforeach

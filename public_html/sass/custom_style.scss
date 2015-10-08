@@ -377,6 +377,17 @@ padding: 40px 5%;
 
 /*FOOTERFBOX********************************************************************************/
 
+.worldPanelF{
+	&__badge{
+		padding: 7px 13px;
+    	margin: 0px 10px;
+    	border-radius: 2px;
+    	background-color: rgba(255, 255, 255, 0.25);
+	}
+}
+
+/*FOOTERFBOX********************************************************************************/
+
 .footerFBox{
 	background: rgb(35, 35, 35);
 	margin-top: 50px;
