@@ -1,34 +1,33 @@
 @extends('message.base')
 
-
 @section('mail-content')
 
-<table class="table">
+<table class="table messagesTableF">
 
-	<thead>
-		<tr>
-			<th>@lang('mail.from')</th>
-			<th>@lang('mail.title')</th>
-			<th>@lang('mail.date')</th>
-			<th></th>
+	<thead class="messagesTableF__thead">
+		<tr class="messagesTableF__thead__tr">
+			<th class="messagesTableF__thead__th">@lang('mail.from')</th>
+			<th class="messagesTableF__thead__th">@lang('mail.title')</th>
+			<th class="messagesTableF__thead__th">@lang('mail.date')</th>
+			<th class="messagesTableF__thead__th"></th>
 		</tr>
 	</thead>
 
-	<tbody>
+	<tbody class="messagesTableF__tbody">
 		
 	@forelse($mails as $mail)
 
 
 		@if($mail->viewed)
-		<tr>
+		<tr class="messagesTableF__tbody__tr">
 		@else
-		<tr class="unread">
+		<tr class="messagesTableF__tbody__tr unread">
 		@endif
 
-			<td>{{ $mail->sender->name }}</td>
-			<td data-emoticons="true">>{{ $mail->title }}</td>
-			<td>{{ date('Y-m-d H:i:s', $mail->date) }}</td>
-			<td>
+			<td class="messagesTableF__tbody__td">{{ $mail->sender->name }}</td>
+			<td class="messagesTableF__tbody__td" data-emoticons="true">{{ $mail->title }}</td>
+			<td class="messagesTableF__tbody__td">{{ date('Y-m-d H:i:s', $mail->date) }}</td>
+			<td class="messagesTableF__tbody__td">
 				<div class="btn-group">
 				<a href="{{ route('message.inbox.view', ['mail' => $mail->id]) }}" class="btn btn-primary">@lang('mail.open')</a>
 				<a href="{{ route('message.inbox.delete', ['mail' => $mail->id]) }}" class="btn btn-danger">@lang('mail.delete')</a>
@@ -48,7 +47,7 @@
 	@endforelse
 	</tbody>
 	
-	<tfoot>
+	<tfoot class="messagesTableF__tfoot">
 		<tr>
 			<td colspan="5">
 

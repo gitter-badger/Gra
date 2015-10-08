@@ -4,7 +4,7 @@
 
 @section('content')
 
-<ul class="nav nav-tabs">
+<ul class="raportsTableFnav nav-tabs">
 
 	<li {!! isCurrentRoute('message.create') ? ' class="active"' : '' !!}><a href="{{ route('message.create') }}">@lang('mail.create')</a></li>
 	<li {!! isCurrentRoute('message.inbox.index') ? ' class="active"' : '' !!}><a href="{{ route('message.inbox.index') }}">@lang('mail.inbox')</a></li>
