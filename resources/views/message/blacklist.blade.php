@@ -3,21 +3,21 @@
 
 @section('mail-content')
 
-<table class="table">
+<table class="messagesTableF table">
 
-	<thead>
-		<tr>
-			<th>@lang('player.name')</th>
-			<th></th>
+	<thead class="messagesTableF__thead">
+		<tr class="messagesTableF__thead__tr">
+			<th class="messagesTableF__thead__th">@lang('player.name')</th>
+			<th class="messagesTableF__thead__th"></th>
 		</tr>
 	</thead>
 
-	<tbody>
+	<tbody class="messagesTableF__tbody">
 		@foreach($blacklist as $entry)
 
-		<tr>
-			<td>{{ $entry->name }}</td>
-			<td>
+		<tr class="messagesTableF__tbody__tr">
+			<td class="messagesTableF__tbody__td">{{ $entry->name }}</td>
+			<td class="messagesTableF__tbody__td">
 				<a href="{{ url('/messages/blacklist/remove/' . $entry->id) }}" class="btn btn-danger">
 
 					<span class="glyphicon glyphicon-remove"></span>
@@ -27,8 +27,8 @@
 
 		@endforeach
 
-		<tr>
-			<td colspan="2"> 
+		<tr class="messagesTableF__tbody__tr">
+			<td class="messagesTableF__tbody__td" colspan="2"> 
 
 				{!! BootForm::open()->post()->action(route('blacklist.add')) !!}
 				{!! BootForm::token() !!}
@@ -36,7 +36,7 @@
 
 				<div class="input-group">
 
-					<input type="text" name="name" class="form-control"/>
+					<input type="text" name="name" class="form-control" placeholder="Wpisz użytkownika"/>
 
 					<div class="input-group-btn">
 

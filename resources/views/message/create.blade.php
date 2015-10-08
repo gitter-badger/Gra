@@ -3,7 +3,8 @@
 
 @section('mail-content')
 
-{!! BootForm::openHorizontal(['xs' => [2, 10]])->post()->action(route('message.send')) !!}
+
+{!! BootForm::openHorizontal(['xs' => [1, 11]])->post()->action(route('message.send'))->addClass('messagesCreateF') !!}
 {!! BootForm::token() !!}
 
 
