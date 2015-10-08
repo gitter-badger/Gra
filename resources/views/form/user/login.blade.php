@@ -1,4 +1,4 @@
-{!! BootForm::open()->post()->action(route('user.login')) !!}
+{!! BootForm::open()->post()->action(route('user.login'))->addClass('loginPanelF') !!}
 {!! BootForm::token() !!}
 
 {!! BootForm::email(trans('user.email'), 'l_email') !!}

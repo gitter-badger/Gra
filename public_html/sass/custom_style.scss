@@ -1,6 +1,7 @@
 /*COLORS***************************************************************************************/
 $mainColor : #9CCC36;
 $activeNavColor : #759E1E;
+$panelBgColor : #F7F7F7;
 
 
 body{
@@ -8,16 +9,40 @@ body{
     background-attachment: fixed;
 }
 
+/*PLACEHOLDERS**********************************************************************************/
+
+::-webkit-input-placeholder {
+	font-size: 12px; 
+	line-height: 32px; 
+}
+
+::-moz-placeholder {
+	font-size: 12px; 
+	line-height: 32px; 
+	}
+
+:-ms-input-placeholder {
+	font-size: 12px; 
+	line-height: 32px; 
+	}
+
+input:-moz-placeholder {
+	font-size: 12px; 
+	line-height: 32px; 
+}
+
+
+
 /*EXTENDS -- CLASS*/
 .gradient{
-	background: #fce625; /* Old browsers */
-	background: -moz-linear-gradient(top, #fce625 0%, #f1da36 46%, #efd423 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fce625), color-stop(46%,#f1da36), color-stop(100%,#efd423)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #fce625 0%,#f1da36 46%,#efd423 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fce625', endColorstr='#efd423',GradientType=0 ); /* IE6-9 */
+	background: #fce625;
+	background: -moz-linear-gradient(top, #fce625 0%, #f1da36 46%, #efd423 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fce625), color-stop(46%,#f1da36), color-stop(100%,#efd423)); 
+	background: -webkit-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%);
+	background: -o-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%);
+	background: -ms-linear-gradient(top, #fce625 0%,#f1da36 46%,#efd423 100%); 
+	background: linear-gradient(to bottom, #fce625 0%,#f1da36 46%,#efd423 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fce625', endColorstr='#efd423',GradientType=0 ); 
 }
 
 
@@ -124,7 +149,7 @@ body{
 	    margin: 0px auto;
 	    text-align: center;
 	    &__name{
-		    background-color: #9CCC36;
+		    background-color: $mainColor;
     		border-bottom: 3px solid #5F7D1E;
     		padding: 4px 17px 7px 20px;
     		text-align: center;
@@ -143,7 +168,7 @@ body{
     padding: 20px 30px 10px;
     border-radius: 5px;
     &__text{
-    	background-color: #9CCC36;
+    	background-color: $mainColor;
 		text-shadow: 1px 1px 1px #51691F;
 		color: white;
 		height: 30px;
@@ -180,23 +205,11 @@ body{
 .rankingNavF{
 	height: 40px;
     background-color: #313131;
-    &__link{
-		background: #AADC40 !important;
-		height: 30px;
-		color: #3A4E0F;
-		line-height: 30px;
-		margin: 5px 2px 0px 2px;
-		padding: 0px 10px 0px 10px;
-		border-radius: 2px;
-		border-bottom: 1px solid #B6E84A;
-		font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-		font-weight: bold;
-    }
     &__table{
     	background-color: #F7F7F7;
     	&__thead{
     		background-color: #272727;
-    		border-bottom: 5px solid #9CCC36;
+    		border-bottom: 5px solid $mainColor;
     	}
     	&__tr{
     		height: 55px;
@@ -217,7 +230,7 @@ body{
 		    font-size: 13px;
     	}
     	&__tfoot{
-			background-color: #9CCC36;
+			background-color: $mainColor;
     		border-top: 5px solid #83AB2E;
 		}
     }
@@ -228,7 +241,7 @@ body{
 	background-color: #F7F7F7;
 	&__thead{
 		background-color: #272727;
-		border-bottom: 5px solid #9CCC36;
+		border-bottom: 5px solid $mainColor;
 		&__th{
 			text-align: center;
 		    color: #F7F7F7;
@@ -251,19 +264,54 @@ body{
 		}
 	}
 	&__tfoot{
-		background-color: #9CCC36;
+		background-color: $mainColor;
     	border-top: 5px solid #83AB2E;
 	}
 }
 
 
 .messagesViewsF, .messagesCreateF{
-	background-color: #F7F7F7;
+	background-color: $panelBgColor;
 }
 .messagesCreateF{
 
 padding: 40px 5%;
 
+}
+
+/*NAV PANEL**********************************************************************************/
+
+.navPanelF{
+    background-color: #191919;
+    height: 33px;
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+	&__item{
+		a{
+		    background-color: #191919;
+		    line-height: 33px;
+		    display: block;
+		    padding: 0px 15px;
+		    color: #9CCC36;
+    		&:hover,
+    		&:focus,
+    		&:active{
+    			background-color: #9CCC36;
+    			text-decoration: none;
+    			color: white;
+    		}
+
+		}
+	}
+}
+
+
+/*LOGIN PANEL********************************************************************************/
+
+.loginPanelF{
+	background: $panelBgColor;
+	padding: 5%;
 }
 /*FOOTERFBOX********************************************************************************/
 
@@ -286,7 +334,7 @@ padding: 40px 5%;
     			display: block;
     			color: #D4D4D4;
     			&:hover{
-    				background: #9CCC36;
+    				background: $mainColor;
 				    text-decoration: none;
 				    color: white;
 				    font-weight: bold;
@@ -305,7 +353,7 @@ padding: 40px 5%;
 			    border-radius: 4px;
 			}
 			&--panel{
-				background: #9CCC36 !important;
+				background: $mainColor !important;
     			border-radius: 3px 3px 0 0;
     			color: white;
 			}

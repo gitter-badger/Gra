@@ -4,12 +4,12 @@
 
 @section('content')
 
-<ul class="nav-tabs">
+<ul class="navPanelF nav-tabs">
 
-	<li {!! isCurrentRoute('message.create') ? ' class="active"' : '' !!}><a href="{{ route('message.create') }}">@lang('mail.create')</a></li>
-	<li {!! isCurrentRoute('message.inbox.index') ? ' class="active"' : '' !!}><a href="{{ route('message.inbox.index') }}">@lang('mail.inbox')</a></li>
-	<li {!! isCurrentRoute('message.outbox.index') ? ' class="active"' : '' !!}><a href="{{ route('message.outbox.index') }}">@lang('mail.outbox')</a></li>
-	<li {!! isCurrentRoute('blacklist.index') ? ' class="active"' : '' !!}><a href="{{ route('blacklist.index') }}">@lang('mail.blacklist')</a></li>
+	<li class="navPanelF__item" {!! isCurrentRoute('message.create') ? ' class="active"' : '' !!}><a href="{{ route('message.create') }}">@lang('mail.create')</a></li>
+	<li class="navPanelF__item" {!! isCurrentRoute('message.inbox.index') ? ' class="active"' : '' !!}><a href="{{ route('message.inbox.index') }}">@lang('mail.inbox')</a></li>
+	<li class="navPanelF__item" {!! isCurrentRoute('message.outbox.index') ? ' class="active"' : '' !!}><a href="{{ route('message.outbox.index') }}">@lang('mail.outbox')</a></li>
+	<li class="navPanelF__item" {!! isCurrentRoute('blacklist.index') ? ' class="active"' : '' !!}><a href="{{ route('blacklist.index') }}">@lang('mail.blacklist')</a></li>
 </ul>
 <div class="tab-content">
 

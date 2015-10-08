@@ -6956,12 +6956,6 @@ input[type="checkbox"]:checked:before,
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-input[type="checkbox"]:checked:after,
-.checkbox input[type="checkbox"]:checked:after,
-.checkbox-inline input[type="checkbox"]:checked:after {
-  background-color: #2196f3;
-  border-color: #2196f3;
-}
 input[type="checkbox"]:disabled:after,
 .checkbox input[type="checkbox"]:disabled:after,
 .checkbox-inline input[type="checkbox"]:disabled:after {
