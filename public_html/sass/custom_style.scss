@@ -3,6 +3,9 @@ $mainColor : #9CCC36;
 $activeNavColor : #759E1E;
 $panelBgColor : #F7F7F7;
 
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #f1f1f1 inset !important;
+}
 
 body{
 	background: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/hixs_pattern_evolution.png);
@@ -309,10 +312,69 @@ padding: 40px 5%;
 
 /*LOGIN PANEL********************************************************************************/
 
+.loginPanelLoginRegisterF{
+	background: #9CCC36;
+    border-bottom: 3px solid #80A72D;
+    color: #F7F7F7;
+    height: 50px;
+    line-height: 49px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .loginPanelF{
 	background: $panelBgColor;
 	padding: 5%;
+	border-bottom: 10px solid #9CCC36;
 }
+
+/*SETTINGS********************************************************************************/
+
+.settingsPanelF{
+	background: $panelBgColor;
+	margin: 0px !important;
+	&__ul{
+		background-color: #232323;
+		border-bottom: 10px solid #9CCC36;
+	}
+	&__top{
+		background-color: #9CCC36;
+    	text-align: center;
+    	height: 50px;
+    	line-height: 50px;
+    	color: #F7F7F7;
+    	font-size: 16px;
+    	font-weight: bold;
+	}
+	&__item{
+		margin:0px;
+		a{
+	    	color: white;
+    		line-height: 45px;
+    		height: 45px;
+    		text-align: center;
+    		border-radius: 0px !important;
+    		margin: 0px;
+    		&:hover{
+    			background: #F7F7F7 !important;
+    			text-decoration: none;
+    			color: #404040;
+    		}
+		}
+		&:nth-child(odd){
+    		a{
+    		  	 background-color: #272727;
+
+    		 } 
+    	}
+	}
+
+	&__content{
+		padding: 20px;
+	}
+}
+
 /*FOOTERFBOX********************************************************************************/
 
 .footerFBox{

@@ -3,7 +3,7 @@
 
 @section('tab-content')
 
-{!! BootForm::openHorizontal(['xs' => [12, 12], 'sm' => [4, 8]])->post() !!}
+{!! BootForm::openHorizontal(['xs' => [12, 12], 'sm' => [2, 10]])->post() !!}
 {!! BootForm::token() !!}
 
 

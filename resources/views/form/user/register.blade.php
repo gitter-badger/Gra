@@ -1,4 +1,4 @@
-
+<div class="loginPanelLoginRegisterF">Panel Rejestracji</div>
 {!! BootForm::open()->post()->action(route('user.register'))->addClass('loginPanelF') !!}
 {!! BootForm::token() !!}
 
