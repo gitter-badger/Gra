@@ -490,8 +490,6 @@
   text-decoration: none;
 }
 .btn-default.disabled {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.4);
   opacity: 1;
 }
 .btn-group .btn + .btn,

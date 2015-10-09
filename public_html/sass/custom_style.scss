@@ -375,14 +375,78 @@ padding: 40px 5%;
 	}
 }
 
-/*FOOTERFBOX********************************************************************************/
+/*INFO PANEL********************************************************************************/
+
+.infoPanelF{
+	background: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 0px;
+    &__text{
+    	padding: 30px 45px;
+    }
+
+    &__caption{
+		background-color: #2F2F2F;
+	    color: white;
+	    line-height: 45px;
+	    font-weight: bold;
+    }
+}
+
+
+/*WORLD PANEL********************************************************************************/
 
 .worldPanelF{
+	
 	&__badge{
 		padding: 7px 13px;
     	margin: 0px 10px;
     	border-radius: 2px;
-    	background-color: rgba(255, 255, 255, 0.25);
+    	background-color: rgba(0, 0, 0, 0.04);
+	}
+
+	&__item{
+		height: 52px;
+    	border-radius: 0px;
+    	font-size: 15px;
+    	font-weight: bold;
+    	text-shadow: none;
+	}
+
+	&__active{
+		background-color: #9CCC36;
+    	color: white;
+    	text-shadow: none;
+    	&:hover{
+    		background-color: #8CB731;
+    	}
+	}
+
+	&__default{
+		background: white;
+		color: #505050;
+		text-shadow: none;
+		&:hover{
+			color: #FFFFFF;
+    		background-color: #404040;
+		}
+	}
+
+	&__disabled{
+		background-color: #F9F9F9 !important;
+    	text-shadow: none;
+    	color: white !important;
+    	cursor: not-allowed !important;
+	}
+
+	&__selectWorld{
+		background-color: #5A761C;
+	    color: white;
+	    font-weight: bold;
+	    text-align: center;
+	    line-height: 35px;
+	    border-radius: 5px 5px 0px 0px;
 	}
 }
 
